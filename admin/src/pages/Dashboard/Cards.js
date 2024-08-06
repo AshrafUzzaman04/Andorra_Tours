@@ -38,7 +38,7 @@ const Cards = ({title,count,icon,currency}) => {
               
                       {/* backgroundImage="linear-gradient(310deg, #a5c212 0%, #1d1d1b 100%)" */}
                       <SoftBox
-                          style={{ backgroundImage:"linear-gradient(310deg, #a5c212 0%, #1d1d1b 100%)" }}
+                          style={{ backgroundImage:"linear-gradient(310deg, #4660b0 0%, #33416E 100%)" }}
                           color="white"
                           width="3rem"
                           height="3rem"

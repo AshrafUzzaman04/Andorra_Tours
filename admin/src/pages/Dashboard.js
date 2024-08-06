@@ -275,7 +275,7 @@ function Dashboard() {
 
 
   useEffect(() => {
-    document.title = "INGTEC . TECHNIK WIRKT";
+    document.title = "TOURS ANDORRA";
   }, []);
 
   return (

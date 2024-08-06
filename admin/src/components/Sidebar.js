@@ -27,8 +27,8 @@ return (
         <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
             <div className="sidenav-header">
                 <i className="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav" />
-                <a className="navbar-brand m-0" href="/">
-                    <img src="/assets/img/logo.png" className="navbar-brand-img h-100" alt="main_logo" />
+                <a className="navbar-brand text-center m-0" href="/">
+                    <img src="/assets/img/tours_andorra.png" className="navbar-brand-img" alt="main_logo" />
                 </a>
             </div>
             <hr className="horizontal dark mt-0" />
@@ -51,7 +51,7 @@ return (
                     
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#categories" className={nowDrop === 'categories' ? activeClassName : navClassName} aria-controls="categories" role="button" aria-expanded={nowDrop === 'categories'}>
-                            <i className="fa-solid fa-list icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <i className="fa-solid fa-folder-tree icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Categories')}</span>
                         </a>
                         <div className={nowDrop === 'categories' ? dropdownClassShow : dropdownClass} id="categories">
