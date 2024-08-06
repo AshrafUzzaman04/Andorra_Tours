@@ -47,14 +47,37 @@ return (
                             <span className="nav-link-text ms-1">{t('Customers')}</span>
                         </NavLink>
                     </li>
+
                     
-                    
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#categories" className={nowDrop === 'categories' ? activeClassName : navClassName} aria-controls="categories" role="button" aria-expanded={nowDrop === 'categories'}>
+                            <i className="fa-solid fa-list icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Categories')}</span>
+                        </a>
+                        <div className={nowDrop === 'categories' ? dropdownClassShow : dropdownClass} id="categories">
+                            <ul className="nav ms-4 ps-3">
+                                    <>
+                                        <li className="nav-item">
+                                            <NavLink to="/categories/category" onClick={(e) => setNowDrop('categories')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Category')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/categories/smtp/1/edit" onClick={(e) => setNowDrop('categories')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Sub Category')}</span>
+                                            </NavLink>
+                                        </li>  
+                                    </>
+                            </ul>
+                        </div>
+                    </li>
 
                     
 
                    
 
-                    {/* {Cookies.get('permissions').indexOf("role-read") !== -1 ? (
+                   
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#user-settings" className={nowDrop === 'user-settings' ? activeClassName : navClassName} aria-controls="user-settings" role="button" aria-expanded={nowDrop === 'user-settings'}>
                             <i className="fa-solid fa-gear icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
@@ -62,7 +85,6 @@ return (
                         </a>
                         <div className={nowDrop === 'user-settings' ? dropdownClassShow : dropdownClass} id="user-settings">
                             <ul className="nav ms-4 ps-3">
-                                {Cookies.get('permissions').indexOf("role-read") !== -1 ? (
                                     <>
                                         <li className="nav-item">
                                             <NavLink to="/user-settings/roles" onClick={(e) => setNowDrop('user-settings')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
@@ -76,11 +98,9 @@ return (
                                             </NavLink>
                                         </li>  
                                     </>
-                                ) : <></>}
                             </ul>
                         </div>
                     </li>
-                    ) : <></>} */}
                 </ul>
             </div>
         </aside>

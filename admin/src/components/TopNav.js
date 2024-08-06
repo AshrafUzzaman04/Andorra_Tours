@@ -118,7 +118,7 @@ function TopNav({ absolute, light, isMini }) {
     function doSignout(e) {
         e.preventDefault();
 
-        callFetch('signout', 'POST', [], null).then(res => {
+        callFetch('admin/logout', 'POST', [], null).then(res => {
             Cookies.remove('user');
             Cookies.remove('token');
         });

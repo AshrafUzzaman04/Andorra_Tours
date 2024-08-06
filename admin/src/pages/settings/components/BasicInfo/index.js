@@ -16,7 +16,7 @@ function BasicInfo() {
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [refresh, setRefresh] = useState(0);
     const [editDelay, setEditDelay] = useState(0);
-    const [user, setUser] = useState(JSON.parse(Cookies.get('user')));
+    const [user, setUser] = useState({});
     const {
         register,
         handleSubmit,
@@ -26,37 +26,29 @@ function BasicInfo() {
     } = useForm();
 
     useEffect(() => {
-        callFetch("designations", "GET", []).then((res) => {
-            setDesignations(res.data);
-            setEditDelay(editDelay + 1);
+        callFetch("admin/details", "GET", []).then((res) => {
+            setUser(res.data)
+            // setDesignations(res.data); 
+            // setEditDelay(editDelay + 1);
+            setValue('name', res.data.name);
+            setValue('email', res.data.email);
+            setValue('phone', res.data.phone);
+            setValue('gender', res.data.gender);
+            setValue('date_of_birth', res?.data?.date_of_birth);
+            setValue('address', res?.data?.address);
         });
-
-        callFetch("roles", "GET", []).then((res) => {
-            setRoles(res.data);
-        });
-
-        callFetch("departments", "GET", []).then((res) => {
-            setDepartments(res.data);
-            setEditDelay(editDelay + 1);
-        });
-        setValue('name', user.name);
-        setValue('email', user.email);
-        setValue('mobile', user.mobile);
-        setValue('gender', user.gender);
-        setValue('date_of_birth', user.date_of_birth);
-        setValue('address', user.address);
-    }, []); 
+    }, [submitSuccess]); 
 
     const onSubmit = (formData) => {
         setSaving(true);
-        callFetch("employees/" + user.id, "POST", formData, setError).then((res) => {
+        callFetch("admins/" + user.id, "POST", formData, setError).then((res) => {
             setSaving(false);
             if (!res.ok) return;
             setSubmitSuccess(true);
         });
     };
 
-    return submitSuccess ? <Navigate to='/human-resources/employees' /> :
+    return (
         <div className="row">
             <div className="col-12">
                 <div className="card mb-4">
@@ -66,27 +58,10 @@ function BasicInfo() {
                     <div className="card-body">
                         <form className={`needs-validation ${Object.keys(errors).length ? "was-validated" : ""}`} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
                             <input type="hidden" defaultValue="PUT" {...register("_method")} />
-
                             <div className="row g-3">
                                 <div className="col-md-6">
                                     <label>
-                                        {t('Employee ID')} *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control mb-4"
-                                        placeholder={t('eg. 123')}
-                                        {...register("employee_identity_number", {
-                                            required: true,
-                                        })}
-                                        required
-                                        readOnly
-                                    />
-                                    <div className="invalid-feedback">{errors.employee_identity_number && errors.employee_identity_number.message}</div>
-                                </div>
-                                <div className="col-md-6">
-                                    <label>
-                                        {t('Employee Name')} *
+                                        {t('Name')} *
                                     </label>
                                     <input
                                         type="text"
@@ -99,11 +74,9 @@ function BasicInfo() {
                                     />
                                     <div className="invalid-feedback">{errors.name && errors.name.message}</div>
                                 </div>
-                            </div>
-                            <div className="row g-3">
-                                <div className="col-md-12">
+                                <div className="col-md-6">
                                     <label>
-                                        {t('Employee Email')} *
+                                        {t('Email')} *
                                     </label>
                                     <input
                                         type="email"
@@ -117,88 +90,22 @@ function BasicInfo() {
                                     <div className="invalid-feedback">{errors.email && errors.email.message}</div>
                                 </div> 
                             </div>
+                            
                             <div className="row g-3"> 
                                 <div className="col-md-6">
                                     <label>
-                                        {t('Mobile')}
+                                        {t('Phone')}
                                     </label>
                                     <input
                                         type="text"
                                         className="form-control mb-4"
                                         placeholder={t('eg. 98765432')}
-                                        {...register("mobile")} />
-                                    <div className="invalid-feedback">{errors.mobile && errors.mobile.message}</div>
+                                        {...register("phone")} />
+                                    <div className="invalid-feedback">{errors.phone && errors.phone.message}</div>
                                 </div>
 
                                 <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label>
-                                            {t('Role')} *
-                                        </label>
-                                        <br />
-                                        <select
-                                            className="form-control"
-                                            {...register("role", {
-                                                required: true,
-                                            })}
-                                            required>
-                                            <option value="">--</option>
-                                            {roles && roles.map((role) => (
-                                                <option key={role.id} value={role.id}>{role.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row g-3"> 
-                                <div className="col-md-6 d-none">
-                                    <div className="form-group">
-                                        <label>
-                                            {t('Designation')} *
-                                        </label>
-                                        <br />
-                                        <select
-                                            className="form-control"
-                                            {...register("designation_id")}
-                                            style={{ float: 'left', width: '65%' }}
-                                        >
-                                            <option value="">--</option>
-                                            {designations && designations.map((designation) => (
-                                                <option key={designation.id} value={designation.id}>{designation.name}</option>
-                                            ))}
-                                        </select>
-                                        &nbsp;
-                                        <button className="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#designationModal" style={{ padding: '11px 25px' }}>{t('Add')}</button>
-                                        <div className="invalid-feedback">{errors.designation_id && errors.designation_id.message}</div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label>
-                                            {t('Department')} *
-                                        </label>
-                                        <br />
-                                        <select
-                                            className="form-control"
-                                            {...register("department_id", {
-                                                required: true,
-                                            })}
-                                            style={{ float: 'left', width: '65%' }}
-                                            required
-                                        >
-                                            <option value="">--</option>
-                                            {departments && departments.map((department) => (
-                                                <option key={department.id} value={department.id}>{department.name}</option>
-                                            ))}
-                                        </select>
-                                        &nbsp;
-                                        <button className="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#departmentModal" style={{ padding: '11px 25px' }}>{t('Add')}</button>
-                                        <div className="invalid-feedback">{errors.department_id && errors.department_id.message}</div>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <div className="form-group">
+                                <div className="form-group">
                                         <label>
                                             {t('Gender')}
                                         </label>
@@ -214,40 +121,8 @@ function BasicInfo() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row g-3">
-                                
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label>
-                                            {t('Joining Date')} *
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="form-control mb-4 flatpickr"
-                                            placeholder={t('eg. 16-04-2022')}
-                                            {...register("joining_date", {
-                                                required: true,
-                                            })}
-                                            required
-                                        />
-                                        <div className="invalid-feedback">{errors.joining_date && errors.joining_date.message}</div>
-                                    </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label>
-                                            {t('Date of Birth')}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="form-control mb-4 flatpickr"
-                                            placeholder={t('eg. 16-04-2022')}
-                                            {...register("date_of_birth")} />
-                                        <div className="invalid-feedback">{errors.date_of_birth && errors.date_of_birth.message}</div>
-                                    </div>
-                                </div>
-                            </div> 
+ 
+                            
                             <div className="row g-3">
                                 <div className="form-group mb-4">
                                     <label>
@@ -282,7 +157,9 @@ function BasicInfo() {
                 <DepartmentManageModal refreshParent={() => setRefresh(refresh + 1)} />
                 {/* Department, Designation Modal End */}
             </div>
-        </div>;
+        </div>
+    )
+        
 }
 
 export default BasicInfo;

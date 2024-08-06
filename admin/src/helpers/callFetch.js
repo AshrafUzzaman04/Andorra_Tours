@@ -19,7 +19,7 @@ export function callFetch(urlSegment, fetchMethod, data, setError) {
             }
             else {
                 if (fetchMethod !== 'GET' && urlSegment !== 'signin' && urlSegment.split('?')[1] !== 'toast=false'){
-                    //toast.success(resData.message);
+                    toast.success(resData.message);
                 }
             }
             resData.ok = isOk;

@@ -105,6 +105,9 @@ import Settings from './pages/settings/Index';
 import SmtpIndex from './pages/user_settings/smtp/SmtpIndex';
 import SmtpCreate from './pages/user_settings/smtp/SmtpCreate';
 import SmtpEdit from './pages/user_settings/smtp/SmtpEdit';
+import CategoryIndex from "pages/Category/CategoryIndex";
+import CategoryCreate from "pages/Category/CategoryCreate";
+import CategoryEdit from "pages/Category/CategoryEdit";
 
 
 function App() {
@@ -200,7 +203,12 @@ function App() {
                             <Route path="/" element={<Signin />} />
                             <Route path="/*" element={<PrivateOutlet />}>
                                 <Route path="dashboard" element={<Dashboard />} />
-                                <Route path="profile/settings" element={<Settings />} /> 
+                                <Route path="profile/settings" element={<Settings />} />
+
+                                {/* categories routes */}
+                                <Route path="categories/category" element={<CategoryIndex />} />
+                                <Route path="categories/category/create" element={<CategoryCreate />} />
+                                <Route path="categories/category/:id/edit" element={<CategoryEdit />} />
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />
