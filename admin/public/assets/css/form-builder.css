@@ -1,0 +1,110 @@
+.mt-07 {
+    margin-top: 0.7rem !important;
+}
+
+#theForm,
+#thePreviewForm {
+    list-style: none;
+    padding: 0;
+}
+
+.cursor-pointer:hover>div.float-start,
+.inner-cursor:hover>div.float-start {
+    cursor: pointer;
+    background: #5d5b5d !important;
+}
+
+.t-fc,
+.t-fc:focus {
+    background: #f7f8fb !important;
+    border: none !important;
+}
+
+.perfect-center {
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.clone-inner-section,
+.clone-section,
+.del-inner-section,
+.del-section,
+.toggle-the-form-item-sidebar-close,
+.add-new-option,
+.add-new-checkbox {
+    cursor: pointer;
+}
+
+.toggle-the-form-item-sidebar {
+    cursor: pointer;
+    background: #bfbfbf !important;
+    border-color: #bfbfbf !important;
+}
+
+.fa-equals {
+    cursor: all-scroll;
+}
+
+#theFormItemSidebar {
+    background: #ffffff;
+    position: fixed;
+    width: 300px;
+    top: 100px;
+    right: 0;
+    z-index: 99999;
+}
+
+.back-btn:hover {
+    color: #646b76 !important;
+    border-color: #646b76 !important;
+}
+
+.font-200 {
+    font-size: 14px;
+    font-weight: 200;
+    color: #344767 !important;
+}
+
+/*.section-title {
+    background: #000 !important;
+    color: #fff !important;
+    letter-spacing: -0.025rem;
+    font-size: 0.75rem;
+    display: inline-block;
+    margin: 0 0 0 10px !important;
+    padding: 5px !important;
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    text-transform: none !important;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}*/
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.remove-option {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.remove-check {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .hide-label {
+        display: none;
+    }
+}

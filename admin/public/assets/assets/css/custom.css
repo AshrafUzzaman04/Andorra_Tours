@@ -1,0 +1,165 @@
+.choose_file{
+    position:relative;
+    display:inline-block;    
+	border-radius:8px; 
+    width:27px; 
+    padding: 4px 6px 4px 8px;
+    font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+    color: #7f7f7f;
+    margin-top: 2px;
+	background:white
+}
+.choose_file input[type="file"]{
+    -webkit-appearance:none; 
+    position:absolute;
+    top:0; left:0;
+    opacity:0; 
+}
+
+@media screen and (max-width: 576px) {
+    .choose_file{
+        top: -50px;
+        left: -10px;
+    }
+}
+
+
+
+.custom-radios div {
+    display: inline-block;
+  }
+
+  .custom-radios input[type=radio] {
+    display: none;
+  }
+
+  .custom-radios input[type=radio] + label {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  .custom-radios input[type=radio] + label span {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    cursor: pointer; 
+    border: 2px solid #ffffff; 
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center; 
+    line-height: 28px;
+  }
+  .custom-radios #color-1 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .custom-radios #color-2 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .custom-radios #color-3 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .custom-radios #color-4 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .custom-radios #color-5 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .custom-radios #color-6 + label span img {
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .custom-radios input[type=radio]#color-1 + label span {
+    background-color: red;
+  }
+  .custom-radios input[type=radio]#color-2 + label span {
+    background-color: green;
+  }
+  .custom-radios input[type=radio]#color-3 + label span {
+    background-color: blue;
+  }
+
+  .custom-radios input[type=radio]#color-4 + label span {
+    background-color: #D92F66;
+  }
+ 
+  .custom-radios input[type=radio]#color-5 + label span {
+    background-color: #165AA5;
+  }
+ 
+  .custom-radios input[type=radio]#color-6 + label span {
+    background-color: #157DE3;
+  }
+
+  .custom-radios #color-1:checked + label span img {
+    opacity: 1;
+  }
+
+  .custom-radios #color-2:checked + label span img {
+    opacity: 1;
+  }
+
+  .custom-radios #color-3:checked + label span img {
+    opacity: 1;
+  }
+
+  .custom-radios #color-4:checked + label span img {
+    opacity: 1;
+  }
+
+  .custom-radios #color-5:checked + label span img {
+    opacity: 1;
+  }
+
+  .custom-radios #color-6:checked + label span img {
+    opacity: 1;
+  }
+
+  #imageUpload{
+    display: none; 
+  }
+  #avatarFormSubmit{
+    display: none; 
+  }
+
+  .avatar-cs{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    user-select: none;
+    transition: all 200ms ease-in-out;
+    border-radius: 0.75rem;
+    background: transparent;
+    font-weight: 700;
+    box-shadow: 0rem 0.3125rem 0.625rem 0rem rgba(0, 0, 0, 0.12);
+    width: 4.625rem;
+    height: 4.625rem;
+    font-size: 1rem;
+  }
+
+  .chat-search-input{
+     background-color: #ffffff;
+     outline: none;
+     border: 0.0625rem solid #d2d6da;
+     width: 100%;
+     font-size: 13px;
+     border-radius: 5px;
+     padding-left: 25px;
+  }
