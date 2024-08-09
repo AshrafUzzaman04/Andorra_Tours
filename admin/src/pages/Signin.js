@@ -49,7 +49,7 @@ function Signin() {
                                 <div className="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                                     <div className="card card-plain mt-8">
                                         <div className="card-header pb-0 text-left bg-transparent">
-                                            <img src="/assets/img/logo.png" className="img-fluid" alt="" />
+                                            <img src="/assets/img/tours_andorra.png" className="img-fluid" alt="" />
                                         </div>
                                         <div className="card-body">
                                             <form className={`needs-validation ${Object.keys(errors).length ? 'was-validated' : ''}`} onSubmit={handleSubmit(onSubmit)} noValidate>

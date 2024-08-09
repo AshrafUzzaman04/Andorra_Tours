@@ -11,7 +11,7 @@ i18n
             loadPath: '/locales/{{ lng }}/translations.json'
         },
 
-        fallbackLng: Cookies.get('lang') ? JSON.parse(Cookies.get('lang')).lang : 'de', // fallback language is german.
+        fallbackLng: Cookies.get('lang') ? JSON.parse(Cookies.get('lang')).lang : 'en', // fallback language is german.
         
         debug: false,
         

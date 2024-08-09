@@ -54,10 +54,12 @@ import Select from 'react-select';
 import ProjectTable from './Dashboard/ProjectTable';
 
 import CustomerDashboard from './Dashboard/CustomerDashboard';
+import useEcho from "hooks/echo";
 
 function Dashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const echo  = useEcho();
   const [user, setUser] = useState(JSON.parse(Cookies.get('user')));
   const [attachments, setAttachment] = useState([]);
   const [calendarEventsData, setCalendarEventsData] = useState([]);
@@ -91,7 +93,13 @@ function Dashboard() {
   const toggle = () => {
     setModal(modal);
   };
-
+  useEffect(()=>{
+    if(echo){
+      echo.private(`chat.${user?.id}`).listen('MessageSent',(event)=>{
+        console.log("Real Time Event Received",event)
+      })
+    }
+  },[])
   function doSignout(e) {
     e.preventDefault();
     callFetch('signout', 'POST', [], null).then(res => {

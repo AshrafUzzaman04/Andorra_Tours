@@ -40,7 +40,20 @@ return (
                             <span className="nav-link-text ms-1">{t('Dashboard')}</span>
                         </NavLink>
                     </li>
-
+                    <li className="nav-item">
+                        {lastMessage && (
+                            <NavLink to={lastMessage.sender_id == authId ? '/chat/message/'+lastMessage.receiver_id : '/chat/message/'+lastMessage.sender_id} onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                <i className="fa-solid fa-envelope icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                                <span className="nav-link-text ms-1">{t('Message')}</span>
+                            </NavLink>
+                        )}
+                        {!lastMessage && (
+                            <NavLink to='/chat' onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                <i className="fa-solid fa-envelope icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                                <span className="nav-link-text ms-1">{t('Message')}</span>
+                            </NavLink>
+                        )}
+                    </li>
                     <li className="nav-item">
                         <NavLink to="/customer-management/customers" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                             <i className="fa-solid fa-user-group icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
@@ -64,10 +77,94 @@ return (
                                         </li>
 
                                         <li className="nav-item">
-                                            <NavLink to="/categories/smtp/1/edit" onClick={(e) => setNowDrop('categories')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <NavLink to="/categories/sub-category" onClick={(e) => setNowDrop('categories')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                                                 <span className="sidenav-normal">{t('Sub Category')}</span>
                                             </NavLink>
                                         </li>  
+                                    </>
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#theme-customization" className={nowDrop === 'theme-customization' ? activeClassName : navClassName} aria-controls="theme-customization" role="button" aria-expanded={nowDrop === 'theme-customization'}>
+                            <i className="fa-solid fa-wand-magic-sparkles icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Customization')}</span>
+                        </a>
+                        <div className={nowDrop === 'theme-customization' ? dropdownClassShow : dropdownClass} id="theme-customization">
+                            <ul className="nav ms-4 ps-3">
+                                    <>
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/header" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Header')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/hero-section" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Hero Section')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/verano" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Verano')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/inverano" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Inverano')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/banner-slider" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Banner Slider')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/servcios-exclusivos" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Servcios Exclusivos')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/category-slider" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Category Slider')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/easy-payments" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Easy Payments')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/why-travels" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Why Travel')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/testimonials" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Testimonials')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/tips-guides" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Tips Guides')}</span>
+                                            </NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink to="/theme-customization/footer" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer')}</span>
+                                            </NavLink>
+                                        </li>
                                     </>
                             </ul>
                         </div>

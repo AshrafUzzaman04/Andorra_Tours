@@ -3568,14 +3568,14 @@ fieldset:disabled .btn {
 .btn-primary {
     color: #fff;
     /* background-color: #cb0c9f; */
-    background-color: #a5c212;
-    border-color: #a5c212 !important;
+    background-color: #33416E;
+    border-color: #33416E !important;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #c5e318;
-    border-color: #c5e318;
+    background-color: #4660b0 !important;
+    border-color: #4660b0 !important;
 }
 
 .btn-check:focus+.btn-primary,
@@ -5738,8 +5738,8 @@ fieldset:disabled .btn {
     color: #fff;
     /*background-color: #cb0c9f;
   border-color: #cb0c9f;*/
-    background-color: #a5c212;
-    border-color: #a5c212;
+    background-color: #33416E;
+    border-color: #33416E;
 }
 
 .page-item.disabled .page-link {
@@ -18990,7 +18990,7 @@ fieldset:disabled .btn {
 .btn.bg-gradient-primary:not(:disabled):not(.disabled):active,
 .show>.btn.bg-gradient-primary.dropdown-toggle {
     color: color-yiq(#cb0c9f);
-    background-color: #c5e318;
+    background-color: #33416E;
 }
 
 .btn-primary.focus,

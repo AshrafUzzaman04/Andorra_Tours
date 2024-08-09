@@ -31,7 +31,7 @@ function Index() {
         // setLoading(true);
         // setSearchResult([]);
         callFetch("search-participation/"+query, "GET", []).then((res) => {
-            setSearchResult(res.records);
+            setSearchResult(res?.records);
             setLoading(true);
           });
     //   setLoading(true); 
@@ -51,7 +51,7 @@ function Index() {
   useEffect(() => {
   callFetch("chat-participation", "GET", []).then((res) => {
     //   console.log(res.contacts);
-      setParticipations(res.contacts);
+      setParticipations(res?.contacts);
   });
   }, []);
   return (
@@ -381,7 +381,7 @@ function Index() {
     
                             <ul className="list-unstyled chat-list chat-user-list">
                                 {!loading && (
-                                    participations.map((user) => (
+                                    participations?.map((user) => (
                                         <li>
                                             <NavLink to={'/chat/message/'+user.id}>
                                                 <div className="d-flex">                            

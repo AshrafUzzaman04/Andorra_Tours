@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import DataTable from 'react-data-table-component';
-import Cookies from 'js-cookie';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
 
-function CategoryIndexTable() {
+function SubCategoryIndexTable() {
     const { t } = useTranslation();
-    const [categories, setCategories] = useState([]);
+    const [SubCategories, setSubCategories] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [roles, setRoles] = useState([]);
     const [refresh, setRefresh] = useState(0);
@@ -19,19 +18,26 @@ function CategoryIndexTable() {
             name: t('ID'),
             sortable:true,
             reorder: true,
-            selector: row => <NavLink to={`/categories/category/${row.id}/edit`} >{row.id}</NavLink>
+            selector: row => <NavLink to={`/categories/sub-category/${row.id}/edit`} >{row.id}</NavLink>
         },
         {
             name: t('Name'),
             sortable:true,
             reorder: true,
-            selector: row => row.category_name
+            selector: row => row.sub_category_name
         },
+        {
+            name: t('Category Name'),
+            sortable:true,
+            reorder: true,
+            selector: row => row?.category?.category_name
+        },
+
         {
             name: t('Redirect Link'),
             sortable:true,
             reorder: true,
-            selector: row => row.link
+            selector: row => row?.link
         },
 
         {
@@ -51,20 +57,20 @@ function CategoryIndexTable() {
                 </a>
                 <ul className="dropdown-menu">
                         <li>
-                            <NavLink to={'/categories/category/' + row.id + '/edit'} className="dropdown-item">
+                            <NavLink to={'/categories/sub-category/' + row.id + '/edit'} className="dropdown-item">
                                 {t('Edit')}
                             </NavLink>
                         </li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'categories', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+                    <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'sub_categories', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
                 </ul>
             </div>
         }
     ];
 
     useEffect(() => {
-        callFetch("categories?page=" + pageNumber, "GET", []).then((res) => {
-            setCategories(res.data)
+        callFetch("sub_categories?page=" + pageNumber, "GET", []).then((res) => {
+            setSubCategories(res.data)
         });
     }, [pageNumber, refresh]);
 
@@ -86,7 +92,7 @@ function CategoryIndexTable() {
     useEffect(()=>{
         if(searchKey.length > 0){
             callFetch('employee/serach/'+searchKey, "GET", []).then((res)=>{
-                setCategories(res.data)
+                setSubCategories(res.data)
             })
             
         }else{
@@ -111,15 +117,15 @@ function CategoryIndexTable() {
             onChangePage(Number(e.target.value));
         };
 
-        const pages = categories.last_page;
+        const pages = SubCategories.last_page;
         const pageItems = toPages(pages);
-        const nextDisabled = currentPage === categories.last_page;
+        const nextDisabled = currentPage === SubCategories.last_page;
         const previosDisabled = currentPage === 1;
 
         return (
             <>
                 <br />
-                <p className="float-md-start pt-2 text-secondary text-xs font-weight-bolder ms-3">{t('Showing')} {categories.from} {t('to')} {categories.to} {t('of')} {categories.total} {t('entries')}</p>
+                <p className="float-md-start pt-2 text-secondary text-xs font-weight-bolder ms-3">{t('Showing')} {SubCategories.from} {t('to')} {SubCategories.to} {t('of')} {SubCategories.total} {t('entries')}</p>
                 <nav className="float-md-end me-2">
                     <ul className="pagination">
                         <li className="page-item">
@@ -169,13 +175,13 @@ function CategoryIndexTable() {
 
     return <DataTable
         columns={tableHeadings}
-        data={categories?.data}
+        data={SubCategories?.data}
         noDataComponent={t('There are no records to display')}
         pagination
         highlightOnHover
         paginationComponentOptions={{ noRowsPerPage: true }}
         paginationServer
-        paginationTotalRows={categories?.total}
+        paginationTotalRows={SubCategories?.total}
         onChangePage={handlePageChange}
         paginationComponent={BootyPagination}
         subHeader
@@ -183,4 +189,4 @@ function CategoryIndexTable() {
     />;
 }
 
-export default CategoryIndexTable
+export default SubCategoryIndexTable

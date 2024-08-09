@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "sass": "sass --watch public/assets/scss/style.scss:public/assets/css/style.css"
   },

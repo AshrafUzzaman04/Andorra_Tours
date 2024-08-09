@@ -108,6 +108,9 @@ import SmtpEdit from './pages/user_settings/smtp/SmtpEdit';
 import CategoryIndex from "pages/Category/CategoryIndex";
 import CategoryCreate from "pages/Category/CategoryCreate";
 import CategoryEdit from "pages/Category/CategoryEdit";
+import SubCategoryIndex from "pages/Sub_Category/SubCategoryIndex";
+import SubCategoryCreate from "pages/Sub_Category/SubCategoryCreate";
+import SubCategoryEdit from "pages/Sub_Category/SubCategoryEdit";
 
 
 function App() {
@@ -209,6 +212,10 @@ function App() {
                                 <Route path="categories/category" element={<CategoryIndex />} />
                                 <Route path="categories/category/create" element={<CategoryCreate />} />
                                 <Route path="categories/category/:id/edit" element={<CategoryEdit />} />
+
+                                <Route path="categories/sub-category" element={<SubCategoryIndex />} />
+                                <Route path="categories/sub-category/create" element={<SubCategoryCreate />} />
+                                <Route path="categories/sub-category/:id/edit" element={<SubCategoryEdit />} />
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />

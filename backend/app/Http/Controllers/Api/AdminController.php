@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,20 +34,25 @@ class AdminController extends Controller
             return response()->json(["errors"=>$validation->errors()], 422);
         }
         $user = User::where('email', $request->email)->first();
-        if (Hash::check($request->password, $user->password)) {
-            $creadentials = $request->only(['email', 'password']);
-            Auth::attempt($creadentials,$request->checkbox);
-            $Authuser = Auth::user();
-            $token = $Authuser->createToken("nextToursToken")->plainTextToken;
-            return response()->json([
-                'message' => 'success',
-                'data' => [
-                    'token' => $token,
-                    'user' => $Authuser
-                ]
-            ]);
-        } else {
-            return response()->json(["errors" => ["password"=>["password did not match!"]]], 422);
+        if($user->status == "Inactive") return response()->json(["errors" => ["email"=>["Your are not active"]]], 422);
+        if($user->user_type == "admin") {
+            if (Hash::check($request->password, $user->password)) {
+                $creadentials = $request->only(['email', 'password']);
+                Auth::attempt($creadentials,$request->checkbox);
+                $Authuser = Auth::user();
+                $token = $Authuser->createToken("nextToursToken")->plainTextToken;
+                return response()->json([
+                    'message' => 'success',
+                    'data' => [
+                        'token' => $token,
+                        'user' => $Authuser
+                    ]
+                ]);
+            } else {
+                return response()->json(["errors" => ["password"=>["password did not match!"]]], 422);
+            }
+        }else {
+            return response()->json(["errors" => ["email"=>["Your are not a admin"]]], 422);
         }
     }
 
@@ -67,7 +73,27 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'name' => "required|string|max:255|min:2",
+            'email' => "required|email|unique:users,email",
+            'phone' => 'nullable|string|regex:/^\+?[0-9\-]{7,15}$/',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
+            'gender' => 'nullable|string|in:Male,Female,Others',
+            'password' => "required|string|min:6|max:30",
+            'status' => 'nullable|string|in:Active,Inactive',
+        ]);
+        if($validation->fails()){
+            return response()->json($validation->errors(), 422);
+        }
+        $data = $validation->valid();
+        if($request->hasFile("photo")){
+            $path = 'storage/' . $request->photo->store("user-photo");
+            $data['photo'] = $path;
+        }
+        $data['password'] = Hash::make($request->password);
+        $data['user_type'] = "admin";
+        User::create($data);
+        return response()->json(["status"=>true,"message"=>"User created successfully"],201);
     }
 
     /**

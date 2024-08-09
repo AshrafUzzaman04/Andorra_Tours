@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
-const CategoryEdit = () => {
+const SubCategoryEdit = () => {
   const params = useParams();
   const [editorValue, setEditorValue] = useState("");
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
+  const [categories, setCategories] = useState([]);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [title, setTitle] = useState([{ title: "" }]);
@@ -20,7 +21,14 @@ const CategoryEdit = () => {
   } = useForm();
 
   useEffect(() => {
-    callFetch("categories/" + params.id, "GET", []).then((res) => {
+    callFetch("sub-categories/all", "GET", []).then((res) => {
+      setCategories(res?.data)
+    });
+  }, [])
+
+  useEffect(() => {
+    callFetch("sub_categories/" + params.id, "GET", []).then((res) => {
+      setValue("category", res?.data?.categorie_id)
       for (let [key, value] of Object.entries(res.data)) {
         setValue(key, value);
       }
@@ -29,14 +37,14 @@ const CategoryEdit = () => {
 
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("categories/"+params?.id, "POST", formData, setError).then((res) => {
+    callFetch("sub_categories/"+params?.id, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);
     });
   };
   return submitSuccess ? (
-    <Navigate to="/categories/category" />
+    <Navigate to="/categories/sub-category" />
   ) : (
     <div className="row">
       <div className="col-12">
@@ -56,49 +64,74 @@ const CategoryEdit = () => {
               <input type="hidden" defaultValue="PUT" {...register("_method")} />
               <div className="row g-3">
                 <div className="col-md-6">
-                  <label>{t("Category Name")} *</label>
+                  <label>{t("Sub Category Name")} *</label>
                   <input
                     type="text"
                     className="form-control mb-4"
-                    placeholder={t("Category Name")}
-                    {...register("category_name", {
+                    placeholder={t("Sub Category Name")}
+                    {...register("sub_category_name", {
                       required: true,
                     })}
                     required
                   />
                   <div className="invalid-feedback">
-                    {errors.category_name && errors.category_name.message}
+                    {errors.sub_category_name && errors.sub_category_name.message}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <label>{t("Categories")} *</label>
+                  <select
+                    class="form-control"
+                    {...register("category", { required: true })}
+                    required
+                  >
+                    <option value="">--Select Category--</option>
+                    {
+                      categories && categories?.map((category, i) => (
+                        <option key={category?.id} value={category?.id}>{category?.category_name}</option>
+                      ))
+                    }
+
+                  </select>
+                  <div className="invalid-feedback">
+                    {errors.category && errors.category.message}
+                  </div>
+                </div>
+
+
+              </div>
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <div class="form-group">
+                    <label>{t("Redirect Link")} *</label>
+                    <input type="text" className="form-control" class="form-control"
+                      {...register("link", { required: true })}
+                      required placeholder="https://" />
+                    <div className="invalid-feedback">
+                      {errors.link && errors.link.message}
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <label>{t("Status")} *</label>
-                  <select
-                    class="form-control"
-                    {...register("status", { required: true })}
-                    required
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                  <div className="invalid-feedback">
-                    {errors.status && errors.status.message}
+                  <div class="form-group">
+                    <label>{t("Status")} *</label>
+                    <select
+                      class="form-control"
+                      {...register("status", { required: true })}
+                      required
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                    <div className="invalid-feedback">
+                      {errors.status && errors.status.message}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="row g-3">
-                <div className="col-md-12">
-                  <label>{t("Redirect Link")} *</label>
-                  <input type="text" className="form-control" placeholder="https://example.com"
-                    {...register("link", { required: true })}
-                    required/>
-                  <div className="invalid-feedback">
-                    {errors.link && errors.link.message}
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-12 mb-4 mt-3">
+              <div className="col-12 mb-4">
                 {!saving && (
                   <button type="submit" className="btn btn-primary">
                     {t("Save")}
@@ -118,4 +151,4 @@ const CategoryEdit = () => {
   );
 };
 
-export default CategoryEdit;
+export default SubCategoryEdit

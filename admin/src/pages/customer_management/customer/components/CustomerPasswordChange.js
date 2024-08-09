@@ -6,9 +6,9 @@ import { Navigate, useParams } from "react-router-dom";
 const CustomerPasswordChange = () => {
     let params = useParams();
     const { t } = useTranslation();
-    const [passwords,setPasswords] = useState({current_password:"",new_password:"",conform_password:"",id:''})
+    const [passwords, setPasswords] = useState({ current_password: "", new_password: "", conform_password: "", id: '' })
     const [saving, setSaving] = useState(false);
-    const [perror,setPerror] = useState([])
+    const [perror, setPerror] = useState([])
     const {
         register,
         handleSubmit,
@@ -17,79 +17,82 @@ const CustomerPasswordChange = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (formData) =>{
+    const onSubmit = (formData) => {
         setSaving(true);
         formData.id = params.id
-        callFetch('customer/password',"POST",formData, setError).then((res)=>{
+        callFetch("admin/update/password", "POST", formData, setError).then((res) => {
             setSaving(false);
             if (!res.ok) return;
-            setValue('current_password','')
-            setValue('new_password','')
-            setValue('conform_password','')
+            if(!res.errors){
+                setValue("current_password", "");
+                setValue("password", "");
+                setValue("password_confirmation", "");
+            }
         })
-        
-   }
-  return (
-    <>
-                            <div className="card mb-4" >
-                                <div className="card-header pb-0" >
-                                    <h6>{t('Password Update')}</h6>
-                                </div>
-                                <div className="card-body">
-                                <form className={`needs-validation ${Object.keys(errors).length ? "was-validated" : ""}`} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                                <div>
-                                    <label>
-                                        {t('Current Password')} *
-                                    </label>
-                                    <input
-                                        type="password"
-                                        className="form-control "
-                                        placeholder={t('Current Passwrod')}
-                                        {...register("current_password",{
-                                            required:true
-                                        })}
-                                        required
-                                    />
-                                    
-                                    <div className="invalid-feedback">{errors.current_password && errors.current_password.message}</div>
-                                    
-                                </div>
 
-                                <div>
-                                    <label className="mt-4">
-                                        {t('New Password')} *
-                                    </label>
-                                    <input
-                                        type="password"
-                                        className="form-control "
-                                        placeholder={t('New Password')}
-                                        {...register("new_password",{
-                                            required:true
-                                        })}
-                                        required
-                                    />
-                                    
-                                    <div className="invalid-feedback">{errors.new_password && errors.new_password.message}</div>
-                                </div>
+    }
+    return (
+        <>
+            <div className="col-12">
+                <div className="card mb-4" >
+                    <div className="card-header pb-0" >
+                        <h6>{t('Password Update')}</h6>
+                    </div>
+                    <div className="card-body">
+                        <form className={`needs-validation ${Object.keys(errors).length ? "was-validated" : ""}`} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+                            <div>
+                                <label>
+                                    {t('Current Password')} *
+                                </label>
+                                <input
+                                    type="password"
+                                    className="form-control "
+                                    placeholder={t('Current Passwrod')}
+                                    {...register("current_password", {
+                                        required: true
+                                    })}
+                                    required
+                                />
 
-                                <div>
-                                    <label className="mt-4">
-                                        {t('Conform Password')} *
-                                    </label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        placeholder={t('Conform Password')}
-                                        {...register("conform_password",{
-                                            required:true
-                                        })}
-                                        required
-                                    />
-                                    
-                                    <div className="invalid-feedback">{errors.conform_password && errors.conform_password.message}</div>
-                                </div>
+                                <div className="invalid-feedback">{errors.current_password && errors.current_password.message}</div>
 
-                            <div className="col-12 mb-2 mt-4">
+                            </div>
+
+                            <div>
+                                <label className="mt-4">
+                                    {t('New Password')} *
+                                </label>
+                                <input
+                                    type="password"
+                                    className="form-control "
+                                    placeholder={t('New Password')}
+                                    {...register("password", {
+                                        required: true
+                                    })}
+                                    required
+                                />
+
+                                <div className="invalid-feedback">{errors.password && errors.password.message}</div>
+                            </div>
+
+                            <div>
+                                <label className="mt-4">
+                                    {t('Conform Password')} *
+                                </label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder={t('Conform Password')}
+                                    {...register("password_confirmation", {
+                                        required: true
+                                    })}
+                                    required
+                                />
+
+                                <div className="invalid-feedback">{errors.password_confirmation && errors.password_confirmation.message}</div>
+                            </div>
+
+                            <div className="col-12 mb-2 mt-4 mb-4">
                                 {!saving && (
                                     <button type="submit" className="btn btn-primary">
                                         {t('Save')}
@@ -101,11 +104,12 @@ const CustomerPasswordChange = () => {
                                     </button>
                                 )}
                             </div>
-                            </form>
-                                </div>
-                            </div>
-    </>
-  )
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default CustomerPasswordChange
