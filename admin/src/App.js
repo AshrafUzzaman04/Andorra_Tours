@@ -111,6 +111,7 @@ import CategoryEdit from "pages/Category/CategoryEdit";
 import SubCategoryIndex from "pages/Sub_Category/SubCategoryIndex";
 import SubCategoryCreate from "pages/Sub_Category/SubCategoryCreate";
 import SubCategoryEdit from "pages/Sub_Category/SubCategoryEdit";
+import HeaderIndex from "pages/Theme/Header/HeaderIndex";
 
 
 function App() {
@@ -216,6 +217,10 @@ function App() {
                                 <Route path="categories/sub-category" element={<SubCategoryIndex />} />
                                 <Route path="categories/sub-category/create" element={<SubCategoryCreate />} />
                                 <Route path="categories/sub-category/:id/edit" element={<SubCategoryEdit />} />
+
+                                {/*theme customization*/}
+                                <Route path="theme-customization/header" element={<HeaderIndex />} />
+
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />
