@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import callFetch from "helpers/callFetch";
 
-const DarkLogoForm = () => {
+const DarkLogoForm = ({refreshParent, headerData}) => {
     const { t } = useTranslation();
-    const [editorValue, setEditorValue] = useState("");
+    const [darklogo, setDarkLogo] = useState({});
     const [saving, setSaving] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [refresh, setRefresh] = useState(0);
@@ -17,15 +17,13 @@ const DarkLogoForm = () => {
         setValue,
         formState: { errors },
     } = useForm();
-
-
-
     const onSubmit = (formData) => {
         setSaving(true);
-        callFetch("categories", "POST", formData, setError).then((res) => {
+        callFetch("headers", "POST", formData, setError).then((res) => {
             setSaving(false);
             if (!res.ok) return;
             setSubmitSuccess(true);
+            refreshParent()
         });
     };
     return (
@@ -46,7 +44,10 @@ const DarkLogoForm = () => {
                 </div>
                 
                 <div className="text-center">
-                    <img className="img-fluid w-50 bg-gray-900 rounded" src="https://travel.ownchoose.com/assets/imgs/template/tours_andorra.png" alt="dark-logo"/>
+                    {
+                        headerData?.dark_logo ? <img className="img-fluid w-50 bg-gray-900 rounded" src={process.env.REACT_APP_STORAGE_URL + headerData?.dark_logo} alt="dark-logo"/>
+                        :<p>Loading...</p>
+                    }
                 </div>
             </div>
             <div className="card-footer">

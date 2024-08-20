@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import callFetch from "helpers/callFetch";
 
-const LightLogoForm = () => {
+const LightLogoForm = ({refreshParent,headerData}) => {
     const { t } = useTranslation();
-    const [editorValue, setEditorValue] = useState("");
+    const [darklogo, setDarkLogo] = useState({});
     const [saving, setSaving] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [refresh, setRefresh] = useState(0);
@@ -18,14 +18,13 @@ const LightLogoForm = () => {
         formState: { errors },
     } = useForm();
 
-
-
     const onSubmit = (formData) => {
         setSaving(true);
-        callFetch("categories", "POST", formData, setError).then((res) => {
+        callFetch("headers", "POST", formData, setError).then((res) => {
             setSaving(false);
             if (!res.ok) return;
             setSubmitSuccess(true);
+            refreshParent()
         });
     };
     return (
@@ -46,7 +45,7 @@ const LightLogoForm = () => {
                 </div>
 
                 <div className="text-center">
-                    <img className="img-fluid w-50" src="https://travel.ownchoose.com/assets/imgs/template/light_tours_andorra.png" alt="light-logo"/>
+                    {headerData?.light_logo ? <img className="img-fluid w-50" src={process.env.REACT_APP_STORAGE_URL + headerData?.light_logo} alt="light-logo" />:<p>Loading...</p>}
                 </div>
             </div>
             <div className="card-footer">

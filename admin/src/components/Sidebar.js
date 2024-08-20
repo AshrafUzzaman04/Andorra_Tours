@@ -102,7 +102,7 @@ return (
                                         </li>
 
                                         <li className="nav-item">
-                                            <NavLink to="/theme-customization/hero-section" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <NavLink to="/theme-customization/hero" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                                                 <span className="sidenav-normal">{t('Hero Section')}</span>
                                             </NavLink>
                                         </li>

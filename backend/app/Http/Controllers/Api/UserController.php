@@ -31,7 +31,7 @@ class UserController extends Controller
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
             'gender' => 'nullable|string|in:Male,Female,Others',
             'password' => "required|string|min:6|max:30",
-            'status' => 'nullable|string|in:ActiveInactive',
+            'status' => 'nullable|string|in:Active,Inactive',
         ]);
         if($validation->fails()){
             return response()->json($validation->errors(), 422);

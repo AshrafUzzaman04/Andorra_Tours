@@ -8,7 +8,7 @@ i18n
     .use(initReactI18next) // pass the i18n instance to react-i18next.
     .init({
         backend: {
-            loadPath: '/locales/{{ lng }}/translations.json'
+            loadPath: ''
         },
 
         fallbackLng: Cookies.get('lang') ? JSON.parse(Cookies.get('lang')).lang : 'en', // fallback language is german.

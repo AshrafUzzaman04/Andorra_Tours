@@ -33,12 +33,10 @@ export default function BannerMainSlider() {
 	const slider2 = useRef<Slider | null>(null)
 	const [nav1, setNav1] = useState<Slider | undefined>(undefined)
 	const [nav2, setNav2] = useState<Slider | undefined>(undefined)
-
 	useEffect(() => {
 		setNav1(slider1.current ?? undefined)
 		setNav2(slider2.current ?? undefined)
 	}, [])
-
 	const settingsMain = {
 		asNavFor: nav2,
 		slidesToShow: 1,
@@ -50,20 +48,31 @@ export default function BannerMainSlider() {
 	}
 
 	const settingsThumbs = {
+		asNavFor: nav1,
 		slidesToShow: 3,
 		slidesToScroll: 1,
 		dots: false,
 		focusOnSelect: true,
 		vertical: true,
-		asNavFor: nav1,
+		beforeChange: (oldIndex: number, newIndex: number) => {
+			if (slider1.current) {
+				slider1.current.slickGoTo(newIndex);
+			}
+		}
 	}
-
 	return (
 		<>
 
 			<Slider {...settingsMain} ref={slider1} className="banner-main">
 				<div className="banner-slide">
-					<div className="banner-image">
+					<div className="banner-image" style={{
+						backgroundImage: 'url(/assets/imgs/page/homepage2/thumb.png)',
+						backgroundSize: 'cover',  // Adjust the size as needed
+						backgroundPosition: 'center',  // Adjust the position as needed
+						backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
+						width: '100%',  // Example width
+						height: '100%',  // Example height
+					}}>
 						<div className="container"><span className="btn btn-brand-secondary">Discovery the World</span>
 							<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
 								Next Journey</h1>
@@ -73,7 +82,14 @@ export default function BannerMainSlider() {
 					</div>
 				</div>
 				<div className="banner-slide">
-					<div className="banner-image">
+					<div className="banner-image" style={{
+						backgroundImage: 'url(/assets/imgs/page/homepage2/thumb2.png)',
+						backgroundSize: 'cover',  // Adjust the size as needed
+						backgroundPosition: 'center',  // Adjust the position as needed
+						backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
+						width: '100%',  // Example width
+						height: '100%',  // Example height
+					}}>
 						<div className="container"><span className="btn btn-brand-secondary">Discovery the World</span>
 							<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
 								Next Journey</h1>
@@ -83,7 +99,14 @@ export default function BannerMainSlider() {
 					</div>
 				</div>
 				<div className="banner-slide">
-					<div className="banner-image">
+					<div className="banner-image" style={{
+						backgroundImage: 'url(/assets/imgs/page/homepage2/thumb3.png)',
+						backgroundSize: 'cover',  // Adjust the size as needed
+						backgroundPosition: 'center',  // Adjust the position as needed
+						backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
+						width: '100%',  // Example width
+						height: '100%',  // Example height
+					}}>
 						<div className="container"><span className="btn btn-brand-secondary">Discovery the World</span>
 							<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
 								Next Journey</h1>
@@ -92,7 +115,14 @@ export default function BannerMainSlider() {
 						</div>
 					</div>
 				</div>
-				<div className="banner-slide">
+				<div className="banner-slide" style={{
+					backgroundImage: 'url(/assets/imgs/page/homepage2/banner.png)',
+					backgroundSize: 'cover',  // Adjust the size as needed
+					backgroundPosition: 'center',  // Adjust the position as needed
+					backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
+					width: '100%',  // Example width
+					height: '100%',  // Example height
+				}}>
 					<div className="banner-image">
 						<div className="container"><span className="btn btn-brand-secondary">Discovery the World</span>
 							<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
@@ -108,7 +138,7 @@ export default function BannerMainSlider() {
 					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb.png" alt="Travila" /></div>
 					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb2.png" alt="Travila" /></div>
 					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb3.png" alt="Travila" /></div>
-					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb.png" alt="Travila" /></div>
+					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/banner.png" alt="Travila" /></div>
 				</Slider>
 			</div>
 		</>

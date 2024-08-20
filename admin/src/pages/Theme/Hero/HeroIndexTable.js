@@ -5,68 +5,91 @@ import DataTable from 'react-data-table-component';
 import Cookies from 'js-cookie';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
-import LanguageCreateModal from './LanguageCreateModal';
 
-function LanguageIndexTable({modalTitle}) {
+function HeroIndexTable() {
     const { t } = useTranslation();
-    const [categories, setCategories] = useState([]);
-    const [modalData, setModalData] = useState({modalTitle: modalTitle?.modalTitle, id:""})
+    const [heroSliders, setHeroSliders] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [roles, setRoles] = useState([]);
     const [refresh, setRefresh] = useState(0);
-    const [searchKey, setSearchKey] = useState("")
-    useEffect(() => {
-        setModalData({modalTitle: modalTitle?.modalTitle})
-    }, [modalTitle]);
+    const [searchKey,setSearchKey] = useState("")
+
     const tableHeadings = [
         {
-            name: t('ID'),
-            sortable: true,
+            name: t('Thumbnail'),
+            width: "150px",
+            sortable:true,
             reorder: true,
-            selector: row => <NavLink to={`/categories/category/${row.id}/edit`} >{row.id}</NavLink>
+            selector: row => <div className="row mt-1 d-flex align-items-center" style={{ width: '600px' }}>
+            <div className="col-2 pe-0">
+                <img className="avatar avatar-xl" src={row?.thumnail_image ? process.env.REACT_APP_STORAGE_URL + row?.thumnail_image : '/assets/img/placeholder.png'} alt="" />
+            </div>
+        </div>
+        },
+        {
+            name: t('Slider Image'),
+            width:"200px",
+            sortable:true,
+            reorder: true,
+            selector: row => <div className="row mt-1 d-flex align-items-center" style={{ width: '600px' }}>
+            <div className="col-2 pe-0">
+                <img className="avatar avatar-xl" src={row?.slider_image ? process.env.REACT_APP_STORAGE_URL + row?.slider_image : '/assets/img/placeholder.png'} alt="" />
+            </div>
+        </div>
         },
         {
             name: t('Name'),
-            sortable: true,
+            sortable:true,
             reorder: true,
-            selector: row => row.name
+            selector: row => row.title
+        },
+        {
+            name: t('Button Text'),
+            sortable:true,
+            reorder: true,
+            selector: row => row.button_text
+        },
+        {
+            name: t('Button Link'),
+            sortable:true,
+            reorder: true,
+            selector: row => row.button_link
         },
 
         {
             name: t('Status'),
-            sortable: true,
+            width: '180px',
+            sortable:true,
             reorder: true,
             selector: row => row.status
         },
-
+        
         {
             name: t('Actions'),
-            sortable: true,
+            sortable:true,
             reorder: true,
             cell: row => <div className="text-center dropstart">
                 <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="fa fa-ellipsis-v text-xs"></i>
                 </a>
                 <ul className="dropdown-menu">
-                    <li>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#customerCategoryModal" onClick={()=>setModalData({modalTitle:"Language Edit",id:row?.id})} className="dropdown-item">
-                            {t('Edit')}
-                        </button>
-                    </li>
+                        <li>
+                            <NavLink to={'/theme-customization/hero/' + row.id + '/edit'} className="dropdown-item">
+                                {t('Edit')}
+                            </NavLink>
+                        </li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'languages', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+                    <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'hero-sliders', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
                 </ul>
             </div>
         }
     ];
 
     useEffect(() => {
-        callFetch("languages?page=" + pageNumber, "GET", []).then((res) => {
-            setCategories(res?.data)
+        callFetch("hero-sliders?page=" + pageNumber, "GET", []).then((res) => {
+            setHeroSliders(res.data)
         });
     }, [pageNumber, refresh]);
-
-
 
     const handlePageChange = page => {
         setPageNumber(page);
@@ -81,6 +104,18 @@ function LanguageIndexTable({modalTitle}) {
 
         return results;
     }
+
+
+    useEffect(()=>{
+        if(searchKey.length > 0){
+            callFetch('hero-sliders/serach/'+searchKey, "GET", []).then((res)=>{
+                setHeroSliders(res.data)
+            })
+            
+        }else{
+            setRefresh(refresh + 1)
+        }
+},[searchKey])
 
     // RDT exposes the following internal pagination properties
     const BootyPagination = ({
@@ -99,15 +134,15 @@ function LanguageIndexTable({modalTitle}) {
             onChangePage(Number(e.target.value));
         };
 
-        const pages = categories.last_page;
+        const pages = heroSliders.last_page;
         const pageItems = toPages(pages);
-        const nextDisabled = currentPage === categories.last_page;
+        const nextDisabled = currentPage === heroSliders.last_page;
         const previosDisabled = currentPage === 1;
 
         return (
             <>
                 <br />
-                <p className="float-md-start pt-2 text-secondary text-xs font-weight-bolder ms-3">{t('Showing')} {categories.from} {t('to')} {categories.to} {t('of')} {categories.total} {t('entries')}</p>
+                <p className="float-md-start pt-2 text-secondary text-xs font-weight-bolder ms-3">{t('Showing')} {heroSliders.from} {t('to')} {heroSliders.to} {t('of')} {heroSliders.total} {t('entries')}</p>
                 <nav className="float-md-end me-2">
                     <ul className="pagination">
                         <li className="page-item">
@@ -155,20 +190,20 @@ function LanguageIndexTable({modalTitle}) {
         );
     };
 
-    return <><DataTable
+    return <DataTable
         columns={tableHeadings}
-        data={categories?.data}
+        data={heroSliders?.data}
         noDataComponent={t('There are no records to display')}
         pagination
         highlightOnHover
         paginationComponentOptions={{ noRowsPerPage: true }}
         paginationServer
-        paginationTotalRows={categories?.total}
+        paginationTotalRows={heroSliders?.total}
         onChangePage={handlePageChange}
         paginationComponent={BootyPagination}
-
-    />
-        <LanguageCreateModal modalData={modalData} refreshParent={() => setRefresh(refresh + 1)} />
-    </>
+        subHeader
+        subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e)=>setSearchKey(e.target.value)} />}
+    />;
 }
-export default LanguageIndexTable
+
+export default HeroIndexTable

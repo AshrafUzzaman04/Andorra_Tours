@@ -1,64 +1,50 @@
 // @mui material components
-import Card from "@mui/material/Card"; 
+import Card from "@mui/material/Card";
 import { useMemo, useEffect, useState, React } from "react";
 // Soft UI Dashboard PRO React components
 import SoftBox from "components/SoftBox";
 import { useTranslation } from "react-i18next";
 import SoftTypography from "components/SoftTypography";
-import callFetch from "../../../../helpers/callFetch"; 
+import callFetch from "../../../../helpers/callFetch";
 
 function HeaderManagment(props) {
   const [user, setUser] = useState([]);
-  const { t } = useTranslation();  
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [projectStatus, setProjectStatus] = useState('0');
-  const [orderStatus, setOrderStatus] = useState('0');
-  const [offerStatus, setOfferStatus] = useState('0');
-  const [orderProcessingStatus, setOrderProcessingStatus] = useState('0');
+  const { t } = useTranslation();
+  const [isUpdate, setIsUpdate] = useState(0);
+  const [languageStatus, setlanguageStatus] = useState(0);
+  const [currencyStatus, setCurrencyStatus] = useState(0);
+  const [lightDarkStatus, setLightDarkStatus] = useState(0);
+  const [signInButtonStatus, setSignInButtonStatus] = useState(0);
   useEffect(() => {
-    callFetch("get-notification-status", "GET", []).then((res) => {  
-      setProjectStatus(res.user.alert_project_notification);
-      setOrderStatus(res.user.alert_order_notification);
-      setOfferStatus(res.user.alert_offer_notification);
-      setOrderProcessingStatus(res.user.alert_status_orderprocessing_notification); 
-    });
-  }, []); 
+    setlanguageStatus(props?.headerData?.show_language);
+    setCurrencyStatus(props?.headerData?.show_currency);
+    setLightDarkStatus(props?.headerData?.show_light_dark);
+    setSignInButtonStatus(props?.headerData?.show_signin_button);
+  }, [props]);
 
-  const updateStatus = (type) => {
-    if(type == 'project'){
-      if(projectStatus == '1'){
-        setProjectStatus('0');
-      }else{
-        setProjectStatus('1');
-      }
-    } 
-
-    if(type == 'order'){
-      if(projectStatus == '1'){
-        setOrderStatus('0');
-      }else{
-        setOrderStatus('1');
-      }
-    } 
-
-    if(type == 'offer'){
-      if(projectStatus == '1'){
-        setOfferStatus('0');
-      }else{
-        setOfferStatus('1');
-      }
-    } 
-
-    if(type == 'status_order_processing'){
-      if(projectStatus == '1'){
-        setOrderProcessingStatus('0');
-      }else{
-        setOrderProcessingStatus('1');
-      }
-    } 
-    callFetch("update-notification-status/"+type, "GET", []).then((res) => { 
-    });
-  };
+  const setIsChecked = (type) =>{
+    const formData = {};
+    if(type === "languageStatus"){
+      formData.show_language = languageStatus;
+    }else if (type === "currencyStatus"){
+      formData.show_currency = currencyStatus;
+    }else if (type === "lightDarkStatus"){
+      formData.show_light_dark = lightDarkStatus;
+    }else if (type === "signInButtonStatus"){
+      formData.show_signin_button = signInButtonStatus;
+    }
+    try {
+      callFetch("headers?toast=false", "POST", formData, []).then((res) => {
+        if (!res.ok) return;
+      });
+    } catch (error) {
+      
+    }finally{
+      props.refreshParent()
+    }
+    
+    
+  }
 
   return (
     <Card id="notifications">
@@ -73,84 +59,64 @@ function HeaderManagment(props) {
       </SoftBox>
       <SoftBox pb={3} px={3}>
         <SoftBox minWidth="auto">
-          <table className="" style={{width: '100%'}}>
-            <tr style={{borderBottom: '1px solid #eee', borderTop: '1px solid #eee'}}>
-              <td width={'700px'} style={{padding: '10px'}}>
-                  <SoftBox>
-                    <SoftTypography display="block" variant="button" fontWeight="regular">
-                      {t('Language')} 
-                    </SoftTypography> 
-                  </SoftBox>
+          <table className="" style={{ width: '100%' }}>
+            <tr style={{ borderBottom: '1px solid #eee', borderTop: '1px solid #eee' }}>
+              <td width={'700px'} style={{ padding: '10px' }}>
+                <SoftBox>
+                  <SoftTypography display="block" variant="button" fontWeight="regular">
+                    {t('Language')}
+                  </SoftTypography>
+                </SoftBox>
               </td>
               <td>
                 <div className="form-check form-switch">
-                   {projectStatus != '0' && (
-                      <input className="form-check-input" checked type="checkbox" onClick={() => updateStatus('project')}/>
-                   )}
-                   {projectStatus == '0' && (
-                      <input className="form-check-input" type="checkbox" onClick={() => updateStatus('project')}/>
-                   )}          
-                </div>  
+                  <input className="form-check-input" checked={languageStatus === 1} type="checkbox" onChange={(e) => setlanguageStatus(e.target.checked ? 1 : 0)} onClick={()=>setIsChecked("languageStatus")} />
+                </div>
               </td>
             </tr>
-            <tr style={{borderBottom: '1px solid #eee', borderTop: '1px solid #eee'}}>
-              <td width={'700px'} style={{padding: '10px'}}>
-                  <SoftBox>
-                    <SoftTypography display="block" variant="button" fontWeight="regular">
-                    {t('Currency')} 
-                    </SoftTypography> 
-                  </SoftBox>
-              </td>
-              <td> 
-                <div className="form-check form-switch">
-                  {orderStatus != '0' && (
-                      <input className="form-check-input" checked type="checkbox" onClick={() => updateStatus('order')}/>
-                   )}
-                   {orderStatus == '0' && (
-                      <input className="form-check-input" type="checkbox" onClick={() => updateStatus('order')}/>
-                   )}    
-                </div> 
-              </td>
-            </tr>
-            <tr style={{borderBottom: '1px solid #eee', borderTop: '1px solid #eee'}}>
-              <td width={'700px'} style={{padding: '10px'}}>
-                  <SoftBox>
-                    <SoftTypography display="block" variant="button" fontWeight="regular">
-                    {t('Light / Dark')} 
-                    </SoftTypography> 
-                  </SoftBox>
+            <tr style={{ borderBottom: '1px solid #eee', borderTop: '1px solid #eee' }}>
+              <td width={'700px'} style={{ padding: '10px' }}>
+                <SoftBox>
+                  <SoftTypography display="block" variant="button" fontWeight="regular">
+                    {t('Currency')}
+                  </SoftTypography>
+                </SoftBox>
               </td>
               <td>
                 <div className="form-check form-switch">
-                  {offerStatus != '0' && (
-                      <input className="form-check-input" checked type="checkbox" onClick={() => updateStatus('offer')}/>
-                   )}
-                   {offerStatus == '0' && (
-                      <input className="form-check-input" type="checkbox" onClick={() => updateStatus('offer')}/>
-                   )}               
-                </div>  
+                  <input className="form-check-input" checked={currencyStatus === 1} type="checkbox" onChange={(e) => setCurrencyStatus(e.target.checked ? 1 : 0)} onClick={()=>setIsChecked("currencyStatus")} />
+                </div>
               </td>
             </tr>
-            <tr style={{borderBottom: '1px solid #eee', borderTop: '1px solid #eee'}}>
-              <td width={'700px'} style={{padding: '10px'}}>
-                  <SoftBox>
-                    <SoftTypography display="block" variant="button" fontWeight="regular">
-                    {t('Sign In Button')} 
-                    </SoftTypography> 
-                  </SoftBox>
+            <tr style={{ borderBottom: '1px solid #eee', borderTop: '1px solid #eee' }}>
+              <td width={'700px'} style={{ padding: '10px' }}>
+                <SoftBox>
+                  <SoftTypography display="block" variant="button" fontWeight="regular">
+                    {t('Light / Dark')}
+                  </SoftTypography>
+                </SoftBox>
               </td>
               <td>
                 <div className="form-check form-switch">
-                  {orderProcessingStatus != '0' && (
-                      <input className="form-check-input" checked type="checkbox" onClick={() => updateStatus('status_order_processing')}/>
-                   )}
-                   {orderProcessingStatus == '0' && (
-                      <input className="form-check-input" type="checkbox" onClick={() => updateStatus('status_order_processing')}/>
-                   )}   
-                </div> 
+                  <input className="form-check-input" checked={lightDarkStatus === 1} type="checkbox" onChange={(e) => setLightDarkStatus(e.target.checked ? 1 : 0)} onClick={()=>setIsChecked("lightDarkStatus")} />
+                </div>
               </td>
             </tr>
-          </table> 
+            <tr style={{ borderBottom: '1px solid #eee', borderTop: '1px solid #eee' }}>
+              <td width={'700px'} style={{ padding: '10px' }}>
+                <SoftBox>
+                  <SoftTypography display="block" variant="button" fontWeight="regular">
+                    {t('Sign In Button')}
+                  </SoftTypography>
+                </SoftBox>
+              </td>
+              <td>
+                <div className="form-check form-switch">
+                  <input className="form-check-input" checked={signInButtonStatus === 1} type="checkbox" onChange={(e) => setSignInButtonStatus(e.target.checked ? 1 : 0)} onClick={()=>setIsChecked("signInButtonStatus")} />
+                </div>
+              </td>
+            </tr>
+          </table>
         </SoftBox>
       </SoftBox>
     </Card>

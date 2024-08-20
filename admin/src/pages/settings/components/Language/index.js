@@ -1,10 +1,11 @@
 import { React, useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from 'js-cookie'; 
 import SoftTypography from "components/SoftTypography";
 import callFetch from "../../../../helpers/callFetch"; 
 function Language() {
+    const navigate = useNavigate();
     const { t } = useTranslation();  
     const [user, setUser] = useState(JSON.parse(Cookies.get('user')));
     const [customClass, setCustomClass] = useState(''); 
@@ -15,17 +16,22 @@ function Language() {
 
     function handleLanguageChange(e, l) {
         e.preventDefault();
-
-       
-        callFetch("lang/change/"+l.lang, "GET", []).then((res) => {
-            console.log(res.message); 
-        }); 
+        callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
+            i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
+        });
 
         setActiveLanguage(l);
-        i18n.changeLanguage(l.lang);
+        i18n.changeLanguage(l.lang).then(() => {
+            // Reload the current page to reflect the new language
+            navigate("/profile/settings")
+          })
         Cookies.set('lang', JSON.stringify(l));
     } 
-
+    // useEffect(()=>{
+    //     callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
+    //         i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
+    //     });
+    // },[i18n.language])
     return (
          <div className="card">
             <div className="card-body">

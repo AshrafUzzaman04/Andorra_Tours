@@ -112,6 +112,9 @@ import SubCategoryIndex from "pages/Sub_Category/SubCategoryIndex";
 import SubCategoryCreate from "pages/Sub_Category/SubCategoryCreate";
 import SubCategoryEdit from "pages/Sub_Category/SubCategoryEdit";
 import HeaderIndex from "pages/Theme/Header/HeaderIndex";
+import HeroIndex from "pages/Theme/Hero/HeroIndex";
+import HeroCreate from "pages/Theme/Hero/HeroCreate";
+import HeroEdit from "pages/Theme/Hero/HeroEdit";
 
 
 function App() {
@@ -220,6 +223,9 @@ function App() {
 
                                 {/*theme customization*/}
                                 <Route path="theme-customization/header" element={<HeaderIndex />} />
+                                <Route path="theme-customization/hero" element={<HeroIndex />} />
+                                <Route path="theme-customization/hero/create" element={<HeroCreate />} />
+                                <Route path="theme-customization/hero/:id/edit" element={<HeroEdit />} />
 
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />

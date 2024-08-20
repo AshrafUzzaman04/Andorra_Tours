@@ -35,7 +35,11 @@ function TopNav({ absolute, light, isMini }) {
     const [unreadMessage, setunreadMessage] = useState(0);
     const [notifications, setNotifications] = useState([]);
     const [unreadNotification, setUnreadNotification] = useState(0);
-    
+    useEffect(()=>{
+        callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
+            i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
+        });
+    },[i18n.language])
     useEffect(() => {
         callFetch("chat-participation", "GET", []).then((res) => {
             // console.log(res.data);
