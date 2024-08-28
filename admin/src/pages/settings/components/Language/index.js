@@ -23,15 +23,12 @@ function Language() {
         setActiveLanguage(l);
         i18n.changeLanguage(l.lang).then(() => {
             // Reload the current page to reflect the new language
+            window.location.reload();
             navigate("/profile/settings")
           })
         Cookies.set('lang', JSON.stringify(l));
     } 
-    // useEffect(()=>{
-    //     callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
-    //         i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
-    //     });
-    // },[i18n.language])
+
     return (
          <div className="card">
             <div className="card-body">

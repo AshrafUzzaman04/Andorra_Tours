@@ -7,8 +7,8 @@ export default function Banner() {
 
             <section className="section-box box-2-banner background-body">
                 <div className="container">
-                    <div className="box-list-news wow fadeInUp">
-						<div className="box-swiper mt-30">
+                    <div className="wow fadeInUp pt-40">
+						<div className="box-swiper pt-30">
 							<div className="swiper-container swiper-group-3">
                             <BannerOfferSlider/>
 							</div>

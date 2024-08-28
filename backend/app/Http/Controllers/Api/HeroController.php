@@ -19,6 +19,15 @@ class HeroController extends Controller
         return response()->json(['message' => "success", "data" => $hero]);
     }
 
+    public function Hero()
+    {
+        $heros = Hero::where("status","Active")->get();
+        $thumbnails = $heros->map(function ($hero) {
+            return $hero->thumnail_image;
+        });
+        return response()->json(['message' => "success", "data" => $heros, "thumbnails" => $thumbnails]);
+    }
+
     public function serach($serachKey)
     {
         $heros = Hero::where('description', 'like', '%' . $serachKey . '%')

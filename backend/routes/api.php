@@ -34,6 +34,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::apiResource("hero-sliders",HeroController::class);
     Route::get("hero-sliders/serach/{searchKey}",[HeroController::class, 'serach']);
 });
+
+Route::prefix("frontend")->group(function(){
+    Route::get("hero-sliders",[HeroController::class, 'Hero']);
+});
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
