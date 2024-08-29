@@ -13,4 +13,9 @@ class Category extends Model
         "link",
         "status",
     ];
+
+    public function sub()
+    {
+        return $this->hasMany(SubCategory::class, "categorie_id")->where("status", "Active");
+    }
 }

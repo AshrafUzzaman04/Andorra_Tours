@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 });
 
 Route::prefix("frontend")->group(function(){
+    Route::get("header",[HeaderController::class, 'Header']);
     Route::get("hero-sliders",[HeroController::class, 'Hero']);
 });
 // Route::get('/user', function (Request $request) {

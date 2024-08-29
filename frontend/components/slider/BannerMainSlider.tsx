@@ -86,10 +86,10 @@ export default function BannerMainSlider({ data }: BannerData) {
 
 			<Slider {...settingsMain} ref={slider1} className="banner-main">
 				{
-					data && data?.data?.map((slider) => (
-						<div className="banner-slide">
+					data && data?.data?.map((slider, index) => (
+						<div key={index} className="banner-slide">
 							<div className="banner-image" style={{
-								backgroundImage: 'url(/assets/imgs/page/homepage2/thumb.png)',
+								backgroundImage: `url(${process?.env?.NEXT_PUBLIC_STORAGE_URL+slider?.slider_image})`,
 								backgroundSize: 'cover',  // Adjust the size as needed
 								backgroundPosition: 'center',  // Adjust the position as needed
 								backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
@@ -97,8 +97,7 @@ export default function BannerMainSlider({ data }: BannerData) {
 								height: '100%',  // Example height
 							}}>
 								<div className="container"><span className="btn btn-brand-secondary">{slider?.button_text}</span>
-									<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
-										Next Journey</h1>
+									<h1 className="mt-20 mb-20">{slider?.title}</h1>
 									<h6 className="heading-6-medium">Crafting Exceptional Journeys: Your Global Escape Planner.
 										Unleash Your Wanderlust: Seamless Travel, Extraordinary Adventures</h6>
 								</div>
@@ -162,8 +161,8 @@ export default function BannerMainSlider({ data }: BannerData) {
 			<div className="slider-thumnail">
 				<Slider {...settingsThumbs} ref={slider2} className="slider-nav-thumbnails">
 					{
-						data && data?.thumbnails?.map((thumbnail)=>(
-							<div className="banner-slide"><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL+thumbnail} alt="Travila" /></div>
+						data && data?.thumbnails?.map((thumbnail, index)=>(
+							<div key={index} className="banner-slide"><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL+thumbnail} alt="Travila" /></div>
 						))
 					}
 					{/* <div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb2.png" alt="Travila" /></div>

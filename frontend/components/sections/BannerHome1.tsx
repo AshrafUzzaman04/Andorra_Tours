@@ -6,7 +6,6 @@ import SearchFilterBottom from '@/components/elements/SearchFilterBottom'
 import Axios from "@/helper/axios"
 
 const getData = async () => {
-	"use server"
 	const res = await Axios.get("/hero-sliders");
 	return res.data;
 }

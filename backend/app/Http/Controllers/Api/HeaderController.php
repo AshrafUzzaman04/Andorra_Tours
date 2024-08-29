@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,18 @@ class HeaderController extends Controller
         return response()->json(['message'=>"success", 'data'=>$headers],200);
     }
 
+    public function Header()
+    {
+        $headers = Header::first();
+        $categories = Category::with(["sub"])->where("status","Active")->get();
+        return response()->json([
+            'message'=>"success", 
+            'data'=> [
+                "header"=> $headers,
+                "categories"=> $categories
+            ]
+        ],200);
+    }
     /**
      * Store a newly created resource in storage.
      */

@@ -6,7 +6,7 @@ import Link from 'next/link'
 const ThemeSwitch = dynamic(() => import('@/components/elements/ThemeSwitch'), {
 	ssr: false,
 })
-export default function Header1({ scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar }: any) {
+export default async function Header1({ data, scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar }: any) {
 	return (
 		<>
 
@@ -29,7 +29,7 @@ export default function Header1({ scroll, handleLogin, handleMobileMenu, handleR
 							<div className="header-nav">
 								<nav className="nav-main-menu">
 									<ul className="main-menu">
-										<li className="mega-li has-children"><Link className="active" href="/">Inicio</Link>
+										{/* <li className="mega-li has-children"><Link className="active" href="/">Inicio</Link>
 											<div className="mega-menu">
 												<div className="mega-menu-inner">
 													<div className="row align-items-center">
@@ -100,8 +100,8 @@ export default function Header1({ scroll, handleLogin, handleMobileMenu, handleR
 													</div>
 												</div>
 											</div>
-										</li>
-										<li className="mega-li-small has-children"><Link href="/about">Invierno</Link>
+										</li> */}
+										{/* <li className="mega-li-small has-children"><Link href="/about">Invierno</Link>
 											<div className="mega-menu">
 												<div className="mega-menu-inner mega-menu-inner-small">
 													<div className="row">
@@ -143,21 +143,25 @@ export default function Header1({ scroll, handleLogin, handleMobileMenu, handleR
 													</ul>
 												</div>
 											</div>
-										</li>
+										</li> */}
+										{
+											data?.categories?.map((category: any, index: number) => (
+												<li key={index} className="has-children"><Link href="/blog">{category?.category_name}</Link>
+													<ul className="sub-menu">
+														<li><Link href="/hotel-grid">{category?.category_name}</Link></li>
+														<li><Link href="/hotel-grid-2">Hotel List 02</Link></li>
+														<li><Link href="/hotel-grid-3">Hotel List 03</Link></li>
+														<li><Link href="/hotel-grid-4">Hotel List 04</Link></li>
+														<li><Link href="/hotel-grid-5">Hotel List 05</Link></li>
+														<li><Link href="/hotel-grid-6">Hotel List 06</Link></li>
+														<li><Link href="/hotel-detail">Hotel Details 01</Link></li>
+														<li><Link href="/hotel-detail-2">Hotel Details 02</Link></li>
+													</ul>
+												</li>
+											))
+										}
 
-										<li className="has-children"><Link href="/blog">Hoteles</Link>
-											<ul className="sub-menu">
-												<li><Link href="/hotel-grid">Hotel List 01</Link></li>
-												<li><Link href="/hotel-grid-2">Hotel List 02</Link></li>
-												<li><Link href="/hotel-grid-3">Hotel List 03</Link></li>
-												<li><Link href="/hotel-grid-4">Hotel List 04</Link></li>
-												<li><Link href="/hotel-grid-5">Hotel List 05</Link></li>
-												<li><Link href="/hotel-grid-6">Hotel List 06</Link></li>
-												<li><Link href="/hotel-detail">Hotel Details 01</Link></li>
-												<li><Link href="/hotel-detail-2">Hotel Details 02</Link></li>
-											</ul>
-										</li>
-										<li className="mega-li-small has-children"><Link href="#">Restaurante</Link>
+										{/* <li className="mega-li-small has-children"><Link href="#">Restaurante</Link>
 											<div className="mega-menu">
 												<div className="mega-menu-inner mega-menu-inner-small">
 													<div className="row">
@@ -227,17 +231,18 @@ export default function Header1({ scroll, handleLogin, handleMobileMenu, handleR
 												<li> <Link href="/activities-detail-3">Activities Single 03</Link></li>
 												<li> <Link href="/activities-detail-4">Activities Single 04</Link></li>
 											</ul>
-										</li>
+										</li> */}
 									</ul>
 								</nav>
 							</div>
 						</div>
 						<div className="header-right">
-							<LanguageDropdown />
-							<CurrencyDropdown />
+							{data?.header?.show_language === 1 && <LanguageDropdown />}
+							{data?.header?.show_currency === 1 && <CurrencyDropdown />}
 							<div className="d-none d-xxl-inline-block align-middle mr-15">
-								<ThemeSwitch />
-								<a className="btn btn-default btn-signin" onClick={handleLogin}>Signin</a>
+								{data?.header?.show_light_dark === 1 && <ThemeSwitch />}
+								{data?.header?.show_signin_button === 1 && <a className="btn btn-default btn-signin" onClick={handleLogin}>Signin</a>}
+
 							</div>
 							<div className="burger-icon-2 burger-icon-white" onClick={handleSidebar}>
 								<img src="/assets/imgs/template/icons/menu.svg" alt="Travila" />

@@ -19,6 +19,7 @@ import Footer5 from './footer/Footer5'
 import Footer6 from './footer/Footer6'
 import Header1 from "./header/Header1"
 import Header2 from './header/Header2'
+import Header from "./header/Header"
 
 interface LayoutProps {
 	headerStyle?: Number
@@ -83,7 +84,7 @@ export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, chil
 				<div className="body-overlay-1" onClick={handleSidebar} />
 			}
 
-			{headerStyle == 1 ? <Header1
+			{headerStyle == 1 ? <Header
 				scroll={scroll}
 				isMobileMenu={isMobileMenu}
 				handleMobileMenu={handleMobileMenu}

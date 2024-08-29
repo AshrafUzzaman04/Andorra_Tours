@@ -18,6 +18,11 @@ class CategoryController extends Controller
         return response()->json(['message' => "success", "data" => $categories]);
     }
 
+    public function Categories()
+    {
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      */
