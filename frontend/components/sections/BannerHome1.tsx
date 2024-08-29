@@ -1,9 +1,18 @@
+"use server"
 import Link from "next/link"
 import BannerMainSlider from '../slider/BannerMainSlider'
 
 import SearchFilterBottom from '@/components/elements/SearchFilterBottom'
+import Axios from "@/helper/axios"
 
-export default function BannerHome1() {
+const getData = async () => {
+	"use server"
+	const res = await Axios.get("/hero-sliders");
+	return res.data;
+}
+
+export default async function BannerHome1() {
+	const data = await getData();
 	return (
 		<>
 
@@ -12,7 +21,7 @@ export default function BannerHome1() {
 					<div className="container" />
 				</div>
 				<div className="container-banner">
-					<BannerMainSlider />
+					<BannerMainSlider data={data} />
 				</div>
 			</section>
 		</>

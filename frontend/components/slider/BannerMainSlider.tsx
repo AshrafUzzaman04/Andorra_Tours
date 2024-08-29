@@ -27,8 +27,29 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
 	</button>
 )
 
+export interface BannerData {
+	data: {
+		data: Array<{
+			id: number;
+			title: string;
+			title_color: string;
+			button_text: string;
+			button_text_color: string;
+			button_color: string;
+			button_link: string;
+			slider_image: string;
+			thumnail_image: string;
+			description: string;
+			description_text_color: string;
+			status: string;
+			created_at: string;
+			updated_at: string;
+		}>;
+		thumbnails: string[];
+	}
+}
 
-export default function BannerMainSlider() {
+export default function BannerMainSlider({ data }: BannerData) {
 	const slider1 = useRef<Slider | null>(null)
 	const slider2 = useRef<Slider | null>(null)
 	const [nav1, setNav1] = useState<Slider | undefined>(undefined)
@@ -64,24 +85,29 @@ export default function BannerMainSlider() {
 		<>
 
 			<Slider {...settingsMain} ref={slider1} className="banner-main">
-				<div className="banner-slide">
-					<div className="banner-image" style={{
-						backgroundImage: 'url(/assets/imgs/page/homepage2/thumb.png)',
-						backgroundSize: 'cover',  // Adjust the size as needed
-						backgroundPosition: 'center',  // Adjust the position as needed
-						backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
-						width: '100%',  // Example width
-						height: '100%',  // Example height
-					}}>
-						<div className="container"><span className="btn btn-brand-secondary">Discovery the World</span>
-							<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
-								Next Journey</h1>
-							<h6 className="heading-6-medium">Crafting Exceptional Journeys: Your Global Escape Planner.
-								Unleash Your Wanderlust: Seamless Travel, Extraordinary Adventures</h6>
+				{
+					data && data?.data?.map((slider) => (
+						<div className="banner-slide">
+							<div className="banner-image" style={{
+								backgroundImage: 'url(/assets/imgs/page/homepage2/thumb.png)',
+								backgroundSize: 'cover',  // Adjust the size as needed
+								backgroundPosition: 'center',  // Adjust the position as needed
+								backgroundRepeat: 'no-repeat',  // Prevent the image from repeating
+								width: '100%',  // Example width
+								height: '100%',  // Example height
+							}}>
+								<div className="container"><span className="btn btn-brand-secondary">{slider?.button_text}</span>
+									<h1 className="mt-20 mb-20">Unleash Your Wanderlust<br className="d-none d-lg-block" />Book Your
+										Next Journey</h1>
+									<h6 className="heading-6-medium">Crafting Exceptional Journeys: Your Global Escape Planner.
+										Unleash Your Wanderlust: Seamless Travel, Extraordinary Adventures</h6>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div className="banner-slide">
+					))
+				}
+
+				{/* <div className="banner-slide">
 					<div className="banner-image" style={{
 						backgroundImage: 'url(/assets/imgs/page/homepage2/thumb2.png)',
 						backgroundSize: 'cover',  // Adjust the size as needed
@@ -131,14 +157,18 @@ export default function BannerMainSlider() {
 								Unleash Your Wanderlust: Seamless Travel, Extraordinary Adventures</h6>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</Slider>
 			<div className="slider-thumnail">
 				<Slider {...settingsThumbs} ref={slider2} className="slider-nav-thumbnails">
-					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb.png" alt="Travila" /></div>
-					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb2.png" alt="Travila" /></div>
+					{
+						data && data?.thumbnails?.map((thumbnail)=>(
+							<div className="banner-slide"><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL+thumbnail} alt="Travila" /></div>
+						))
+					}
+					{/* <div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb2.png" alt="Travila" /></div>
 					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/thumb3.png" alt="Travila" /></div>
-					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/banner.png" alt="Travila" /></div>
+					<div className="banner-slide"><img src="/assets/imgs/page/homepage2/banner.png" alt="Travila" /></div> */}
 				</Slider>
 			</div>
 		</>
