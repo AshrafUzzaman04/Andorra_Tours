@@ -32,7 +32,7 @@ const SubCategoryCreate = () => {
     });
   };
   return submitSuccess ? (
-    <Navigate to="/categories/sub-categories" />
+    <Navigate to="/categories/sub-category" />
   ) : (
     <div className="row">
       <div className="col-12">

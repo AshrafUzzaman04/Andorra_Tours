@@ -12,17 +12,30 @@ import ExclusiveService from "@/components/sections/ExclusiveService"
 import TopRatedHotels from "@/components/sections/TopRatedHotels"
 import ExperienceVeranoSlider from "@/components/slider/ExperienceVeranoSlider"
 import ExperienceInvirenoSlider from "@/components/slider/ExperienceInvirenoSlider"
-export default function Home() {
-
+import Axios from "@/helper/axios"
+import { ExperienceInverano } from "@/components/sections/ExperienceInverano"
+const getHeaderData = async () => {
+	const res = await Axios.get('/header');
+	return res?.data?.data;
+}
+const getVeranoData = async () =>{
+    const res = await Axios.get("/verano");
+    return res?.data?.data;
+}
+export default async function Home() {
+	const data = await getHeaderData();
+	const veranoData = await getVeranoData();
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={5}>
+			<Layout data={data} headerStyle={1} footerStyle={5}>
+
 				<BannerHome1 />
-				<ExperienceVeranoSlider/>
-				<ExperienceInvirenoSlider/>
+				<ExperienceVeranoSlider veranoData={veranoData} />
+				<ExperienceInverano/>
+				{/* <ExperienceInvirenoSlider /> */}
 				<Banner />
-				<ExclusiveService/>
+				<ExclusiveService />
 				<TopRatedHotels />
 				<Payments2 />
 				<WhyTravelUs />

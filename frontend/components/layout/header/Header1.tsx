@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import CurrencyDropdown from '@/components/elements/CurrencyDropdown'
 import LanguageDropdown from '@/components/elements/LanguageDropdown'
 import dynamic from 'next/dynamic'
@@ -6,10 +6,10 @@ import Link from 'next/link'
 const ThemeSwitch = dynamic(() => import('@/components/elements/ThemeSwitch'), {
 	ssr: false,
 })
-export default async function Header1({ data, scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar }: any) {
+export default function Header1({ data, scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar }: any) {
+
 	return (
 		<>
-
 			<header className={`header sticky-bar ${scroll ? "stick" : ""}`}>
 				{/* <div className="top-bar">
 					<div className="container-fluid">
@@ -25,7 +25,7 @@ export default async function Header1({ data, scroll, handleLogin, handleMobileM
 				<div className="container-fluid background-body">
 					<div className="main-header">
 						<div className="header-left">
-							<div className="header-logo"><Link className="d-flex" href="/"><img className="light-mode" alt="Travila" src="/assets/imgs/template/light_tours_andorra.png" /><img className="dark-mode" alt="Travila" src="/assets/imgs/template/tours_andorra.png" /></Link></div>
+							<div className="header-logo"><Link className="d-flex" href="/"><img className="light-mode" alt="Travila" src={process?.env?.NEXT_PUBLIC_STORAGE_URL+data?.header?.light_logo} /><img className="dark-mode" alt="Travila" src={process?.env?.NEXT_PUBLIC_STORAGE_URL+data?.header?.dark_logo} /></Link></div>
 							<div className="header-nav">
 								<nav className="nav-main-menu">
 									<ul className="main-menu">
@@ -146,16 +146,15 @@ export default async function Header1({ data, scroll, handleLogin, handleMobileM
 										</li> */}
 										{
 											data?.categories?.map((category: any, index: number) => (
+												category?.sub?.length === 0 ?
+												<li><Link href={category?.link}>{category?.category_name}</Link></li>:
 												<li key={index} className="has-children"><Link href="/blog">{category?.category_name}</Link>
 													<ul className="sub-menu">
-														<li><Link href="/hotel-grid">{category?.category_name}</Link></li>
-														<li><Link href="/hotel-grid-2">Hotel List 02</Link></li>
-														<li><Link href="/hotel-grid-3">Hotel List 03</Link></li>
-														<li><Link href="/hotel-grid-4">Hotel List 04</Link></li>
-														<li><Link href="/hotel-grid-5">Hotel List 05</Link></li>
-														<li><Link href="/hotel-grid-6">Hotel List 06</Link></li>
-														<li><Link href="/hotel-detail">Hotel Details 01</Link></li>
-														<li><Link href="/hotel-detail-2">Hotel Details 02</Link></li>
+														{
+															category?.sub?.map((subCat: any, index: any) =>(
+																<li key={index}><Link href={subCat?.link}>{subCat?.sub_category_name}</Link></li>
+															))
+														}
 													</ul>
 												</li>
 											))
@@ -244,9 +243,10 @@ export default async function Header1({ data, scroll, handleLogin, handleMobileM
 								{data?.header?.show_signin_button === 1 && <a className="btn btn-default btn-signin" onClick={handleLogin}>Signin</a>}
 
 							</div>
+							{data?.header?.show_signin_button === 1 &&
 							<div className="burger-icon-2 burger-icon-white" onClick={handleSidebar}>
 								<img src="/assets/imgs/template/icons/menu.svg" alt="Travila" />
-							</div>
+							</div>}
 							<div className="burger-icon burger-icon-white" onClick={handleMobileMenu}>
 								<span className="burger-icon-top" />
 								<span className="burger-icon-mid" />

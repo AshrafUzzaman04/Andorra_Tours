@@ -4,9 +4,14 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\HeaderController;
 use App\Http\Controllers\Api\HeroController;
+use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
+use App\Http\Controllers\Api\OfferBannerController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VeranoController;
+use App\Http\Middleware\AuthKeyCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,11 +38,25 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::apiResource("hero-sliders",HeroController::class);
     Route::get("hero-sliders/serach/{searchKey}",[HeroController::class, 'serach']);
+
+    //experience de verano
+    Route::apiResource("verano",VeranoController::class);
+    Route::apiResource("inverano",InveranoController::class);
+
+    Route::apiResource("promotion",OfferBannerController::class);
+
+    Route::apiResource("service",ServiceController::class);
 });
 
-Route::prefix("frontend")->group(function(){
+Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("header",[HeaderController::class, 'Header']);
     Route::get("hero-sliders",[HeroController::class, 'Hero']);
+    Route::get("verano",[VeranoController::class, 'Verano']);
+    Route::get("inverano",[InveranoController::class, 'Inverano']);
+    Route::get("promotions",[OfferBannerController::class, 'Promotion']);
+    Route::get("services",[ServiceController::class, 'Services']);
+    
+
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

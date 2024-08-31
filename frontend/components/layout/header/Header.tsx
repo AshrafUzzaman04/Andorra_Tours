@@ -1,12 +1,8 @@
-import React from 'react'
-import Header1 from './Header1'
-import Axios from '@/helper/axios'
-const getData = async () =>{
-    const data = await Axios.get("/header");
-    return data?.data?.data;
-}
-const Header = async ({ scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar }: any) => {
-    const data = await getData();
+
+import Header1 from './Header1';
+import Axios from '@/helper/axios';
+
+const Header = ({ scroll, handleLogin, handleMobileMenu, handleRegister, handleSidebar, data }: any) => {
   return (
     <div>
         <Header1
@@ -18,7 +14,7 @@ const Header = async ({ scroll, handleLogin, handleMobileMenu, handleRegister, h
             handleSidebar={handleSidebar}
         />
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

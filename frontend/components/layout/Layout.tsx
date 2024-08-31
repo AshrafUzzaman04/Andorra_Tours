@@ -25,11 +25,12 @@ interface LayoutProps {
 	headerStyle?: Number
 	footerStyle?: Number
 	children?: React.ReactNode
-	breadcrumbTitle?: string
+	breadcrumbTitle?: string,
+	data:object
 }
 
 
-export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
+export default function Layout({data, headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
 	const [scroll, setScroll] = useState<boolean>(false)
 	// MobileMenu
 	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
@@ -84,7 +85,8 @@ export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, chil
 				<div className="body-overlay-1" onClick={handleSidebar} />
 			}
 
-			{headerStyle == 1 ? <Header
+			{headerStyle == 1 ? <Header1
+				data={data}
 				scroll={scroll}
 				isMobileMenu={isMobileMenu}
 				handleMobileMenu={handleMobileMenu}

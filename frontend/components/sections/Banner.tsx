@@ -1,7 +1,11 @@
-import Link from "next/link"
+import Axios from "@/helper/axios"
 import BannerOfferSlider from "../slider/BannerOfferSlider"
-
-export default function Banner() {
+const getData = async () =>{
+    const res = await Axios.get("/promotions")
+    return res.data?.data
+}
+export default async function Banner() {
+    const promotionData = await getData();
     return (
         <>
 
@@ -10,7 +14,7 @@ export default function Banner() {
                     <div className="wow fadeInUp pt-40">
 						<div className="box-swiper pt-30">
 							<div className="swiper-container swiper-group-3">
-                            <BannerOfferSlider/>
+                            <BannerOfferSlider promotionData={promotionData}/>
 							</div>
 						</div>
 					</div>

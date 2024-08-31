@@ -115,6 +115,18 @@ import HeaderIndex from "pages/Theme/Header/HeaderIndex";
 import HeroIndex from "pages/Theme/Hero/HeroIndex";
 import HeroCreate from "pages/Theme/Hero/HeroCreate";
 import HeroEdit from "pages/Theme/Hero/HeroEdit";
+import VeranoIndex from "pages/Verano/VeranoIndex";
+import VeranoCreate from "pages/Verano/VeranoCreate";
+import VeranoEdit from "pages/Verano/VeranoEdit";
+import InveranoIndex from "pages/Theme/Inverano/InveranoIndex";
+import InveranoCreate from "pages/Theme/Inverano/InveranoCreate";
+import InveranoEdit from "pages/Theme/Inverano/InveranoEdit";
+import OfferBannerCreate from "pages/Theme/OfferBanner/OfferBannerCreate";
+import OfferBannerEdit from "pages/Theme/OfferBanner/OfferBannerEdit";
+import OfferBannerIndex from "pages/Theme/OfferBanner/OfferBannerIndex";
+import ServicesIndex from "pages/Theme/Services/ServicesIndex";
+import ServicesCreate from "pages/Theme/Services/ServicesCreate";
+import ServicesEdit from "pages/Theme/Services/ServicesEdit";
 
 
 function App() {
@@ -227,7 +239,23 @@ function App() {
                                 <Route path="theme-customization/hero/create" element={<HeroCreate />} />
                                 <Route path="theme-customization/hero/:id/edit" element={<HeroEdit />} />
 
+                                {/*verano customization*/}
+                                <Route path="theme-customization/verano" element={<VeranoIndex />} />
+                                <Route path="theme-customization/verano/create" element={<VeranoCreate />} />
+                                <Route path="theme-customization/verano/:id/edit" element={<VeranoEdit />} />
 
+                                <Route path="theme-customization/inverano" element={<InveranoIndex />} />
+                                <Route path="theme-customization/inverano/create" element={<InveranoCreate />} />
+                                <Route path="theme-customization/inverano/:id/edit" element={<InveranoEdit />} />
+
+                                <Route path="theme-customization/banner-slider" element={<OfferBannerIndex />} />
+                                <Route path="theme-customization/banner-slider/create" element={<OfferBannerCreate />} />
+                                <Route path="theme-customization/banner-slider/:id/edit" element={<OfferBannerEdit />} />
+
+                                <Route path="theme-customization/servcios-exclusivos" element={<ServicesIndex />} />
+                                <Route path="theme-customization/servcios-exclusivos/create" element={<ServicesCreate />} />
+                                <Route path="theme-customization/servcios-exclusivos/:id/edit" element={<ServicesEdit />} />
+                                
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />
                                 <Route path="human-resources/employees/:id/edit" element={<EmployeeEdit />} />
