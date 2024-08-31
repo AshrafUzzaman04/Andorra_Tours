@@ -14,12 +14,14 @@ import ExperienceVeranoSlider from "@/components/slider/ExperienceVeranoSlider"
 import ExperienceInvirenoSlider from "@/components/slider/ExperienceInvirenoSlider"
 import Axios from "@/helper/axios"
 import { ExperienceInverano } from "@/components/sections/ExperienceInverano"
+import axios from "axios"
+import Fetch from "@/helper/Fetch"
 const getHeaderData = async () => {
-	const res = await Axios.get('/header');
+	const res = await Fetch.get('/header');
 	return res?.data?.data;
 }
 const getVeranoData = async () =>{
-    const res = await Axios.get("/verano");
+    const res = await Fetch.get("/verano");
     return res?.data?.data;
 }
 export default async function Home() {

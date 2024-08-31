@@ -1,7 +1,8 @@
 import Axios from "@/helper/axios"
 import BannerOfferSlider from "../slider/BannerOfferSlider"
+import Fetch from "@/helper/Fetch"
 const getData = async () =>{
-    const res = await Axios.get("/promotions")
+    const res = await Fetch.get("/promotions")
     return res.data?.data
 }
 export default async function Banner() {

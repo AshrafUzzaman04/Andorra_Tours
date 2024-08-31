@@ -4,9 +4,10 @@ import BannerMainSlider from '../slider/BannerMainSlider'
 
 import SearchFilterBottom from '@/components/elements/SearchFilterBottom'
 import Axios from "@/helper/axios"
+import Fetch from "@/helper/Fetch"
 
 const getData = async () => {
-	const res = await Axios.get("/hero-sliders");
+	const res = await Fetch.get("/hero");
 	return res.data;
 }
 

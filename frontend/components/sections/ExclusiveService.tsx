@@ -1,8 +1,9 @@
 import Axios from '@/helper/axios'
+import Fetch from '@/helper/Fetch'
 import Link from 'next/link'
 import React from 'react'
 const getData = async () => {
-    const res = await Axios.get("/services")
+    const res = await Fetch.get("/services")
     return res?.data?.data
 }
 const ExclusiveService = async () => {
