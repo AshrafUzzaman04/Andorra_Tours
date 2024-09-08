@@ -1,24 +1,24 @@
 {
-  "name": "travila",
+  "name": "tours_andorra",
   "version": "1.0.0",
-  "author": "alithemes.com",
+  "author": "ownchoose.com",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "lint": "next lint",
+    "start": "next start",
+    "lint": "eslint .",
     "sass": "sass --watch public/assets/scss/style.scss:public/assets/css/style.css"
   },
   "dependencies": {
     "@headlessui/react": "^2.0.3",
     "@heroicons/react": "^2.1.5",
     "axios": "^1.7.5",
-    "next": "^14.2.7",
-    "react": "^18",
+    "next": "^14.2.8",
+    "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-datepicker": "^6.9.0",
-    "react-dom": "^18",
+    "react-dom": "^18.3.1",
     "react-modal-video": "^2.0.2",
     "react-perfect-scrollbar": "^1.5.8",
     "react-slick": "^0.30.2",
@@ -29,6 +29,7 @@
     "wowjs": "^1.1.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-datepicker": "^6.2.0",
@@ -37,10 +38,11 @@
     "@types/react-slick": "^0.23.13",
     "@types/react-slider": "^1.3.6",
     "autoprefixer": "^10.4.19",
-    "eslint": "^8",
     "eslint-config-next": "14.1.3",
+    "globals": "^15.9.0",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.4.0"
   }
 }

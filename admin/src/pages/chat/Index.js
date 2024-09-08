@@ -31,7 +31,7 @@ function Index() {
         // setLoading(true);
         // setSearchResult([]);
         callFetch("search-participation/"+query, "GET", []).then((res) => {
-            setSearchResult(res?.records);
+            setSearchResult(res?.results);
             setLoading(true);
           });
     //   setLoading(true); 
@@ -383,16 +383,16 @@ function Index() {
                                 {!loading && (
                                     participations?.map((user) => (
                                         <li>
-                                            <NavLink to={'/chat/message/'+user.id}>
+                                            <NavLink to={'/chat/message/'+user?.user.id}>
                                                 <div className="d-flex">                            
                                                     <div className="chat-user-img online align-self-center me-3 ms-0">
-                                                    <img className="avatar avatar-sm" src={user.photo ? process.env.REACT_APP_STORAGE_URL + user.photo : '/assets/img/placeholder.png'} alt="" />
+                                                    <img className="avatar avatar-sm" src={user?.user.photo ? process.env.REACT_APP_STORAGE_URL + user?.user.photo : '/assets/img/placeholder.png'} alt="" />
                                                     </div>
                                                             
                                                     <div className="flex-grow-1 overflow-hidden">
-                                                        <h5 className="text-truncate font-size-15 mb-1">{user.name}</h5>
+                                                        <h5 className="text-truncate font-size-15 mb-1">{user?.user.name}</h5>
                                                         <p className="chat-user-message text-truncate mb-0">
-                                                            <LastMessage userId={user.id}></LastMessage>
+                                                            <LastMessage userId={user?.user.id}></LastMessage>
                                                         </p>
                                                     </div>
                                                     <div className="font-size-11"></div>
@@ -409,15 +409,15 @@ function Index() {
                                     Array.isArray(searchResult) && searchResult.map((user) => (
                                         <li>
                                             <NavLink to={'/chat/message/'+user.id}>
-                                                <div className="d-flex">                            
+                                                <div className="d-flex align-items-center">                            
                                                     <div className="chat-user-img online align-self-center me-3 ms-0">
-                                                    <img className="avatar avatar-sm" src={user.photo ? process.env.REACT_APP_STORAGE_URL + user.photo : '/assets/img/placeholder.png'} alt="" />
+                                                    <img className="avatar avatar-sm" src={user?.user.photo ? process.env.REACT_APP_STORAGE_URL + user?.user.photo : '/assets/img/placeholder.png'} alt="user-photo" />
                                                     </div>
                                                             
                                                     <div className="flex-grow-1 overflow-hidden">
-                                                        <h5 className="text-truncate font-size-15 mb-1">{user.name}</h5>
+                                                        <h5 className="text-truncate font-size-15 mb-1">{user?.user.name}</h5>
                                                         <p className="chat-user-message text-truncate mb-0">
-                                                            <LastMessage userId={user.id}></LastMessage>
+                                                            <LastMessage userId={user?.user.id}></LastMessage>
                                                         </p>
                                                     </div>
                                                     <div className="font-size-11"></div>

@@ -7,7 +7,7 @@ import { t } from "i18next";
 import LastMessage from "pages/chat/LastMessage";
 import Moment from "react-moment";
 import { Menu, MenuItem } from "@mui/material";
-import { NavLink,useLocation } from "react-router-dom";
+import { NavLink,useLocation, useParams } from "react-router-dom";
 import Icon from "@mui/material/Icon";
 import Breadcrumbs from "examples/Breadcrumbs";
 import {
@@ -24,7 +24,10 @@ import {
     navbarDesktopMenu,
     navbarMobileMenu,
   } from "examples/Navbars/DashboardNavbar/styles";
+import useEcho from "hooks/echo";
 function TopNav({ absolute, light, isMini }) {
+    const params = useParams();
+    const echo = useEcho();
     const lang = Cookies.get('lang') ? JSON.parse(Cookies.get('lang')) : { flag: 'de', lang: 'de', name: 'Deutch' };
     const [activeLanguage, setActiveLanguage] = useState(lang);
     const { i18n } = useTranslation();
@@ -35,17 +38,21 @@ function TopNav({ absolute, light, isMini }) {
     const [unreadMessage, setunreadMessage] = useState(0);
     const [notifications, setNotifications] = useState([]);
     const [unreadNotification, setUnreadNotification] = useState(0);
-    useEffect(()=>{
-        callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
-            i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
-        });
-    },[i18n.language])
+    // useEffect(()=>{
+    //     callFetch(`getAllLanguages/${i18n.language}/translations.json`,"GET",[]).then((res)=>{
+    //         i18n.addResourceBundle(i18n.language, 'translation', res?.files, true, true);
+    //     });
+    // },[i18n.language])
     useEffect(() => {
-        callFetch("chat-participation", "GET", []).then((res) => {
-            // console.log(res.data);
-            setParticipations(res.contacts);
+        // callFetch("chat-participation", "GET", []).then((res) => {
+        //     // console.log(res.data);
+        //     setParticipations(res.contacts);
+        // });
+        callFetch("unread-messages", "GET", []).then((res) => {
+            // console.log(res.unread_message);
+            setParticipations(res?.data?.notificationData);
+            setunreadMessage(res?.data?.unread_message);
         });
-
         /*
         callFetch("topnav-notifications", "GET", []).then((res) => {
             // console.log(res.data);
@@ -56,18 +63,32 @@ function TopNav({ absolute, light, isMini }) {
     }, [unreadMessage]);
 
     useEffect(() => {
-        callFetch("unread-messages", "GET", []).then((res) => {
-            // console.log(res.unread_message);
-            setunreadMessage(res.unread_message);
-        });
-    }, []);
+        if(echo){
+            echo.private(`chat.${user?.id}`).listen('MessageSent', event => {
+                if (event.receiver.id === user?.id){
+                    if(event.sender.id === Number(params?.id)){
+                        callFetch("seen-messages/"+params?.id, "POST", []).then((res) => {
+                            setParticipations(res?.data?.notificationData)
+                            setunreadMessage(res?.data?.unread_message);
+                        });
+                    }else{
+                        callFetch("unread-messages", "GET", []).then((res) => {
+                            setParticipations(res?.data?.notificationData)
+                            setunreadMessage(res?.data?.unread_message);
+                        });
+                    }
+                }
+                    
+                    
+                    
+            })
+
+        }
+    }, [echo, params?.id]);
 
     useEffect(() => {
         const interval = setInterval(() => { 
-            callFetch("unread-messages", "GET", []).then((res) => {
-                // console.log(res.unread_message);
-                setunreadMessage(res.unread_message);
-            });
+            
             
             /*
             callFetch("topnav-notifications", "GET", []).then((res) => {
@@ -85,9 +106,9 @@ function TopNav({ absolute, light, isMini }) {
     }
 
     const seenMessage = () => {
-        callFetch("seen-messages", "GET", []).then((res) => {
-            // console.log(res.unread_message);
-            setunreadMessage(res.unread_message);
+        callFetch("seen-messages/"+params?.id, "POST", []).then((res) => {
+            setParticipations(res?.data?.notificationData)
+            setunreadMessage(res?.data?.unread_message);
         });
 
         callFetch("unread-messages", "GET", []).then((res) => {
@@ -280,18 +301,18 @@ function TopNav({ absolute, light, isMini }) {
                                 }}>{unreadMessage}</sup>}</i>
                             </a>
                             <ul style={{overflowY: 'scroll', maxHeight: '300px'}} className="dropdown-menu border-0 shadow dropdown-menu-end  px-2 py-3 me-sm-n4 res-dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {participations ? participations.map((participation) => (
+                                {participations ? participations?.map((participation) => (
                                     <li className="mb-2" onClick={() => { handleResponsive(); seenMessage(); }}>
-                                        <NavLink className="dropdown-item border-radius-md" to={'/chat/message/'+participation.id}>
+                                        <NavLink className="dropdown-item border-radius-md" to={'/chat/message/'+participation?.sender?.id}>
                                             <div className="d-flex py-1">
                                                 <div className="my-auto">
-                                                    <img src={user.photo ? process.env.REACT_APP_STORAGE_URL + user.photo : '/assets/img/placeholder.png'} className="avatar avatar-sm  me-3" alt="avatar" />
+                                                    <img src={participation?.sender?.photo ? process.env.REACT_APP_STORAGE_URL + participation?.sender?.photo : '/assets/img/placeholder.png'} className="avatar avatar-sm  me-3" alt="avatar" />
                                                 </div>
                                                 <div className="d-flex flex-column justify-content-center">
-                                                    <h6 className="text-sm font-weight-normal mb-1"><span className="font-weight-bold"></span> {participation.name}</h6>
+                                                    <h6 className="text-sm font-weight-normal mb-1"><span className="font-weight-bold"></span> {participation?.sender?.name}</h6>
                                                     <p className="text-xs text-secondary mb-0">
                                                         {/* <i className="fa fa-clock me-1" /> */}
-                                                        <LastMessage userId={participation.id}></LastMessage>
+                                                        <LastMessage userId={participation?.sender?.id}></LastMessage>
                                                     </p>
                                                 </div>
                                             </div>

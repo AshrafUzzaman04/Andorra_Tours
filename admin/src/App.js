@@ -127,6 +127,9 @@ import OfferBannerIndex from "pages/Theme/OfferBanner/OfferBannerIndex";
 import ServicesIndex from "pages/Theme/Services/ServicesIndex";
 import ServicesCreate from "pages/Theme/Services/ServicesCreate";
 import ServicesEdit from "pages/Theme/Services/ServicesEdit";
+import CategorySliderIndex from "pages/Theme/CategorySlider/CategorySliderIndex";
+import CategorySliderCreate from "pages/Theme/CategorySlider/CategorySliderCreate";
+import CategorySliderEdit from "pages/Theme/CategorySlider/CategorySliderEdit";
 
 
 function App() {
@@ -255,6 +258,10 @@ function App() {
                                 <Route path="theme-customization/servcios-exclusivos" element={<ServicesIndex />} />
                                 <Route path="theme-customization/servcios-exclusivos/create" element={<ServicesCreate />} />
                                 <Route path="theme-customization/servcios-exclusivos/:id/edit" element={<ServicesEdit />} />
+
+                                <Route path="theme-customization/category-slider" element={<CategorySliderIndex />} />
+                                <Route path="theme-customization/category-slider/create" element={<CategorySliderCreate />} />
+                                <Route path="theme-customization/category-slider/:id/edit" element={<CategorySliderEdit />} />
                                 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />

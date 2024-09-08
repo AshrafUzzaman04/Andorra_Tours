@@ -6,6 +6,7 @@ const getData = async () =>{
     const res = await Fetch.get("/inverano");
     return res?.data?.data
 }
+
 export const ExperienceInverano = async () => {
     const inverano = await getData();
   return (

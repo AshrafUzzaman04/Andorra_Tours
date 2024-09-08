@@ -25,7 +25,7 @@ export default function BlogPost({ style, showItem, showPagination }: BlogPostPr
 
     useEffect(() => {
         createPagination()
-    }, [limit, pages, data.length])
+    }, [limit, pages, data?.length])
 
     const createPagination = (): void => {
         // set pagination

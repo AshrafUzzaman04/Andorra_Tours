@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\ChatMessageController;
 use App\Http\Controllers\Api\HeaderController;
 use App\Http\Controllers\Api\HeroController;
 use App\Http\Controllers\Api\InveranoController;
@@ -46,6 +49,17 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::apiResource("promotion",OfferBannerController::class);
 
     Route::apiResource("service",ServiceController::class);
+
+    Route::apiResource("card-category",CardCategoryController::class);
+
+    //search chat participants
+    Route::apiResource('messages',ChatMessageController::class);
+    Route::post('sent-message',[ChatMessageController::class,'store']);
+    Route::get("search-participation/{query}",[ChatController::class, "searchParticipation"]);
+    Route::get("chat-participation",[ChatController::class, "index"]);
+    Route::get("unread-messages",[ChatMessageController::class, "UnreadMessages"]);
+    Route::post("seen-messages/{senderId}",[ChatMessageController::class, "SeenMessages"]);
+    Route::get("message/receiver/{receiverId}",[ChatMessageController::class, "MessageReceiver"]);
 });
 
 Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
@@ -55,8 +69,8 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("inverano",[InveranoController::class, 'Inverano']);
     Route::get("promotions",[OfferBannerController::class, 'Promotion']);
     Route::get("services",[ServiceController::class, 'Services']);
+    Route::get("cardCategory",[CardCategoryController::class, 'cardCategory']);
     
-
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

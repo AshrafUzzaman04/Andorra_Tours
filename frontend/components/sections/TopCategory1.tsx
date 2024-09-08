@@ -22,7 +22,7 @@ export default function TopCategory1() {
 					<div className="box-list-news wow fadeInUp">
 						<div className="box-swiper mt-30">
 							<div className="swiper-container swiper-group-3">
-								<ExperienceInvirenoSlider />
+								<ExperienceInvirenoSlider inverano={[]} />
 							</div>
 						</div>
 					</div>

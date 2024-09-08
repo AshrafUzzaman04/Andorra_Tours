@@ -7,7 +7,7 @@ import Axios from "@/helper/axios"
 import Fetch from "@/helper/Fetch"
 
 const getData = async () => {
-	const res = await Fetch.get("/hero");
+	const res = await Fetch.get("/hero-sliders");
 	return res.data;
 }
 

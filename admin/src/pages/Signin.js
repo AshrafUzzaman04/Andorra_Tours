@@ -25,7 +25,6 @@ function Signin() {
                 }else{
                     setErrorMessage('');
                 }
-                console.log(loginData.data.user)
                 Cookies.set('token', loginData.data.token);
                 Cookies.set('user', JSON.stringify({
                     id: loginData.data.user.id,

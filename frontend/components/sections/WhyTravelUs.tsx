@@ -64,11 +64,11 @@ export default function WhyTravelUs() {
 							</div>
 						</div>
 					</div>
-					<div className="box-swiper mt-30">
+					{/* <div className="box-swiper mt-30">
 						<div className="swiper-container swiper-group-payment-7">
 							<SwiperGroupPayment7Slider />
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</section>
 		</>

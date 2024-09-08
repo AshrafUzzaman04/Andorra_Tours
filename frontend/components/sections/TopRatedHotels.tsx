@@ -45,7 +45,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey2.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">
@@ -75,7 +75,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey3.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">
@@ -103,7 +103,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey4.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">
@@ -131,7 +131,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey2.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">
@@ -159,7 +159,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey3.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">
@@ -187,7 +187,7 @@ export default function TopRatedHotels() {
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"><Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" />
+                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
                                         </Link><img src="/assets/imgs/page/homepage1/journey4.png" alt="Travila" />
                                         </div>
                                         <div className="card-info">

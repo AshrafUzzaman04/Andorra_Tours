@@ -20,18 +20,29 @@ import Footer6 from './footer/Footer6'
 import Header1 from "./header/Header1"
 import Header2 from './header/Header2'
 import Header from "./header/Header"
+import Axios from "@/helper/axios"
+import { GetHeaderData } from "@/util/Header"
 
 interface LayoutProps {
 	headerStyle?: Number
 	footerStyle?: Number
 	children?: React.ReactNode
 	breadcrumbTitle?: string,
-	data:object
+	headerData?:any
 }
 
 
-export default function Layout({data, headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
+export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
+
 	const [scroll, setScroll] = useState<boolean>(false)
+	const [data, setData] = useState<[]>([])
+	useEffect(() => {
+		const getHeaderData = async () => {
+			const res = await Axios.get('/header');
+			setData(res?.data?.data);
+		}
+		getHeaderData();
+	},[0])
 	// MobileMenu
 	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
 	const handleMobileMenu = (): void => {
@@ -73,6 +84,7 @@ export default function Layout({data, headerStyle, footerStyle, breadcrumbTitle,
 			document.removeEventListener("scroll", handleScroll)
 		}
 	}, [scroll])
+
 	return (
 		<><div id="top" />
 			<ItemCollapse />
@@ -85,50 +97,13 @@ export default function Layout({data, headerStyle, footerStyle, breadcrumbTitle,
 				<div className="body-overlay-1" onClick={handleSidebar} />
 			}
 
-			{headerStyle == 1 ? <Header1
-				data={data}
-				scroll={scroll}
-				isMobileMenu={isMobileMenu}
-				handleMobileMenu={handleMobileMenu}
-				isSidebar={isSidebar}
-				handleSidebar={handleSidebar}
-				isLogin={isLogin}
-				handleLogin={handleLogin}
-				isRegister={isRegister}
-				handleRegister={handleRegister}
-			/> : null}
-			{headerStyle == 2 ? <Header2 scroll={scroll} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} /> : null}
-			<MobileMenu isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} />
-			<Sidebar isSidebar={isSidebar} handleSidebar={handleSidebar} />
-
 			<main className="main">
 				{breadcrumbTitle && <Breadcrumb breadcrumbTitle={breadcrumbTitle} />}
 
 				{children}
 			</main>
 
-			{!footerStyle && < Footer1 />}
-			{footerStyle == 1 ? < Footer1 /> : null}
-			{footerStyle == 2 ? < Footer2 /> : null}
-			{footerStyle == 3 ? < Footer3 /> : null}
-			{footerStyle == 4 ? < Footer4 /> : null}
-			{footerStyle == 5 ? < Footer5 /> : null}
-			{footerStyle == 6 ? < Footer6 /> : null}
-
 			{/* <PopupFirstLoad /> */}
-			<PopupSignin
-				isLogin={isLogin}
-				handleLogin={handleLogin}
-				isRegister={isRegister}
-				handleRegister={handleRegister}
-			/>
-			<PopupSignup
-				isRegister={isRegister}
-				handleRegister={handleRegister}
-				isLogin={isLogin}
-				handleLogin={handleLogin}
-			/>
-
 			<BackToTop target="top" />
 		</>
 	)
