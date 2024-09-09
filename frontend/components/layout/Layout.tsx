@@ -35,14 +35,6 @@ interface LayoutProps {
 export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
 
 	const [scroll, setScroll] = useState<boolean>(false)
-	const [data, setData] = useState<[]>([])
-	useEffect(() => {
-		const getHeaderData = async () => {
-			const res = await Axios.get('/header');
-			setData(res?.data?.data);
-		}
-		getHeaderData();
-	},[0])
 	// MobileMenu
 	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
 	const handleMobileMenu = (): void => {
