@@ -11,17 +11,6 @@ import MobileMenu from './MobileMenu'
 import PopupSignin from './PopupSignin'
 import PopupSignup from './PopupSignup'
 import Sidebar from './Sidebar'
-import Footer1 from './footer/Footer1'
-import Footer2 from './footer/Footer2'
-import Footer3 from './footer/Footer3'
-import Footer4 from './footer/Footer4'
-import Footer5 from './footer/Footer5'
-import Footer6 from './footer/Footer6'
-import Header1 from "./header/Header1"
-import Header2 from './header/Header2'
-import Header from "./header/Header"
-import Axios from "@/helper/axios"
-import { GetHeaderData } from "@/util/Header"
 
 interface LayoutProps {
 	headerStyle?: Number
@@ -33,8 +22,6 @@ interface LayoutProps {
 
 
 export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, children }: LayoutProps) {
-
-	const [scroll, setScroll] = useState<boolean>(false)
 	// MobileMenu
 	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
 	const handleMobileMenu = (): void => {
@@ -47,35 +34,7 @@ export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, chil
 		setSidebar(!isSidebar)
 		!isSidebar ? document.body.classList.add("canvas-menu-active") : document.body.classList.remove("canvas-menu-active")
 	}
-	// Login
-	const [isLogin, setLogin] = useState<boolean>(false)
-	const handleLogin = (): void => setLogin(!isLogin)
-	// Register
-	const [isRegister, setRegister] = useState<boolean>(false)
-	const handleRegister = (): void => setRegister(!isRegister)
 
-	useEffect(() => {
-		const WOW: any = require('wowjs');
-		(window as any).wow = new WOW.WOW({
-			live: false
-		});
-
-		// Initialize WOW.js
-		(window as any).wow.init()
-
-		const handleScroll = (): void => {
-			const scrollCheck: boolean = window.scrollY > 100
-			if (scrollCheck !== scroll) {
-				setScroll(scrollCheck)
-			}
-		}
-
-		document.addEventListener("scroll", handleScroll)
-
-		return () => {
-			document.removeEventListener("scroll", handleScroll)
-		}
-	}, [scroll])
 
 	return (
 		<><div id="top" />
