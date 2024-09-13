@@ -55,7 +55,7 @@ export default function TopRatedHotels({ data }: TopRatedHotelsTypes) {
                             <Swiper {...swiperGroupAnimate}>
                                 {
                                     data && data?.map((hotel, index) => (
-                                        <SwiperSlide>
+                                        <SwiperSlide key={index}>
                                             <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                                 <div className="card-left">
                                                     <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">{hotel?.top_title}</Link></div>
