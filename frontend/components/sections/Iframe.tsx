@@ -1,6 +1,5 @@
-import Iframe from 'react-iframe'
 
-export default function Iframes() {
+export default function Iframe() {
     return (
         <section className="section-box box-our-featured background-body pt-60">
             <div className="container">
@@ -12,7 +11,7 @@ export default function Iframes() {
                 </div>
             </div>
             <div className="container-banner">
-                <Iframe loading="eager" width="100%" height="700" allowFullScreen url="https://motor.skirenting.com/"/>
+                <iframe title={'Embedded Content'} src="https://motor.skirenting.com/" width="100%" height="700" style={{ border: "none" }} allowFullScreen></iframe>
             </div>
         </section>
 

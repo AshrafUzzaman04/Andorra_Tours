@@ -9,14 +9,14 @@ import { ExperienceInverano } from "@/components/sections/ExperienceInverano";
 import { ExperienceVerano } from "@/components/sections/ExperienceVerano";
 import MasterLayout from "@/components/layout/MasterLayout";
 import HotelesTopRated from "@/components/sections/HotelsTopRated";
-import Iframes from "@/components/sections/Iframe";
+import Iframe from "@/components/sections/Iframe";
 
 export default function Home() {
   return (
     <>
       <MasterLayout headerStyle={1} footerStyle={5}>
         <BannerHome1 />
-        <Iframes/>
+        <Iframe />
         <ExperienceVerano />
         <ExperienceInverano />
         {/* <ExperienceInvirenoSlider /> */}
