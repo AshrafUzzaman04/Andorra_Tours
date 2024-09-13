@@ -31,12 +31,9 @@ export default function ExperienceVeranoSlider({ veranoData }: ExperienceVeranoS
             <section className="section-box box-our-featured background-body pt-60">
                 <div className="container">
                     <div className="row align-items-end">
-                        <div className="col-lg-6 mb-30 text-center text-lg-start wow fadeInUp">
-                            <h2 className="neutral-1000">Experience DE Verano</h2>
-                            <p className="text-xl-medium neutral-500">Explore the world by multi adventure activities</p>
-                        </div>
-                        <div className="col-lg-6 mb-30 wow fadeInUp">
-                            <CategoryFilter />
+                        <div className="col-12 col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
+                            <h2 className="neutral-1000 text-center">Experience DE Verano</h2>
+                            <p className="text-xl-medium neutral-500 text-center">Explore the world by multi adventure activities</p>
                         </div>
                     </div>
                 </div>

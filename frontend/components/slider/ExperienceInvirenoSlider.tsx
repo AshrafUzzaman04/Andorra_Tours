@@ -28,12 +28,9 @@ export default function ExperienceInvirenoSlider({ inverano }: ExperienceVeranoS
             <section className="section-box box-our-featured background-body pt-60">
                 <div className="container">
                     <div className="row align-items-end">
-                        <div className="col-lg-6 mb-30 text-center text-lg-start wow fadeInUp">
-                            <h2 className="neutral-1000">Experience DE Invierno</h2>
-                            <p className="text-xl-medium neutral-500">Favorite destinations based on customer reviews</p>
-                        </div>
-                        <div className="col-lg-6 mb-30 wow fadeInUp">
-                            <CategoryFilter />
+                        <div className="col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
+                            <h2 className="neutral-1000 text-center">Experience DE Invierno</h2>
+                            <p className="text-xl-medium neutral-500 text-center">Favorite destinations based on customer reviews</p>
                         </div>
                     </div>
                 </div>

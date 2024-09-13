@@ -98,7 +98,7 @@ export default function BannerMainSlider({ data }: BannerData) {
 								height: '100%',  // Example height
 							}}>
 								<div className="container">
-									<Link href={slider?.button_link}><span className="btn btn-brand-secondary" style={{backgroundColor:slider?.button_color, color:slider?.button_text_color}}>{slider?.button_text}</span></Link>
+									<Link href={slider?.button_link}><span className="btn rounded-pill fw-semibold" style={{backgroundColor:slider?.button_color, color:slider?.button_text_color}}>{slider?.button_text}</span></Link>
 									<h1 className="mt-20 mb-20" style={{color:slider?.title_color}}>{slider?.title}</h1>
 									<h6 className="heading-6-medium" style={{color:slider?.description_text_color}}>{slider?.description}</h6>
 								</div>

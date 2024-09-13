@@ -8,8 +8,8 @@ export default function Testimonials2() {
 
             <section className="section-box box-testimonials-2 background-body">
                 <div className="container">
-                    <div className="box-author-testimonials"> <img src="/assets/imgs/page/homepage1/testimonial.png" alt="Travila" /><img src="/assets/imgs/page/homepage1/testimonial2.png" alt="Travila" /><img src="/assets/imgs/page/homepage1/testimonial3.png" alt="Travila" />Testimonials</div>
-                    <h2 className="mt-8 mb-25 neutral-1000">Don't take our word for it</h2>
+                    {/* <div className="box-author-testimonials"> <img src="/assets/imgs/page/homepage1/testimonial.png" alt="Travila" /><img src="/assets/imgs/page/homepage1/testimonial2.png" alt="Travila" /><img src="/assets/imgs/page/homepage1/testimonial3.png" alt="Travila" />Testimonials</div> */}
+                    <h2 className="mt-8 mb-25 neutral-1000 text-center">Don't take our word for it</h2>
                 </div>
                 <div className="block-testimonials">
                     <div className="container-testimonials">
