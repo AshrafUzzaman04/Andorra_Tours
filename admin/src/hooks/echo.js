@@ -35,6 +35,9 @@ const useEcho = () =>{
             enabledTransports: ['ws', 'wss'],
         });
         setEchoInstance(echo)
+        return () => {
+            echo.disconnect();
+          };
     },[])
 
     return echoInstance;

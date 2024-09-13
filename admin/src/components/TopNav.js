@@ -166,7 +166,7 @@ function TopNav({ absolute, light, isMini }) {
         if(searchKey.length > 0){
             callFetch('globar/search/'+searchKey, "GET",[]).then((res)=>{
                 if(res.status !== 401){
-                    setSearchData(res.data.data)
+                    setSearchData(res?.data?.data)
                     setMenu(true)
                 }else{
                     setSearchData([])

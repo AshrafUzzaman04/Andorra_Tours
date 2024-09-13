@@ -3,7 +3,25 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
 
-export default function TopRatedHotels() {
+export interface HotelesDataItems {
+    id: number;
+    top_title: string;
+    top_sub_title: string;
+    tag: string;
+    image: string;
+    title: string;
+    sub_title: string;
+    link: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface TopRatedHotelsTypes {
+    data: HotelesDataItems[]
+}
+
+export default function TopRatedHotels({ data }: TopRatedHotelsTypes) {
     return (
         <>
 
@@ -35,43 +53,48 @@ export default function TopRatedHotels() {
                     <div className="box-swiper mt-30">
                         <div className="swiper-container swiper-group-animate swiper-group-journey">
                             <Swiper {...swiperGroupAnimate}>
-                                <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Alojarse</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">En los mejores hoteles</Link></div>
-                                        </div>
-                                        
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey2.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Hoteles
-                                            </Link>
-                                            </div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">Descubre los top 25 hoteles que no puedes dejar escapar.
+                                {
+                                    data && data?.map((hotel, index) => (
+                                        <SwiperSlide>
+                                            <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                                <div className="card-left">
+                                                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">{hotel?.top_title}</Link></div>
+                                                    <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">{hotel?.top_sub_title}</Link></div>
+                                                </div>
 
-                                                    </p>
+                                            </div>
+                                            <div className="card-journey-small background-card">
+                                                <div className="card-image"> <Link className="hotelsTag" href="#">
+                                                    <img width={50} height={50} className="" src={process?.env?.NEXT_PUBLIC_STORAGE_URL + hotel?.tag} alt="Travila" />
+                                                </Link><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL + hotel?.image} alt="Travila" />
                                                 </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
+                                                <div className="card-info">
+                                                    <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">{hotel?.title}
+                                                    </Link>
+                                                    </div>
+                                                    <div className="card-program">
+                                                        <div className="card-location">
+                                                            <p className="text-description text-md-medium neutral-500">{hotel?.sub_title}
+
+                                                            </p>
+                                                        </div>
+                                                        <div className="buttonendtime">
+                                                            <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                        </SwiperSlide>
+                                    ))
+                                }
+
+                                {/* <SwiperSlide>
+                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                         <div className="card-left">
                                             <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Comprar</Link></div>
                                             <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">La moda a tu alcance</Link></div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
@@ -94,12 +117,12 @@ export default function TopRatedHotels() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                         <div className="card-left">
                                             <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Degusta</Link></div>
                                             <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">La mejor gastonomia</Link></div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
@@ -122,12 +145,12 @@ export default function TopRatedHotels() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                         <div className="card-left">
                                             <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Experimenta</Link></div>
                                             <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Hacer deporte esta a tu alcance</Link></div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
@@ -150,12 +173,12 @@ export default function TopRatedHotels() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                         <div className="card-left">
                                             <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Relájate</Link></div>
                                             <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Donde relajarte</Link></div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"> <Link className="hotelsTag" href="#">
@@ -178,12 +201,12 @@ export default function TopRatedHotels() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
+                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                         <div className="card-left">
                                             <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Visita</Link></div>
                                             <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Los mejores sitios</Link></div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="card-journey-small background-card">
                                         <div className="card-image"><Link className="hotelsTag" href="#">
@@ -205,7 +228,7 @@ export default function TopRatedHotels() {
                                             </div>
                                         </div>
                                     </div>
-                                </SwiperSlide>
+                                </SwiperSlide> */}
                             </Swiper>
                         </div>
                     </div>

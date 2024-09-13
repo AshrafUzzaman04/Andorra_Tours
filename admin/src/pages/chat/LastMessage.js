@@ -7,7 +7,7 @@ function LastMessage(props) {
             // console.log(res.lastMessage);
           setMessage(res?.lastMessage);
         });
-        }, [props.userId]);
+        }, [props?.userId]);
   return (
     <div>{message}</div>
   )
