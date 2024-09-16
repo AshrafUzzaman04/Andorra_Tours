@@ -22,11 +22,11 @@ class CardCategoryUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            "top_title" => "required|string|unique:card_categories,top_title,".$this->cardCategory->id,
+            "top_title" => "required|string|unique:card_categories,top_title,".$this->id,
             "top_sub_title" => "required|string",
-            "tag" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->cardCategory->id,
-            "image" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->cardCategory->id,
-            "title" => "required|string|unique:card_categories,title,".$this->cardCategory->id,
+            "tag" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->id,
+            "image" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->id,
+            "title" => "required|string|unique:card_categories,title,".$this->id,
             "sub_title" => "required|string",
             "link" => "required|url",
             "status" => "required|string|in:Active,Inactive"

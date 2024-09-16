@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AdvertisementController;
 use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
@@ -12,8 +13,10 @@ use App\Http\Controllers\Api\Language;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SubCategoryController;
+use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VeranoController;
+use App\Http\Controllers\Api\WhyTravelController;
 use App\Http\Middleware\AuthKeyCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::apiResource("service",ServiceController::class);
 
     Route::apiResource("card-category",CardCategoryController::class);
+    //Route::post("card-category/{id}",[CardCategoryController::class, 'update']);
 
     //search chat participants
     Route::apiResource('messages',ChatMessageController::class);
@@ -60,6 +64,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get("unread-messages",[ChatMessageController::class, "UnreadMessages"]);
     Route::post("seen-messages/{senderId}",[ChatMessageController::class, "SeenMessages"]);
     Route::get("message/receiver/{receiverId}",[ChatMessageController::class, "MessageReceiver"]);
+
+    //advertisement
+    Route::apiResource("advertisements",AdvertisementController::class);
+    Route::apiResource("why-travels",WhyTravelController::class);
+    Route::apiResource("testimonial",TestimonialController::class);
 });
 
 Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){

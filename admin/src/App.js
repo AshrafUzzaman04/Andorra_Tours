@@ -130,6 +130,15 @@ import ServicesEdit from "pages/Theme/Services/ServicesEdit";
 import CategorySliderIndex from "pages/Theme/CategorySlider/CategorySliderIndex";
 import CategorySliderCreate from "pages/Theme/CategorySlider/CategorySliderCreate";
 import CategorySliderEdit from "pages/Theme/CategorySlider/CategorySliderEdit";
+import AdvertisementIndex from "pages/Theme/Advertisement/AdvertisementIndex";
+import AdvertisementCreate from "pages/Theme/Advertisement/AdvertisementCreate";
+import AdvertisementEdit from "pages/Theme/Advertisement/AdvertisementEdit";
+import WhyTravelIndex from "pages/Theme/WhyTravel/WhyTravelIndex";
+import WhyTravelCreate from "pages/Theme/WhyTravel/WhyTravelCreate";
+import WhyTravelEdit from "pages/Theme/WhyTravel/WhyTravelEdit";
+import TestimonialsIndex from "pages/Theme/Testimonials/TestimonialsIndex";
+import TestimonialsCreate from "pages/Theme/Testimonials/TestimonialsCreate";
+import TestimonialsEdit from "pages/Theme/Testimonials/TestimonialsEdit";
 
 
 function App() {
@@ -262,6 +271,22 @@ function App() {
                                 <Route path="theme-customization/category-slider" element={<CategorySliderIndex />} />
                                 <Route path="theme-customization/category-slider/create" element={<CategorySliderCreate />} />
                                 <Route path="theme-customization/category-slider/:id/edit" element={<CategorySliderEdit />} />
+
+
+                                <Route path="theme-customization/advertisement" element={<AdvertisementIndex />} />
+                                <Route path="theme-customization/advertisement/create" element={<AdvertisementCreate />} />
+                                <Route path="theme-customization/advertisement/:id/edit" element={<AdvertisementEdit />} />
+
+
+                                <Route path="theme-customization/why-travels" element={<WhyTravelIndex />} />
+                                <Route path="theme-customization/why-travels/create" element={<WhyTravelCreate />} />
+                                <Route path="theme-customization/why-travels/:id/edit" element={<WhyTravelEdit />} />
+
+                                <Route path="theme-customization/testimonials" element={<TestimonialsIndex />} />
+                                <Route path="theme-customization/testimonials/create" element={<TestimonialsCreate />} />
+                                <Route path="theme-customization/testimonials/:id/edit" element={<TestimonialsEdit />} />
+
+
                                 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />

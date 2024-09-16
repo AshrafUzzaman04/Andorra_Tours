@@ -57,6 +57,7 @@ class CardCategoryController extends Controller
      */
     public function update(CardCategoryUpdate $request, CardCategory $cardCategory)
     {
+        //dd($cardCategory);
         $data = $request->only(["top_title","top_sub_title","title","sub_title","link","status"]);
         if($request->hasFile("image")){
             $expolde = explode("/",$cardCategory->image);

@@ -16,7 +16,6 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd("dd");
         if(!Auth::guard('sanctum')->check()){
             return response()->json(['message' => 'Unauthorized'], 401);
         }

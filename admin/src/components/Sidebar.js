@@ -86,6 +86,25 @@ return (
                         </div>
                     </li>
 
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#section" className={nowDrop === 'section' ? activeClassName : navClassName} aria-controls="section" role="button" aria-expanded={nowDrop === 'section'}>
+                            <i className="fa-solid fa-newspaper icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Sections')}</span>
+                        </a>
+                        <div className={nowDrop === 'section' ? dropdownClassShow : dropdownClass} id="section">
+                            <ul className="nav ms-4 ps-3">
+                                    <>
+                                        <li className="nav-item">
+                                            <NavLink to="/section/category" onClick={(e) => setNowDrop('section')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Sections Title')}</span>
+                                            </NavLink>
+                                        </li>
+                                    </>
+                            </ul>
+                        </div>
+                    </li>
+
+                    
 
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#theme-customization" className={nowDrop === 'theme-customization' ? activeClassName : navClassName} aria-controls="theme-customization" role="button" aria-expanded={nowDrop === 'theme-customization'}>
@@ -138,8 +157,8 @@ return (
                                         </li>
 
                                         <li className="nav-item">
-                                            <NavLink to="/theme-customization/easy-payments" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Easy Payments')}</span>
+                                            <NavLink to="/theme-customization/advertisement" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Advertisement')}</span>
                                             </NavLink>
                                         </li>
 
@@ -154,22 +173,49 @@ return (
                                                 <span className="sidenav-normal">{t('Testimonials')}</span>
                                             </NavLink>
                                         </li>
-
+                                    </>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#footer" className={nowDrop === 'footer' ? activeClassName : navClassName} aria-controls="footer" role="button" aria-expanded={nowDrop === 'footer'}>
+                            <i className="fa-solid fa-copyright icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Footer')}</span>
+                        </a>
+                        <div className={nowDrop === 'footer' ? dropdownClassShow : dropdownClass} id="footer">
+                            <ul className="nav ms-4 ps-3">
+                                    <>
                                         <li className="nav-item">
-                                            <NavLink to="/theme-customization/tips-guides" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Tips Guides')}</span>
+                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer Details')}</span>
                                             </NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink to="/theme-customization/footer" onClick={(e) => setNowDrop('theme-customization')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer')}</span>
+                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer Page Title')}</span>
+                                            </NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer Pages')}</span>
+                                            </NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer Partners')}</span>
+                                            </NavLink>
+                                        </li>
+
+                                        <li className="nav-item">
+                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Footer Social Links')}</span>
                                             </NavLink>
                                         </li>
                                     </>
                             </ul>
                         </div>
                     </li>
-
                     
 
                    

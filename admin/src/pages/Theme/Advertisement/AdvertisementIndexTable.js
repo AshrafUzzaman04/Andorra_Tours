@@ -5,7 +5,7 @@ import DataTable from 'react-data-table-component';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
 
-function WhyTravelIndexTable() {
+function AdvertisementIndexTable() {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -19,41 +19,38 @@ function WhyTravelIndexTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/theme-customization/why-travels/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/theme-customization/advertisement/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
-      name: t('Image'),
-      width: "200px",
+      name: t('Images'),
       sortable: true,
       reorder: true,
       selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '600px' }}>
-        <div className="col-2 pe-0">
-          <img className="avatar avatar-sm" src={row?.logo ? process.env.REACT_APP_STORAGE_URL + row?.logo : '/assets/img/placeholder.png'} alt="photo" />
+        <div className="col-6 pe-0 mb-1">
+          <img className="avatar avatar-sm" src={row?.image_one ? process.env.REACT_APP_STORAGE_URL + row?.image_one : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm ms-1" src={row?.image_two ? process.env.REACT_APP_STORAGE_URL + row?.image_two : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm ms-1" src={row?.image_three ? process.env.REACT_APP_STORAGE_URL + row?.image_three : '/assets/img/placeholder.png'} alt="photo" />
+        </div>
+        <div className="col-12 pe-0">
+          <img className="avatar avatar-sm" src={row?.image_four ? process.env.REACT_APP_STORAGE_URL + row?.image_four : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm ms-1" src={row?.image_five ? process.env.REACT_APP_STORAGE_URL + row?.image_five : '/assets/img/placeholder.png'} alt="photo" />
         </div>
       </div>
     },
     {
-      name: t('Title'),
-      sortable: true,
-      reorder: true,
-      selector: row => row.title
+        name: t('Title'),
+        sortable: true,
+        reorder: true,
+        selector: row => row.title
     },
+
     {
-      name: t('Background Color'),
+      name: t('Button Text'),
       sortable: true,
       reorder: true,
-      selector: row => <div className='rounded shadow'>
-        <div
-        style={{
-          width: '40px',
-          height: '40px',
-          backgroundColor: row.background_color,
-          border: '1px solid rgba(255, 255, 255,255)',
-          display: 'inline-block',
-        }}
-      ></div>
-      </div>
+      selector: row => row.button_text
     },
+    
     {
       name: t('Status'),
       sortable: true,
@@ -71,19 +68,19 @@ function WhyTravelIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
-            <NavLink to={'/theme-customization/why-travels/' + row.id + '/edit'} className="dropdown-item">
+            <NavLink to={'/theme-customization/advertisement/' + row.id + '/edit'} className="dropdown-item">
               {t('Edit')}
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'why-travels', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'advertisements', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    callFetch("why-travels?page=" + pageNumber, "GET", []).then((res) => {
+    callFetch("advertisements?page=" + pageNumber, "GET", []).then((res) => {
       setData(res.data)
     });
   }, [pageNumber, refresh]);
@@ -202,5 +199,4 @@ function WhyTravelIndexTable() {
     subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />}
   />;
 }
-
-export default WhyTravelIndexTable
+export default AdvertisementIndexTable 
