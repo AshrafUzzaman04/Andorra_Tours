@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import InveranoIndexTable from "./InveranoIndexTable";
+import HeadingInverano from "./Heading/HeadingInverano";
 
 function InveranoIndex() {
     const { t } = useTranslation();
@@ -18,6 +19,7 @@ function InveranoIndex() {
                     </NavLink>
                 </div>
             </div>
+            <HeadingInverano/>
             <div className="row">
                 <div className="col-12">
                     <div className="card mb-4">

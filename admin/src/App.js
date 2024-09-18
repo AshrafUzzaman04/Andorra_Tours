@@ -139,6 +139,15 @@ import WhyTravelEdit from "pages/Theme/WhyTravel/WhyTravelEdit";
 import TestimonialsIndex from "pages/Theme/Testimonials/TestimonialsIndex";
 import TestimonialsCreate from "pages/Theme/Testimonials/TestimonialsCreate";
 import TestimonialsEdit from "pages/Theme/Testimonials/TestimonialsEdit";
+import FooterDetails from "pages/Footer/FooterDetails";
+import FooterPageTitle from "pages/Footer/FooterPageTitle";
+import FooterPages from "pages/Footer/FooterPages";
+import FooterPartners from "pages/Footer/FooterPartners";
+import FooterSocialLinks from "pages/Footer/FooterSocialLinks";
+import PageTitleCreate from "pages/Footer/PageTitle/PageTitleCreate";
+import PageCategoryEdit from "pages/Footer/PageTitle/PageCategoryEdit";
+import PagesCreate from "pages/Footer/Pages/PagesCreate";
+import PagesEdit from "pages/Footer/Pages/PagesEdit";
 
 
 function App() {
@@ -285,6 +294,25 @@ function App() {
                                 <Route path="theme-customization/testimonials" element={<TestimonialsIndex />} />
                                 <Route path="theme-customization/testimonials/create" element={<TestimonialsCreate />} />
                                 <Route path="theme-customization/testimonials/:id/edit" element={<TestimonialsEdit />} />
+
+
+
+                                <Route path="footer/details" element={<FooterDetails />} />
+
+                                <Route path="footer/page-category" element={<FooterPageTitle />} />
+                                <Route path="footer/page-category/create" element={<PageTitleCreate />} />
+                                <Route path="footer/page-category/:id/edit" element={<PageCategoryEdit />} />
+
+                                <Route path="footer/pages" element={<FooterPages />} />
+                                <Route path="footer/pages/create" element={<PagesCreate />} />
+                                <Route path="footer/pages/:id/edit" element={<PagesEdit />} />
+
+                                <Route path="footer/partners" element={<FooterPartners />} />
+                                <Route path="footer/social-links" element={<FooterSocialLinks />} />
+
+
+
+
 
 
                                 

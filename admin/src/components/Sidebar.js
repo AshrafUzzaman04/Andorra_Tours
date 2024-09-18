@@ -187,29 +187,29 @@ return (
                             <ul className="nav ms-4 ps-3">
                                     <>
                                         <li className="nav-item">
-                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer Details')}</span>
+                                            <NavLink to="/footer/details" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Details')}</span>
                                             </NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer Page Title')}</span>
+                                            <NavLink to="/footer/page-category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Page Category')}</span>
                                             </NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer Pages')}</span>
+                                            <NavLink to="/footer/pages" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Pages')}</span>
                                             </NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer Partners')}</span>
+                                            <NavLink to="/footer/partners" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Partners')}</span>
                                             </NavLink>
                                         </li>
 
                                         <li className="nav-item">
-                                            <NavLink to="/footer/category" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                                <span className="sidenav-normal">{t('Footer Social Links')}</span>
+                                            <NavLink to="/footer/social-links" onClick={(e) => setNowDrop('footer')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                                <span className="sidenav-normal">{t('Social Links')}</span>
                                             </NavLink>
                                         </li>
                                     </>

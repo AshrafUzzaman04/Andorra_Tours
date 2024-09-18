@@ -22,9 +22,32 @@ import "react-quill/dist/quill.snow.css";
 import SoftEditorRoot from "components/SoftEditor/SoftEditorRoot";
 
 function SoftEditor(props) {
+  const modules = {
+    toolbar: [
+      [{ 'font': [] }],                        // Font family
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],  // Header levels
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // Font size
+      ['bold', 'italic', 'underline', 'strike'],        // Text formatting
+      [{ 'color': [] }, { 'background': [] }],          // Text and background color
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // Subscript / Superscript
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],     // Lists
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // Indent/Outdent
+      [{ 'align': [] }],                               // Text alignment
+      ['blockquote', 'code-block'],                    // Blockquote and code block
+      ['link', 'image', 'video'],                      // Links, images, and videos
+      ['clean']                                        // Clear formatting
+    ],
+  };
+
+  // Define the formats (all formatting options supported in the editor)
+  const formats = [
+    'font', 'header', 'size', 'bold', 'italic', 'underline', 'strike', 
+    'color', 'background', 'script', 'list', 'bullet', 'indent', 
+    'align', 'blockquote', 'code-block', 'link', 'image', 'video'
+  ];
   return (
     <SoftEditorRoot>
-      <ReactQuill theme="snow" {...props} />
+      <ReactQuill modules={modules} formats={formats} theme="snow" {...props} />
     </SoftEditorRoot>
   );
 }

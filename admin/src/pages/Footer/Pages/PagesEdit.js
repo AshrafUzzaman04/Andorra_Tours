@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
-
-const FooterDetails = () => {
-  const [editorValue, setEditorValue] = useState("");
+import SoftEditor from "components/SoftEditor";
+const PagesEdit = () => {
+  const params = useParams();
+  const [categories, setCategories] = useState([]);
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [title, setTitle] = useState([{ title: "" }]);
+  const [editorContent, setEditorContent] = useState("");
   const {
     register,
     handleSubmit,
@@ -18,33 +20,45 @@ const FooterDetails = () => {
     setValue,
     formState: { errors },
   } = useForm();
+
+
   useEffect(() => {
-    callFetch("footer-details", "GET", []).then((res) => {
-      if (res.data){
-        for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "image" && key !== "tag") {
-            setValue(key, value);
-          }
-  
-        }
-      }
+    callFetch("page-categories/", "GET", []).then((res) => {
+      setCategories(res?.data)
     });
-  }, [submitSuccess]);
-  
+  }, [0]);
+
+  const handleEditorChange = (content) => {
+    setEditorContent(content);
+  };
+
+  useEffect(() => {
+    if (params?.id) {
+      callFetch("footer-pages/" + params.id, "GET", []).then((res) => {
+        setEditorContent(res.data?.content)
+        for (let [key, value] of Object.entries(res.data)) {
+          setValue(key, value);
+        }
+      });
+    }
+  }, [params?.id]);
+
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("footer-details", "POST", formData, setError).then((res) => {
+    formData.content = editorContent
+    callFetch("footer-pages/" + params.id, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);
     });
   };
-  return(
+
+  return submitSuccess ? <Navigate to="/footer/pages" /> : (
     <div className="row">
       <div className="col-12">
         <div className="card mb-4">
           <div className="card-header pb-0">
-            <h6>{t("Footer Details")}</h6>
+            <h6>{t("Create Page Category")}</h6>
           </div>
           <div className="card-body">
             <form
@@ -54,37 +68,49 @@ const FooterDetails = () => {
               noValidate
               autoComplete="off"
             >
-              {/* top_sub_title */}
+              <input type="hidden" defaultValue="PUT" {...register("_method")} />
               <div className="row g-3">
                 <div className="col-md-4">
-                  <label>{t("Location")} *</label>
-                  <input
-                    type="text"
-                    className="form-control mb-4"
-                    placeholder={t("AD500, Andorra la Vella, la Margineda")}
-                    {...register("location")}
-                  />
+                  <label>{t("Categories")} *</label>
+                  <select
+                    class="form-control"
+                    {...register("category", { required: true })}
+                    required
+                  >
+                    <option value="">--Selecte--</option>
+                    {
+                      categories && categories?.map((category, index) => (
+                        <option key={index} value={category?.id}>{category?.category_name}</option>
+
+                      ))
+                    }
+                  </select>
                   <div className="invalid-feedback">
-                    {errors.location && errors.location.message}
+                    {errors.category && errors.category.message}
                   </div>
                 </div>
                 <div className="col-md-4">
-                  <label>{t("Schedule")} *</label>
+                  <label>{t("Page Name")} *</label>
                   <input
                     type="text"
                     className="form-control mb-4"
-                    placeholder={t("Hours: 8:00 - 17:00, Mon - Sat")}
-                    {...register("schedule")}
+                    placeholder={t("Page name")}
+                    {...register("page_name", {
+                      required: true,
+                    })}
+                    required
                   />
                   <div className="invalid-feedback">
-                    {errors.schedule && errors.schedule.message}
+                    {errors.page_name && errors.page_name.message}
                   </div>
                 </div>
+
                 <div className="col-md-4">
                   <label>{t("Status")} *</label>
                   <select
                     class="form-control"
-                    {...register("status")}
+                    {...register("status", { required: true })}
+                    required
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -95,55 +121,36 @@ const FooterDetails = () => {
                 </div>
               </div>
 
-              <div className="row g-3 mb-3">
-                <div className="col-md-6">
-                  <label>{t("Email")} *</label>
-                  <input type="text" className="form-control" placeholder={t("support@andorra.com")}
-                    {...register("email")} />
+              <div className="row g-3">
+                <div className="col-md-12">
+                  <label>{t("Page Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control mb-4"
+                    placeholder={t("Page title")}
+                    {...register("page_title", {
+                      required: true,
+                    })}
+                    required
+                  />
                   <div className="invalid-feedback">
-                    {errors.email && errors.email.message}
-                  </div>
-                </div>
-
-                <div className="col-md-6">
-                  <label>{t("Help Number")} *</label>
-                  <input type="text" className="form-control" placeholder="+37600000000"
-                    {...register("help_number")} />
-                  <div className="invalid-feedback">
-                    {errors.help_number && errors.help_number.message}
+                    {errors.page_title && errors.page_title.message}
                   </div>
                 </div>
 
               </div>
 
               <div className="row g-3">
-                <div className="col-md-6">
-                  <label>{t("Footer")} &copy; *</label>
-                  <input
-                    type="text"
-                    className="form-control mb-4"
-                    placeholder={t("Copyright © 2024 Tours Andorra. All Rights Reserved. Design by AD700 Management")}
-                    {...register("copyright", {
-                      required: true,
-                    })}
-                    required
-                  />
+                <div className="col-md-12">
+                  <label>{t("Content")} *</label>
+                  {/* <ReactQuill/> */}
+                  <SoftEditor value={editorContent}
+                    onChange={handleEditorChange} />
                   <div className="invalid-feedback">
-                    {errors.copyright && errors.copyright.message}
+                    {errors.content && errors.content.message}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <label>{t("Contact Title")} *</label>
-                  <input
-                    type="text"
-                    className="form-control mb-4"
-                    placeholder={t("Need help? Call us")}
-                    {...register("contact_title")}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.contact_title && errors.contact_title.message}
-                  </div>
-                </div>
+
               </div>
 
               <div className="col-12 mb-4 mt-3">
@@ -165,5 +172,4 @@ const FooterDetails = () => {
     </div>
   );
 };
-
-export default FooterDetails 
+export default PagesEdit

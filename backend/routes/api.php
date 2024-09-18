@@ -6,11 +6,15 @@ use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ChatMessageController;
+use App\Http\Controllers\Api\FooterDetailsController;
+use App\Http\Controllers\Api\FooterPageController;
 use App\Http\Controllers\Api\HeaderController;
 use App\Http\Controllers\Api\HeroController;
 use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
 use App\Http\Controllers\Api\OfferBannerController;
+use App\Http\Controllers\Api\PageCategoryController;
+use App\Http\Controllers\Api\SectionHeadingController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TestimonialController;
@@ -69,6 +73,15 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::apiResource("advertisements",AdvertisementController::class);
     Route::apiResource("why-travels",WhyTravelController::class);
     Route::apiResource("testimonial",TestimonialController::class);
+
+    Route::apiResource("footer-details",FooterDetailsController::class);
+    Route::apiResource("page-category",PageCategoryController::class);
+    Route::get("page-categories",[PageCategoryController::class, "pageCategories"]);
+
+    Route::apiResource("footer-pages",FooterPageController::class);
+
+    Route::post("section-heading",[SectionHeadingController::class,"store"]);
+    Route::get("section-heading/{heading_for}",[SectionHeadingController::class,"show"]);
 });
 
 Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
