@@ -148,6 +148,10 @@ import PageTitleCreate from "pages/Footer/PageTitle/PageTitleCreate";
 import PageCategoryEdit from "pages/Footer/PageTitle/PageCategoryEdit";
 import PagesCreate from "pages/Footer/Pages/PagesCreate";
 import PagesEdit from "pages/Footer/Pages/PagesEdit";
+import PartnerCreate from "pages/Footer/Partner/PartnerCreate";
+import PartnerEdit from "pages/Footer/Partner/PartnerEdit";
+import SocialLinksCreate from "pages/Footer/SocialLinks/SocialLinksCreate";
+import SocialLinksEdit from "pages/Footer/SocialLinks/SocialLinksEdit";
 
 
 function App() {
@@ -308,14 +312,16 @@ function App() {
                                 <Route path="footer/pages/:id/edit" element={<PagesEdit />} />
 
                                 <Route path="footer/partners" element={<FooterPartners />} />
+                                <Route path="footer/partners/create" element={<PartnerCreate />} />
+                                <Route path="footer/partners/:id/edit" element={<PartnerEdit />} />
+
                                 <Route path="footer/social-links" element={<FooterSocialLinks />} />
+                                <Route path="footer/social-links/create" element={<SocialLinksCreate />} />
+                                <Route path="footer/social-links/:id/edit" element={<SocialLinksEdit />} />
 
 
 
 
-
-
-                                
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />
                                 <Route path="human-resources/employees/:id/edit" element={<EmployeeEdit />} />

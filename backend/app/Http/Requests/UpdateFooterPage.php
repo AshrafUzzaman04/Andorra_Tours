@@ -21,9 +21,9 @@ class UpdateFooterPage extends FormRequest
     public function rules(): array
     {
         return [
-            "category" => "required|exists:page_categories,id," . $this->id,
-            "page_name" => "required|string|max:255|unique:footer_pages,page_name," . $this->id,
-            "page_title" => "nullable|string|max:255|unique:footer_pages,page_title," . $this->id,
+            "category" => "required",
+            "page_name" => "required|string|max:255|unique:footer_pages,page_name," . $this->footer_page->id,
+            "page_title" => "nullable|string|max:255|unique:footer_pages,page_title," . $this->footer_page->id,
             "content" => 'nullable|string',
             "status" => "required|in:Active,Inactive",
         ];

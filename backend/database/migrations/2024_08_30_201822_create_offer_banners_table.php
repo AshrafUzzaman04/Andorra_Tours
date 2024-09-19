@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('offer_banners', function (Blueprint $table) {
             $table->id();
-            $table->string("banner_title");
-            $table->string("banner_title_color");
+            $table->string("banner_title")->nullable();
+            $table->string("banner_title_color")->nullable();
             $table->string("button_text");
             $table->string("button_color");
             $table->string("button_text_color"); 

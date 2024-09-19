@@ -22,11 +22,11 @@ class OfferBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "banner_title" => "required",
-            "banner_title_color" => "required",
+            "banner_title" => "nullable",
+            "banner_title_color" => "nullable",
             "button_text" => "required",
             "button_color" => "required",
-            "button_text_color" => "required",
+            "button_text_color" => "required", 
             "button_link" => "required|url",
             "banner_image" => "required|image|mimes:jpg,jpeg,png,gif,svg|max:5048",
             "status" => "required|in:Active,Inactive",

@@ -12,4 +12,9 @@ class PageCategory extends Model
         'category_name',
         'status'
     ];
+
+    public function pages()
+    {
+        return $this->hasMany(FooterPage::class, "category");
+    }
 }

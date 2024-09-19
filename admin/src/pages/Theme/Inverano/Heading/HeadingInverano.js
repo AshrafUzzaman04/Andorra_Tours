@@ -19,13 +19,10 @@ const HeadingInverano = () => {
     formState: { errors },
   } = useForm();
   useEffect(() => {
-    callFetch("footer-details", "GET", []).then((res) => {
+    callFetch("section-heading/inverano", "GET", []).then((res) => {
       if (res.data){
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "image" && key !== "tag") {
-            setValue(key, value);
-          }
-  
+          setValue(key, value);
         }
       }
     });
@@ -33,7 +30,8 @@ const HeadingInverano = () => {
   
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("footer-details", "POST", formData, setError).then((res) => {
+    formData.heading_for = "inverano"
+    callFetch("section-heading", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);

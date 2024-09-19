@@ -71,7 +71,7 @@ class FooterPageController extends Controller
         // Validate and update the FooterPage
         $data = $request->validated();
         $footerPage->update($data);
-        return response()->json(["success" => true, "message" => "Footer page updated successfully"], 200);
+        return response()->json(["success" => true, "message" => "Footer page updated successfully",$footerPage], 200);
     }
 
     /**

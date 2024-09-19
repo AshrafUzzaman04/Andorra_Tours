@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWhyTravel;
 use App\Http\Requests\UpdateWhyTravel;
+use App\Models\SectionHeading;
 use App\Models\WhyTravel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +21,19 @@ class WhyTravelController extends Controller
         return response()->json(['success' => true, 'data' => $whyTravels]);
     }
 
+    public function getWhyTravels()
+    {
+        $heading = SectionHeading::where("heading_for", "why-travels")->get();
+        $whyTravels = WhyTravel::where("status", "Active")->get();
+        return response()->json([
+            'success' => true,
+            'data' => [
+                "heading" => $heading,
+                "whyTravels" => $whyTravels
+            ]
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -27,11 +41,11 @@ class WhyTravelController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile("logo")) {
-            $image = "storage/".$request->logo->store("WhyTravel");
+            $image = "storage/" . $request->logo->store("WhyTravel");
             $data['logo'] = $image;
         }
         WhyTravel::create($data);
-        return response()->json(["success" => true, "message"=> "Why Travel created successfully"],201);
+        return response()->json(["success" => true, "message" => "Why Travel created successfully"], 201);
     }
 
     /**
@@ -39,7 +53,7 @@ class WhyTravelController extends Controller
      */
     public function show(WhyTravel $whyTravel)
     {
-        return response()->json(["message" => "success", "data"=> $whyTravel],200);
+        return response()->json(["message" => "success", "data" => $whyTravel], 200);
     }
 
     /**
@@ -49,18 +63,18 @@ class WhyTravelController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile("logo")) {
-            if(!empty($whyTravel->logo)){
-                $expolde = explode("/",$whyTravel->logo);
-                $expoldePath = $expolde[1]."/".$expolde[2];
-                if(Storage::exists($expoldePath)){
+            if (!empty($whyTravel->logo)) {
+                $expolde = explode("/", $whyTravel->logo);
+                $expoldePath = $expolde[1] . "/" . $expolde[2];
+                if (Storage::exists($expoldePath)) {
                     Storage::delete($expoldePath);
                 }
-            } 
-            $image = "storage/".$request->logo->store("WhyTravel");
+            }
+            $image = "storage/" . $request->logo->store("WhyTravel");
             $data['logo'] = $image;
         }
         $whyTravel->update($data);
-        return response()->json(["success" => true, "message"=> "Why Travel created successfully"],201);
+        return response()->json(["success" => true, "message" => "Why Travel created successfully"], 201);
     }
 
     /**
@@ -68,14 +82,14 @@ class WhyTravelController extends Controller
      */
     public function destroy(WhyTravel $whyTravel)
     {
-        if(!empty($whyTravel->logo)){
-            $expolde = explode("/",$whyTravel->logo);
-            $expoldePath = $expolde[1]."/".$expolde[2];
-            if(Storage::exists($expoldePath)){
+        if (!empty($whyTravel->logo)) {
+            $expolde = explode("/", $whyTravel->logo);
+            $expoldePath = $expolde[1] . "/" . $expolde[2];
+            if (Storage::exists($expoldePath)) {
                 Storage::delete($expoldePath);
             }
-        } 
+        }
         $whyTravel->delete();
-        return response()->json(["success" => true, "message"=> "Advertisement deleted successfully"],200);
+        return response()->json(["success" => true, "message" => "Advertisement deleted successfully"], 200);
     }
 }

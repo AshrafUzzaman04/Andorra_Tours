@@ -21,6 +21,13 @@ class AdvertisementController extends Controller
         return response()->json(["message" => "success", "data"=> $vadvertisements],200);
     }
 
+
+    public function getAdvertisement()
+    {
+        $vadvertisements = Advertisement::where("status", "Active")->get();
+        return response()->json(["message" => "success", "data"=> $vadvertisements],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

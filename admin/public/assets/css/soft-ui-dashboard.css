@@ -3581,11 +3581,11 @@ fieldset:disabled .btn {
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
     color: #fff;
-    background-color: #c5e318;
+    background-color: #33416E;
     /* border-color: #a20a7f; */
-    border-color: #a5c212 !important;
+    border-color: #33416E !important;
     /* box-shadow: 0 0 0 0.2rem rgba(211, 48, 173, 0.5); */
-    box-shadow: 0 0 0 0.2rem rgba(208, 221, 140, 0.5);
+    box-shadow: #33416E;
 }
 
 .btn-check:checked+.btn-primary,

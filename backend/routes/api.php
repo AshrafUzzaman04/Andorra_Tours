@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ChatMessageController;
+use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\FooterDetailsController;
 use App\Http\Controllers\Api\FooterPageController;
 use App\Http\Controllers\Api\HeaderController;
@@ -14,8 +15,10 @@ use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\PageCategoryController;
+use App\Http\Controllers\Api\PartnersController;
 use App\Http\Controllers\Api\SectionHeadingController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\SocialLinksController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\UserController;
@@ -79,9 +82,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get("page-categories",[PageCategoryController::class, "pageCategories"]);
 
     Route::apiResource("footer-pages",FooterPageController::class);
+    Route::apiResource("footer-partners",PartnersController::class);
+    Route::apiResource("footer-social-link",SocialLinksController::class);
 
     Route::post("section-heading",[SectionHeadingController::class,"store"]);
     Route::get("section-heading/{heading_for}",[SectionHeadingController::class,"show"]);
+
+    //footer
 });
 
 Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
@@ -92,6 +99,10 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("promotions",[OfferBannerController::class, 'Promotion']);
     Route::get("services",[ServiceController::class, 'Services']);
     Route::get("cardCategory",[CardCategoryController::class, 'cardCategory']);
+    Route::get("advertisements",[AdvertisementController::class,"getAdvertisement"]);
+    Route::get("why-travels",[WhyTravelController::class,"getWhyTravels"]);
+    Route::get("testimonials",[TestimonialController::class,"getTestimonials"]);
+    Route::get("footer",[FooterController::class,"index"]);
     
 });
 // Route::get('/user', function (Request $request) {

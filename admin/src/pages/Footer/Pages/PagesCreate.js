@@ -22,7 +22,7 @@ const PagesCreate = () => {
   } = useForm();
 
   useEffect(() => {
-    callFetch("page-categories/", "GET", []).then((res) => {
+    callFetch("page-categories", "GET", []).then((res) => {
       setCategories(res?.data)
     });
   }, [0]);
