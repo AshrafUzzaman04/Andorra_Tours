@@ -12,7 +12,7 @@ import PopupSignup from '../PopupSignup'
 const ThemeSwitch = dynamic(() => import('@/components/elements/ThemeSwitch'), {
 	ssr: false,
 })
-export default function Header1({data}: {data:any}) {
+export default function Header1({ data }: { data: any }) {
 	const [scroll, setScroll] = useState<boolean>(false)
 	// MobileMenu
 	const [isMobileMenu, setMobileMenu] = useState<boolean>(false)
@@ -72,28 +72,26 @@ export default function Header1({data}: {data:any}) {
 				<div className="container-fluid background-body">
 					<div className="main-header">
 						<div className="header-left">
-							<div className="header-logo"><Link className="d-flex" href="/"><img className="light-mode" alt="Travila" src={process?.env?.NEXT_PUBLIC_STORAGE_URL+data?.header?.light_logo} /><img className="dark-mode" alt="Travila" src={process?.env?.NEXT_PUBLIC_STORAGE_URL+data?.header?.dark_logo} /></Link></div>
+							<div className="header-logo"><Link className="d-flex" href="/"><img className="light-mode" alt="light-logo" src={process?.env?.NEXT_PUBLIC_STORAGE_URL + data?.header?.light_logo} /><img className="dark-mode" alt="dark-logo" src={process?.env?.NEXT_PUBLIC_STORAGE_URL + data?.header?.dark_logo} /></Link></div>
 							<div className="header-nav">
 								<nav className="nav-main-menu">
 									<ul className="main-menu">
-										
 										{
 											data?.categories?.map((category: any, index: number) => (
 												category?.sub?.length === 0 ?
-												<li key={index}><Link href={category?.link}>{category?.category_name}</Link></li>:
-												<li key={index} className="has-children"><Link href="/blog">{category?.category_name}</Link>
-													<ul className="sub-menu">
-														{
-															category?.sub?.map((subCat: any, index: any) =>(
-																<li key={index}><Link href={subCat?.link}>{subCat?.sub_category_name}</Link></li>
-															))
-														}
-													</ul>
-												</li>
+													<li key={index}><Link href={category?.link}>{category?.category_name}</Link></li> :
+													<li key={index} className="has-children"><Link href="/blog">{category?.category_name}</Link>
+														<ul className="sub-menu">
+															{
+																category?.sub?.map((subCat: any, index: any) => (
+																	<li key={index}><Link href={subCat?.link}>{subCat?.sub_category_name}</Link></li>
+																))
+															}
+														</ul>
+													</li>
 											))
 										}
 
-										
 									</ul>
 								</nav>
 							</div>
@@ -107,19 +105,20 @@ export default function Header1({data}: {data:any}) {
 
 							</div>
 							{data?.header?.show_signin_button === 1 &&
-							<div className="burger-icon-2 burger-icon-white" onClick={handleSidebar}>
-								<img src="/assets/imgs/template/icons/menu.svg" alt="Travila" />
-							</div>}
+								<div className="burger-icon-2 burger-icon-white" onClick={handleSidebar}>
+									<img src="/assets/imgs/template/icons/menu.svg" alt="Travila" />
+								</div>}
 							<div className="burger-icon burger-icon-white" onClick={handleMobileMenu}>
 								<span className="burger-icon-top" />
 								<span className="burger-icon-mid" />
 								<span className="burger-icon-bottom" />
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</header>
-			<MobileMenu isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} />
+			<MobileMenu data={data} isMobileMenu={isMobileMenu} handleMobileMenu={handleMobileMenu} />
 			<Sidebar isSidebar={isSidebar} handleSidebar={handleSidebar} />
 			<PopupSignin
 				isLogin={isLogin}

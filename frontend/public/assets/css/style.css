@@ -14987,7 +14987,7 @@ h2 span {
     display: none;
   }
   .burger-icon {
-    top: 0px;
+    top: -20px;
   }
   .box-grid-hotels .card-flight .card-facilities .list-tick-green li {
     width: 50%;
