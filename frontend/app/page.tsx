@@ -9,6 +9,7 @@ import MasterLayout from "@/components/layout/MasterLayout";
 import HotelesTopRated from "@/components/sections/HotelsTopRated";
 import Iframe from "@/components/sections/Iframe";
 import Testimonial from "@/components/sections/Testimonial";
+import Promotion from "@/components/sections/Promotion";
 
 export default function Home() {
   return (
@@ -21,7 +22,8 @@ export default function Home() {
         <Banner />
         <ExclusiveService />
         <HotelesTopRated />
-        <Payments2 />
+        {/* <Payments2 /> */}
+        <Promotion/>
         <WhyTravelUs />
         <Testimonial />
       </MasterLayout>

@@ -1,7 +1,27 @@
 "use client"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
-export default function Payments2() {
+export interface PromotionData {
+    id: number;
+    banner_color: string;
+    button_text: string;
+    button_text_color: string;
+    button_link: string;
+    title: string;
+    description: string;
+    image_one: string;
+    image_two: string;
+    image_three: string;
+    image_four: string;
+    image_five: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+}
+export interface PromotionDataTypes {
+    promotionData: PromotionData[];
+}
+export default function Payments2({ promotionData }: PromotionDataTypes) {
     return (
         <>
 
@@ -9,78 +29,67 @@ export default function Payments2() {
                 <div className="container-slider box-swiper-padding">
                     <div className="container overflow-hidden">
                         <Swiper {...swiperGroupAnimate}>
-                            <SwiperSlide>
-                                <div className="box-payment-style-2 background-4">
-                                    <div className="row align-items-center">
-                                        <div className="col-lg-6 mb-30">
-                                            <div className="box-left-payment"><span className="btn btn-tag-white">Easy payment</span>
-                                                <h4 className="mb-25 mt-20 neutral-1000">Luxury Travel Redefined: Your Passport to Global
-                                                    Glamour</h4>
-                                                <p className="text-xl-medium neutral-500 mb-35">Discover how you can offset your adventure's
-                                                    carbon emissions and support the sustainable initiatives practiced by our operators
-                                                    worldwide.</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="box-image-payment-2">
-                                                <div className="row align-items-center">
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment2.png" alt="Travila" /><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment3.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment4.png" alt="Travila" /><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment5.png" alt="Travila" /></div>
+                            {
+                                promotionData && promotionData?.map((promotion, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className={`box-payment-style-2 light-mode`} style={{backgroundColor:promotion?.banner_color}}>
+                                            <div className="row align-items-center">
+                                                <div className="col-lg-6 mb-30">
+                                                    <div className="box-left-payment"><span className="btn btn-tag-white">{promotion?.button_text}</span>
+                                                        <h4 className="mb-25 mt-20 neutral-1000">{promotion?.title}</h4>
+                                                        <p className="text-xl-medium neutral-500 mb-35">{promotion?.description}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6">
+                                                    <div className="box-image-payment-2">
+                                                        <div className="row align-items-center">
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_one} alt="image-one" />
+                                                            </div>
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_two} alt="image_two" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_three} alt="image_three" />
+                                                            </div>
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_four} alt="image_four" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_five} alt="image_five" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="box-payment-style-2 background-4">
-                                    <div className="row align-items-center">
-                                        <div className="col-lg-6 mb-30">
-                                            <div className="box-left-payment"><span className="btn btn-tag-white">Easy payment</span>
-                                                <h4 className="mb-25 mt-20 neutral-1000">Luxury Travel Redefined: Your Passport to Global
-                                                    Glamour</h4>
-                                                <p className="text-xl-medium neutral-500 mb-35">Discover how you can offset your adventure's
-                                                    carbon emissions and support the sustainable initiatives practiced by our operators
-                                                    worldwide.</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="box-image-payment-2">
-                                                <div className="row align-items-center">
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment2.png" alt="Travila" /><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment3.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment4.png" alt="Travila" /><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment5.png" alt="Travila" /></div>
+                                        <div className={`box-payment-style-2 dark-mode background-${index+1}`}>
+                                            <div className="row align-items-center">
+                                                <div className="col-lg-6 mb-30">
+                                                    <div className="box-left-payment"><span className="btn btn-tag-white">{promotion?.button_text}</span>
+                                                        <h4 className="mb-25 mt-20 neutral-1000">{promotion?.title}</h4>
+                                                        <p className="text-xl-medium neutral-500 mb-35">{promotion?.description}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6">
+                                                    <div className="box-image-payment-2">
+                                                        <div className="row align-items-center">
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_one} alt="image-one" />
+                                                            </div>
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_two} alt="image_two" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_three} alt="image_three" />
+                                                            </div>
+                                                            <div className="col-sm-4 mb-30">
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_four} alt="image_four" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_five} alt="image_five" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="box-payment-style-2 background-4">
-                                    <div className="row align-items-center">
-                                        <div className="col-lg-6 mb-30">
-                                            <div className="box-left-payment"><span className="btn btn-tag-white">Easy payment</span>
-                                                <h4 className="mb-25 mt-20 neutral-1000">Luxury Travel Redefined: Your Passport to Global
-                                                    Glamour</h4>
-                                                <p className="text-xl-medium neutral-500 mb-35">Discover how you can offset your adventure's
-                                                    carbon emissions and support the sustainable initiatives practiced by our operators
-                                                    worldwide.</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="box-image-payment-2">
-                                                <div className="row align-items-center">
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment2.png" alt="Travila" /><img className="bdrd8 w-100 mb-15" src="/assets/imgs/page/homepage2/payment3.png" alt="Travila" /></div>
-                                                    <div className="col-sm-4 mb-30"><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment4.png" alt="Travila" /><img className="bdrd8 w-100" src="/assets/imgs/page/homepage2/payment5.png" alt="Travila" /></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
+                                    </SwiperSlide>
+                                ))
+                            }
+
                         </Swiper>
                     </div>
                 </div>

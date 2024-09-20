@@ -17,11 +17,20 @@ export interface HotelesDataItems {
     updated_at: string;
 }
 
-export interface TopRatedHotelsTypes {
-    data: HotelesDataItems[]
+export interface HeadingDataItem {
+    id: number;
+    heading_for: string;
+    heading: string;
+    sub_heading: string;
 }
 
-export default function TopRatedHotels({ data }: TopRatedHotelsTypes) {
+
+export interface TopRatedHotelsTypes {
+    data: HotelesDataItems[]
+    headingData: HeadingDataItem
+}
+
+export default function TopRatedHotels({ data, headingData }: TopRatedHotelsTypes) {
     return (
         <>
 
@@ -29,9 +38,8 @@ export default function TopRatedHotels({ data }: TopRatedHotelsTypes) {
                 <div className="container">
                     <div className="row align-items-end">
                         <div className="col-md-9">
-                            <h2 className="neutral-1000">Leo que no te puedes perdert</h2>
-                            <p className="text-xl-medium neutral-500">Quality as judged by customers. Book at the ideal price!
-                            </p>
+                        {headingData?.heading && <h2 className="neutral-1000">{headingData?.heading}</h2>}
+                        {headingData?.heading && <p className="text-xl-medium neutral-500">{headingData?.sub_heading}</p>}
                         </div>
                         <div className="col-md-3 position-relative mb-30">
                             <div className="box-button-slider box-button-slider-team justify-content-end">

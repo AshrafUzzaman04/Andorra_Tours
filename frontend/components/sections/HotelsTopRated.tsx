@@ -2,11 +2,13 @@ import Axios from "@/helper/axios";
 import TopRatedHotels from "./TopRatedHotels";
 const hotelData = async () => {
     const res = await Axios.get("/cardCategory")
-    return res?.data?.data
+    const data = res?.data?.data
+    const heading = res?.data?.heading
+    return {data, heading}
 };
 export default async function HotelesTopRated(){
-    const data = await hotelData();
+    const {data,heading} = await hotelData();
     return (
-        <TopRatedHotels data={data}/>
+        <TopRatedHotels data={data} headingData={heading}/>
     )
 }

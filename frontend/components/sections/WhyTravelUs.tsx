@@ -1,3 +1,4 @@
+"use server"
 import Fetch from "@/helper/Fetch";
 import Link from "next/link"
 export interface whyTravel {

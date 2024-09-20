@@ -2,8 +2,6 @@
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
-import CategoryFilter from '../elements/CategoryFilter'
-import { useEffect, useState } from "react"
 
 export interface VeranoDataItem {
     id: number;
@@ -20,11 +18,20 @@ export interface VeranoDataItem {
     updated_at: string;
 }
 
+export interface HeadingDataItem {
+    id: number;
+    heading_for: string;
+    heading: string;
+    sub_heading: string;
+}
+
 // Define the prop type for your component
 export interface ExperienceVeranoSliderProps {
     veranoData: VeranoDataItem[];
+    headingData: HeadingDataItem;
 }
-export default function ExperienceVeranoSlider({ veranoData }: ExperienceVeranoSliderProps) {
+
+export default function ExperienceVeranoSlider({ veranoData ,headingData }: ExperienceVeranoSliderProps) {
     return (
         <>
 
@@ -32,8 +39,8 @@ export default function ExperienceVeranoSlider({ veranoData }: ExperienceVeranoS
                 <div className="container">
                     <div className="row align-items-end">
                         <div className="col-12 col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
-                            <h2 className="neutral-1000 text-center">Experience DE Verano</h2>
-                            <p className="text-xl-medium neutral-500 text-center">Explore the world by multi adventure activities</p>
+                            {headingData?.heading && <h2 className="neutral-1000 text-center">{headingData?.heading}</h2>}
+                            {headingData?.heading && <p className="text-xl-medium neutral-500 text-center">{headingData?.sub_heading}</p>}
                         </div>
                     </div>
                 </div>

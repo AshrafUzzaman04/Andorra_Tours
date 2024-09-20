@@ -2,11 +2,13 @@ import ExperienceVeranoSlider from "../slider/ExperienceVeranoSlider";
 import Axios from "@/helper/axios";
 const getVeranoData = async () =>{
     const res = await Axios.get("/verano");
-    return res?.data?.data || [];
+    const veranoData = res?.data?.data;
+    const heading = res?.data?.heading;
+    return {veranoData, heading};
 }
 export async function ExperienceVerano(){
-    const veranoData = await getVeranoData();
+    const {veranoData,heading} = await getVeranoData();
     return (
-        <ExperienceVeranoSlider veranoData={veranoData}/>
+        <ExperienceVeranoSlider veranoData={veranoData} headingData={heading}/>
     )
 }

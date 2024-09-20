@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CardCategoryStore;
 use App\Http\Requests\CardCategoryUpdate;
 use App\Models\CardCategory;
+use App\Models\SectionHeading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,8 +23,9 @@ class CardCategoryController extends Controller
 
     public function cardCategory()
     {
+        $heading = SectionHeading::where("heading_for", "servcios-exclusivos")->first();
         $cardCategories = CardCategory::where("status", "Active")->get();
-        return response()->json(["message" => "success", "data" => $cardCategories]);
+        return response()->json(["message" => "success", "data" => $cardCategories, 'heading' => $heading],200);
     }
     /**
      * Store a newly created resource in storage.

@@ -4,16 +4,18 @@ import Link from 'next/link'
 import React from 'react'
 const getData = async () => {
     const res = await Fetch.get("/services")
-    return res?.data?.data
+    const services = res?.data?.data;
+    const heading = res?.data?.heading;
+    return {services,heading}
 }
 const ExclusiveService = async () => {
-    const services = await getData();
+    const {services,heading} = await getData();
     return (
         <section className="section-box box-top-search-destination background-body">
             <div className="container">
                 <div className="text-center wow fadeInUp">
-                    <h2 className="neutral-1000 wow fadeInUp">SERVCIOS EXCLUSIVOS</h2>
-                    <p className="text-xl-medium neutral-500 wow fadeInUp">Top Categories of Tours</p>
+                {heading?.heading && <h2 className="neutral-1000 wow fadeInUp">{heading?.heading}</h2>}
+                {heading?.heading && <p className="text-xl-medium neutral-500 wow fadeInUp">{heading?.sub_heading}</p>}
                 </div>
                 <div className="box-list-populars">
                     <div className="row">

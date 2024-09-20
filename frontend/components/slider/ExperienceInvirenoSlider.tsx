@@ -18,19 +18,27 @@ export interface InveranoDataItem {
     updated_at: string;
 }
 
+export interface HeadingDataItem {
+    id: number;
+    heading_for: string;
+    heading: string;
+    sub_heading: string;
+}
+
 // Define the prop type for your component
 export interface ExperienceVeranoSliderProps {
     inverano: InveranoDataItem[];
+    headingData:HeadingDataItem
 }
-export default function ExperienceInvirenoSlider({ inverano }: ExperienceVeranoSliderProps) {
+export default function ExperienceInvirenoSlider({ inverano, headingData }: ExperienceVeranoSliderProps) {
     return (
         <>
             <section className="section-box box-our-featured background-body pt-60">
                 <div className="container">
                     <div className="row align-items-end">
                         <div className="col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
-                            <h2 className="neutral-1000 text-center">Experience DE Invierno</h2>
-                            <p className="text-xl-medium neutral-500 text-center">Favorite destinations based on customer reviews</p>
+                        {headingData?.heading && <h2 className="neutral-1000 text-center">{headingData?.heading}</h2>}
+                        {headingData?.heading && <p className="text-xl-medium neutral-500 text-center">{headingData?.sub_heading}</p>}
                         </div>
                     </div>
                 </div>

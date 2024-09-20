@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceRequest;
 use App\Http\Requests\UpdateServices;
+use App\Models\SectionHeading;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,9 @@ class ServiceController extends Controller
 
     public function Services()
     {
+        $heading = SectionHeading::where("heading_for", "servcios-exclusivos")->first();
         $services = Service::where("status", "Active")->get();
-        return response()->json(['message' => 'success', 'data' => $services],200);
+        return response()->json(['message' => 'success', 'data' => $services, "heading" => $heading],200);
     }
 
     /**

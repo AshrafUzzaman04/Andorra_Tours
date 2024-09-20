@@ -1,3 +1,4 @@
+"use server"
 import Fetch from "@/helper/Fetch";
 import Testimonials2 from "./Testimonials2";
 const getTestimonialsData = async () =>{
