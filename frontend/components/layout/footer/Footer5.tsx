@@ -18,13 +18,14 @@ const footerData = async () => {
 };
 export default async function Footer5() {
 	const data = await footerData();
+	console.log(data)
 	return (
 		<>
 			<footer className="footer">
 				<div className="container">
 					<div className="row">
 						<div className="col-md-3 col-sm-12 footer-1">
-							<div className="mt-20 mb-20"><a className="d-inline-block mb-20" href="index.html"><img className="w-50" alt="Travila" src="assets/imgs/template/tours_andorra.png" /></a>
+							<div className="mt-20 mb-20"><a className="d-inline-block mb-20" href="index.html"><img className="w-50" alt="footer-logo" src={process.env.NEXT_PUBLIC_STORAGE_URL+data?.footerLogo?.dark_logo} /></a>
 								{
 									data?.footerDetails && <div className="box-info-contact mt-0">
 										{data?.footerDetails?.location && <p className="text-md neutral-400 icon-address">{data?.footerDetails?.location}

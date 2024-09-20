@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\FooterDetails;
+use App\Models\Header;
 use App\Models\PageCategory;
 use App\Models\Partner;
 use App\Models\SocialLink;
@@ -16,6 +17,7 @@ class FooterController extends Controller
      */
     public function index()
     {
+        $footerLogo = Header::first();
         $footerDetails = FooterDetails::all();
         $footerPages = PageCategory::with(['pages:id,page_name,page_slug,page_title,category'])->where("status","Active")->get();
         $partners = Partner::where("status","Active")->get();
@@ -24,7 +26,8 @@ class FooterController extends Controller
             'footerDetails' => $footerDetails,
             'footerPages' => $footerPages,
             'partners' => $partners,
-            'socialLinks' => $socialLinks
+            'socialLinks' => $socialLinks,
+            'footerLogo' => $footerLogo
         ]]);
     }
 

@@ -63,7 +63,7 @@ export default function ExperienceVeranoSlider({ veranoData ,headingData }: Expe
                                                         <div className="card-right"> <span className="rating">{verano?.reviews} <span className="text-sm-medium neutral-500">({verano?.total_reviews} reviews)</span></span>
                                                         </div>
                                                     </div>
-                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href="/tour-detail-4">{verano?.title}</Link>
+                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={`/verano/${verano?.id}`}>{verano?.title}</Link>
                                                     </div>
                                                     <div className="card-program">
                                                         <div className="card-duration-tour">

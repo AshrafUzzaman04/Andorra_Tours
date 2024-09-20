@@ -11,7 +11,16 @@ export default function Iframe() {
                 </div>
             </div>
             <div className="container-banner">
-                <iframe title={'Embedded Content'} src="https://motor.skirenting.com/" width="100%" height="100vh" style={{ border: "none", width: '100%', height: '100vh' }} frameBorder="0" allowFullScreen></iframe>
+                <iframe
+                    title="Embedded Content"
+                    src="https://motor.skirenting.com/"
+                    width="100%"
+                    height="100vh"
+                    style={{ border: "none", width: '100%', height: '100vh' }}
+                    frameBorder="0"
+                    allowFullScreen
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                />
             </div>
         </section>
 
