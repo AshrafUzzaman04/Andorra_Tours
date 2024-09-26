@@ -501,7 +501,7 @@ export default function TourDetail3() {
 										<div className="head-booking-form">
 											<p className="text-xl-bold neutral-1000">Booking Form</p>
 										</div>
-										<BookingForm />
+										{/* <BookingForm /> */}
 									</div>
 									<div className="sidebar-left border-1 background-body">
 										<h6 className="text-lg-bold neutral-1000">Popular Tours</h6>

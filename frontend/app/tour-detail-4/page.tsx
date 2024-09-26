@@ -6,72 +6,11 @@ import { swiperGroup1 } from "@/util/swiperOption"
 import Link from "next/link"
 import { useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react"
-import parse from 'html-react-parser';
-export interface VeranoData {
-	id: number;
-	label: string;
-	reviews: string;
-	total_reviews: string;
-	reviews_link: string;
-	title: string;
-	price: string;
-	booking_link: string;
-	slug: string;
-	photo: string;
-	status: string;
-	created_at: string;
-	updated_at: string;
-	details: VeranoDetails;
-}
-
-export interface VeranoDetails {
-	id: number;
-	verano_id: number;
-	duration: string;
-	duration_title: string;
-	group_size: string;
-	group_size_title: string;
-	tour_type: string;
-	tour_type_title: string;
-	language: string;
-	language_title: string;
-	details: string; // This is a string that will be parsed
-	form_title: string;
-	times: string; // This is a string that will be parsed
-	service_title: string;
-	services: string; // This is a string that will be parsed
-	add_extra_title: string;
-	add_extra: string; // This is a string that will be parsed
-	question_title: string;
-	answers: string; // This is a string that will be parsed
-	status: string;
-	created_at: string;
-	updated_at: string;
-}
-
-export interface DetailItem {
-	id: number;
-	title: string;
-	description: string;
-}
-
-export interface QuestionAnswer {
-	id: number;
-	question: string;
-	answer: string;
-}
-
-export default function TourDetail4({ details }: { details: VeranoData }) {
-	const [isAccordion, setIsAccordion] = useState(0)
+export default function TourDetail4() {
+	const [isAccordion, setIsAccordion] = useState(null)
 
 	const handleAccordion = (key: any) => {
-		setIsAccordion(key)
-	}
-	const parsedDetails: DetailItem[] = JSON.parse(details?.details?.details || '[]');
-	const parsedAnswers: QuestionAnswer[] = JSON.parse(details?.details?.answers || '[]');
-
-	function isOdd(number: number) {
-		return number % 2 !== 0;
+		setIsAccordion(prevState => prevState === key ? null : key)
 	}
 	return (
 		<>
@@ -89,7 +28,7 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 									<svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
 										<path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
 									</svg></span></li>
-								<li> <span className="text-breadcrumb">{details?.title ? details?.title : ""}</span></li>
+								<li> <span className="text-breadcrumb">The High Roller Experience: Tickets for The LINQ Observation Wheel, Las Vegas Strip</span></li>
 							</ul>
 						</div>
 					</section>
@@ -100,9 +39,11 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 									<div className="swiper-container swiper-group-1">
 										<Swiper {...swiperGroup1}>
 											<SwiperSlide>
-												<div className="box-banner-tour-4"><img src={process.env.NEXT_PUBLIC_STORAGE_URL + details?.photo} alt="Travile" /></div>
+												<div className="box-banner-tour-4"><img src="/assets/imgs/page/tour-detail/banner-detail-2.png" alt="Travile" /></div>
 											</SwiperSlide>
-
+											<SwiperSlide>
+												<div className="box-banner-tour-4"><img src="/assets/imgs/page/tour-detail/banner-detail-2.png" alt="Travile" /></div>
+											</SwiperSlide>
 										</Swiper>
 									</div>
 									<div className="swiper-button-prev swiper-button-prev-style-1 swiper-button-prev-group-1">
@@ -122,18 +63,18 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 							<div className="container">
 								<div className="tour-header tour-header-on-top">
 									<div className="tour-rate">
-										<div className="rate-element"><span className="rating">{details?.reviews ? details?.reviews : 0} <span className="text-sm-medium neutral-500">({details?.total_reviews ? details?.total_reviews : 0} reviews)</span></span></div>
+										<div className="rate-element"><span className="rating">4.96 <span className="text-sm-medium neutral-500">(672 reviews)</span></span></div>
 									</div>
 									<div className="tour-title-main">
-										<h4 className="color-white w-lg-75">{details?.title ? details?.title : ""}</h4>
+										<h4 className="color-white w-lg-75">The High Roller Experience: Tickets for The LINQ Observation Wheel, Las Vegas Strip</h4>
 									</div>
 									<div className="tour-metas">
 										<div className="tour-meta-left">
-											{/* <p className="text-md-medium color-white mr-20 tour-location">
+											<p className="text-md-medium color-white mr-20 tour-location">
 												<svg width={12} height={16} viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
 													<path d="M5.99967 0C2.80452 0 0.205078 2.59944 0.205078 5.79456C0.205078 9.75981 5.39067 15.581 5.61145 15.8269C5.81883 16.0579 6.18089 16.0575 6.38789 15.8269C6.60867 15.581 11.7943 9.75981 11.7943 5.79456C11.7942 2.59944 9.1948 0 5.99967 0ZM5.99967 8.70997C4.39211 8.70997 3.0843 7.40212 3.0843 5.79456C3.0843 4.187 4.39214 2.87919 5.99967 2.87919C7.6072 2.87919 8.91502 4.18703 8.91502 5.79459C8.91502 7.40216 7.6072 8.70997 5.99967 8.70997Z" />
-												</svg>{details?. ? details?.title:""}
-											</p><Link className="text-md-medium color-white mr-30" href="#">Show on map</Link> */}
+												</svg>Las Vegas, USA
+											</p><Link className="text-md-medium color-white mr-30" href="#">Show on map</Link>
 										</div>
 										<div className="tour-meta-right"> <Link className="btn btn-share" href="#">
 											<svg width={16} height={18} viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
@@ -159,8 +100,8 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 												</svg>
 											</div>
 											<div className="info-item">
-												<p className="text-sm-medium neutral-600">{details?.details?.duration_title ? details?.details?.duration_title : ""}</p>
-												<p className="text-lg-bold neutral-1000">{details?.details?.duration ? details?.details?.duration : ""}</p>
+												<p className="text-sm-medium neutral-600">Duration</p>
+												<p className="text-lg-bold neutral-1000">5-7 days</p>
 											</div>
 										</div>
 										<div className="tour-info-group">
@@ -170,8 +111,8 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 												</svg>
 											</div>
 											<div className="info-item">
-												<p className="text-sm-medium neutral-600">{details?.details?.group_size_title ? details?.details?.group_size_title : ""}</p>
-												<p className="text-lg-bold neutral-1000">{details?.details?.group_size ? details?.details?.group_size : ""}</p>
+												<p className="text-sm-medium neutral-600">Group Size</p>
+												<p className="text-lg-bold neutral-1000">06 people</p>
 											</div>
 										</div>
 										<div className="tour-info-group">
@@ -183,8 +124,8 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 												</svg>
 											</div>
 											<div className="info-item">
-												<p className="text-sm-medium neutral-600">{details?.details?.tour_type_title ? details?.details?.tour_type_title : ""}</p>
-												<p className="text-lg-bold neutral-1000">{details?.details?.tour_type ? details?.details?.tour_type : ""}</p>
+												<p className="text-sm-medium neutral-600">Tour Type</p>
+												<p className="text-lg-bold neutral-1000">Daily Tour</p>
 											</div>
 										</div>
 										<div className="tour-info-group">
@@ -202,58 +143,131 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 												</svg>
 											</div>
 											<div className="info-item">
-												<p className="text-sm-medium neutral-600">{details?.details?.language_title ? details?.details?.language_title : ""}</p>
-												<p className="text-lg-bold neutral-1000">{details?.details?.language ? details?.details?.language : ""}</p>
+												<p className="text-sm-medium neutral-600">Languages</p>
+												<p className="text-lg-bold neutral-1000">English</p>
 											</div>
 										</div>
 									</div>
 									<div className="box-collapse-expand">
-										{
-											parsedDetails && parsedDetails.map((details, i) => (
-												<div key={i} className="group-collapse-expand">
-													<button className={isAccordion === i + 1 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false" aria-controls="collapseOverview" onClick={() => handleAccordion(i + 1)}>
-														<h6>{details?.title}</h6>
-														<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-															<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-														</svg>
-													</button>
-													<div className={isAccordion === i + 1 ? "collapse" : "collapse show"} id="collapseOverview">
-														<div className="card card-body">
-															{parse(details?.description)}
-														</div>
-													</div>
+										<div className="group-collapse-expand">
+											<button className={isAccordion == 1 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false" aria-controls="collapseOverview" onClick={() => handleAccordion(1)}>
+												<h6>Overview</h6>
+												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+												</svg>
+											</button>
+											<div className={isAccordion == 1 ? "collapse" : "collapse show"} id="collapseOverview">
+												<div className="card card-body">
+													<p>Elevate your Las Vegas experience to new heights with a journey aboard The High Roller at The LINQ. As the tallest observation wheel in the world, standing at an impressive 550 feet tall, The High Roller offers a bird's-eye perspective of the iconic Las Vegas Strip and its surrounding desert landscape. From the moment you step into one of the spacious cabins, you'll be transported on a mesmerizing adventure, where every turn offers a new and breathtaking vista of the vibrant city below.</p>
+													<p>Whether you're a first-time visitor or a seasoned Las Vegas aficionado, The High Roller promises an unparalleled experience that will leave you in awe. With its climate-controlled cabins and immersive audio commentary, this attraction provides a unique opportunity to see Las Vegas from a whole new perspective, while learning about its rich history and famous landmarks along the way.</p>
 												</div>
-											))
-										}
-										{
-											parsedAnswers?.length > 0 && <div className="group-collapse-expand">
-												<button className={isAccordion == 5 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuestion" aria-expanded="false" aria-controls="collapseQuestion" onClick={() => handleAccordion(5)}>
-													<h6>Question  Answers</h6>
-													<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-														<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-													</svg>
-												</button>
-												<div className={isAccordion == 5 ? "collapse" : "collapse show"} id="collapseQuestion">
-													<div className="card card-body">
-														<div className="list-questions">
-															{
-																parsedAnswers && parsedAnswers.map((question, i) => (
-																	<div key={i} className={`item-question ${isOdd(question?.id) ? '' : 'active'}`}>
-																		<div className="head-question">
-																			<p className="text-md-bold neutral-1000">{question?.question}</p>
-																		</div>
-																		<div className="content-question">
-																			<p className="text-sm-medium neutral-800">{question?.answer}</p>
-																		</div>
-																	</div>
-																))
-															}
+											</div>
+										</div>
+										<div className="group-collapse-expand">
+											<button className={isAccordion == 2 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseHighlight" aria-expanded="false" aria-controls="collapseHighlight" onClick={() => handleAccordion(2)}>
+												<h6>Highlight</h6>
+												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+												</svg>
+											</button>
+											<div className={isAccordion == 2 ? "collapse" : "collapse show"} id="collapseHighlight">
+												<div className="card card-body">
+													<p>Ascend to the skies aboard the world's tallest observation wheel and marvel at the panoramic vistas stretching as far as the eye can see. From the iconic landmarks of the Strip to the majestic mountains in the distance, every moment aboard The High Roller promises breathtaking sights and unforgettable memories.</p>
+													<p>All rooms at the resort come with air conditioning, a seating area, a flat-screen TV with satellite channels, a safety deposit box and a private bathroom with a shower, free toiletries and a hairdryer. At Pickalbatros Water Valley Resort - Neverland Hurghada rooms are equipped with bed linen and towels.</p>
+												</div>
+											</div>
+										</div>
+										<div className="group-collapse-expand">
+											<button className={isAccordion == 3 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseIncluded" aria-expanded="false" aria-controls="collapseIncluded" onClick={() => handleAccordion(3)}>
+												<h6>Included/Excluded</h6>
+												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+												</svg>
+											</button>
+											<div className={isAccordion == 3 ? "collapse" : "collapse show"} id="collapseIncluded">
+												<div className="card card-body">
+													<div className="row">
+														<div className="col-lg-6">
+															<p className="text-md-bold">Included:</p>
+															<ul>
+																<li>Admission ticket to The High Roller at The LINQ.</li>
+																<li>Access to climate-controlled cabins.</li>
+																<li>Audio commentary offering insights into Las Vegas history and landmarks.</li>
+															</ul>
+														</div>
+														<div className="col-lg-6">
+															<p className="text-md-bold">Excluded:</p>
+															<ul>
+																<li>Transportation to and from the attraction.</li>
+																<li>Food and beverages.</li>
+																<li>Souvenirs and merchandise</li>
+																<li>Additional activities or attractions</li>
+															</ul>
 														</div>
 													</div>
 												</div>
 											</div>
-										}
-
+										</div>
+										<div className="group-collapse-expand">
+											<button className={isAccordion == 4 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseDuration" aria-expanded="false" aria-controls="collapseDuration" onClick={() => handleAccordion(4)}>
+												<h6>Duration</h6>
+												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+												</svg>
+											</button>
+											<div className={isAccordion == 4 ? "collapse" : "collapse show"} id="collapseDuration">
+												<div className="card card-body">
+													<p>Your adventure aboard The High Roller at The LINQ is divided into six distinct moments, totaling 110 minutes of unforgettable experiences:</p>
+													<ul className="list-number">
+														<li> <strong>Boarding: </strong><span>Spend 10 minutes getting settled.</span></li>
+														<li> <strong>Ascent: </strong><span>Enjoy a gradual ascent over 15 minutes.</span></li>
+														<li> <strong>Peak: </strong><span>Marvel at the view for approximately 30 minutes.</span></li>
+														<li> <strong>Descent: </strong><span>Descend over 15 minutes.</span></li>
+														<li> <strong>Ground Level: </strong><span>Spend 10 minutes landing.</span></li>
+														<li> <strong>Post-Ride: </strong><span>Enjoy the surroundings for the remaining 30 minutes.</span></li>
+													</ul>
+													<p>With each moment contributing to a seamless and awe-inspiring experience, The High Roller promises to be the highlight of your Las Vegas adventure.</p>
+												</div>
+											</div>
+										</div>
+										<div className="group-collapse-expand">
+											<button className={isAccordion == 5 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuestion" aria-expanded="false" aria-controls="collapseQuestion" onClick={() => handleAccordion(5)}>
+												<h6>Question  Answers</h6>
+												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+												</svg>
+											</button>
+											<div className={isAccordion == 5 ? "collapse" : "collapse show"} id="collapseQuestion">
+												<div className="card card-body">
+													<div className="list-questions">
+														<div className="item-question">
+															<div className="head-question">
+																<p className="text-md-bold neutral-1000">Is The High Roller suitable for all ages?</p>
+															</div>
+															<div className="content-question">
+																<p className="text-sm-medium neutral-800">Absolutely! The High Roller offers a family-friendly experience suitable for visitors of all ages. Children must be accompanied by an adult.</p>
+															</div>
+														</div>
+														<div className="item-question active">
+															<div className="head-question">
+																<p className="text-md-bold neutral-1000">Can I bring food or drinks aboard The High Roller?</p>
+															</div>
+															<div className="content-question">
+																<p className="text-sm-medium neutral-800">Outside food and beverages are not permitted on The High Roller. However, there are nearby dining options at The LINQ Promenade where you can enjoy a meal before or after your ride.</p>
+															</div>
+														</div>
+														<div className="item-question">
+															<div className="head-question">
+																<p className="text-md-bold neutral-1000">Is The High Roller wheelchair accessible?</p>
+															</div>
+															<div className="content-question">
+																<p className="text-sm-medium neutral-800">es, The High Roller cabins are wheelchair accessible, making it possible for everyone to enjoy the breathtaking views of Las Vegas.</p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 										<div className="group-collapse-expand">
 											<button className={isAccordion == 6 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseReviews" aria-expanded="false" aria-controls="collapseReviews" onClick={() => handleAccordion(6)}>
 												<h6>Rate  Reviews</h6>
@@ -497,9 +511,9 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 								<div className="col-lg-4">
 									<div className="booking-form">
 										<div className="head-booking-form">
-											<p className="text-xl-bold neutral-1000">{details?.details?.form_title}</p>
+											<p className="text-xl-bold neutral-1000">Booking Form</p>
 										</div>
-										<BookingForm FormData={details?.details} price={details?.price} />
+										<BookingForm />
 									</div>
 									<div className="sidebar-left border-1 background-body">
 										<h6 className="text-lg-bold neutral-1000">Popular Tours</h6>
@@ -567,7 +581,9 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 							</div>
 						</div>
 					</section>
-					
+					<section className="section-box box-media background-body">
+						<div className="container-media wow fadeInUp"> <img src="/assets/imgs/page/homepage5/media.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media2.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media3.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media4.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media5.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media6.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/media7.png" alt="Travila" /></div>
+					</section>
 				</main>
 
 			</Layout>

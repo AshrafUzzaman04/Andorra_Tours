@@ -2,7 +2,6 @@
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
-import { useLocale } from "next-intl";
 
 export interface VeranoDataItem {
     id: number;

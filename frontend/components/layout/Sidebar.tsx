@@ -2,7 +2,6 @@ import Link from 'next/link'
 import CurrencyDropdown from '@/components/elements/CurrencyDropdown'
 import LanguageDropdown from '@/components/elements/LanguageDropdown'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
 export default function Sidebar({ isSidebar, handleSidebar, }: any) {
 	return (
 		<>
@@ -12,7 +11,7 @@ export default function Sidebar({ isSidebar, handleSidebar, }: any) {
 					<div className="sidebar-canvas-head">
 						<div className="sidebar-canvas-logo"> <Link className="d-flex" href="/"><img className="light-mode" alt="Travila" src="/assets/imgs/template/logo.svg" /><img className="dark-mode" alt="Travila" src="/assets/imgs/template/logo-w.svg" /></Link></div>
 						<div className="sidebar-canvas-lang">
-							<LanguageDropdown />
+							<LanguageDropdown languages={[]} />
 							<CurrencyDropdown />
 							<a className="close-canvas" onClick={handleSidebar}> <img alt="Travila" src="/assets/imgs/template/icons/close.png" /></a>
 						</div>

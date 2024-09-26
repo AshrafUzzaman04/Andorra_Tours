@@ -1,5 +1,5 @@
 import MasterLayout from "@/components/layout/MasterLayout";
-import TourDetail4 from "../../tour-detail-4/page";
+import TourDetails from "@/components/sections/TourDetsils";
 import Fetch from "@/helper/Fetch";
 const getData = async ({params}:{params:{slug:string}}) =>{
     const res = await Fetch("/verano/"+params?.slug)
@@ -9,7 +9,7 @@ export default async function Verano({params}:{params:{slug:string}}){
     const details = await getData({params});
     return (
         <MasterLayout>
-            <TourDetail4 details={details}/>
+            <TourDetails details={details}/>
         </MasterLayout>
     )
 }
