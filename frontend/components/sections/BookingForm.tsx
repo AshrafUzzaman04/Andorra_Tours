@@ -103,8 +103,8 @@ export default function BookingForm({ FormData, price }: FromDataPriceTypes) {
 						<strong className="text-md-bold neutral-1000">Times:</strong>
 							{
 								parsedTimes && parsedTimes?.map((time: any, i: any) => (
-									<div className="col-md-3">
-										<label key={i} className="ms-0">
+									<div key={i} className="col-md-3">
+										<label className="ms-0">
 											<input type="radio" name="time" />{time?.time}
 										</label>
 									</div>
