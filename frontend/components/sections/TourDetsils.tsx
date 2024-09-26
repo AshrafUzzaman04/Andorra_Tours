@@ -68,7 +68,6 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 	}
 	const parsedDetails: DetailItem[] = JSON.parse(details?.details?.details || '[]');
 	const parsedAnswers: QuestionAnswer[] = JSON.parse(details?.details?.answers || '[]');
-
 	function isOdd(number: number) {
 		return number % 2 !== 0;
 	}
@@ -207,7 +206,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 									</div>
 									<div className="box-collapse-expand">
 										{
-											parsedDetails && parsedDetails.map((details, i) => (
+											parsedDetails && parsedDetails?.map((details, i) => (
 												<div key={i} className="group-collapse-expand">
 													<button className={isAccordion === i + 1 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false" aria-controls="collapseOverview" onClick={() => handleAccordion(i + 1)}>
 														<h6>{details?.title}</h6>

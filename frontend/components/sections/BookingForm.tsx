@@ -45,13 +45,13 @@ export interface ExtraService {
 	service_name: string;
 }
 
-export interface FromDataPriceTypes{
+export interface FromDataPriceTypes {
 	FormData: VeranoDetailsType,
 	price: string;
 }
 
 
-export default function BookingForm({ FormData, price }:FromDataPriceTypes) {
+export default function BookingForm({ FormData, price }: FromDataPriceTypes) {
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
@@ -97,15 +97,20 @@ export default function BookingForm({ FormData, price }:FromDataPriceTypes) {
 						</svg>
 					</div>
 				</div>
-				<div className="item-line-booking"> <strong className="text-md-bold neutral-1000">Time:</strong>
+				<div className="item-line-booking"> 
 					<div className="line-booking-right">
-						{
-							parsedTimes && parsedTimes?.map((time: any, i: any) => (
-								<label key={i}>
-									<input type="radio" name="time" />{time?.time}
-								</label>
-							))
-						}
+						<div className="row">
+						<strong className="text-md-bold neutral-1000">Times:</strong>
+							{
+								parsedTimes && parsedTimes?.map((time: any, i: any) => (
+									<div className="col-md-3">
+										<label key={i} className="ms-0">
+											<input type="radio" name="time" />{time?.time}
+										</label>
+									</div>
+								))
+							}
+						</div>
 					</div>
 				</div>
 				<div className="item-line-booking">

@@ -65,8 +65,9 @@ const VeranoDetailsEdit = () => {
 
   const onSubmit = (formData) => {
     setSaving(true);
-    formData.details = JSON.stringify(formData?.details)
-    //formData.details = JSON.stringify(getValues("details"));
+    if(typeof formData?.details !== "string"){
+      formData.details = JSON.stringify(formData?.details)
+    }
     callFetch("veranoDeatils/"+params?.id + "?step="+ activeStep, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
