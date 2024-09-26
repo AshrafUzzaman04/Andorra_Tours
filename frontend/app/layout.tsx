@@ -16,8 +16,8 @@ const merienda_init = Merienda({
 })
 
 export const metadata: Metadata = {
-    title: "Travila - Multipurpose Travel Booking Next.js Template",
-    description: "Multipurpose Travel Booking Next.js Template",
+    title: "Tours Andorra",
+    description: "Portal de Actividades / Experiencias #1 en Andorra",
 }
 
 export default async function RootLayout({
