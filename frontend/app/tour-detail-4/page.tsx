@@ -55,25 +55,6 @@ export interface DetailItem {
 	description: string;
 }
 
-export interface TimeSlot {
-	id: number;
-	time: string;
-}
-
-export interface ServiceItem {
-	id: number;
-	service_name: string;
-	price: string;
-	quantity: string;
-}
-
-export interface ExtraService {
-	id: number;
-	extra_service_name: string;
-	price: string;
-	service_name: string;
-}
-
 export interface QuestionAnswer {
 	id: number;
 	question: string;
@@ -244,74 +225,6 @@ export default function TourDetail4({ details }: { details: VeranoData }) {
 												</div>
 											))
 										}
-
-										{/* <div className="group-collapse-expand">
-											<button className={isAccordion == 2 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseHighlight" aria-expanded="false" aria-controls="collapseHighlight" onClick={() => handleAccordion(2)}>
-												<h6>Highlight</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 2 ? "collapse" : "collapse show"} id="collapseHighlight">
-												<div className="card card-body">
-													<p>Ascend to the skies aboard the world's tallest observation wheel and marvel at the panoramic vistas stretching as far as the eye can see. From the iconic landmarks of the Strip to the majestic mountains in the distance, every moment aboard The High Roller promises breathtaking sights and unforgettable memories.</p>
-													<p>All rooms at the resort come with air conditioning, a seating area, a flat-screen TV with satellite channels, a safety deposit box and a private bathroom with a shower, free toiletries and a hairdryer. At Pickalbatros Water Valley Resort - Neverland Hurghada rooms are equipped with bed linen and towels.</p>
-												</div>
-											</div>
-										</div>
-										<div className="group-collapse-expand">
-											<button className={isAccordion == 3 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseIncluded" aria-expanded="false" aria-controls="collapseIncluded" onClick={() => handleAccordion(3)}>
-												<h6>Included/Excluded</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 3 ? "collapse" : "collapse show"} id="collapseIncluded">
-												<div className="card card-body">
-													<div className="row">
-														<div className="col-lg-6">
-															<p className="text-md-bold">Included:</p>
-															<ul>
-																<li>Admission ticket to The High Roller at The LINQ.</li>
-																<li>Access to climate-controlled cabins.</li>
-																<li>Audio commentary offering insights into Las Vegas history and landmarks.</li>
-															</ul>
-														</div>
-														<div className="col-lg-6">
-															<p className="text-md-bold">Excluded:</p>
-															<ul>
-																<li>Transportation to and from the attraction.</li>
-																<li>Food and beverages.</li>
-																<li>Souvenirs and merchandise</li>
-																<li>Additional activities or attractions</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="group-collapse-expand">
-											<button className={isAccordion == 4 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseDuration" aria-expanded="false" aria-controls="collapseDuration" onClick={() => handleAccordion(4)}>
-												<h6>Duration</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 4 ? "collapse" : "collapse show"} id="collapseDuration">
-												<div className="card card-body">
-													<p>Your adventure aboard The High Roller at The LINQ is divided into six distinct moments, totaling 110 minutes of unforgettable experiences:</p>
-													<ul className="list-number">
-														<li> <strong>Boarding: </strong><span>Spend 10 minutes getting settled.</span></li>
-														<li> <strong>Ascent: </strong><span>Enjoy a gradual ascent over 15 minutes.</span></li>
-														<li> <strong>Peak: </strong><span>Marvel at the view for approximately 30 minutes.</span></li>
-														<li> <strong>Descent: </strong><span>Descend over 15 minutes.</span></li>
-														<li> <strong>Ground Level: </strong><span>Spend 10 minutes landing.</span></li>
-														<li> <strong>Post-Ride: </strong><span>Enjoy the surroundings for the remaining 30 minutes.</span></li>
-													</ul>
-													<p>With each moment contributing to a seamless and awe-inspiring experience, The High Roller promises to be the highlight of your Las Vegas adventure.</p>
-												</div>
-											</div>
-										</div> */}
 										{
 											parsedAnswers?.length > 0 && <div className="group-collapse-expand">
 												<button className={isAccordion == 5 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuestion" aria-expanded="false" aria-controls="collapseQuestion" onClick={() => handleAccordion(5)}>

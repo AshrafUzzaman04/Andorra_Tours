@@ -2,34 +2,6 @@
 import { useState } from "react";
 
 export interface VeranoDetailsType {
-	FormData: {
-		id: number;
-		verano_id: number;
-		duration: string;
-		duration_title: string;
-		group_size: string;
-		group_size_title: string;
-		tour_type: string;
-		tour_type_title: string;
-		language: string;
-		language_title: string;
-		details: string; // This is a string that will be parsed
-		form_title: string;
-		times: string; // This is a string that will be parsed
-		service_title: string;
-		services: string; // This is a string that will be parsed
-		add_extra_title: string;
-		add_extra: string; // This is a string that will be parsed
-		question_title: string;
-		answers: string; // This is a string that will be parsed
-		status: string;
-		created_at: string;
-		updated_at: string;
-	},
-	price: string
-}
-
-type FormData = {
 	id: number;
 	verano_id: number;
 	duration: string;
@@ -72,45 +44,42 @@ export interface ExtraService {
 	price: string;
 	service_name: string;
 }
-interface BookingFormProps {
-    FormData: FormData; // Ensure the prop name is consistent
-    price: string; // Assuming price is a number, change as necessary
-}
-export default function BookingForm({ FormData, price }: BookingFormProps) {
+
+export default function BookingForm({ FormData, price }: { FormData: VeranoDetailsType, price: string }) {
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
-    const [quantities, setQuantities] = useState(parsedServices.map(() => 1));
-    
-    // State to store selected extras
-    const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras.map(() => false));
+	const [quantities, setQuantities] = useState(parsedServices.map(() => 1));
 
-    // Function to handle quantity input change
-    const handleQuantityChange = (i: number, value: number) => {
-        const updatedQuantities = [...quantities];
-        updatedQuantities[i] = value;
-        setQuantities(updatedQuantities);
-    };
+	// State to store selected extras
+	const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras.map(() => false));
 
-    // Function to handle checkbox change
-    const handleExtraChange = (i: number) => {
-        const updatedExtras = [...selectedExtras];
-        updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
-        setSelectedExtras(updatedExtras);
-    };
+	// Function to handle quantity input change
+	const handleQuantityChange = (i: number, value: number) => {
+		const updatedQuantities = [...quantities];
+		updatedQuantities[i] = value;
+		setQuantities(updatedQuantities);
+	};
 
-    // Function to calculate total price
-    const calculateTotalPrice = () => {
-        const serviceTotal = parsedServices.reduce((sum, service, i) => {
-            return sum + Number(service.price) * quantities[i];
-        }, 0);
+	// Function to handle checkbox change
+	const handleExtraChange = (i: number) => {
+		const updatedExtras = [...selectedExtras];
+		updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
+		setSelectedExtras(updatedExtras);
+	};
 
-        const extrasTotal = parsedAddExtras.reduce((sum, extra, i) => {
-            return sum + (selectedExtras[i] ? Number(extra.price) : 0);
-        }, 0);
+	// Function to calculate total price
+	const calculateTotalPrice = () => {
+		const serviceTotal = parsedServices.reduce((sum, service, i) => {
+			return sum + Number(service.price) * quantities[i];
+		}, 0);
 
-        return serviceTotal + extrasTotal; // Combine both totals
-    };
+		const extrasTotal = parsedAddExtras.reduce((sum, extra, i) => {
+			return sum + (selectedExtras[i] ? Number(extra.price) : 0);
+		}, 0);
+
+		return serviceTotal + extrasTotal; // Combine both totals
+	};
 	return (
 		<>
 			<div className="content-booking-form">
