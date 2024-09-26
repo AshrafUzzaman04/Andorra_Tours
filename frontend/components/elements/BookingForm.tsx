@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 
-export interface VeranoDetails {
+export interface VeranoDetailsType {
 	FormData: {
 		id: number;
 		verano_id: number;
@@ -29,6 +29,31 @@ export interface VeranoDetails {
 	price: string
 }
 
+type FormData = {
+	id: number;
+	verano_id: number;
+	duration: string;
+	duration_title: string;
+	group_size: string;
+	group_size_title: string;
+	tour_type: string;
+	tour_type_title: string;
+	language: string;
+	language_title: string;
+	details: string; // This is a string that will be parsed
+	form_title: string;
+	times: string; // This is a string that will be parsed
+	service_title: string;
+	services: string; // This is a string that will be parsed
+	add_extra_title: string;
+	add_extra: string; // This is a string that will be parsed
+	question_title: string;
+	answers: string; // This is a string that will be parsed
+	status: string;
+	created_at: string;
+	updated_at: string;
+}
+
 export interface TimeSlot {
 	id: number;
 	time: string;
@@ -47,7 +72,11 @@ export interface ExtraService {
 	price: string;
 	service_name: string;
 }
-export default function BookingForm({ FormData, price }: VeranoDetails) {
+interface BookingFormProps {
+    FormData: FormData; // Ensure the prop name is consistent
+    price: number; // Assuming price is a number, change as necessary
+}
+export default function BookingForm({ FormData, price }: BookingFormProps) {
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
