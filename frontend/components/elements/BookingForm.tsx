@@ -74,7 +74,7 @@ export interface ExtraService {
 }
 interface BookingFormProps {
     FormData: FormData; // Ensure the prop name is consistent
-    price: number; // Assuming price is a number, change as necessary
+    price: string; // Assuming price is a number, change as necessary
 }
 export default function BookingForm({ FormData, price }: BookingFormProps) {
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
