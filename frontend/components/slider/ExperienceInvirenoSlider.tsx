@@ -2,7 +2,6 @@
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
-import CategoryFilter from '../elements/CategoryFilter'
 export interface InveranoDataItem {
     id: number;
     label: string;

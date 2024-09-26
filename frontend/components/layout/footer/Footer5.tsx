@@ -1,6 +1,7 @@
 import FooterLogoSlider from "@/components/slider/FooterLogoSlider";
 import Axios from "@/helper/axios";
 import Link from "next/link";
+import parse from 'html-react-parser';
 type FooterPage = {
 	category_name: string;
 	pages: Array<any>;  // You can specify the type of the items in the array if you know it
@@ -18,7 +19,6 @@ const footerData = async () => {
 };
 export default async function Footer5() {
 	const data = await footerData();
-	console.log(data)
 	return (
 		<>
 			<footer className="footer">
@@ -31,7 +31,7 @@ export default async function Footer5() {
 										{data?.footerDetails?.location && <p className="text-md neutral-400 icon-address">{data?.footerDetails?.location}
 										</p>}
 										{data?.footerDetails?.schedule && <p className="text-md neutral-400 icon-worktime">{data?.footerDetails?.schedule}</p>}
-										{data?.footerDetails?.email && <p className="text-md neutral-400 icon-email">{data?.footerDetails?.email}</p>}
+										{data?.footerDetails?.email && <p className="text-md neutral-400 icon-email"><a className="text-md neutral-400" href={`mailto:${data?.footerDetails?.email}`}>{data?.footerDetails?.email}</a></p>}
 									</div>
 								}
 
@@ -46,7 +46,7 @@ export default async function Footer5() {
 								<ul className="menu-footer">
 									{
 										footerPage?.pages?.map((page, index: number) => (
-											<li key={index}><Link href={page?.page_slug}>{page?.page_name}</Link></li>
+											<li key={index}><Link href={"/page/"+page?.page_slug}>{page?.page_name}</Link></li>
 										))
 									}
 								</ul>

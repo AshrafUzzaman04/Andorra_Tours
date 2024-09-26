@@ -29,7 +29,7 @@ class VeranoRequest extends FormRequest
             "title" => "required",
             "price" => "required",
             "photo" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
-            "booking_link" => "required|url",
+            "booking_link" => "nullable|url",
             "status" => "nullable|in:Active,Inactive|"
         ];
     }

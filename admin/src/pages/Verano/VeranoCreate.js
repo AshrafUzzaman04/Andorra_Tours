@@ -92,10 +92,9 @@ const VeranoCreate = () => {
               </div>
               <div className="row g-3">
                 <div className="col-md-6">
-                  <label>{t("Reviews Link")} *</label>
+                  <label>{t("Reviews Link")}</label>
                   <input type="text" className="form-control" placeholder="https://example.com"
-                    {...register("reviews_link", { required: true })}
-                    required />
+                    {...register("reviews_link")}/>
                   <div className="invalid-feedback">
                     {errors.reviews_link && errors.reviews_link.message}
                   </div>
@@ -133,10 +132,9 @@ const VeranoCreate = () => {
               </div>
               <div className="row g-3 mt-2">
                 <div className="col-md-16">
-                  <label>{t("Booking Link")} *</label>
+                  <label>{t("Booking Link")} </label>
                   <input type="text" className="form-control" placeholder="https://booking.com"
-                    {...register("booking_link", { required: true })}
-                    required />
+                    {...register("booking_link")}/>
                   <div className="invalid-feedback">
                     {errors.booking_link && errors.booking_link.message}
                   </div>

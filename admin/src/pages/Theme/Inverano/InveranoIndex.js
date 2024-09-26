@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { Tabs, Tab, Box } from '@mui/material';
 import InveranoIndexTable from "./InveranoIndexTable";
-import HeadingInverano from "./Heading/HeadingInverano";
+import HeadingInverano from "../../Details/Inverano/Heading/HeadingInverano";
+import InveranoDetailsIndex from "pages/Details/Inverano/InveranoDetailsIndex";
 
 function InveranoIndex() {
     const { t } = useTranslation();
@@ -47,7 +48,7 @@ function InveranoIndex() {
                                 <h6>{t('All Inveranos')}</h6>
                             </div>
                             <div className="card-body px-0 pt-0 pb-2">
-                                <InveranoIndexTable />
+                                <InveranoDetailsIndex />
                             </div>
                         </div>
                     )}

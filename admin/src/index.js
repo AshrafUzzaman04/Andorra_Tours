@@ -1,7 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client"; // Updated import
 import App from "./App";
-
 // Soft UI Context Provider
 import { SoftUIControllerProvider } from "context";
 

@@ -27,12 +27,24 @@ class VeranoController extends Controller
         return response()->json(["message" => "success", "data" => $veranos, "heading" => $heading], 200);
     }
 
+    public function VeranoBySlug($slug)
+    {
+        $verano = Verano::where("slug", $slug)->with(['details'])->first();
+        return response()->json(["success" => true, "data" => $verano],200);
+    }
+
+    public function create()
+    {
+        $veranos = Verano::where("status", "Active")->get();
+        return response()->json(["success" => true, "data" => $veranos],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(VeranoRequest $request)
     {
-        $data = $request->only(["label", "reviews", "reviews_link", "title", "price", "booking_link", "status", "total_reviews"]);
+        $data = $request->validated();
         if ($request->hasFile("photo")) {
             $photoUrl = "storage/" . $request->photo->store("verano-image");
             $data["photo"] = $photoUrl;
@@ -55,7 +67,7 @@ class VeranoController extends Controller
      */
     public function update(VeranoRequest $request, Verano $verano)
     {
-        $data = $request->only(["label", "reviews", "reviews_link", "title", "price", "booking_link", "status", "total_reviews"]);
+        $data = $request->validated();
         if ($request->hasFile("photo")) {
             $expolde = explode("/", $verano->photo);
             $imageUrl = $expolde[1] . "/" . $expolde[2];

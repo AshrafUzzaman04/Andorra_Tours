@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Header;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -23,12 +24,14 @@ class HeaderController extends Controller
     public function Header()
     {
         $headers = Header::first();
+        $languages = Language::where("status", "Active")->get();
         $categories = Category::with(["sub"])->where("status","Active")->get();
         return response()->json([
             'message'=>"success", 
             'data'=> [
                 "header"=> $headers,
-                "categories"=> $categories
+                "categories"=> $categories,
+                "languages" => $languages
             ]
         ],200);
     }

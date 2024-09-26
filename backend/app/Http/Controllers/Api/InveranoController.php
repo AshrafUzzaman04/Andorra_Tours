@@ -32,7 +32,7 @@ class InveranoController extends Controller
      */
     public function store(InveranoRequest $request)
     {
-        $data = $request->only(["label", "reviews", "reviews_link", "title", "price", "booking_link", "status", "total_reviews"]);
+        $data = $request->validated();
         if ($request->hasFile("photo")) {
             $photoUrl = "storage/" . $request->photo->store("inverano-image");
             $data["photo"] = $photoUrl;
@@ -55,7 +55,7 @@ class InveranoController extends Controller
      */
     public function update(InveranoRequest $request, Inverano $inverano)
     {
-        $data = $request->only(["label", "reviews", "reviews_link", "title", "price", "booking_link", "status", "total_reviews"]);
+        $data = $request->validated();
         if ($request->hasFile("photo")) {
             $expolde = explode("/", $inverano->photo);
             $imageUrl = $expolde[1] . "/" . $expolde[2];

@@ -2,6 +2,7 @@
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
+import { useLocale } from "next-intl";
 
 export interface VeranoDataItem {
     id: number;
@@ -12,6 +13,7 @@ export interface VeranoDataItem {
     title: string;
     price: string;
     booking_link: string;
+    slug: string;
     photo: string;
     status: string;
     created_at: string;
@@ -33,7 +35,7 @@ export interface ExperienceVeranoSliderProps {
 
 export default function ExperienceVeranoSlider({ veranoData ,headingData }: ExperienceVeranoSliderProps) {
     return (
-        <>
+        <> 
 
             <section className="section-box box-our-featured background-body pt-60">
                 <div className="container">
@@ -63,7 +65,7 @@ export default function ExperienceVeranoSlider({ veranoData ,headingData }: Expe
                                                         <div className="card-right"> <span className="rating">{verano?.reviews} <span className="text-sm-medium neutral-500">({verano?.total_reviews} reviews)</span></span>
                                                         </div>
                                                     </div>
-                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={`/verano/${verano?.id}`}>{verano?.title}</Link>
+                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={`/verano/${verano?.slug}`}>{verano?.title}</Link>
                                                     </div>
                                                     <div className="card-program">
                                                         <div className="card-duration-tour">

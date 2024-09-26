@@ -9,6 +9,7 @@ import MobileMenu from '../MobileMenu'
 import Sidebar from '../Sidebar'
 import PopupSignin from '../PopupSignin'
 import PopupSignup from '../PopupSignup'
+import { useTranslations } from 'next-intl'
 const ThemeSwitch = dynamic(() => import('@/components/elements/ThemeSwitch'), {
 	ssr: false,
 })
@@ -97,7 +98,7 @@ export default function Header1({ data }: { data: any }) {
 							</div>
 						</div>
 						<div className="header-right">
-							{data?.header?.show_language === 1 && <LanguageDropdown />}
+							{data?.header?.show_language === 1 && <LanguageDropdown languages={data?.languages} />}
 							{data?.header?.show_currency === 1 && <CurrencyDropdown />}
 							<div className="d-none d-xxl-inline-block align-middle mr-15">
 								{data?.header?.show_light_dark === 1 && <ThemeSwitch />}

@@ -23,7 +23,7 @@ const VeranoEdit = () => {
     if(params?.id){
         callFetch("verano/" + params.id, "GET", []).then((res) => {
             for (let [key, value] of Object.entries(res.data)) {
-                if(key !== "photo"){
+                if(key !== "photo" && value !== "null"){
                     setValue(key, value);
                 }
                 
@@ -47,7 +47,7 @@ const VeranoEdit = () => {
       <div className="col-12">
         <div className="card mb-4">
           <div className="card-header pb-0">
-            <h6>{t("Create Verano")}</h6>
+            <h6>{t("Edit Verano")}</h6>
           </div>
           <div className="card-body">
             <form
@@ -108,10 +108,9 @@ const VeranoEdit = () => {
               </div>
               <div className="row g-3">
                 <div className="col-md-6">
-                  <label>{t("Reviews Link")} *</label>
+                  <label>{t("Reviews Link")} </label>
                   <input type="text" className="form-control" placeholder="https://example.com"
-                    {...register("reviews_link", { required: true })}
-                    required />
+                    {...register("reviews_link")}/>
                   <div className="invalid-feedback">
                     {errors.reviews_link && errors.reviews_link.message}
                   </div>
@@ -149,10 +148,9 @@ const VeranoEdit = () => {
               </div>
               <div className="row g-3 mt-2">
                 <div className="col-md-16">
-                  <label>{t("Booking Link")} *</label>
+                  <label>{t("Booking Link")} </label>
                   <input type="text" className="form-control" placeholder="https://booking.com"
-                    {...register("booking_link", { required: true })}
-                    required />
+                    {...register("booking_link")}/>
                   <div className="invalid-feedback">
                     {errors.booking_link && errors.booking_link.message}
                   </div>

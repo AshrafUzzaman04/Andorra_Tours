@@ -152,6 +152,12 @@ import PartnerCreate from "pages/Footer/Partner/PartnerCreate";
 import PartnerEdit from "pages/Footer/Partner/PartnerEdit";
 import SocialLinksCreate from "pages/Footer/SocialLinks/SocialLinksCreate";
 import SocialLinksEdit from "pages/Footer/SocialLinks/SocialLinksEdit";
+import VeranoDetailsIndex from "pages/Details/Verano/VeranoDetailsIndex";
+import VeranoDetailsCreate from "pages/Details/Verano/VeranoDetailsCreate";
+import VeranoDetailsEdit from "pages/Details/Verano/VeranoDetailsEdit";
+import InveranoDetailsIndex from "pages/Details/Inverano/InveranoDetailsIndex";
+import InveranoDetailsCreate from "pages/Details/Inverano/InveranoDetailsCreate";
+import InveranoDetailsEdit from "pages/Details/Inverano/InveranoDetailsEdit";
 
 
 function App() {
@@ -163,8 +169,7 @@ function App() {
     // Cache for the rtl
     useMemo(() => {
         const cacheRtl = createCache({
-            key: "rtl",
-            stylisPlugins: [rtlPlugin],
+            key: "ltl",
         });
 
         setRtlCache(cacheRtl);
@@ -242,7 +247,7 @@ function App() {
             <BrowserRouter>
                 <ToastContainer theme="dark" />
                 <CacheProvider value={rtlCache}>
-                    <ThemeProvider theme={themeRTL}>
+                    <ThemeProvider theme={theme}>
                         <Routes>
                             <Route path="/" element={<Signin />} />
                             <Route path="/*" element={<PrivateOutlet />}>
@@ -299,7 +304,13 @@ function App() {
                                 <Route path="theme-customization/testimonials/create" element={<TestimonialsCreate />} />
                                 <Route path="theme-customization/testimonials/:id/edit" element={<TestimonialsEdit />} />
 
+                                <Route path="details/verano" element={<VeranoDetailsIndex />} />
+                                <Route path="details/verano/create" element={<VeranoDetailsCreate />} />
+                                <Route path="details/verano/:id/edit" element={<VeranoDetailsEdit />} />
 
+                                <Route path="details/inverano" element={<InveranoDetailsIndex />} />
+                                <Route path="details/inverano/create" element={<InveranoDetailsCreate />} />
+                                <Route path="details/inverano/:id/edit" element={<InveranoDetailsEdit />} />
 
                                 <Route path="footer/details" element={<FooterDetails />} />
 

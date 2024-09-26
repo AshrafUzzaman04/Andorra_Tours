@@ -1,5 +1,87 @@
+"use client"
+import { useState } from "react";
 
-export default function BookingForm() {
+export interface VeranoDetails {
+	FormData: {
+		id: number;
+		verano_id: number;
+		duration: string;
+		duration_title: string;
+		group_size: string;
+		group_size_title: string;
+		tour_type: string;
+		tour_type_title: string;
+		language: string;
+		language_title: string;
+		details: string; // This is a string that will be parsed
+		form_title: string;
+		times: string; // This is a string that will be parsed
+		service_title: string;
+		services: string; // This is a string that will be parsed
+		add_extra_title: string;
+		add_extra: string; // This is a string that will be parsed
+		question_title: string;
+		answers: string; // This is a string that will be parsed
+		status: string;
+		created_at: string;
+		updated_at: string;
+	},
+	price: string
+}
+
+export interface TimeSlot {
+	id: number;
+	time: string;
+}
+
+export interface ServiceItem {
+	id: number;
+	service_name: string;
+	price: string;
+	quantity: string;
+}
+
+export interface ExtraService {
+	id: number;
+	extra_service_name: string;
+	price: string;
+	service_name: string;
+}
+export default function BookingForm({ FormData, price }: VeranoDetails) {
+	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
+	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
+	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
+    const [quantities, setQuantities] = useState(parsedServices.map(() => 1));
+    
+    // State to store selected extras
+    const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras.map(() => false));
+
+    // Function to handle quantity input change
+    const handleQuantityChange = (i: number, value: number) => {
+        const updatedQuantities = [...quantities];
+        updatedQuantities[i] = value;
+        setQuantities(updatedQuantities);
+    };
+
+    // Function to handle checkbox change
+    const handleExtraChange = (i: number) => {
+        const updatedExtras = [...selectedExtras];
+        updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
+        setSelectedExtras(updatedExtras);
+    };
+
+    // Function to calculate total price
+    const calculateTotalPrice = () => {
+        const serviceTotal = parsedServices.reduce((sum, service, i) => {
+            return sum + Number(service.price) * quantities[i];
+        }, 0);
+
+        const extrasTotal = parsedAddExtras.reduce((sum, extra, i) => {
+            return sum + (selectedExtras[i] ? Number(extra.price) : 0);
+        }, 0);
+
+        return serviceTotal + extrasTotal; // Combine both totals
+    };
 	return (
 		<>
 			<div className="content-booking-form">
@@ -13,93 +95,66 @@ export default function BookingForm() {
 				</div>
 				<div className="item-line-booking"> <strong className="text-md-bold neutral-1000">Time:</strong>
 					<div className="line-booking-right">
-						<label>
-							<input type="radio" name="time" />12:00
-						</label>
-						<label>
-							<input type="radio" name="time" />17:00
-						</label>
+						{
+							parsedTimes && parsedTimes?.map((time: any, i: any) => (
+								<label key={i}>
+									<input type="radio" name="time" />{time?.time}
+								</label>
+							))
+						}
 					</div>
 				</div>
 				<div className="item-line-booking">
-					<div className="box-tickets"><strong className="text-md-bold neutral-1000">Tickets:</strong>
-						<div className="line-booking-tickets">
-							<div className="item-ticket">
-								<p className="text-md-medium neutral-500 mr-30">Adult (18+ years)</p>
-								<p className="text-md-medium neutral-500">$42.50 </p>
-							</div>
-							<div className="dropdown-quantity">
-								<div className="dropdown">
-									<button className="btn dropdown-toggle" id="dropdownTicket" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static"><span>01</span>
-										<svg width={12} height={7} viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M1 1L6 6L11 1" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-										</svg>
-									</button>
-									<ul className="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownTicket">
-										<li><a className="dropdown-item active" href="#">01</a></li>
-										<li><a className="dropdown-item" href="#">02</a></li>
-										<li><a className="dropdown-item" href="#">03</a></li>
-									</ul>
+					<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
+						{
+							parsedServices && parsedServices.map((service: any, i: number) => (
+								<div key={i} className="line-booking-tickets">
+									<div className="item-ticket">
+										<p className="text-md-medium neutral-500 mr-30">{service?.service_name}</p>
+										<p className="text-md-medium neutral-500">{service?.price}€</p>
+									</div>
+									<input
+										type="number"
+										className="w-25 h-25 border-none text-md-medium neutral-500"
+										defaultValue={1}
+										min={0}
+										onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
+									/>
 								</div>
-							</div>
-						</div>
-						<div className="line-booking-tickets">
-							<div className="item-ticket">
-								<p className="text-md-medium neutral-500 mr-30">Adult (18+ years)</p>
-								<p className="text-md-medium neutral-500">$42.50 </p>
-							</div>
-							<div className="dropdown-quantity">
-								<div className="dropdown">
-									<button className="btn dropdown-toggle" id="dropdownTicketYouth" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static"><span>01</span>
-										<svg width={12} height={7} viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M1 1L6 6L11 1" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-										</svg>
-									</button>
-									<ul className="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownTicketYouth">
-										<li><a className="dropdown-item active" href="#">01</a></li>
-										<li><a className="dropdown-item" href="#">02</a></li>
-										<li><a className="dropdown-item" href="#">03</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
+							))
+						}
 					</div>
 				</div>
 				<div className="item-line-booking">
-					<div className="box-tickets"><strong className="text-md-bold neutral-1000">Add Extra:</strong>
-						<div className="line-booking-tickets">
-							<div className="item-ticket">
-								<ul className="list-filter-checkbox">
-									<li>
-										<label className="cb-container">
-											<input type="checkbox" /><span className="text-sm-medium">Add service per Booking </span><span className="checkmark" />
-										</label>
-									</li>
-								</ul>
-							</div>
-							<div className="include-price">
-								<p className="text-md-bold neutral-1000">$32.00</p>
-							</div>
-						</div>
-						<div className="line-booking-tickets">
-							<div className="item-ticket">
-								<ul className="list-filter-checkbox">
-									<li>
-										<label className="cb-container">
-											<input type="checkbox" /><span className="text-sm-medium">Add service per Personal </span><span className="checkmark" />
-										</label>
-									</li>
-								</ul>
-							</div>
-							<div className="include-price">
-								<p className="text-md-bold neutral-1000">$24.00</p>
-							</div>
-						</div>
+					<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.add_extra_title}:</strong>
+						{
+							parsedAddExtras && parsedAddExtras?.map((extra, i) => (
+								<div key={i} className="line-booking-tickets">
+									<div className="item-ticket">
+										<ul className="list-filter-checkbox">
+											<li>
+												<label className="cb-container">
+													<input
+														type="checkbox"
+														checked={selectedExtras[i]}
+														onChange={() => handleExtraChange(i)}
+													/>
+													<span className="text-sm-medium">{extra?.service_name} </span><span className="checkmark" />
+												</label>
+											</li>
+										</ul>
+									</div>
+									<div className="include-price">
+										<p className="text-md-bold neutral-1000">{extra?.price}€</p>
+									</div>
+								</div>
+							))
+						}
 					</div>
 				</div>
 				<div className="item-line-booking last-item"> <strong className="text-md-bold neutral-1000">Total:</strong>
 					<div className="line-booking-right">
-						<p className="text-xl-bold neutral-1000">$124.00</p>
+						<p className="text-xl-bold neutral-1000">{Number(price) + calculateTotalPrice()}€</p>
 					</div>
 				</div>
 				<div className="box-button-book"> <a className="btn btn-book" href="#">Book Now

@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VeranoController;
+use App\Http\Controllers\Api\VeranoDetailsController;
 use App\Http\Controllers\Api\WhyTravelController;
 use App\Http\Middleware\AuthKeyCheck;
 use Illuminate\Http\Request;
@@ -54,6 +55,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //experience de verano
     Route::apiResource("verano",VeranoController::class);
+    Route::get("veranos",[VeranoController::class, 'create']);
+    Route::apiResource("veranoDeatils",VeranoDetailsController::class);
+
     Route::apiResource("inverano",InveranoController::class);
 
     Route::apiResource("promotion",OfferBannerController::class);
@@ -103,7 +107,8 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("why-travels",[WhyTravelController::class,"getWhyTravels"]);
     Route::get("testimonials",[TestimonialController::class,"getTestimonials"]);
     Route::get("footer",[FooterController::class,"index"]);
-    
+    Route::get("page/{slug}",[FooterPageController::class, 'SlugBase']);
+    Route::get("verano/{slug}",[VeranoController::class, 'VeranoBySlug']);
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

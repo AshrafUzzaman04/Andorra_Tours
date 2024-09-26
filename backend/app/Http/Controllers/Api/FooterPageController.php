@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFooterPage;
 use App\Http\Requests\UpdateFooterPage;
 use App\Models\FooterPage;
+use App\Models\SocialLink;
 use Illuminate\Http\Request;
 
 class FooterPageController extends Controller
@@ -32,6 +33,14 @@ class FooterPageController extends Controller
         // Fetch all FooterPage records
         $footerPages = FooterPage::all();
         return response()->json(["success" => true, "data" => $footerPages], 200);
+    }
+
+    public function SlugBase($slug)
+    {
+        // Fetch all FooterPage records
+        $footerPages = FooterPage::where("page_slug", $slug)->first();
+        $footerSocial = SocialLink::where("status", "Active")->get();
+        return response()->json(["success" => true, "data" => $footerPages, "socialLinks" => $footerSocial], 200);
     }
 
     /**

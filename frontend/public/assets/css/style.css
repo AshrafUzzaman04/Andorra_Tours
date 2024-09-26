@@ -13966,6 +13966,22 @@ h2 span {
   margin-bottom: 24px;
   color: var(--bs-neutral-1000);
 }
+.box-detail-info h2, h3{
+  color: var(--bs-neutral-1000);
+}
+.box-detail-info ul, li{
+  color: var(--bs-neutral-700);
+}
+
+.box-detail-info ul, li > a{
+  color: var(--bs-neutral-700) !important;
+}
+
+.box-detail-info p > a{
+  color: var(--bs-neutral-700) !important;
+}
+
+
 
 .box-countdown-comming .box-count .deals-countdown .countdown-section {
   margin-right: 12px;

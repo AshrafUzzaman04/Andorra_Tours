@@ -40,14 +40,14 @@ function SoftEditor(props) {
   };
 
   // Define the formats (all formatting options supported in the editor)
-  const formats = [
-    'font', 'header', 'size', 'bold', 'italic', 'underline', 'strike', 
-    'color', 'background', 'script', 'list', 'bullet', 'indent', 
-    'align', 'blockquote', 'code-block', 'link', 'image', 'video'
-  ];
+  // const formats = [
+  //   'font', 'header', 'size', 'bold', 'italic', 'underline', 'strike', 
+  //   'color', 'background', 'script', 'list', 'bullet', 'indent', 
+  //   'align', 'blockquote', 'code-block', 'link', 'image', 'video'
+  // ];
   return (
     <SoftEditorRoot>
-      <ReactQuill modules={modules} formats={formats} theme="snow" {...props} />
+      <ReactQuill modules={modules} theme="snow" {...props} />
     </SoftEditorRoot>
   );
 }
