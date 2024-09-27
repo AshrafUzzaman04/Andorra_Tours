@@ -13,6 +13,7 @@ export interface InveranoDataItem {
     booking_link: string;
     photo: string;
     status: string;
+    slug:string;
     created_at: string;
     updated_at: string;
 }
@@ -60,7 +61,7 @@ export default function ExperienceInvirenoSlider({ inverano, headingData }: Expe
                                                         <div className="card-right"> <span className="rating">{verano?.reviews} <span className="text-sm-medium neutral-500">({verano?.total_reviews} reviews)</span></span>
                                                         </div>
                                                     </div>
-                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={verano?.booking_link === null ? "/tour-detail-4":verano?.booking_link}>{verano?.title}</Link>
+                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={verano?.booking_link === null ? "/inverano/"+verano?.slug:verano?.booking_link}>{verano?.title}</Link>
                                                     </div>
                                                     <div className="card-program">
                                                         <div className="card-duration-tour">
@@ -71,7 +72,7 @@ export default function ExperienceInvirenoSlider({ inverano, headingData }: Expe
                                                                 <p className="text-md-medium neutral-500 me-2"> Desde / </p>
                                                                 <h6 className="heading-6 neutral-1000"> {verano?.price} € </h6>
                                                             </div>
-                                                            <div className="card-button"> <Link className="btn btn-gray" href={verano?.booking_link === null ? "/tour-detail-4":verano?.booking_link}>Book Now</Link></div>
+                                                            <div className="card-button"> <Link className="btn btn-gray" href={verano?.booking_link === null ? "/inverano/"+verano?.slug:verano?.booking_link}>Book Now</Link></div>
                                                         </div>
                                                     </div>
                                                 </div>
