@@ -47,7 +47,7 @@ const VeranoDetailsCreate = () => {
     setSaving(true);
     formData.details = JSON.stringify(formData?.details)
     //formData.details = JSON.stringify(getValues("details"));
-    callFetch("veranoDeatils?step="+activeStep, "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils?step="+activeStep+"&for=verano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)

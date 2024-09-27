@@ -94,14 +94,14 @@ function VeranoDetailsIndexTable() {
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'veranoDeatils', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'veranoDeatils?for=verano', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    callFetch("veranoDeatils?page=" + pageNumber, "GET", []).then((res) => {
+    callFetch("veranoDeatils?page=" + pageNumber + "&for=verano", "GET", []).then((res) => {
       setData(res.data)
     });
   }, [pageNumber, refresh]);

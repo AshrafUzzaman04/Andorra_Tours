@@ -32,4 +32,9 @@ class Inverano extends Model
             $model->slug = Str::slug($model->title); 
         });
     }
+
+    public function details()
+    {
+        return $this->hasOne(VeranoDetail::class, 'verano_id')->where('for', '=', 'inverano');
+    }
 }

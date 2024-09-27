@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VeranoRequest;
+use App\Models\Inverano;
 use App\Models\SectionHeading;
 use App\Models\Verano;
 use Illuminate\Http\Request;
@@ -35,7 +36,12 @@ class VeranoController extends Controller
 
     public function create()
     {
-        $veranos = Verano::where("status", "Active")->get();
+        $for = request()->get('for');
+        if($for == "verano"){
+            $veranos = Verano::where("status", "Active")->get();
+        }elseif($for == "inverano"){
+            $veranos = Inverano::where("status", "Active")->get();
+        }
         return response()->json(["success" => true, "data" => $veranos],200);
     }
 

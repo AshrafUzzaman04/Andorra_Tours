@@ -79,9 +79,9 @@ export default function BookingForm({ FormData, price }: FromDataPriceTypes) {
 		const serviceTotal = parsedServices.reduce((sum, service, i) => {
 			return sum + Number(service.price) * quantities[i];
 		}, 0);
-
+		const totalSum = quantities.reduce((sum, value) => sum + value, 0);
 		const extrasTotal = parsedAddExtras.reduce((sum, extra, i) => {
-			return sum + (selectedExtras[i] ? Number(extra.price) : 0);
+			return totalSum !== 0 ? sum + (selectedExtras[i] ? Number(extra.price) * totalSum : 0):sum + (selectedExtras[i] ? Number(extra.price) : 0);
 		}, 0);
 
 		return serviceTotal + extrasTotal; // Combine both totals

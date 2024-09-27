@@ -10,6 +10,7 @@ class VeranoDetail extends Model
     use HasFactory;
     protected $fillable = [
         "verano_id",
+        "for",
         "duration",
         "duration_title",
         "group_size",

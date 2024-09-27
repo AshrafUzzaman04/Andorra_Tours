@@ -27,6 +27,12 @@ class InveranoController extends Controller
         return response()->json(["message" => "success", "data" => $inveranos, "heading" => $heading], 200);
     }
 
+    public function InveranoBySlug($slug)
+    {
+        $verano = Inverano::where("slug", $slug)->with(['details'])->first();
+        return response()->json(["success" => true, "data" => $verano],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

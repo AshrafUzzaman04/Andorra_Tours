@@ -36,6 +36,6 @@ class Verano extends Model
 
     public function details()
     {
-        return $this->hasOne(VeranoDetail::class);
+        return $this->hasOne(VeranoDetail::class)->where('for', '=', 'verano');
     }
 }

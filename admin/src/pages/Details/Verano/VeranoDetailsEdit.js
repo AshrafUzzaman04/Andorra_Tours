@@ -47,7 +47,7 @@ const VeranoDetailsEdit = () => {
   useEffect(() => {
     if (params?.id) {
       reset();
-      callFetch("veranoDeatils/" + params.id, "GET", []).then((res) => {
+      callFetch("veranoDeatils/" + params.id +"?for=verano", "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
           if (key !== "photo" && value !== "null") {
             setValue(key, value);
@@ -68,7 +68,7 @@ const VeranoDetailsEdit = () => {
     if(typeof formData?.details !== "string"){
       formData.details = JSON.stringify(formData?.details)
     }
-    callFetch("veranoDeatils/"+params?.id + "?step="+ activeStep, "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils/"+params?.id + "?step="+ activeStep +"&for=verano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)

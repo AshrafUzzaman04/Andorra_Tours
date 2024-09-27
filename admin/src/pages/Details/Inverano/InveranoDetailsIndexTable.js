@@ -19,16 +19,16 @@ function InveranoDetailsIndexTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/theme-customization/verano/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/details/inverano/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
       name: t('Photo'),
       width: "200px",
       sortable: true,
       reorder: true,
-      selector: row => <div className="row mt-1 d-flex align-items-center" style={{ width: '600px' }}>
+      selector: row => <div className="row mt-1 d-flex align-items-center pb-1" style={{ width: '600px' }}>
         <div className="col-2 pe-0">
-          <img className="avatar avatar-xl" src={row?.photo ? process.env.REACT_APP_STORAGE_URL + row?.photo : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-xl" src={row?.verano?.photo ? process.env.REACT_APP_STORAGE_URL + row?.verano?.photo : '/assets/img/placeholder.png'} alt="photo" />
         </div>
       </div>
     },
@@ -36,20 +36,40 @@ function InveranoDetailsIndexTable() {
       name: t('Title'),
       sortable: true,
       reorder: true,
-      selector: row => row.title
+      selector: row => row?.verano?.title
     },
     {
-      name: t('Price'),
+      name: t('Services'),
       sortable: true,
       reorder: true,
-      selector: row => row.price + "€"
+      selector: row => <div>
+        {
+          // + "€"
+          row.services && JSON.parse(row.services)?.map((service, i) =>(
+            <div key={i} >
+              <span className="me-2">{service?.service_name}</span>  
+              <span>{service?.price + "€"}</span>
+            </div>
+          ))
+        }
+      </div>
     },
 
     {
-      name: t('Label'),
+      name: t('Extra Service'),
       sortable: true,
       reorder: true,
-      selector: row => row.label
+      selector: row => <div>
+      {
+        // + "€"
+        row.add_extra && JSON.parse(row.add_extra)?.map((service, i) =>(
+          <div key={i} >
+            <span className="me-2">{service?.service_name}</span>  
+            <span>{service?.price + "€"}</span>
+          </div>
+        ))
+      }
+    </div>
     },
 
     {
@@ -69,19 +89,19 @@ function InveranoDetailsIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
-            <NavLink to={'/theme-customization/verano/' + row.id + '/edit'} className="dropdown-item">
+            <NavLink to={'/details/inverano/' + row.id + '/edit'} className="dropdown-item">
               {t('Edit')}
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'verano', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'veranoDeatils?for=inverano', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    callFetch("verano?page=" + pageNumber, "GET", []).then((res) => {
+    callFetch("veranoDeatils?page=" + pageNumber + "&for=inverano", "GET", []).then((res) => {
       setData(res.data)
     });
   }, [pageNumber, refresh]);
@@ -103,7 +123,7 @@ function InveranoDetailsIndexTable() {
 
   useEffect(() => {
     if (searchKey.length > 0) {
-      callFetch('employee/serach/' + searchKey, "GET", []).then((res) => {
+      callFetch('employee/serach/' + searchKey, "GET", []).then((res) => { 
         setData(res.data)
       })
 
@@ -201,5 +221,4 @@ function InveranoDetailsIndexTable() {
   />;
 }
 
- 
 export default InveranoDetailsIndexTable

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Inverano;
 use App\Models\Verano;
 use App\Models\VeranoDetail;
 use Illuminate\Http\Request;
@@ -15,13 +16,19 @@ class VeranoDetailsController extends Controller
      */
     public function index()
     {
-        $veranoDetails = VeranoDetail::with(["verano"])->paginate(10);
+        $detailsFor = request()->get("for");
+        $veranoDetails = VeranoDetail::where("for",$detailsFor)->with(["verano"])->paginate(10);
         return response()->json(["success" => true, "data" => $veranoDetails], 200);
     }
 
     public function create()
     {
-        $veranos = Verano::where("status", "Active")->get();
+        $for = request()->get('for');
+        if($for == "verano"){
+            $veranos = Verano::where("status", "Active")->get();
+        }elseif($for == "inverano"){
+            $veranos = Inverano::where("status", "Active")->get();
+        }
         return response()->json(["success" => true, "data" => $veranos], 200);
     }
 
@@ -100,7 +107,7 @@ class VeranoDetailsController extends Controller
             VeranoDetail::create($data);
         
             // Final success response
-            return response()->json(["success" => true, "message" => "Verano details created", "step" => "done"], 201);
+            return response()->json(["success" => true, "message" => "Activity details created", "step" => "done"], 201);
         }
     }
 
@@ -109,7 +116,8 @@ class VeranoDetailsController extends Controller
      */
     public function show(VeranoDetail $veranoDetail, $veranoDeatil)
     {
-        $veranoDetail = VeranoDetail::where("id", $veranoDeatil)->first();
+        $for = request()->get('for');
+        $veranoDetail = VeranoDetail::where("for",$for)->where("id", $veranoDeatil)->first();
         return response()->json(["success" => true, "data" => $veranoDetail], 200);
     }
 
@@ -118,10 +126,10 @@ class VeranoDetailsController extends Controller
      */
     public function update(Request $request, VeranoDetail $veranoDetail,$veranoDeatil)
     {
-        $veranoDetail = VeranoDetail::where("id", $veranoDeatil)->first();
+        $veranoDetail = VeranoDetail::where("for",$request->get('for'))->where("id", $veranoDeatil)->first();
         $step = $request->get("step");
         $data = $request->input('data', []);
-
+        $data['for'] = $request->get("for");
         if ($step == 0) {
             // Step 0 validation
             $validation = Validator::make($request->all(), [
@@ -187,7 +195,7 @@ class VeranoDetailsController extends Controller
             // Save the accumulated data to the database
             $veranoDetail->update($data);
             // Final success response
-            return response()->json(["success" => true, "message" => "Verano details updated","step" => "done"], 200);
+            return response()->json(["success" => true, "message" => "Activity details updated","step" => "done"], 200);
         }
     }
 
@@ -196,8 +204,9 @@ class VeranoDetailsController extends Controller
      */
     public function destroy(VeranoDetail $veranoDetail,$veranoDeatil)
     {
-        $veranoDetail = VeranoDetail::where("id", $veranoDeatil)->first();
+        $for = request()->get('for');
+        $veranoDetail = VeranoDetail::where("for",$for)->where("id", $veranoDeatil)->first();
         $veranoDetail->delete();
-        return response()->json(["success" => true, "message" => "Verano details deleted"], 200);
+        return response()->json(["success" => true, "message" => "Activity details deleted"], 200);
     }
 }

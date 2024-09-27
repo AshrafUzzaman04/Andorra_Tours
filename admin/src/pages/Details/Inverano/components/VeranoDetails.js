@@ -23,7 +23,7 @@ const VeranoDetails = ({ formData }) => {
     }, [0])
 
     useEffect(() => {
-        callFetch("veranos?for=verano", "GET", []).then((res) => {
+        callFetch("veranos?for=inverano", "GET", []).then((res) => {
             setVeranos(res?.data);
             if(formData?.params?.id){
                 setValue("verano", formData?.data?.verano_id)
@@ -82,7 +82,7 @@ const VeranoDetails = ({ formData }) => {
                 <div className="col-md-6">
                     <div class="form-group">
 
-                        <label>{t("Veranos")} *</label>
+                        <label>{t("Inveranos")} *</label>
                         <select placeholder={t("verano")}
                             {...register("verano", {
                                 required: true,

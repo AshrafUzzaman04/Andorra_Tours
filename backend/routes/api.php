@@ -109,6 +109,7 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("footer",[FooterController::class,"index"]);
     Route::get("page/{slug}",[FooterPageController::class, 'SlugBase']);
     Route::get("verano/{slug}",[VeranoController::class, 'VeranoBySlug']);
+    Route::get("inverano/{slug}",[InveranoController::class, 'InveranoBySlug']);
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
