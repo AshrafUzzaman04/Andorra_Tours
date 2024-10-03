@@ -83,7 +83,7 @@ const BookingForm = ({ formData }) => {
     });
     setAddExtra(titems);
     setRefresh(refresh + 1);
-    setValue("add_extra", JSON.stringify(addExtra))
+    setValue("add_extra", JSON.stringify(titems))
   }
 
   return (

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
-import SoftEditor from "components/SoftEditor";
 import { Grid, Step, StepLabel, Stepper } from "@mui/material";
 import VeranoDetails from "./components/VeranoDetails";
-import QuestionAnswer from "./components/QuestionAnswer";
 import BookingForm from "./components/BookingForm";
+import Pricing from "./components/Pricing";
 function getSteps() {
-  return ["Details", "Question & Answer", "Form"];
+  return ["Details", "Pricing", "Form"];
 }
 
 function getStepContent(stepIndex, formData) {
@@ -17,7 +16,7 @@ function getStepContent(stepIndex, formData) {
     case 0:
       return <VeranoDetails formData={formData} />;
     case 1:
-      return <QuestionAnswer formData={formData} />;
+      return <Pricing formData={formData} />;
     case 2:
       return <BookingForm formData={formData} />;
     default:

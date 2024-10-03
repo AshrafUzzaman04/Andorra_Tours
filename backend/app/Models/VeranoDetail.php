@@ -11,14 +11,15 @@ class VeranoDetail extends Model
     protected $fillable = [
         "verano_id",
         "for",
-        "duration",
-        "duration_title",
-        "group_size",
-        "group_size_title",
-        "tour_type",
-        "tour_type_title",
-        "language",
-        "language_title",
+        "pricing",
+        // "duration",
+        // "duration_title",
+        // "group_size",
+        // "group_size_title",
+        // "tour_type",
+        // "tour_type_title",
+        // "language",
+        // "language_title",
         "details",
         "form_title",
         "times",
@@ -26,13 +27,18 @@ class VeranoDetail extends Model
         "services",
         "add_extra_title",
         "add_extra",
-        "question_title",
-        "answers",
+        // "question_title",
+        // "answers",
         "status"
     ];
 
     public function verano()
     {
         return $this->belongsTo(Verano::class);
+    }
+
+    public function inverano()
+    {
+        return $this->belongsTo(Inverano::class, 'verano_id');
     }
 }

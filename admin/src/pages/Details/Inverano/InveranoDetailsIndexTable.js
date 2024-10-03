@@ -28,7 +28,7 @@ function InveranoDetailsIndexTable() {
       reorder: true,
       selector: row => <div className="row mt-1 d-flex align-items-center pb-1" style={{ width: '600px' }}>
         <div className="col-2 pe-0">
-          <img className="avatar avatar-xl" src={row?.verano?.photo ? process.env.REACT_APP_STORAGE_URL + row?.verano?.photo : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-xl" src={row?.inverano?.photo ? process.env.REACT_APP_STORAGE_URL + row?.inverano?.photo : '/assets/img/placeholder.png'} alt="photo" />
         </div>
       </div>
     },
@@ -36,7 +36,7 @@ function InveranoDetailsIndexTable() {
       name: t('Title'),
       sortable: true,
       reorder: true,
-      selector: row => row?.verano?.title
+      selector: row => row?.inverano?.title
     },
     {
       name: t('Services'),

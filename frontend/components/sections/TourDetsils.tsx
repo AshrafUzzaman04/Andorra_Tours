@@ -71,6 +71,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 	function isOdd(number: number) {
 		return number % 2 !== 0;
 	}
+	console.log(details)
 	return (
 		<>
 
@@ -148,7 +149,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 						<div className="container">
 							<div className="row">
 								<div className="col-lg-8">
-									<div className="box-info-tour">
+									{/* <div className="box-info-tour">
 										<div className="tour-info-group">
 											<div className="icon-item">
 												<svg width={18} height={19} viewBox="0 0 18 19" xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +204,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 												<p className="text-lg-bold neutral-1000">{details?.details?.language ? details?.details?.language : ""}</p>
 											</div>
 										</div>
-									</div>
+									</div> */}
 									<div className="box-collapse-expand">
 										{
 											parsedDetails && parsedDetails?.map((details, i) => (
@@ -222,7 +223,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 												</div>
 											))
 										}
-										{
+										{/* {
 											parsedAnswers?.length > 0 && <div className="group-collapse-expand">
 												<button className={isAccordion == 5 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuestion" aria-expanded="false" aria-controls="collapseQuestion" onClick={() => handleAccordion(5)}>
 													<h6>Question  Answers</h6>
@@ -249,9 +250,9 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 													</div>
 												</div>
 											</div>
-										}
+										} */}
 
-										<div className="group-collapse-expand">
+										{/* <div className="group-collapse-expand">
 											<button className={isAccordion == 6 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseReviews" aria-expanded="false" aria-controls="collapseReviews" onClick={() => handleAccordion(6)}>
 												<h6>Rate  Reviews</h6>
 												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
@@ -488,7 +489,7 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> */}
 									</div>
 								</div>
 								<div className="col-lg-4">
@@ -496,7 +497,10 @@ export default function TourDetails({ details }: { details: VeranoData }) {
 										<div className="head-booking-form">
 											<p className="text-xl-bold neutral-1000">{details?.details?.form_title}</p>
 										</div>
-										<BookingForm FormData={details.details} price={details.price} />
+										{
+											details?.booking_link === null && <BookingForm FormData={details.details} price={details.price} />
+										}
+										
 									</div>
 									<div className="sidebar-left border-1 background-body">
 										<h6 className="text-lg-bold neutral-1000">Popular Tours</h6>

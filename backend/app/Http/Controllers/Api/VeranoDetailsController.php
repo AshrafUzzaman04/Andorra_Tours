@@ -17,7 +17,7 @@ class VeranoDetailsController extends Controller
     public function index()
     {
         $detailsFor = request()->get("for");
-        $veranoDetails = VeranoDetail::where("for",$detailsFor)->with(["verano"])->paginate(10);
+        $veranoDetails = VeranoDetail::where("for",$detailsFor)->with([$detailsFor])->paginate(10);
         return response()->json(["success" => true, "data" => $veranoDetails], 200);
     }
 
@@ -44,14 +44,6 @@ class VeranoDetailsController extends Controller
             // Step 0 validation
             $validation = Validator::make($request->all(), [
                 "verano" => "required",
-                "duration" => "required|string|max:255",
-                "duration_title" => "required|string|max:255",
-                "group_size" => "required|string|max:255",
-                "group_size_title" => "required|string|max:255",
-                "tour_type" => "required|string|max:255",
-                "tour_type_title" => "required|string|max:255",
-                "language" => "required|string|max:255",
-                "language_title" => "required|string|max:255",
                 "details" => "required|string",
                 "status" => "nullable|string|in:Active,Inactive",
             ]);
@@ -69,9 +61,8 @@ class VeranoDetailsController extends Controller
         
         } elseif ($step == 1) {
             // Step 1 validation
-            $validation = Validator::make($request->all(), [
-                "question_title" => "required|string|max:255",
-                "answers" => "required|string",
+            $validation = Validator::make($request->all(), [ 
+                "pricing" => "required",
             ]);
         
             if ($validation->fails()) {
@@ -134,14 +125,6 @@ class VeranoDetailsController extends Controller
             // Step 0 validation
             $validation = Validator::make($request->all(), [
                 "verano" => "required",
-                "duration" => "required|string|max:255",
-                "duration_title" => "required|string|max:255",
-                "group_size" => "required|string|max:255",
-                "group_size_title" => "required|string|max:255",
-                "tour_type" => "required|string|max:255",
-                "tour_type_title" => "required|string|max:255",
-                "language" => "required|string|max:255",
-                "language_title" => "required|string|max:255",
                 "details" => "required|string",
                 "status" => "nullable|string|in:Active,Inactive",
             ]);
@@ -160,8 +143,7 @@ class VeranoDetailsController extends Controller
         } elseif ($step == 1) {
             // Step 1 validation
             $validation = Validator::make($request->all(), [
-                "question_title" => "required|string|max:255",
-                "answers" => "required|string",
+                "pricing" => "required",
             ]);
         
             if ($validation->fails()) {
