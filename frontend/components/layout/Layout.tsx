@@ -1,16 +1,12 @@
 
 'use client'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import BackToTop from '../elements/BackToTop'
 import ButtonClick from '../elements/ButtonClick'
 // import DropdownSelect from '../elements/DropdownSelect'
 import ItemCollapse from '../elements/ItemCollapse'
 import TestimonialBlock from '../elements/TestimonialBlock'
 import Breadcrumb from './Breadcrumb'
-import MobileMenu from './MobileMenu'
-import PopupSignin from './PopupSignin'
-import PopupSignup from './PopupSignup'
-import Sidebar from './Sidebar'
 
 interface LayoutProps {
 	headerStyle?: Number

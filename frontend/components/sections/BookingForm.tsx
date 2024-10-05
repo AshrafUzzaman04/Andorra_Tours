@@ -167,8 +167,8 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		const updatedQuantities = [...quantities];
 		updatedQuantities[i] = value;
 		setQuantities(updatedQuantities);
-
 		const newTotalPrice = calculateTotalPrice();
+
 		setBookingData(prev => ({
 			...prev,
 			services: parsedServices.map((service, index) => ({
@@ -186,6 +186,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
 		setSelectedExtras(updatedExtras);
 		const newTotalPrice = calculateTotalPrice();
+		
 		setBookingData(prev => ({
 			...prev,
 			extra_services: parsedAddExtras.map((extra, index) => ({
