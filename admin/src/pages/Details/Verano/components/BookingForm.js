@@ -96,10 +96,7 @@ const BookingForm = ({ formData }) => {
               type="text"
               className="form-control mb-4"
               placeholder={t("Booking Form")}
-              {...register("form_title", {
-                required: true,
-              })}
-              required
+              {...register("form_title")}
             />
             <div className="invalid-feedback">
               {errors.form_title && errors.form_title.message}
@@ -156,10 +153,7 @@ const BookingForm = ({ formData }) => {
               type="text"
               className="form-control mb-4"
               placeholder={t("Ticket")}
-              {...register("service_title", {
-                required: true,
-              })}
-              required
+              {...register("service_title")}
             />
             <div className="invalid-feedback">
               {errors.service_title && errors.service_title.message}
@@ -189,7 +183,6 @@ const BookingForm = ({ formData }) => {
                             setServices(services)
                             setValue("services", JSON.stringify(services))
                           }}
-                          required
                         />
                         <div className="invalid-feedback">
                           {errors.service_name && errors.service_name.message}
@@ -212,7 +205,6 @@ const BookingForm = ({ formData }) => {
                             setServices(services)
                             setValue("services", JSON.stringify(services))
                           }}
-                          required
                         />
                         <div className="invalid-feedback">
                           {errors.price && errors.price.message}
@@ -235,7 +227,6 @@ const BookingForm = ({ formData }) => {
                             setServices(services)
                             setValue("services", JSON.stringify(services))
                           }}
-                          required
                         />
                         <div className="invalid-feedback">
                           {errors.quantity && errors.quantity.message}
@@ -266,10 +257,7 @@ const BookingForm = ({ formData }) => {
               type="text"
               className="form-control mb-4"
               placeholder={t("Add Extra Service")}
-              {...register("add_extra_title", {
-                required: true,
-              })}
-              required
+              {...register("add_extra_title")}
             />
             <div className="invalid-feedback">
               {errors.add_extra_title && errors.add_extra_title.message}
@@ -298,7 +286,6 @@ const BookingForm = ({ formData }) => {
                             setAddExtra(addExtra)
                             setValue("add_extra", JSON.stringify(addExtra))
                           }}
-                          required
                         />
                         <div className="invalid-feedback">
                           {errors.service_name && errors.service_name.message}
@@ -322,7 +309,6 @@ const BookingForm = ({ formData }) => {
                             setAddExtra(addExtra)
                             setValue("add_extra", JSON.stringify(addExtra))
                           }}
-                          required
                         />
                         <div className="invalid-feedback">
                           {errors.quantity && errors.quantity.message}

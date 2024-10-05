@@ -32,7 +32,7 @@ export default function BannerOfferSlider({ promotionData }: promotionTypesData)
                                 <div className="card-info">
                                     <h4 style={{ width: "251px" }} className="fs-2">{promotion?.banner_title}</h4>
                                     <Link href={promotion?.button_link}>
-                                        <button className="btn btn-secondary fw-bold fs-6 rounded-pill border-0" style={{backgroundColor:promotion?.button_color, color:promotion?.button_text_color}}>
+                                        <button className="btn btn-secondary fw-bold fs-6 rounded-pill border-0 mt-200 ml-180 mx-auto" style={{backgroundColor:promotion?.button_color, color:promotion?.button_text_color}}>
                                             {promotion?.button_text}
                                             {/* <svg  width={16} height={16} color={promotion?.button_text_color} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M8 15L15 8L8 1M15 8L1 8" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />

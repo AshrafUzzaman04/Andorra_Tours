@@ -13,7 +13,9 @@
   "dependencies": {
     "@headlessui/react": "^2.0.3",
     "@heroicons/react": "^2.1.5",
+    "@types/flatpickr": "^3.0.2",
     "axios": "^1.7.5",
+    "flatpickr": "^4.6.13",
     "html-react-parser": "^5.1.16",
     "next": "^14.2.8",
     "next-intl": "^3.19.4",
@@ -22,6 +24,7 @@
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.3.1",
     "react-modal-video": "^2.0.2",
+    "react-number-format": "^5.4.2",
     "react-perfect-scrollbar": "^1.5.8",
     "react-slick": "^0.30.2",
     "react-slider": "^2.0.6",

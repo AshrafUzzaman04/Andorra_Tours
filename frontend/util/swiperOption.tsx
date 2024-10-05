@@ -234,6 +234,37 @@ export const swiperBannerOffer: SwiperConfig = {
 	}
 }
 
+
+export const swiperDetails: SwiperConfig = {
+	modules: [Autoplay, Pagination, Navigation],
+	spaceBetween: 30,
+	slidesPerView: 1,
+	slidesPerGroup: 1,
+	loop: true,
+	speed: 1000,
+	navigation: {
+		nextEl: ".swiper-button-next-3",
+		prevEl: ".swiper-button-prev-3"
+	},
+	autoplay: {
+		delay: 10000
+	},
+	breakpoints: {
+		1199: {
+			slidesPerView: 1
+		},
+		800: {
+			slidesPerView: 1
+		},
+		400: {
+			slidesPerView: 1
+		},
+		250: {
+			slidesPerView: 1
+		}
+	}
+}
+
 export const swiperGroup2: SwiperConfig = {
 	modules: [Autoplay, Pagination, Navigation],
 	slidesPerView: 2,

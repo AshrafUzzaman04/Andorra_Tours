@@ -369,7 +369,7 @@ function TopNav({ absolute, light, isMini }) {
                                         <li className="">{user && user.name ? user.name : '' }</li>
                                         <li className="">{user && user.email ? user.email : '' }</li>
                                         </div>
-                                        <div class="dropdown-divider"></div>
+                                        <div className="dropdown-divider"></div>
                                         <li><NavLink to="/dashboard" className="dropdown-item">{t('Dashboard')}</NavLink></li>
                                         {Cookies.get('user') && JSON.parse(Cookies.get('user')).rolename == 'Call Center' || JSON.parse(Cookies.get('user')).rolename == 'Technical Team' ? (
                                             <>

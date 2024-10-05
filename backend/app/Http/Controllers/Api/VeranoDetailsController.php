@@ -62,7 +62,7 @@ class VeranoDetailsController extends Controller
         } elseif ($step == 1) {
             // Step 1 validation
             $validation = Validator::make($request->all(), [ 
-                "pricing" => "required",
+                "pricing" => "nullable",
             ]);
         
             if ($validation->fails()) {
@@ -79,11 +79,11 @@ class VeranoDetailsController extends Controller
             // Step 2 validation
             $validation = Validator::make($request->all(), [
                 "form_title" => "nullable|string|max:255",
-                "times" => "required|string",
-                "service_title" => "required|string",
-                "services" => "required|string",
-                "add_extra_title" => "required|string",
-                "add_extra" => "required|string",
+                "times" => "nullable|string",
+                "service_title" => "nullable|string",
+                "services" => "nullable|string",
+                "add_extra_title" => "nullable|string",
+                "add_extra" => "nullable|string",
             ]);
         
             if ($validation->fails()) {
@@ -115,7 +115,7 @@ class VeranoDetailsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VeranoDetail $veranoDetail,$veranoDeatil)
+    public function update(Request $request, VeranoDetail $veranoDetail, $veranoDeatil)
     {
         $veranoDetail = VeranoDetail::where("for",$request->get('for'))->where("id", $veranoDeatil)->first();
         $step = $request->get("step");
@@ -143,7 +143,7 @@ class VeranoDetailsController extends Controller
         } elseif ($step == 1) {
             // Step 1 validation
             $validation = Validator::make($request->all(), [
-                "pricing" => "required",
+                "pricing" => "nullable|string",
             ]);
         
             if ($validation->fails()) {
@@ -160,11 +160,11 @@ class VeranoDetailsController extends Controller
             // Step 2 validation
             $validation = Validator::make($request->all(), [
                 "form_title" => "nullable|string|max:255",
-                "times" => "required|string",
-                "service_title" => "required|string",
-                "services" => "required|string",
-                "add_extra_title" => "required|string",
-                "add_extra" => "required|string",
+                "times" => "nullable|string",
+                "service_title" => "nullable|string",
+                "services" => "nullable|string",
+                "add_extra_title" => "nullable|string",
+                "add_extra" => "nullable|string",
             ]);
         
             if ($validation->fails()) {

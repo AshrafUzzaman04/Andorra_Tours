@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdvertisementController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
@@ -110,6 +111,8 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("page/{slug}",[FooterPageController::class, 'SlugBase']);
     Route::get("verano/{slug}",[VeranoController::class, 'VeranoBySlug']);
     Route::get("inverano/{slug}",[InveranoController::class, 'InveranoBySlug']);
+
+    Route::post("price",[BookingController::class,"PriceByDay"]);
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
 
 const VeranoDetails = ({ formData }) => {
     
-    const { register, handleSubmit, setError, setValue, getValues, errors } = formData;
-    const [editorContent, setEditorContent] = useState("");
+    const { register, handleSubmit, setError, setValue, getValues, errors, data } = formData;
     const [details, setDetails] = useState([]);
     const { t } = useTranslation();
     const [refresh, setRefresh] = useState(0);
     const [veranos, setVeranos] = useState([]);
+    const [veranoId, setVeranoId] = useState(0);
 
-    const handleEditorChange = (content) => {
-        setEditorContent(content);
-    };
 
     useEffect(() => {
         if(details?.length === 0 ){
@@ -25,9 +22,6 @@ const VeranoDetails = ({ formData }) => {
     useEffect(() => {
         callFetch("veranos?for=inverano", "GET", []).then((res) => {
             setVeranos(res?.data);
-            if(formData?.params?.id){
-                setValue("verano", formData?.data?.verano_id)
-            }
         });
         const jsonDetails = getValues("details");
         const handleJSONDetails = (data) => {
@@ -60,6 +54,8 @@ const VeranoDetails = ({ formData }) => {
                 setDetails(parsedDetails);
             }
         }
+        setVeranoId(data?.verano_id)
+        setValue("verano", data?.verano_id)
     }, [formData?.params?.id, formData.data, getValues]);
 
 
@@ -87,7 +83,10 @@ const VeranoDetails = ({ formData }) => {
                             {...register("verano", {
                                 required: true,
                             })}
-                            required className=" form-control">
+                            required className=" form-control" value={veranoId} onChange={(e)=>{
+                                setVeranoId(e.target.value)
+                                setValue("verano", e.target.value)
+                            }}>
                                 <option>{t("--Select--")}</option>
                             {
                                 veranos && veranos?.map((verano, i) => (
@@ -123,8 +122,8 @@ const VeranoDetails = ({ formData }) => {
                 {
                     details && details?.map((detail, index) => {
                         return (
-                            <>
-                                <div key={index + 1} className="col-md-12">
+                            <Fragment key={index + 1}>
+                                <div className="col-md-12">
                                     <div className="d-flex align-items-center w-100">
                                         <div class="form-group w-100">
                                             <label>{t("Title")} *</label>
@@ -162,7 +161,7 @@ const VeranoDetails = ({ formData }) => {
                                         </div>
                                     </div>
                                 </div>
-                            </>
+                            </Fragment>
                         )
                     })
                 }

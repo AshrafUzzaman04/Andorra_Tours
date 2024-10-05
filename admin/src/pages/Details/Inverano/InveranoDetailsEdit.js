@@ -48,11 +48,8 @@ const InveranoDetailsEdit = () => {
       reset();
       callFetch("veranoDeatils/" + params.id +"?for=inverano", "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "photo" && value !== "null") {
+          if (key !== "photo" && value !== "null" && key !== "verano_id") {
             setValue(key, value);
-          }
-          if(key === "verano_id"){
-            setValue("verano", value);
           }
         }
         setData(res?.data);

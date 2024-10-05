@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "flatpickr/dist/themes/material_green.css";
 const Pricing = ({ formData }) => {
-    const { register, handleSubmit, setError, setValue, getValues, errors } = formData;
+    const { setValue, getValues, errors } = formData;
     const [pricing, setPricing] = useState([]);
     const { t } = useTranslation();
     const [refresh, setRefresh] = useState(0);
 
     useEffect(() => {
         if (pricing?.length === 0) {
-            setPricing([{ id: 0, day: "", online_price: "", shop_price: "" }])
+            setPricing([{ id: 0, day: "", online_price: "", shop_price: "" }]);
         }
     }, [0])
 
@@ -39,8 +39,8 @@ const Pricing = ({ formData }) => {
                 {
                     pricing && pricing?.map((price, i) => (
                         
-                        <>
-                            <div key={i} className="col-md-4">
+                        <Fragment key={i}>
+                            <div className="col-md-4">
                                 <label>{t("Day")} *</label>
                                 <input
                                     type="text"
@@ -53,7 +53,6 @@ const Pricing = ({ formData }) => {
                                         setPricing(pricing)
                                         setValue("pricing", JSON.stringify(pricing))
                                     }}
-                                    required
                                 />
                                 <div className="invalid-feedback">
                                     {errors.pricing && errors.pricing.message}
@@ -75,7 +74,6 @@ const Pricing = ({ formData }) => {
                                                 setValue("pricing", JSON.stringify(pricing))
 
                                             }}
-                                            required
                                         />
                                         <div className="invalid-feedback">
                                             {errors.online_price && errors.online_price.message}
@@ -100,7 +98,6 @@ const Pricing = ({ formData }) => {
                                                 setValue("pricing", JSON.stringify(pricing))
 
                                             }}
-                                            required
                                         />
                                         <div className="invalid-feedback">
                                             {errors.shop_price && errors.shop_price.message}
@@ -112,7 +109,7 @@ const Pricing = ({ formData }) => {
 
                             </div>
 
-                        </>
+                        </Fragment>
                     ))
                 }
                 <div className="col-md-12">

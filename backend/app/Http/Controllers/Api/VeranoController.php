@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VeranoRequest;
 use App\Models\Inverano;
+use App\Models\OfferBanner;
 use App\Models\SectionHeading;
 use App\Models\Verano;
 use Illuminate\Http\Request;
@@ -24,14 +25,16 @@ class VeranoController extends Controller
     public function Verano()
     {
         $heading = SectionHeading::where("heading_for", "verano")->first();
-        $veranos = Verano::with([])->get();
+        $veranos = Verano::with([])->where("status","Active")->get();
         return response()->json(["message" => "success", "data" => $veranos, "heading" => $heading], 200);
     }
 
     public function VeranoBySlug($slug)
     {
         $verano = Verano::where("slug", $slug)->with(['details'])->first();
-        return response()->json(["success" => true, "data" => $verano],200);
+        $popularTours = Verano::where("id", '!=', $verano->id)->where("status","Active")->get(["photo","title","price","booking_link","slug"]);
+        $offerBanner = OfferBanner::where("status","Active")->get();
+        return response()->json(["success" => true, "data" => $verano, "popular_tours"=> $popularTours,"offerBanner"=> $offerBanner], 200);
     }
 
     public function create()

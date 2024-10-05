@@ -53,7 +53,6 @@ const Pricing = ({ formData }) => {
                                         setPricing(pricing)
                                         setValue("pricing", JSON.stringify(pricing))
                                     }}
-                                    required
                                 />
                                 <div className="invalid-feedback">
                                     {errors.pricing && errors.pricing.message}
@@ -75,7 +74,6 @@ const Pricing = ({ formData }) => {
                                                 setValue("pricing", JSON.stringify(pricing))
 
                                             }}
-                                            required
                                         />
                                         <div className="invalid-feedback">
                                             {errors.online_price && errors.online_price.message}
@@ -100,7 +98,6 @@ const Pricing = ({ formData }) => {
                                                 setValue("pricing", JSON.stringify(pricing))
 
                                             }}
-                                            required
                                         />
                                         <div className="invalid-feedback">
                                             {errors.shop_price && errors.shop_price.message}
