@@ -211,7 +211,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 
 	const handleTimeChange = (event: { target: { value: any; }; }) => {
 		const selectedTime = event.target.value;
-
 		// Update the bookingData state with the selected time
 		setBookingData((prevData) => ({
 			...prevData,
@@ -308,7 +307,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 					)
 				}
 
-				<div className="box-button-book" onClick={handleBooking}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>Book Now
+				<div className="box-button-book" onClick={()=>{bookingLink === null && handleBooking()}}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>Book Now
 					<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 					</svg></Link></div>
