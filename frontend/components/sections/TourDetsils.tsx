@@ -115,7 +115,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 								<svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
 									<path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
 								</svg></span></li>
-							<li className="text-capitalize"> <Link href="#">{type}</Link><span className="arrow-right">
+							<li className="text-capitalize"> <Link href={"/"+type}>{type}</Link><span className="arrow-right">
 								<svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
 									<path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
 								</svg></span></li>

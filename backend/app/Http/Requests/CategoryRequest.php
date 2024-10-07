@@ -24,7 +24,7 @@ class CategoryRequest extends FormRequest
         $categoryId = $this->route('category');
         return [
             "category_name" => "required|string|unique:categories,category_name,".$categoryId,
-            "link" => "nullable|url",
+            "link" => "nullable|string",
             "status" => "required|string|in:Active,Inactive"
         ];
     }

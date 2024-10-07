@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InveranoRequest;
 use App\Models\Inverano;
+use App\Models\OfferBanner;
 use App\Models\SectionHeading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,8 +30,10 @@ class InveranoController extends Controller
 
     public function InveranoBySlug($slug)
     {
-        $verano = Inverano::where("slug", $slug)->with(['details'])->first();
-        return response()->json(["success" => true, "data" => $verano],200);
+        $Inverano = Inverano::where("slug", $slug)->with(['details'])->first();
+        $popularTours = Inverano::where("id", '!=', $Inverano->id)->where("status","Active")->get(["photo","title","price","booking_link","slug"]);
+        $offerBanner = OfferBanner::where("status","Active")->get();
+        return response()->json(["success" => true, "data" => $Inverano, "popular_tours"=> $popularTours,"offerBanner"=> $offerBanner], 200);
     }
 
     /**
