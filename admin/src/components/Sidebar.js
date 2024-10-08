@@ -179,6 +179,29 @@ function Sidebar() {
                         </div>
                     </li>
 
+                    {/* <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#services" className={nowDrop === 'services' ? activeClassName : navClassName} aria-controls="services" role="button" aria-expanded={nowDrop === 'services'}>
+                            <i className="fa-solid fa-briefcase icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Exclusive Services')}</span>
+                        </a>
+                        <div className={nowDrop === 'services' ? dropdownClassShow : dropdownClass} id="services">
+                            <ul className="nav ms-4 ps-3">
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/services/verano" onClick={(e) => setNowDrop('services')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Verano')}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/services/inverano" onClick={(e) => setNowDrop('services')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Inverano')}</span>
+                                        </NavLink>
+                                    </li>
+                                </>
+                            </ul>
+                        </div>
+                    </li> */}
+
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#footer" className={nowDrop === 'footer' ? activeClassName : navClassName} aria-controls="footer" role="button" aria-expanded={nowDrop === 'footer'}>
                             <i className="fa-solid fa-copyright icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>

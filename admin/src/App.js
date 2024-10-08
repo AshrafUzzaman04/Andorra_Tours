@@ -158,6 +158,7 @@ import VeranoDetailsEdit from "pages/Details/Verano/VeranoDetailsEdit";
 import InveranoDetailsIndex from "pages/Details/Inverano/InveranoDetailsIndex";
 import InveranoDetailsCreate from "pages/Details/Inverano/InveranoDetailsCreate";
 import InveranoDetailsEdit from "pages/Details/Inverano/InveranoDetailsEdit";
+import FormBuilder from "pages/Theme/Services/FormBuilder";
 
 
 function App() {
@@ -285,6 +286,7 @@ function App() {
                                 <Route path="theme-customization/servcios-exclusivos" element={<ServicesIndex />} />
                                 <Route path="theme-customization/servcios-exclusivos/create" element={<ServicesCreate />} />
                                 <Route path="theme-customization/servcios-exclusivos/:id/edit" element={<ServicesEdit />} />
+                                <Route path="theme-customization/servcios-exclusivos/:id/form-build" element={<FormBuilder />} />
 
                                 <Route path="theme-customization/category-slider" element={<CategorySliderIndex />} />
                                 <Route path="theme-customization/category-slider/create" element={<CategorySliderCreate />} />

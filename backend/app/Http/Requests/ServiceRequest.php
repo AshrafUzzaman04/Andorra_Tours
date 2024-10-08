@@ -25,7 +25,7 @@ class ServiceRequest extends FormRequest
             "service_name" => "required|unique:services,service_name",
             "service_image" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048",
             "total_services" => "required",
-            "service_link" => "required|url",
+            "service_link" => "nullable|string",
             "status" => "required|in:Active,Inactive",
         ];
     }

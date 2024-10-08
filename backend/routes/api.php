@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ChatMessageController;
 use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\FooterDetailsController;
 use App\Http\Controllers\Api\FooterPageController;
+use App\Http\Controllers\Api\FormBuilderController;
 use App\Http\Controllers\Api\HeaderController;
 use App\Http\Controllers\Api\HeroController;
 use App\Http\Controllers\Api\InveranoController;
@@ -93,6 +94,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post("section-heading",[SectionHeadingController::class,"store"]);
     Route::get("section-heading/{heading_for}",[SectionHeadingController::class,"show"]);
 
+    //form create
+    Route::apiResource("form",FormBuilderController::class);
     //footer
 });
 

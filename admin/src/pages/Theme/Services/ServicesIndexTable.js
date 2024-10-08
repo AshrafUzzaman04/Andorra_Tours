@@ -68,6 +68,12 @@ function ServicesIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
+            <NavLink to={'/theme-customization/servcios-exclusivos/' + row.id + '/form-build'} className="dropdown-item">
+              {t('Form Build')}
+            </NavLink>
+          </li>
+          <li><hr className="dropdown-divider" /></li>
+          <li>
             <NavLink to={'/theme-customization/servcios-exclusivos/' + row.id + '/edit'} className="dropdown-item">
               {t('Edit')}
             </NavLink>

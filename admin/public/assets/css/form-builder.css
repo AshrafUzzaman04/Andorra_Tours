@@ -108,3 +108,40 @@
         display: none;
     }
 }
+
+.accordion-item {
+    border: none;
+    margin-bottom: 10px;
+  }
+  
+  .accordion-button {
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: none;
+    padding: 15px 20px;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    background-color: #f8f9fa;
+    box-shadow: none;
+  }
+  
+  .accordion-button:focus {
+    box-shadow: none;
+  }
+  
+  .accordion-button::after {
+    display: none;
+  }
+  
+  .btn-outline-secondary,
+  .btn-outline-danger {
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+  }
+  
+  .btn-outline-secondary:hover,
+  .btn-outline-danger:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }

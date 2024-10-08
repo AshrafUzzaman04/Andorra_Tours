@@ -223,24 +223,24 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		<>
 			<div className="content-booking-form">
 				{
-					bookingLink === null && (
+					(bookingLink === "null" || bookingLink === null) && (
 						<>
 
 							<div className="item-line-booking">
 								<div className="line-booking-right">
 									<div className="row">
-										<strong className="text-md-bold neutral-1000">Times:</strong>
+										{parsedTimes?.length !== 0 && <strong className="text-md-bold neutral-1000">Times:</strong>}
 										{
-											parsedTimes && parsedTimes?.map((time: any, i: any) => (
+											parsedTimes?.length !== 0 && parsedTimes?.map((time: any, i: any) => (
 												<div key={i} className="col-md-3">
 													<label className="ms-0">
-														<input
+														{time?.time && <input
 															type="radio"
 															name="time"
-															value={time.time} // Set the radio button value
-															checked={bookingData.time === time.time} // Reflect selected state
+															value={time?.time} // Set the radio button value
+															checked={bookingData.time === time?.time} // Reflect selected state
 															onChange={handleTimeChange} // Update state on change
-														/>{time?.time}
+														/>}{time?.time}
 													</label>
 												</div>
 											))
