@@ -15523,3 +15523,29 @@ a{
 [data-bs-theme=dark] .flatpickr-weekdays div span{
   background: #171717 !important;
 }
+
+
+.dynamic-from-card {
+  display: flex;
+  align-items: center;
+  background-color: var(--bs-background-body);
+  border-radius: 32px;
+  border: 1px solid var(--bs-border-color);
+}
+
+[data-bs-theme=dark] .dynamic-form-card{
+  background: #1D2024 !important;
+}
+
+[data-bs-theme=light] .dynamic-form-card{
+  background: #ffffff !important;
+}
+
+[data-bs-theme=dark] input{
+  background: #191919 !important;
+}
+
+[data-bs-theme=light] input{
+  background: #ffffff !important;
+}
+

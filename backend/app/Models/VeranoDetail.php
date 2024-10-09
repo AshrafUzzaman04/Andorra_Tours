@@ -10,16 +10,9 @@ class VeranoDetail extends Model
     use HasFactory;
     protected $fillable = [
         "verano_id",
+        "inverano_id",
         "for",
         "pricing",
-        // "duration",
-        // "duration_title",
-        // "group_size",
-        // "group_size_title",
-        // "tour_type",
-        // "tour_type_title",
-        // "language",
-        // "language_title",
         "details",
         "form_title",
         "times",
@@ -27,8 +20,6 @@ class VeranoDetail extends Model
         "services",
         "add_extra_title",
         "add_extra",
-        // "question_title",
-        // "answers",
         "status"
     ];
 
@@ -39,6 +30,6 @@ class VeranoDetail extends Model
 
     public function inverano()
     {
-        return $this->belongsTo(Inverano::class, 'verano_id');
+        return $this->belongsTo(Inverano::class, 'inverano_id');
     }
 }

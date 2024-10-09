@@ -28,6 +28,12 @@ class ServiceController extends Controller
         return response()->json(['message' => 'success', 'data' => $services, "heading" => $heading],200);
     }
 
+    public function ServicesBySlug($slug)
+    {
+        $service = Service::where("status", "Active")->where("slug", $slug)->with("form")->first();
+        return response()->json(['message' => 'success', 'data' => $service],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

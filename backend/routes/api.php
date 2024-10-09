@@ -106,6 +106,7 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("inverano",[InveranoController::class, 'Inverano']);
     Route::get("promotions",[OfferBannerController::class, 'Promotion']);
     Route::get("services",[ServiceController::class, 'Services']);
+    Route::get("services/{slug}",[ServiceController::class, 'ServicesBySlug']);
     Route::get("cardCategory",[CardCategoryController::class, 'cardCategory']);
     Route::get("advertisements",[AdvertisementController::class,"getAdvertisement"]);
     Route::get("why-travels",[WhyTravelController::class,"getWhyTravels"]);

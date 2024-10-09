@@ -54,8 +54,8 @@ const VeranoDetails = ({ formData }) => {
                 setDetails(parsedDetails);
             }
         }
-        setVeranoId(data?.verano_id)
-        setValue("verano", data?.verano_id)
+        setVeranoId(data?.inverano_id)
+        setValue("verano", data?.inverano_id)
     }, [formData?.params?.id, formData.data, getValues]);
 
 
