@@ -66,8 +66,8 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                         <SwiperSlide key={index}>
                                             <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                                 <div className="card-left">
-                                                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/hotel/4">{hotel?.top_title}</Link></div>
-                                                    <div className="card-desc"> <Link className="text-sm neutral-500" href="/hotel/4">{hotel?.top_sub_title}</Link></div>
+                                                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/hotel/"+hotel?.id}>{hotel?.top_title}</Link></div>
+                                                    <div className="card-desc"> <Link className="text-sm neutral-500" href={"/hotel/"+hotel?.id}>{hotel?.top_sub_title}</Link></div>
                                                 </div>
 
                                             </div>
@@ -77,7 +77,7 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                                 </Link><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL + hotel?.image} alt="Travila" />
                                                 </div>
                                                 <div className="card-info">
-                                                    <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">{hotel?.title}
+                                                    <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href={"/hotel/"+hotel?.id}>{hotel?.title}
                                                     </Link>
                                                     </div>
                                                     <div className="card-program">
@@ -87,7 +87,7 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                                             </p>
                                                         </div>
                                                         <div className="buttonendtime">
-                                                            <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
+                                                            <div className="card-button w-100"> <Link className="btn btn-gray w-100" href={"/hotel/"+hotel?.id}>A por ello</Link></div>
                                                         </div>
                                                     </div>
                                                 </div>

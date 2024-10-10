@@ -1,6 +1,7 @@
 "use client"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroupAnimate } from "@/util/swiperOption"
+import Link from "next/link";
 export interface PromotionData {
     id: number;
     banner_color: string;
@@ -32,54 +33,66 @@ export default function Payments2({ promotionData }: PromotionDataTypes) {
                             {
                                 promotionData && promotionData?.map((promotion, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className={`box-payment-style-2 light-mode`} style={{backgroundColor:promotion?.banner_color}}>
+                                        <div className={`box-payment-style-2 light-mode`} style={{ backgroundColor: promotion?.banner_color }}>
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6 mb-30">
-                                                    <div className="box-left-payment"><span className="btn btn-tag-white">{promotion?.button_text}</span>
-                                                        <h4 className="mb-25 mt-20 neutral-1000">{promotion?.title}</h4>
-                                                        <p className="text-xl-medium neutral-500 mb-35">{promotion?.description}</p>
+                                                    <div className="box-left-payment">
+                                                        <div className="">
+                                                            <img className="bdrd8 w-50" src="https://api.ownchoose.com/storage/logos/guVObZLST3JnsS4XEpT7C12c7CrF5PSdLP4O1Lo8.png" alt="" />
+                                                        </div>
+                                                        <h4 className="mb-25 neutral-1000">{promotion?.title}</h4>
+                                                        <p className="text-xl-medium neutral-500 mb-35 promotion-desc">{promotion?.description}</p>
+                                                        <div className="d-flex align-items-center">
+                                                            <Link href="#"><span className="btn btn-tag-white">{promotion?.button_text}</span></Link>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <div className="box-image-payment-2">
                                                         <div className="row align-items-center">
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_one} alt="image-one" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_one} alt="image-one" />
                                                             </div>
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_two} alt="image_two" />
-                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_three} alt="image_three" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_two} alt="image_two" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_three} alt="image_three" />
                                                             </div>
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_four} alt="image_four" />
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_five} alt="image_five" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_four} alt="image_four" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_five} alt="image_five" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={`box-payment-style-2 dark-mode background-${index+1}`}>
+                                        <div className={`box-payment-style-2 dark-mode background-${index + 1}`}>
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6 mb-30">
-                                                    <div className="box-left-payment"><span className="btn btn-tag-white">{promotion?.button_text}</span>
-                                                        <h4 className="mb-25 mt-20 neutral-1000">{promotion?.title}</h4>
-                                                        <p className="text-xl-medium neutral-500 mb-35">{promotion?.description}</p>
+                                                    <div className="box-left-payment">
+                                                        <div className="">
+                                                            <img className="bdrd8 w-50" src="https://api.ownchoose.com/storage/logos/guVObZLST3JnsS4XEpT7C12c7CrF5PSdLP4O1Lo8.png" alt="" />
+                                                        </div>
+                                                        <h4 className="mb-25 neutral-1000">{promotion?.title}</h4>
+                                                        <p className="text-xl-medium neutral-500 mb-35 promotion-desc">{promotion?.description}</p>
+                                                        <div className="d-flex align-items-center">
+                                                            <Link href="#"><span className="btn btn-tag-white">{promotion?.button_text}</span></Link>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6">
                                                     <div className="box-image-payment-2">
                                                         <div className="row align-items-center">
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_one} alt="image-one" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_one} alt="image-one" />
                                                             </div>
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_two} alt="image_two" />
-                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_three} alt="image_three" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_two} alt="image_two" />
+                                                                <img className="bdrd8 w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_three} alt="image_three" />
                                                             </div>
                                                             <div className="col-sm-4 mb-30">
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_four} alt="image_four" />
-                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+promotion?.image_five} alt="image_five" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_four} alt="image_four" />
+                                                                <img className="bdrd8 w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + promotion?.image_five} alt="image_five" />
                                                             </div>
                                                         </div>
                                                     </div>
