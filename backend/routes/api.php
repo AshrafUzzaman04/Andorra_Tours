@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\FooterPageController;
 use App\Http\Controllers\Api\FormBuilderController;
 use App\Http\Controllers\Api\HeaderController;
 use App\Http\Controllers\Api\HeroController;
+use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
 use App\Http\Controllers\Api\OfferBannerController;
@@ -51,6 +52,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::apiResource('headers',HeaderController::class);
     Route::apiResource('languages',Language::class);
     Route::get('getAllLanguages/{languageCode}/translations.json', [Language::class, 'getLanguageFile']);
+    Route::get("language",[Language::class, "getLanguage"]);
+    Route::get("LanguageFile/{id}",[Language::class, "LanguageFile"]);
+    Route::get("getTranslationByKey/{languageCode}/{key}",[Language::class, "getTranslationByKey"]);
+    Route::post("updateTranslation/{languageCode}",[Language::class, "updateTranslation"]);
+    Route::post("deleteTranslation/{languageCode}/{key}",[Language::class, "deleteTranslation"]);
+
+
 
     Route::apiResource("hero-sliders",HeroController::class);
     Route::get("hero-sliders/serach/{searchKey}",[HeroController::class, 'serach']);
@@ -96,6 +104,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //form create
     Route::apiResource("form",FormBuilderController::class);
+
+    //hotel
+    Route::apiResource("hotels",HotelController::class);
     //footer
 });
 

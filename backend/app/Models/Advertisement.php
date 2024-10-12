@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Advertisement extends Model
 {
@@ -14,6 +15,8 @@ class Advertisement extends Model
         "button_text_color",
         "button_link",
         "title",
+        "slug",
+        "company_logo",
         "description",
         "image_one",
         "image_two",
@@ -22,4 +25,17 @@ class Advertisement extends Model
         "image_five",
         "status"
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model): void {
+            $model->slug = Str::slug($model->title);
+        });
+
+        static::updating(function ($model) {
+            $model->slug = Str::slug($model->title); 
+        });
+    }
 }

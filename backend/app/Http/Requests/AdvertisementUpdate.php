@@ -25,7 +25,7 @@ class AdvertisementUpdate extends FormRequest
             "banner_color" => "required|string",
             "button_text" => "required|string|min:1|max:255",
             "button_text_color" => "required|string",
-            "button_link" => "required|url",
+            "button_link" => "nullable|string",
             "title" => "required",
             "description" => "required",
             "image_one" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',

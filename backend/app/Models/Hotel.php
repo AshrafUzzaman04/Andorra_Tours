@@ -5,21 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-class CardCategory extends Model
+class Hotel extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "top_title",
-        "top_sub_title",
-        "tag",
-        "tag_title",
-        "tag_slug",
-        "image",
+        "categorie_id",
+        "photo",
+        "photo_one",
+        "photo_two",
+        "photo_three",
+        "review",
+        "total_review",
         "title",
         "slug",
-        "sub_title",
-        "link",
-        "status"
+        "location",
+        "map_location",
+        "tag",
+        "hotel_link",
+        "description",
+        "status",
     ];
 
     protected static function boot()
@@ -28,12 +32,10 @@ class CardCategory extends Model
 
         static::creating(function ($model) {
             $model->slug = Str::slug($model->title);
-            $model->tag_slug = Str::slug($model->tag_title);
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->title);
-            $model->tag_slug = Str::slug($model->tag_title);
+            $model->slug = Str::slug($model->title); 
         });
     }
 }

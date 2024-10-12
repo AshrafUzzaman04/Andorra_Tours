@@ -30,7 +30,9 @@ const SubCategoryEdit = () => {
     callFetch("sub_categories/" + params.id, "GET", []).then((res) => {
       setValue("category", res?.data?.categorie_id)
       for (let [key, value] of Object.entries(res.data)) {
-        setValue(key, value);
+        if(key !== null){
+          setValue(key, value);
+        }
       }
     });
   }, [params.id]);
@@ -106,8 +108,8 @@ const SubCategoryEdit = () => {
                   <div class="form-group">
                     <label>{t("Redirect Link")} *</label>
                     <input type="text" className="form-control" class="form-control"
-                      {...register("link", { required: true })}
-                      required placeholder="https://" />
+                      {...register("link")}
+                    placeholder="https://" />
                     <div className="invalid-feedback">
                       {errors.link && errors.link.message}
                     </div>

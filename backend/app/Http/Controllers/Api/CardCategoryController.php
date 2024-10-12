@@ -32,7 +32,7 @@ class CardCategoryController extends Controller
      */
     public function store(CardCategoryStore $request)
     {
-        $data = $request->only(["top_title","top_sub_title","title","sub_title","link","status"]);
+        $data = $request->validated();
         if($request->hasFile("image")){
             $image = "storage/".$request->image->store("card-image");
             $data['image'] = $image;
@@ -60,7 +60,7 @@ class CardCategoryController extends Controller
     public function update(CardCategoryUpdate $request, CardCategory $cardCategory)
     {
         //dd($cardCategory);
-        $data = $request->only(["top_title","top_sub_title","title","sub_title","link","status"]);
+        $data = $request->validated();
         if($request->hasFile("image")){
             $expolde = explode("/",$cardCategory->image);
             $imageUrl = $expolde[1]."/".$expolde[2];

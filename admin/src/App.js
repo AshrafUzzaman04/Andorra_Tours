@@ -159,6 +159,12 @@ import InveranoDetailsIndex from "pages/Details/Inverano/InveranoDetailsIndex";
 import InveranoDetailsCreate from "pages/Details/Inverano/InveranoDetailsCreate";
 import InveranoDetailsEdit from "pages/Details/Inverano/InveranoDetailsEdit";
 import FormBuilder from "pages/Theme/Services/FormBuilder";
+import Translatioin from "pages/Translation/Translatioin";
+import TranslationTable from "pages/Translation/TranslationTable";
+import TranslationEditor from "pages/Translation/TranslationEditor";
+import HotelIndex from "pages/Hotel/HotelIndex";
+import HotelCreate from "pages/Hotel/HotelCreate";
+import HotelEdit from "pages/Hotel/HotelEdit";
 
 
 function App() {
@@ -331,6 +337,14 @@ function App() {
                                 <Route path="footer/social-links" element={<FooterSocialLinks />} />
                                 <Route path="footer/social-links/create" element={<SocialLinksCreate />} />
                                 <Route path="footer/social-links/:id/edit" element={<SocialLinksEdit />} />
+
+                                <Route path="translations" element={<Translatioin />} />
+                                <Route path="translations/:id" element={<TranslationTable />} />
+                                <Route path="translations/translate/:code/:id" element={<TranslationEditor />} />
+
+                                <Route path="hotels" element={<HotelIndex/>} />
+                                <Route path="hotels/create" element={<HotelCreate/>} />
+                                <Route path="hotels/:id/edit" element={<HotelEdit/>} />
 
 
 

@@ -31,7 +31,7 @@ function CategoryIndexTable() {
             name: t('Redirect Link'),
             sortable:true,
             reorder: true,
-            selector: row => row.link
+            selector: row => row?.link ? row?.link:row?.slug
         },
 
         {

@@ -23,7 +23,7 @@ const CategorySliderEdit = () => {
     if (params?.id) {
       callFetch("card-category/" + params.id, "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "image" && key !== "tag") {
+          if (key !== "image" && key !== "tag" && key !== "tag_slug" && key !== "slug") {
             setValue(key, value);
           }
 
@@ -105,24 +105,40 @@ const CategorySliderEdit = () => {
               </div>
 
               <div className="row g-3 mb-3">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label>{t("Card Image")} *</label>
                   <input type="file" className="form-control"
-                    {...register("image")} />
+                    {...register("image")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image && errors.image.message}
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label>{t("Card Tag")} *</label>
                   <input type="file" className="form-control" placeholder="0000"
-                    {...register("tag")} />
+                    {...register("tag")}
+                  />
                   <div className="invalid-feedback">
                     {errors.tag && errors.tag.message}
                   </div>
                 </div>
+                <div className="col-md-4">
+                  <label>{t("Tag Title")} *</label>
+                  <select
+                    class="form-control"
+                    {...register("tag_title", { required: true })}
+                    required
+                  >
 
+                    <option value="Top-10-Hotels">Top-10-Hotels</option>
+                    <option value="Top-25-Hotels">Top-25-Hotels</option>
+                  </select>
+                  <div className="invalid-feedback">
+                    {errors.tag_title && errors.tag_title.message}
+                  </div>
+                </div>
               </div>
 
               <div className="row g-3">
@@ -162,8 +178,8 @@ const CategorySliderEdit = () => {
                 <div className="col-md-12">
                   <label>{t("Link")} *</label>
                   <input type="text" className="form-control" placeholder="https://toursandorra.com"
-                    {...register("link", { required: true })}
-                    required />
+                    {...register("link")}
+                  />
                   <div className="invalid-feedback">
                     {errors.link && errors.link.message}
                   </div>

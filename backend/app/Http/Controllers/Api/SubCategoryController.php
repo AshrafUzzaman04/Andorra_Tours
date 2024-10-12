@@ -29,7 +29,7 @@ class SubCategoryController extends Controller
      */
     public function store(SubCategory $request)
     {
-        $data = $request->only(['sub_category_name','status','link']);
+        $data = $request->validated();
         $data['categorie_id'] = $request->category;
         ModelsSubCategory::create($data);
         return response()->json(['message' => "Sub Category create successfully",],201);
@@ -52,7 +52,7 @@ class SubCategoryController extends Controller
     {
         $Subcategory = ModelsSubCategory::find($id);
         if(!$Subcategory)return response()->json(["message" => "Sub Category not found",],422);
-        $data = $request->only(['sub_category_name','status','link']);
+        $data = $request->validated();
         $data['categorie_id'] = $request->category;
         $Subcategory->update($data);
         return response()->json(['message'=>"Category update successfully"],200);

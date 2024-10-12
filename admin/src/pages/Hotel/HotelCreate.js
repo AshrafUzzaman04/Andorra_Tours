@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 
-const AdvertisementEdit = () => {
-  const params = useParams();
+const HotelCreate = () => {
   const [editorValue, setEditorValue] = useState("");
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
@@ -18,23 +17,11 @@ const AdvertisementEdit = () => {
     setError,
     setValue,
     formState: { errors },
-  } = useForm(); 
-
-  useEffect(() => {
-    if (params?.id) {
-      callFetch("advertisements/" + params.id, "GET", []).then((res) => {
-        for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "image_one" && key !== "image_two" && key !== "image_three" && key !== "image_four" && key !== "image_five" && key !== "company_logo") {
-              setValue(key, value);
-          }
-        }
-      });
-    }
-  }, [params?.id]);
+  } = useForm();
 
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("advertisements/" + params.id, "POST", formData, setError).then((res) => {
+    callFetch("advertisements", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);
@@ -45,7 +32,7 @@ const AdvertisementEdit = () => {
       <div className="col-12">
         <div className="card mb-4">
           <div className="card-header pb-0">
-            <h6>{t("Create Advertisement")}</h6>
+            <h6>{t("Create Hotel")}</h6>
           </div>
           <div className="card-body">
             <form
@@ -55,7 +42,6 @@ const AdvertisementEdit = () => {
               noValidate
               autoComplete="off"
             >
-              <input type="hidden" defaultValue="PUT" {...register("_method")} />
               <div className="row g-3">
                 <div className="col-md-6">
                   <label>{t("Title")} *</label>
@@ -72,7 +58,7 @@ const AdvertisementEdit = () => {
                     {errors.title && errors.title.message}
                   </div>
                 </div>
-                
+
                 <div className="col-md-6">
                   <label>{t("Status")} *</label>
                   <select
@@ -90,26 +76,33 @@ const AdvertisementEdit = () => {
               </div>
 
               <div className="row g-3 mb-3">
-                <div className="col-md-12">
-                  <label>{t("Company Logo")} *</label>
-                  <input type="file" className="form-control"
-                    {...register("company_logo")}
+              <div className="col-md-6">
+                  <label>{t("Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control mb-4"
+                    placeholder={t("title")}
+                    {...register("title", {
+                      required: true,
+                    })}
+                    required
                   />
                   <div className="invalid-feedback">
-                    {errors.company_logo && errors.company_logo.message}
+                    {errors.title && errors.title.message}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Photo")} *</label>
+                  <input type="file" className="form-control"
+                    {...register("photo", { required: true })}
+                    required />
+                  <div className="invalid-feedback">
+                    {errors.photo && errors.photo.message}
                   </div>
                 </div>
               </div>
 
-              <div className="row g-3">
-                <div class="form-group">
-                  <label>{t("Description")} *</label>
-                  <textarea class="form-control" rows="3" placeholder="Description" {...register("description",{required:true})}></textarea>
-                  <div className="invalid-feedback">
-                    {errors.description && errors.description.message}
-                  </div>
-                </div>
-              </div>
+              
 
               <div className="row g-3 mb-3">
                 <div className="col-md-4">
@@ -167,64 +160,34 @@ const AdvertisementEdit = () => {
 
               </div>
 
-              <div className="row g-3">
-                <div className="col-md-4">
-                  <label>{t("Button Text")} *</label>
-                  <input
-                    type="text"
-                    className="form-control mb-4"
-                    placeholder={t("more..")}
-                    {...register("button_text", {
-                      required: true,
-                    })}
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    {errors.button_text && errors.button_text.message}
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <label>{t("Banner Color")} *</label>
-                  <input
-                    id="style1"
-                    type="color"
-                    className="form-control mb-4 p-0"
-                    placeholder={t("#FFFFFF")}
-                    {...register("banner_color", {
-                      required: true,
-                    })}
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    {errors.banner_color && errors.banner_color.message}
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <label>{t("Button Text Color")} *</label>
-                  <input
-                    id="style1"
-                    type="color"
-                    className="form-control mb-4 p-0"
-                    placeholder={t("#00000")}
-                    {...register("button_text_color", {
-                      required: true,
-                    })}
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    {errors.button_text_color && errors.button_text_color.message}
-                  </div>
-                </div>
-              </div>
-
-              <div className="row g-3">
-                <div className="col-md-12">
+              <div className="row g-3 mb-4">
+              <div className="col-md-6">
                   <label>{t("Button Link")} *</label>
                   <input type="text" className="form-control" placeholder="https://toursandorra.com"
                     {...register("button_link")}
                   />
                   <div className="invalid-feedback">
                     {errors.button_link && errors.button_link.message}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Button Link")} *</label>
+                  <input type="text" className="form-control" placeholder="https://toursandorra.com"
+                    {...register("button_link")}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.button_link && errors.button_link.message}
+                  </div>
+                </div>
+              </div>
+
+
+              <div className="row g-3">
+                <div class="form-group">
+                  <label>{t("Description")} *</label>
+                  <textarea class="form-control" rows="3" placeholder="Description" {...register("description", { required: true })}></textarea>
+                  <div className="invalid-feedback">
+                    {errors.description && errors.description.message}
                   </div>
                 </div>
               </div>
@@ -249,4 +212,4 @@ const AdvertisementEdit = () => {
   );
 };
 
-export default AdvertisementEdit
+export default HotelCreate

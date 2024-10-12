@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $data = $request->only("category_name", "status","link");
+        $data = $request->validated();
         Category::create($data);
         return response()->json(['message' => "Category create successfully",],201);
     }
@@ -50,7 +50,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if(!$category)return response()->json(["message" => "Category not found",],422);
-        $data = $request->only("category_name", "status","link");
+        $data = $request->validated();
         $category->update($data);
         return response()->json(['message'=>"Category update successfully", "data" => $category],200);
     }

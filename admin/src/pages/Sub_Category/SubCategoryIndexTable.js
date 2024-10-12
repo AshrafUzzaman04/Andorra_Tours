@@ -37,7 +37,7 @@ function SubCategoryIndexTable() {
             name: t('Redirect Link'),
             sortable:true,
             reorder: true,
-            selector: row => row?.link
+            selector: row => (row?.link !== null) ? row?.link:row?.slug
         },
 
         {

@@ -25,7 +25,7 @@ class SubCategory extends FormRequest
         return [
             "category" => "required|exists:categories,id",
             "sub_category_name" => "required|unique:sub_categories,sub_category_name,".$SubcategoryId,
-            "link" => "nullable|url", // Added URL validation
+            "link" => "nullable|string", // Added URL validation
             "status" => "required|string|in:Active,Inactive",
         ];
     }

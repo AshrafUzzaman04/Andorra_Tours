@@ -37,6 +37,15 @@ function AdvertisementIndexTable() {
         </div>
       </div>
     },
+
+    {
+      name: t('Company Logo'),
+      sortable: true,
+      reorder: true,
+      selector: row => <div className="mt-1 mb-1" >
+        <img className="avatar avatar-md w-100" src={row?.company_logo ? process.env.REACT_APP_STORAGE_URL + row?.company_logo : '/assets/img/placeholder.png'} alt="photo" />
+      </div>
+    },
     {
         name: t('Title'),
         sortable: true,

@@ -100,8 +100,8 @@ const ServicesCreate = () => {
                 <div className="col-md-12">
                   <label>{t("Service Link")} *</label>
                   <input type="text" className="form-control" placeholder="https://toursandorra.com"
-                    {...register("service_link", { required: true })}
-                    required />
+                    {...register("service_link")}
+                  />
                   <div className="invalid-feedback">
                     {errors.service_link && errors.service_link.message}
                   </div>

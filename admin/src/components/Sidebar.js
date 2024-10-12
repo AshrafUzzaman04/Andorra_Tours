@@ -179,28 +179,23 @@ function Sidebar() {
                         </div>
                     </li>
 
-                    {/* <li className="nav-item">
-                        <a data-bs-toggle="collapse" href="#services" className={nowDrop === 'services' ? activeClassName : navClassName} aria-controls="services" role="button" aria-expanded={nowDrop === 'services'}>
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#hotels" className={nowDrop === 'hotels' ? activeClassName : navClassName} aria-controls="hotels" role="button" aria-expanded={nowDrop === 'hotels'}>
                             <i className="fa-solid fa-briefcase icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
-                            <span className="nav-link-text ms-1">{t('Exclusive Services')}</span>
+                            <span className="nav-link-text ms-1">{t('Hotel')}</span>
                         </a>
-                        <div className={nowDrop === 'services' ? dropdownClassShow : dropdownClass} id="services">
+                        <div className={nowDrop === 'hotels' ? dropdownClassShow : dropdownClass} id="hotels">
                             <ul className="nav ms-4 ps-3">
                                 <>
                                     <li className="nav-item">
-                                        <NavLink to="/services/verano" onClick={(e) => setNowDrop('services')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                            <span className="sidenav-normal">{t('Verano')}</span>
-                                        </NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/services/inverano" onClick={(e) => setNowDrop('services')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                            <span className="sidenav-normal">{t('Inverano')}</span>
+                                        <NavLink to="/hotels" onClick={(e) => setNowDrop('hotels')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Hotels')}</span>
                                         </NavLink>
                                     </li>
                                 </>
                             </ul>
                         </div>
-                    </li> */}
+                    </li>
 
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#footer" className={nowDrop === 'footer' ? activeClassName : navClassName} aria-controls="footer" role="button" aria-expanded={nowDrop === 'footer'}>
@@ -243,7 +238,12 @@ function Sidebar() {
 
 
 
-
+                    <li className="nav-item">
+                        <NavLink to="/translations" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-language icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Translations')}</span>
+                        </NavLink>
+                    </li>
 
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#user-settings" className={nowDrop === 'user-settings' ? activeClassName : navClassName} aria-controls="user-settings" role="button" aria-expanded={nowDrop === 'user-settings'}>

@@ -78,8 +78,8 @@ const CategoryCreate = () => {
                 <div className="col-md-12">
                   <label>{t("Redirect Link")} *</label>
                   <input type="text" className="form-control" placeholder="https://example.com"
-                    {...register("link", { required: true })}
-                    required/>
+                    {...register("link")}
+                  />
                   <div className="invalid-feedback">
                     {errors.link && errors.link.message}
                   </div>

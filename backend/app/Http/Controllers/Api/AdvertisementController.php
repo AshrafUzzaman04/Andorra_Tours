@@ -54,8 +54,12 @@ class AdvertisementController extends Controller
             $image = "storage/".$request->image_five->store("advertisement");
             $data['image_five'] = $image;
         }
+        if ($request->hasFile("company_logo")) {
+            $image = "storage/".$request->company_logo->store("advertisement");
+            $data['company_logo'] = $image;
+        }
         Advertisement::create($data);
-        return response()->json(["success" => true, "message"=> "Advertisement created successfully"],201);
+        return response()->json(["success" => true, "message"=> "Advertisement created"],201);
     }
 
     /**
@@ -127,8 +131,20 @@ class AdvertisementController extends Controller
             $image = "storage/".$request->image_five->store("advertisement");
             $data['image_five'] = $image;
         }
+        if ($request->hasFile("company_logo")) {
+            if(!empty($advertisement->company_logo)){
+                $expolde = explode("/",$advertisement->company_logo);
+                $expoldePath = $expolde[1]."/".$expolde[2];
+                if(Storage::exists($expoldePath)){
+                    Storage::delete($expoldePath);
+                }
+            } 
+            $image = "storage/".$request->company_logo->store("advertisement");
+            $data['company_logo'] = $image;
+        }
+        
         $advertisement->update($data);
-        return response()->json(["success" => true, "message"=> "Advertisement Updated successfully"],200);
+        return response()->json(["success" => true, "message"=> "Advertisement Updated"],200);
     }
 
     /**
@@ -171,7 +187,15 @@ class AdvertisementController extends Controller
                 Storage::delete($expoldePath);
             }
         }
+
+        if(!empty($advertisement->company_logo)){
+            $expolde = explode("/",$advertisement->company_logo);
+            $expoldePath = $expolde[1]."/".$expolde[2];
+            if(Storage::exists($expoldePath)){
+                Storage::delete($expoldePath);
+            }
+        }
         $advertisement->delete();
-        return response()->json(["success" => true, "message"=> "Advertisement deleted successfully"],200);
+        return response()->json(["success" => true, "message"=> "Advertisement deleted"],200);
     }
 }

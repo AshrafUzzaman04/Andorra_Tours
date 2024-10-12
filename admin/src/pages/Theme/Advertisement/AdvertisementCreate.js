@@ -17,7 +17,7 @@ const AdvertisementCreate = () => {
     setError,
     setValue,
     formState: { errors },
-  } = useForm(); 
+  } = useForm();
 
   const onSubmit = (formData) => {
     setSaving(true);
@@ -58,7 +58,7 @@ const AdvertisementCreate = () => {
                     {errors.title && errors.title.message}
                   </div>
                 </div>
-                
+
                 <div className="col-md-6">
                   <label>{t("Status")} *</label>
                   <select
@@ -75,10 +75,22 @@ const AdvertisementCreate = () => {
                 </div>
               </div>
 
+              <div className="row g-3 mb-3">
+                <div className="col-md-12">
+                  <label>{t("Company Logo")} *</label>
+                  <input type="file" className="form-control"
+                    {...register("company_logo", { required: true })}
+                    required />
+                  <div className="invalid-feedback">
+                    {errors.company_logo && errors.company_logo.message}
+                  </div>
+                </div>
+              </div>
+
               <div className="row g-3">
                 <div class="form-group">
                   <label>{t("Description")} *</label>
-                  <textarea class="form-control" rows="3" placeholder="Description" {...register("description",{required:true})}></textarea>
+                  <textarea class="form-control" rows="3" placeholder="Description" {...register("description", { required: true })}></textarea>
                   <div className="invalid-feedback">
                     {errors.description && errors.description.message}
                   </div>
@@ -89,8 +101,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-4">
                   <label>{t("Image One")} *</label>
                   <input type="file" className="form-control"
-                    {...register("image_one", { required: true })}
-                    required />
+                    {...register("image_one")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image_one && errors.image_one.message}
                   </div>
@@ -99,8 +111,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-4">
                   <label>{t("Image Two")} *</label>
                   <input type="file" className="form-control" placeholder="0000"
-                    {...register("image_two", { required: true })}
-                    required />
+                    {...register("image_two")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image_two && errors.image_two.message}
                   </div>
@@ -109,8 +121,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-4">
                   <label>{t("Image Three")} *</label>
                   <input type="file" className="form-control" placeholder="0000"
-                    {...register("image_three", { required: true })}
-                    required />
+                    {...register("image_three")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image_three && errors.image_three.message}
                   </div>
@@ -122,8 +134,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-6">
                   <label>{t("Image Four")} *</label>
                   <input type="file" className="form-control"
-                    {...register("image_four", { required: true })}
-                    required />
+                    {...register("image_four")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image_four && errors.image_four.message}
                   </div>
@@ -132,8 +144,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-6">
                   <label>{t("Image Five")} *</label>
                   <input type="file" className="form-control" placeholder="0000"
-                    {...register("image_five", { required: true })}
-                    required />
+                    {...register("image_five")}
+                  />
                   <div className="invalid-feedback">
                     {errors.image_five && errors.image_five.message}
                   </div>
@@ -195,8 +207,8 @@ const AdvertisementCreate = () => {
                 <div className="col-md-12">
                   <label>{t("Button Link")} *</label>
                   <input type="text" className="form-control" placeholder="https://toursandorra.com"
-                    {...register("button_link", { required: true })}
-                    required />
+                    {...register("button_link")}
+                  />
                   <div className="invalid-feedback">
                     {errors.button_link && errors.button_link.message}
                   </div>

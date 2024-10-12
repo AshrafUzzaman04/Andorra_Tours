@@ -25911,3 +25911,7 @@ body.dark-version {
     border-radius: 15px;
     border: none;
   }
+
+.language-add{
+    overflow-x: hidden !important;
+}

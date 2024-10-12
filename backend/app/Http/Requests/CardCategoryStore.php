@@ -25,6 +25,7 @@ class CardCategoryStore extends FormRequest
             "top_title" => "required|string",
             "top_sub_title" => "required|string",
             "tag" => "required|image|mimes:jpg,jpeg,png,gif,svg|max:5048",
+            "tag_title" => "required|string",
             "image" => "required|image|mimes:jpg,jpeg,png,gif,svg|max:5048",
             "title" => "required|string|unique:card_categories,title",
             "sub_title" => "required|string",

@@ -25,6 +25,7 @@ class CardCategoryUpdate extends FormRequest
             "top_title" => "required|string|unique:card_categories,top_title,".$this->id,
             "top_sub_title" => "required|string",
             "tag" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->id,
+            "tag_title" => "required|string",
             "image" => "nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048,".$this->id,
             "title" => "required|string|unique:card_categories,title,".$this->id,
             "sub_title" => "required|string",
