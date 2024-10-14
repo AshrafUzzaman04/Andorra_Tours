@@ -123,7 +123,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 		title: hotel.title,
 		location: hotel.location,
 		photo: hotel.photo,
-		rating: parseFloat(hotel.review),
+		rating: Number(hotel.review),
 		price: 100,
 		hotelType: hotel.tag,
 		amenities: [],
