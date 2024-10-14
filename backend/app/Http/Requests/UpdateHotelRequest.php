@@ -22,16 +22,16 @@ class UpdateHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "categorie" => "required|exists:card_categories,id,".$this->hotel->id,
-            "photo" => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
-            "photo_one" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
-            "photo_two" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
-            "photo_three" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
+            "categorie" => "required|exists:card_categories,id",
+            "photo" => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:5048',
+            "photo_one" => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:5048',
+            "photo_two" => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:5048',
+            "photo_three" => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:5048',
             "review" => "required|string",
             "total_review" => "required|string",
             "title" => "required|unique:hotels,title,".$this->hotel->id,
             "location" => "required|string",
-            "map_location" => "required|string",
+            "map_location" => "required|string|url",
             "tag" => "required|string",
             "hotel_link" => "required|string|url",
             "description" => "required|string",

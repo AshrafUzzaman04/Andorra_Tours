@@ -1,10 +1,10 @@
 import MasterLayout from "@/components/layout/MasterLayout";
 import CategoryWiseHotels from "@/components/sections/CategoryWiseHotels";
 
-export default function HotelDetails({params}:{params:{slug:string}}){
+export default function TopHotels({params}:{params:{slug:string}}) {
     return (
         <MasterLayout headerStyle={1} footerStyle={5}>
-            <CategoryWiseHotels/>
+            <CategoryWiseHotels />
         </MasterLayout>
     )
 }

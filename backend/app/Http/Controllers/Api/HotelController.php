@@ -17,41 +17,37 @@ class HotelController extends Controller
      */
     public function index()
     {
-        $hotels = Hotel::with([])->paginate(10);
+        $hotels = Hotel::with(["categorie:title,id"])->paginate(10);
         return response()->json(["message" => "success", "data" => $hotels], 200);
     }
 
     public function create()
     {
         $categories = CardCategory::all();
-        return response()->json(["success" => true,"categories"=> $categories],200);
+        return response()->json(["success" => true, "categories" => $categories], 200);
     }
 
+    public function slugByHotel($slug)
+    {
+        $hotel = Hotel::with([])->where("status", "Active")->where("slug", $slug)->first();
+        return response()->json(["message" => "success", "data" => $hotel], 200);
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreHotelRequest $request)
     {
         $data = $request->validated();
-        if($request->hasFile("photo")){
-            $imagePath = $request->photo->store("hotel");
-            $data["photo"] = $imagePath;
-        }
-        if($request->hasFile("photo_one")){
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_one"] = $imagePath;
-        }
-        if($request->hasFile("photo_two")){
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_two"] = $imagePath;
-        }
-        if($request->hasFile("photo_three")){
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_three"] = $imagePath;
+        $photoFields = ['photo', 'photo_one', 'photo_two', 'photo_three'];
+        foreach ($photoFields as $field) {
+            if ($request->hasFile($field)) {
+                $imagePath = "storage/" . $request->$field->store("hotel");
+                $data[$field] = $imagePath;
+            }
         }
         $data['categorie_id'] = $request->categorie;
         Hotel::create($data);
-        return response()->json(["success" => true,"message"=> "Hotel created successfully"],201);
+        return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
     }
 
     /**
@@ -69,45 +65,21 @@ class HotelController extends Controller
     public function update(UpdateHotelRequest $request, Hotel $hotel)
     {
         $data = $request->validated();
-        if($request->hasFile("photo")){
-            $expolde = explode("/", $hotel->photo);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
+        $photoFields = ['photo', 'photo_one', 'photo_two', 'photo_three'];
+        foreach ($photoFields as $field) {
+            if ($request->hasFile($field)) {
+                $expolde = explode("/", $hotel->$field);
+                $imageUrl = $expolde[1] . "/" . $expolde[2];
+                if (Storage::exists($imageUrl)) {
+                    Storage::delete($imageUrl);
+                }
+                $imagePath = "storage/" . $request->$field->store("hotel");
+                $data[$field] = $imagePath;
             }
-            $imagePath = $request->photo->store("hotel");
-            $data["photo"] = $imagePath;
-        }
-        if($request->hasFile("photo_one")){
-            $expolde = explode("/", $hotel->photo_one);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_one"] = $imagePath;
-        }
-        if($request->hasFile("photo_two")){
-            $expolde = explode("/", $hotel->photo_two);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_two"] = $imagePath;
-        }
-        if($request->hasFile("photo_three")){
-            $expolde = explode("/", $hotel->photo_three);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-            $imagePath = $request->photo->store("hotel");
-            $data["photo_three"] = $imagePath;
         }
         $data['categorie_id'] = $request->categorie;
         $hotel->update($data);
-        return response()->json(["success" => true,"message"=> "Hotel created successfully"],201);
+        return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
     }
 
     /**
@@ -115,36 +87,16 @@ class HotelController extends Controller
      */
     public function destroy(Hotel $hotel)
     {
-        if (!empty($hotel->photo)) {
-            $expolde = explode("/", $hotel->photo);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
+        $photoFields = ['photo', 'photo_one', 'photo_two', 'photo_three'];
+        foreach ($photoFields as $field) {
+            if (!empty($hotel->$field)) {
+                $expolde = explode("/", $hotel->$field);
+                $imageUrl = $expolde[1] . "/" . $expolde[2];
+                if (Storage::exists($imageUrl)) {
+                    Storage::delete($imageUrl);
+                }
             }
         }
-        if (!empty($hotel->photo_one)) {
-            $expolde = explode("/", $hotel->photo_one);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-        }
-        if (!empty($hotel->photo_two)) {
-            $expolde = explode("/", $hotel->photo_two);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-        }
-
-        if (!empty($hotel->photo_three)) {
-            $expolde = explode("/", $hotel->photo_three);
-            $imageUrl = $expolde[1] . "/" . $expolde[2];
-            if (Storage::exists($imageUrl)) {
-                Storage::delete($imageUrl);
-            }
-        }
-
         $hotel->delete();
         return response()->json(["message" => "Hotel deleted successfully"], 200);
     }

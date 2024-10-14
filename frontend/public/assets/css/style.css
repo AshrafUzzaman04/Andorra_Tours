@@ -15556,3 +15556,7 @@ a{
 [data-bs-theme=dark] .promotion-desc{
   color: #FFFFFF !important;
 } */
+
+[data-bs-theme=dark] .page-link{
+  color: #000000 !important;
+}

@@ -4,6 +4,8 @@ import { swiperGroupAnimate } from "@/util/swiperOption"
 import Link from "next/link"
 
 export interface HotelesDataItems {
+    tag_slug: string;
+    slug: string;
     id: number;
     top_title: string;
     top_sub_title: string;
@@ -66,8 +68,8 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                         <SwiperSlide key={index}>
                                             <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
                                                 <div className="card-left">
-                                                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/hotel/"+hotel?.id}>{hotel?.top_title}</Link></div>
-                                                    <div className="card-desc"> <Link className="text-sm neutral-500" href={"/hotel/"+hotel?.id}>{hotel?.top_sub_title}</Link></div>
+                                                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/"+hotel?.tag_slug+"/"+hotel?.slug}>{hotel?.top_title}</Link></div>
+                                                    <div className="card-desc"> <Link className="text-sm neutral-500" href={"/"+hotel?.tag_slug+"/"+hotel?.slug}>{hotel?.top_sub_title}</Link></div>
                                                 </div>
 
                                             </div>
@@ -77,7 +79,7 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                                 </Link><img src={process?.env?.NEXT_PUBLIC_STORAGE_URL + hotel?.image} alt="Travila" />
                                                 </div>
                                                 <div className="card-info">
-                                                    <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href={"/hotel/"+hotel?.id}>{hotel?.title}
+                                                    <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href={"/"+hotel?.tag_slug+"/"+hotel?.slug}>{hotel?.title}
                                                     </Link>
                                                     </div>
                                                     <div className="card-program">
@@ -87,7 +89,7 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                                             </p>
                                                         </div>
                                                         <div className="buttonendtime">
-                                                            <div className="card-button w-100"> <Link className="btn btn-gray w-100" href={"/hotel/"+hotel?.id}>A por ello</Link></div>
+                                                            <div className="card-button w-100"> <Link className="btn btn-gray w-100" href={"/"+hotel?.tag_slug+"/"+hotel?.slug}>A por ello</Link></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,147 +98,7 @@ export default function TopRatedHotels({ data, headingData }: TopRatedHotelsType
                                     ))
                                 }
 
-                                {/* <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Comprar</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">La moda a tu alcance</Link></div>
-                                        </div>
-
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey3.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Moda & Fashion</Link></div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">Descubre los top 25 hoteles que no puedes dejar escapar.
-
-                                                    </p>
-                                                </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Degusta</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">La mejor gastonomia</Link></div>
-                                        </div>
-
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top25-q5uixw12nehhz5ucd2iiduwnv8p96fdhsmerrz1yp4.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey4.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Restaurantes</Link></div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">Te enseñamos los 25 sitios favoritos que tienes que deleitar.
-
-                                                    </p>
-                                                </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Experimenta</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Hacer deporte esta a tu alcance</Link></div>
-                                        </div>
-
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey2.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Deportes</Link></div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">Descubre las top 10 tiendas de deportes. que no puedes dejar escapar.
-
-                                                    </p>
-                                                </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Relájate</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Donde relajarte</Link></div>
-                                        </div>
-
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"> <Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey3.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Wellness</Link></div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">Descubre sitios para tormarte un tiempo para ti.
-
-                                                    </p>
-                                                </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className=" card-journey-small hotel-card-info background-card px-3 py-3 mb-3 text-center">
-                                        <div className="card-left">
-                                            <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/destination-4">Visita</Link></div>
-                                            <div className="card-desc"> <Link className="text-sm neutral-500" href="/destination-4">Los mejores sitios</Link></div>
-                                        </div>
-
-                                    </div>
-                                    <div className="card-journey-small background-card">
-                                        <div className="card-image"><Link className="hotelsTag" href="#">
-                                            <img width={50} height={50} className="" src="https://toursandorra.com/wp-content/uploads/elementor/thumbs/top10-q5j5ryqrfybvcdvorz8mowj7d2mi4mlfa9j0ev9drc.png" alt="Travila" />
-                                        </Link><img src="/assets/imgs/page/homepage1/journey4.png" alt="Travila" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="hotel-card-title"> <Link className="heading-6 neutral-1000" href="/hotel-detail-2">Sitios de interés</Link></div>
-                                            <div className="card-program">
-                                                <div className="card-location">
-                                                    <p className="text-description text-md-medium neutral-500">
-                                                        Descubre los top 10 sitios que no puedes dejar de visitar!
-
-                                                    </p>
-                                                </div>
-                                                <div className="buttonendtime">
-                                                    <div className="card-button w-100"> <Link className="btn btn-gray w-100" href="/hotel-detail-2">A por ello</Link></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide> */}
+                                
                             </Swiper>
                         </div>
                     </div>

@@ -38,4 +38,9 @@ class Hotel extends Model
             $model->slug = Str::slug($model->title); 
         });
     }
+
+    public function categorie()
+    {
+        return $this->belongsTo(CardCategory::class, 'categorie_id');
+    }
 }

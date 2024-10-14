@@ -8,6 +8,7 @@ use App\Http\Requests\CardCategoryUpdate;
 use App\Models\CardCategory;
 use App\Models\SectionHeading;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CardCategoryController extends Controller
@@ -26,6 +27,79 @@ class CardCategoryController extends Controller
         $heading = SectionHeading::where("heading_for", "servcios-exclusivos")->first();
         $cardCategories = CardCategory::where("status", "Active")->get();
         return response()->json(["message" => "success", "data" => $cardCategories, 'heading' => $heading],200);
+    }
+
+    public function slugBaseHotels($slug, Request $request)
+    {
+        // Get the items per page from request, default to 10
+        $itemsPerPage = $request->input('per_page', 10);
+        
+        // Fetch the category with active status and slug
+        $categorie = CardCategory::where("status", "Active")->where("slug", $slug)->first();
+    
+        // If category is not found, return an error response
+        if (!$categorie) {
+            return response()->json(["message" => "Category not found"], 404);
+        }
+    
+        // Initialize the query for hotels related to the category
+        $hotelsQuery = $categorie->hotels();
+    
+        // Apply filters based on query parameters
+        if ($request->has('location')) {
+            $hotelsQuery->where('location', $request->input('location'));
+        }
+    
+        if ($request->has('hotel_type')) {
+            $hotelsQuery->where('tag', $request->input('hotel_type'));
+        }
+    
+        if ($request->has('review')) {
+            $reviewThreshold = $request->input('review');
+            $hotelsQuery->where('review', '>=', $reviewThreshold); // Filter by review rating
+        }
+    
+        // Optionally sort the results
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by');
+            $sortOrder = $request->input('sort_order', 'asc'); // Default to ascending order
+            $hotelsQuery->orderBy($sortBy, $sortOrder);
+        }
+    
+        // Paginate the hotels
+        $hotels = $hotelsQuery->paginate($itemsPerPage);
+    
+        // Count the number of hotels by location
+        $locationsCount = $categorie->hotels()
+            ->select('location', DB::raw('count(*) as count'))
+            ->groupBy('location')
+            ->get();
+    
+        // Count the number of hotels by hotel type
+        $hotelTypesCount = $categorie->hotels()
+            ->select('tag as hotel_type', DB::raw('count(*) as count'))
+            ->groupBy('tag')
+            ->get();
+    
+        // Count the number of hotels by review rating
+        $reviewsCount = $categorie->hotels()
+            ->select('review', DB::raw('count(*) as count'))
+            ->groupBy('review')
+            ->get();
+    
+        // Assign paginated hotels to the category's hotels property
+        $categorie->setRelation('hotels', $hotels);
+    
+        // Return the category including paginated hotels, location counts, hotel type counts, and review counts
+        return response()->json([
+            "message" => "success",
+            "data" => [
+                "category" => $categorie,
+                "locations_count" => $locationsCount,
+                "hotel_types_count" => $hotelTypesCount,
+                "reviews_count" => $reviewsCount, // Include review counts
+            ]
+        ], 200);
     }
     /**
      * Store a newly created resource in storage.

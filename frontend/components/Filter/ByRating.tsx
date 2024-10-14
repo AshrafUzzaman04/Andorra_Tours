@@ -9,10 +9,10 @@ export default function ByRating({ uniqueRatings, filter, handleCheckboxChange }
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter.ratings.includes(rating)}
-									onChange={handleCheckboxChange("ratings", rating)}
+									checked={filter.ratings.includes(rating?.review)}
+									onChange={handleCheckboxChange("ratings", rating?.review)}
 								/>
-								{rating} stars
+								{rating?.review} stars
 								<span className="text-sm-medium">
 									<img src="/assets/imgs/template/icons/star-yellow.svg" alt="Travila" />
 									<img src="/assets/imgs/template/icons/star-yellow.svg" alt="Travila" />

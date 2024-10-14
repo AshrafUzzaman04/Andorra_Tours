@@ -36,4 +36,14 @@ class CardCategory extends Model
             $model->tag_slug = Str::slug($model->tag_title);
         });
     }
+
+    public function hotels()
+    {
+        return $this->hasMany(Hotel::class, 'categorie_id');
+    }
+    
+    public function paginatedHotels($perPage = 10)
+    {
+        return $this->hotels()->paginate($perPage);
+    }
 }

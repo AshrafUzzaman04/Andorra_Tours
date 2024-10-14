@@ -107,6 +107,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //hotel
     Route::apiResource("hotels",HotelController::class);
+    Route::get("hotel/create",[HotelController::class, 'create']);
     //footer
 });
 
@@ -119,6 +120,7 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("services",[ServiceController::class, 'Services']);
     Route::get("services/{slug}",[ServiceController::class, 'ServicesBySlug']);
     Route::get("cardCategory",[CardCategoryController::class, 'cardCategory']);
+    Route::get("top-hotels/{slug}",[CardCategoryController::class, 'slugBaseHotels']);
     Route::get("advertisements",[AdvertisementController::class,"getAdvertisement"]);
     Route::get("why-travels",[WhyTravelController::class,"getWhyTravels"]);
     Route::get("testimonials",[TestimonialController::class,"getTestimonials"]);
@@ -128,6 +130,9 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("inverano/{slug}",[InveranoController::class, 'InveranoBySlug']);
 
     Route::post("price",[BookingController::class,"PriceByDay"]);
+
+    Route::get("hotel/{slug}",[HotelController::class, 'slugByHotel']);
+ 
 });
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

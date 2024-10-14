@@ -19,45 +19,47 @@ function HotelIndexTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/theme-customization/advertisement/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/hotels/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
-      name: t('Images'),
+      name: t('Hotel Photo'),
+      sortable: true,
+      reorder: true,
+      selector: row => <div className="mt-1 mb-1" >
+        <img className="avatar avatar-md w-100" src={row?.photo ? process.env.REACT_APP_STORAGE_URL + row?.photo : '/assets/img/placeholder.png'} alt="photo" />
+      </div>
+    },
+    {
+      name: t('More Photos'),
       sortable: true,
       reorder: true,
       selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '600px' }}>
         <div className="col-6 pe-0 mb-1">
-          <img className="avatar avatar-sm" src={row?.image_one ? process.env.REACT_APP_STORAGE_URL + row?.image_one : '/assets/img/placeholder.png'} alt="photo" />
-          <img className="avatar avatar-sm ms-1" src={row?.image_two ? process.env.REACT_APP_STORAGE_URL + row?.image_two : '/assets/img/placeholder.png'} alt="photo" />
-          <img className="avatar avatar-sm ms-1" src={row?.image_three ? process.env.REACT_APP_STORAGE_URL + row?.image_three : '/assets/img/placeholder.png'} alt="photo" />
-        </div>
-        <div className="col-12 pe-0">
-          <img className="avatar avatar-sm" src={row?.image_four ? process.env.REACT_APP_STORAGE_URL + row?.image_four : '/assets/img/placeholder.png'} alt="photo" />
-          <img className="avatar avatar-sm ms-1" src={row?.image_five ? process.env.REACT_APP_STORAGE_URL + row?.image_five : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm" src={row?.photo_one ? process.env.REACT_APP_STORAGE_URL + row?.photo_one : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm ms-1" src={row?.photo_two ? process.env.REACT_APP_STORAGE_URL + row?.photo_two : '/assets/img/placeholder.png'} alt="photo" />
+          <img className="avatar avatar-sm ms-1" src={row?.photo_three ? process.env.REACT_APP_STORAGE_URL + row?.photo_three : '/assets/img/placeholder.png'} alt="photo" />
         </div>
       </div>
     },
 
-    {
-      name: t('Company Logo'),
-      sortable: true,
-      reorder: true,
-      selector: row => <div className="mt-1 mb-1" >
-        <img className="avatar avatar-md w-100" src={row?.company_logo ? process.env.REACT_APP_STORAGE_URL + row?.company_logo : '/assets/img/placeholder.png'} alt="photo" />
-      </div>
-    },
     {
         name: t('Title'),
         sortable: true,
         reorder: true,
         selector: row => row.title
     },
-
     {
-      name: t('Button Text'),
+      name: t('Location'),
       sortable: true,
       reorder: true,
-      selector: row => row.button_text
+      selector: row => row.location
+  },
+
+    {
+      name: t('Category'),
+      sortable: true,
+      reorder: true,
+      selector: row => row?.categorie?.title
     },
     
     {
@@ -77,21 +79,24 @@ function HotelIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
-            <NavLink to={'/theme-customization/advertisement/' + row.id + '/edit'} className="dropdown-item">
+            <NavLink to={'/hotels/' + row.id + '/edit'} className="dropdown-item">
               {t('Edit')}
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'advertisements', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'hotels', row?.id, t).then(res => setRefresh(0))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    callFetch("advertisements?page=" + pageNumber, "GET", []).then((res) => {
-      setData(res.data)
-    });
+    if(refresh === 0) {
+      callFetch("hotels?page=" + pageNumber, "GET", []).then((res) => {
+        setData(res.data);
+        setRefresh(1)
+      });
+    }
   }, [pageNumber, refresh]);
 
   const handlePageChange = page => {
