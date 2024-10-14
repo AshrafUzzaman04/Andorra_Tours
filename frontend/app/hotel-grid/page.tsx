@@ -24,24 +24,24 @@ export interface HotelData {
 	sub_title: string;
 	link: string;
 	hotels: {
-		current_page:number;
-		data:HotelsType[];
+		current_page: number;
+		data: HotelsType[];
 		first_page_url: string;
-        from?: string|number;
-        last_page: number;
-        last_page_url: string;
-        links:linksType[];
-        next_page_url: null,
-        path: string,
-        per_page: number,
-        prev_page_url: string,
-        to: null|number|string,
-        total: number
+		from?: string | number;
+		last_page: number;
+		last_page_url: string;
+		links: linksType[];
+		next_page_url: null,
+		path: string,
+		per_page: number,
+		prev_page_url: string,
+		to: null | number | string,
+		total: number
 	};
 }
 
 
-export interface linksType{
+export interface linksType {
 	url: string;
 	label: string;
 	active: boolean | string;
@@ -68,26 +68,26 @@ export interface HotelsType {
 	rating: number; // Add this if needed
 }
 
-export interface locationBase{
-	location:string;
+export interface locationBase {
+	location: string;
 	count: number
 }
 
-export interface hotelTypeBase{
-	hotel_type:string;
+export interface hotelTypeBase {
+	hotel_type: string;
 	count: number
 }
-export interface reviewsBase{
-	review:string;
+export interface reviewsBase {
+	review: string;
 	count: number
 }
 
 export interface HotesDataType {
 	hotelData: HotelData;
 	slug: string;
-	locationBase:locationBase[];
-	hotelTypeBase:hotelTypeBase[];
-	reviewsBase:reviewsBase[];
+	locationBase: locationBase[];
+	hotelTypeBase: hotelTypeBase[];
+	reviewsBase: reviewsBase[];
 }
 
 
@@ -112,7 +112,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 	const params = useRouter();
 	const [hotelsData, setHotelsData] = useState<HotelData>(hotelData);
 	const [perPage, setPerPage] = useState<number>(10);
-	const transformedHotels: Hotel[] = hotelsData.hotels?.data?.map((hotel)=> ({
+	const transformedHotels: Hotel[] = hotelsData.hotels?.data?.map((hotel) => ({
 		id: hotel.id,
 		title: hotel.title,
 		location: hotel.location,
@@ -127,17 +127,17 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 		tag: hotel.tag,
 		hotel_link: hotel.hotel_link,
 		description: hotel.description
-		
-	  }));
-	  useEffect(()=>{
-		if(perPage > 10){
-			const getPrPageData = async () =>{
-				const response = await Fetch("top-hotels/"+slug+"?page="+1+"&per_page="+perPage);
+
+	}));
+	useEffect(() => {
+		if (perPage > 10) {
+			const getPrPageData = async () => {
+				const response = await Fetch("top-hotels/" + slug + "?page=" + 1 + "&per_page=" + perPage);
 				setHotelsData(response?.data?.data);
 			}
 			getPrPageData();
 		}
-	  },[perPage])
+	}, [perPage])
 	const {
 		filter,
 		sortCriteria,
@@ -165,7 +165,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 	return (
 		<>
 			<main className="main">
-				<section className="box-section block-banner-tourlist" style={{backgroundImage:`url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image})`, backgroundPosition:"center"}}>
+				<section className="box-section block-banner-tourlist" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image})`, backgroundPosition: "center" }}>
 					<div className="container text-center">
 						<div className="text-center bg-black d-inline-block justify-items-center bg-opacity-25 rounded p-2">
 							<h3 className="">A World Of Luxury Awaits You</h3>
@@ -173,7 +173,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 						</div>
 					</div>
 				</section>
-				
+
 				<section className="box-section block-content-tourlist background-body">
 					<div className="container">
 						<div className="box-content-main">
@@ -183,7 +183,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 										sortCriteria={sortCriteria}
 										handleSortChange={handleSortChange}
 										itemsPerPage={perPage}
-										handleItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>)=>{setPerPage(Number(e.target.value))}}
+										handleItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>) => { setPerPage(Number(e.target.value)) }}
 										handleClearFilters={handleClearFilters}
 										startItemIndex={hotelsData.hotels?.from}
 										endItemIndex={hotelsData.hotels?.to}
