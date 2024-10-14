@@ -1,18 +1,12 @@
 'use client'
-import ByAmenities from '@/components/Filter/ByAmenities'
 import ByHotelType from '@/components/Filter/ByHotelType'
 import ByLocation from '@/components/Filter/ByLocation'
 import ByPagination from '@/components/Filter/ByPagination'
-import ByPrice from '@/components/Filter/ByPrice'
 import ByRating from '@/components/Filter/ByRating'
-import ByRoom from '@/components/Filter/ByRoom'
-import SearchFilterBottom from '@/components/elements/SearchFilterBottom'
 import SortHotelsFilter from '@/components/elements/SortHotelsFilter'
 import HotelCard from '@/components/elements/hotelcard/HotelCard'
-import SwiperGroup8Slider from '@/components/slider/SwiperGroup8Slider'
 import Fetch from '@/helper/Fetch'
-import useHotelFilter from '@/util/useHotelFilter'
-import Link from "next/link"
+import useTopFilter from '@/util/useTopFilter'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
@@ -167,7 +161,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 		handleClearFilters,
 		startItemIndex,
 		endItemIndex,
-	} = useHotelFilter(transformedHotels);
+	} = useTopFilter(transformedHotels);
 	return (
 		<>
 			<main className="main">
