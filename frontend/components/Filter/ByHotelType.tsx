@@ -4,19 +4,19 @@ export default function ByHotelType({ uniqueHotelsType, filter, handleCheckboxCh
 		<>
 			<div className="box-collapse scrollFilter">
 				<ul className="list-filter-checkbox">
-					{uniqueHotelsType.map((hotel: any,index:number) => (
+					{uniqueHotelsType.map((hotel: any,) => (
 						<li key={hotel}>
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter?.hotelType.includes(hotel?.hotel_type)}
-									onChange={handleCheckboxChange("hotelType", hotel?.hotel_type)}
+									checked={filter.hotelType.includes(hotel)}
+									onChange={handleCheckboxChange("hotelType", hotel)}
 								/>
 
-								<span className="text-sm-medium">{hotel?.hotel_type} </span>
+								<span className="text-sm-medium">{hotel} </span>
 								<span className="checkmark" />
 							</label>
-							<span className="number-item">{hotel?.count}</span>
+							<span className="number-item">{hotel?.length}</span>
 						</li>
 					))}
 				</ul>

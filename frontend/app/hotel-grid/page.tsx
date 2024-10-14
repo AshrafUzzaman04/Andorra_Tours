@@ -1,8 +1,12 @@
 'use client'
+import ByHotelLocation from '@/components/Filter/ByHotelLocation'
+import ByHotelPagination from '@/components/Filter/ByHotelPagination'
 import ByHotelType from '@/components/Filter/ByHotelType'
 import ByLocation from '@/components/Filter/ByLocation'
 import ByPagination from '@/components/Filter/ByPagination'
 import ByRating from '@/components/Filter/ByRating'
+import ByTopHotelType from '@/components/Filter/ByTopHotelType'
+import ByTopRating from '@/components/Filter/ByTopRating'
 import SortHotelsFilter from '@/components/elements/SortHotelsFilter'
 import HotelCard from '@/components/elements/hotelcard/HotelCard'
 import Fetch from '@/helper/Fetch'
@@ -199,7 +203,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 										))}
 									</div>
 								</div>
-								<ByPagination
+								<ByHotelPagination
 									handlePreviousPage={handlePreviousPage}
 									totalPages={totalPages}
 									currentPage={currentPage}
@@ -232,7 +236,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Hotel Type</h6>
-											<ByHotelType
+											<ByTopHotelType
 												uniqueHotelsType={hotelTypeBase}
 												filter={filter}
 												handleCheckboxChange={handleCheckboxChange}
@@ -268,7 +272,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Review Score </h6>
-											<ByRating
+											<ByTopRating
 												uniqueRatings={reviewsBase}
 												filter={filter}
 												handleCheckboxChange={handleCheckboxChange}
@@ -280,7 +284,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Booking Location</h6>
-											<ByLocation
+											<ByHotelLocation
 												uniqueLocations={locationBase}
 												filter={filter}
 												handleCheckboxChange={handleCheckboxChange} />
