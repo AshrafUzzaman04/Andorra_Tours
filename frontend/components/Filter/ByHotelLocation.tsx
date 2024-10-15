@@ -4,12 +4,12 @@ export default function ByHotelLocation({ uniqueLocations, filter, handleCheckbo
 		<>
 			<div className="box-collapse scrollFilter">
 				<ul className="list-filter-checkbox">
-					{uniqueLocations.map((location: any,i:number) => (
+					{uniqueLocations?.map((location: any,i:number) => (
 						<li key={i}>
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter.locations.includes(location?.location)}
+									checked={filter?.locations?.includes(location?.location)}
 									onChange={handleCheckboxChange("locations", location?.location)}
 								/>
 

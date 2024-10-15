@@ -10,7 +10,6 @@ export interface Hotel {
 	rating: number;
 	price: number;
 	hotelType: string;
-	amenities: string[];
 	review: string;
 	total_review: string;
 	map_location: string;
@@ -21,11 +20,7 @@ export interface Hotel {
 
 // Define the Filter interface
 export interface Filter {
-    names: string[];
-    roomStyle: string[];
-    amenities: string[];
     locations: string[];
-    priceRange: [number, number];
     ratings: number[];
     hotelType: string[];
 }
@@ -36,11 +31,7 @@ type SortCriteria = "name" | "price" | "rating";
 // The main hook
 const useTopFilter = (transformedHotels: Hotel[]) => {
     const [filter, setFilter] = useState<Filter>({
-        names: [],
-        roomStyle: [],
-        amenities: [],
         locations: [],
-        priceRange: [0, 500],
         ratings: [],
         hotelType: [],
     });
@@ -49,12 +40,6 @@ const useTopFilter = (transformedHotels: Hotel[]) => {
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    // Unique values extraction
-	//[...new Set(transformedHotels.map((hotel) => hotel.name))]
-    const uniqueNames = 0;
-	//[...new Set(transformedHotels.map((hotel) => hotel.roomStyle))]
-    const uniqueRoomStyles = 0;
-    const uniqueAmenities = [...new Set(transformedHotels.map((hotel) => hotel.amenities))];
     const uniqueLocations = [...new Set(transformedHotels.map((hotel) => hotel.location))];
     const uniqueRatings = [...new Set(transformedHotels.map((hotel) => hotel.rating))];
     const uniqueHotelsType = [...new Set(transformedHotels.map((hotel) => hotel.hotelType))];
@@ -62,11 +47,7 @@ const useTopFilter = (transformedHotels: Hotel[]) => {
     // Filtering hotels
     const filteredHotels = transformedHotels.filter((hotel) => {
         return (
-            //(filter.names.length === 0 || filter.names.includes(hotel.name)) &&
-            //(filter.roomStyle.length === 0 || filter.roomStyle.includes(hotel.roomStyle)) &&
-            //(filter.amenities.length === 0 || filter.amenities.includes(hotel.amenities)) &&
             (filter.locations.length === 0 || filter.locations.includes(hotel.location)) &&
-            (hotel.price >= filter.priceRange[0] && hotel.price <= filter.priceRange[1]) &&
             (filter.ratings.length === 0 || filter.ratings.includes(hotel.rating)) &&
             (filter.hotelType.length === 0 || filter.hotelType.includes(hotel.hotelType))
         );
@@ -147,11 +128,7 @@ const useTopFilter = (transformedHotels: Hotel[]) => {
     // Clear filters handler
     const handleClearFilters = () => {
         setFilter({
-            names: [],
-            roomStyle: [],
-            amenities: [],
             locations: [],
-            priceRange: [0, 500],
             ratings: [],
             hotelType: [],
         });
@@ -173,9 +150,6 @@ const useTopFilter = (transformedHotels: Hotel[]) => {
         setItemsPerPage,
         currentPage,
         setCurrentPage,
-        uniqueNames,
-        uniqueRoomStyles,
-        uniqueAmenities,
         uniqueLocations,
         uniqueRatings,
         uniqueHotelsType,

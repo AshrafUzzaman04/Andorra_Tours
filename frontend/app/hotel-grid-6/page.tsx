@@ -43,7 +43,6 @@ export default function HotelGrid6() {
 		startItemIndex,
 		endItemIndex,
 	} = useHotelFilter(hotelsData)
-
 	return (
 		<>
 

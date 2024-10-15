@@ -8,7 +8,7 @@ export default function ByTopHotelType({ uniqueHotelsType, filter, handleCheckbo
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter?.hotelType.includes(hotel?.hotel_type)}
+									checked={filter?.hotelType?.includes(hotel?.hotel_type)}
 									onChange={handleCheckboxChange("hotelType", hotel?.hotel_type)}
 								/>
 

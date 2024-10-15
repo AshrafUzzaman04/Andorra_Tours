@@ -9,7 +9,7 @@ export default function ByTopRating({ uniqueRatings, filter, handleCheckboxChang
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter.ratings.includes(rating?.review)}
+									checked={filter?.ratings?.includes(rating?.review)}
 									onChange={handleCheckboxChange("ratings", rating?.review)}
 								/>
 								{rating?.review} stars
