@@ -1,7 +1,86 @@
 'use client';
-import { ChangeEvent, useState } from "react";
+import Fetch from "@/helper/Fetch";
+import { ChangeEvent, useEffect, useState } from "react";
+export interface HotelData {
+	map(arg0: (hotel: any) => import("react").JSX.Element): import("react").ReactNode
+	id: number;
+	top_title: string;
+	top_sub_title: string;
+	tag_title: string;
+	tag_slug: string;
+	tag: string;
+	image: string;
+	title: string;
+	slug: string;
+	sub_title: string;
+	link: string;
+	hotels: {
+		current_page: number;
+		data: HotelsType[];
+		first_page_url: string;
+		from?: string | number;
+		last_page: number;
+		last_page_url: string;
+		links: linksType[];
+		next_page_url: null,
+		path: string,
+		per_page: number,
+		prev_page_url: string,
+		to: null | number | string,
+		total: number
+	};
+}
 
-// Define the Hotel interface without nesting
+
+export interface linksType {
+	url: string;
+	label: string;
+	active: boolean | string;
+}
+export interface HotelsType {
+	id: number;
+	categorie_id: number;
+	photo: string;
+	photo_one: string;
+	photo_two: string;
+	photo_three: string;
+	review: string;
+	total_review: string;
+	title: string;
+	slug: string;
+	location: string;
+	map_location: string;
+	tag: string;
+	hotel_link: string;
+	description: string;
+	price: number; // Add this if needed
+	hotelType: string; // Add this if needed
+	amenities: string[]; // Add this if needed
+	rating: number; // Add this if needed
+}
+
+export interface locationBase {
+	location: string;
+	count: number
+}
+
+export interface hotelTypeBase {
+	hotel_type: string;
+	count: number
+}
+export interface reviewsBase {
+	review: string;
+	count: number
+}
+
+export interface HotesDataType {
+	hotelData: HotelData;
+	slug: string;
+	locationBase: locationBase[];
+	hotelTypeBase: hotelTypeBase[];
+	reviewsBase: reviewsBase[];
+}
+
 export interface Hotel {
 	id: number;
 	title: string;
@@ -17,159 +96,104 @@ export interface Hotel {
 	hotel_link: string;
 	description: string;
 }
-
-// Define the Filter interface
-export interface Filter {
-    locations: string[];
-    ratings: number[];
-    hotelType: string[];
+export interface FilterByType {
+	hotel_type: string[]; // Array of hotel types
 }
 
-// Define the SortCriteria type
-type SortCriteria = "name" | "price" | "rating";
+export interface params {
+	page: number;
+	per_page: number;
+	sort_by?: string;
+	hotel_type?: [] | string;
+	location?: string;
+	review?: string;
+}
 
 // The main hook
-const useTopFilter = (transformedHotels: Hotel[]) => {
-    const [filter, setFilter] = useState<Filter>({
-        locations: [],
-        ratings: [],
-        hotelType: [],
-    });
-    
-    const [sortCriteria, setSortCriteria] = useState<SortCriteria>("name");
-    const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+const useTopFilter = (hotelData: HotelData, slug:string) => {
+	const [hotelsData, setHotelsData] = useState<HotelData>(hotelData);
+	const [perPage, setPerPage] = useState<number>(10);
+	const [sortedBy, setSortedBy] = useState<string>("");
+	const [filterByType, setFilterByType] = useState("");
+	const [filterByLocation, setFilterByLocation] = useState("");
+	const [filterByReview, setFilterByReview] = useState("");
 
-    const uniqueLocations = [...new Set(transformedHotels.map((hotel) => hotel.location))];
-    const uniqueRatings = [...new Set(transformedHotels.map((hotel) => hotel.rating))];
-    const uniqueHotelsType = [...new Set(transformedHotels.map((hotel) => hotel.hotelType))];
+    useEffect(() => {
+		const getPrPageData = async () => {
+			const params: params = {
+				page: 1,
+				per_page: perPage
+			};
+			if (sortedBy) {
+				params.sort_by = sortedBy;
+			}
+			if (filterByType) {
+				params.hotel_type = filterByType;
+			}
+			if (filterByLocation) {
+				params.location = filterByLocation;
+			}
+			if (filterByReview) {
+				params.review = filterByReview;
+			}
 
-    // Filtering hotels
-    const filteredHotels = transformedHotels.filter((hotel) => {
-        return (
-            (filter.locations.length === 0 || filter.locations.includes(hotel.location)) &&
-            (filter.ratings.length === 0 || filter.ratings.includes(hotel.rating)) &&
-            (filter.hotelType.length === 0 || filter.hotelType.includes(hotel.hotelType))
-        );
-    });
+			const response = await Fetch.get(`top-hotels/${slug}`, { params });
+			setHotelsData(response?.data?.data?.category || []);
+		}
+		getPrPageData();
+	}, [perPage, sortedBy, filterByType, filterByLocation, filterByReview])
 
-    // Sorting hotels
-    const sortedHotels = [...filteredHotels].sort((a, b) => {
-        if (sortCriteria === "name") {
-            //return a.name.localeCompare(b.name);
-        } else if (sortCriteria === "price") {
-            return a.price - b.price;
-        } else if (sortCriteria === "rating") {
-            return b.rating - a.rating;
-        }
-        return 0;
-    });
+	const handleClearFilters = () => {
+		setPerPage(10);
+		setSortedBy("title");
+		setFilterByType("");
+	}
 
-    // Pagination logic
-    const totalPages = Math.ceil(sortedHotels.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedHotels = sortedHotels.slice(startIndex, endIndex);
+	const handleCheckboxChange = (hotelType: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { checked } = event.target;
+		if (checked) {
+			setFilterByType(hotelType);
+		} else {
+			setFilterByType("");
+		}
+	};
 
-    // Handlers for filter checkboxes
-    const handleCheckboxChange = (field: keyof Filter, value: string | number) => (e: ChangeEvent<HTMLInputElement>) => {
-        const checked = e.target.checked;
-        setFilter((prevFilter) => {
-            const values = prevFilter[field] as (string | number)[];
-            if (checked) {
-                return { ...prevFilter, [field]: [...values, value] };
-            } else {
-                return {
-                    ...prevFilter,
-                    [field]: values.filter((item) => item !== value),
-                };
-            }
-        });
-    };
+	const handleLocationCheckboxChange = (location: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { checked } = event.target;
+		if (checked) {
+			setFilterByLocation(location);
+		} else {
+			setFilterByLocation("");
+		}
+	};
 
-    // Sorting handler
-    const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        setSortCriteria(e.target.value as SortCriteria);
-    };
-
-    // Price range change handler
-    const handlePriceRangeChange = (values: [number, number]) => {
-        setFilter((prevFilter) => ({
-            ...prevFilter,
-            priceRange: values,
-        }));
-    };
-
-    // Items per page change handler
-    const handleItemsPerPageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        setItemsPerPage(Number(e.target.value));
-        setCurrentPage(1); // Reset to first page on items per page change
-    };
-
-    // Page change handler
-    const handlePageChange = (newPage: number) => {
-        setCurrentPage(newPage);
-    };
-
-    // Previous page handler
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    // Next page handler
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    // Clear filters handler
-    const handleClearFilters = () => {
-        setFilter({
-            locations: [],
-            ratings: [],
-            hotelType: [],
-        });
-        setSortCriteria("name");
-        setItemsPerPage(10); // Reset to default
-        setCurrentPage(1);
-    };
-
-    // Indexes for pagination display
-    const startItemIndex = (currentPage - 1) * itemsPerPage + 1;
-    const endItemIndex = Math.min(startItemIndex + itemsPerPage - 1, sortedHotels.length);
+	const handleReviewCheckboxChange = (review: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { checked } = event.target;
+		if (checked) {
+			setFilterByReview(review);
+		} else {
+			setFilterByReview("");
+		}
+	};
 
     return {
-        filter,
-        setFilter,
-        sortCriteria,
-        setSortCriteria,
-        itemsPerPage,
-        setItemsPerPage,
-        currentPage,
-        setCurrentPage,
-        uniqueLocations,
-        uniqueRatings,
-        uniqueHotelsType,
-        filteredHotels,
-        sortedHotels,
-        totalPages,
-        startIndex,
-        endIndex,
-        paginatedHotels,
-        handleCheckboxChange,
-        handleSortChange,
-        handlePriceRangeChange,
-        handleItemsPerPageChange,
-        handlePageChange,
-        handlePreviousPage,
-        handleNextPage,
+        hotelsData,
+        perPage, 
+        setPerPage,
+        sortedBy, 
+        setSortedBy,
+        filterByType,
+        setFilterByType,
+        filterByLocation, 
+        setFilterByLocation,
+        filterByReview,
+        setFilterByReview,
         handleClearFilters,
-        startItemIndex,
-        endItemIndex,
+        handleCheckboxChange,
+        handleLocationCheckboxChange,
+        handleReviewCheckboxChange
     };
 };
 
 export default useTopFilter;
+

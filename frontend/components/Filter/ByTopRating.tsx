@@ -4,13 +4,13 @@ export default function ByTopRating({ uniqueRatings, filter, handleCheckboxChang
 		<>
 			<div className="box-collapse scrollFilter">
 				<ul className="list-filter-checkbox">
-					{uniqueRatings.map((rating: any) => (
-						<li key={rating}>
+					{uniqueRatings.map((rating: any, index:number) => (
+						<li key={index}>
 							<label className="cb-container">
 								<input
 									type="checkbox"
-									checked={filter?.ratings?.includes(rating?.review)}
-									onChange={handleCheckboxChange("ratings", rating?.review)}
+									checked={filter === rating?.review}
+									onChange={handleCheckboxChange(rating?.review)}
 								/>
 								{rating?.review} stars
 								<span className="text-sm-medium">

@@ -3,10 +3,11 @@ import ByHotelLocation from '@/components/Filter/ByHotelLocation'
 import ByHotelPagination from '@/components/Filter/ByHotelPagination'
 import ByTopHotelType from '@/components/Filter/ByTopHotelType'
 import ByTopRating from '@/components/Filter/ByTopRating'
-import SortHotelsFilter from '@/components/elements/SortHotelsFilter'
 import HotelCard from '@/components/elements/hotelcard/HotelCard'
 import Fetch from '@/helper/Fetch'
 import { ChangeEvent, useEffect, useState } from 'react'
+import SortTopHotelsFilter from '../elements/SortTopHotelsFilter'
+import useTopFilter from '@/util/useTopFilter'
 
 export interface HotelData {
 	map(arg0: (hotel: any) => import("react").JSX.Element): import("react").ReactNode
@@ -103,18 +104,34 @@ export interface Hotel {
 	hotel_link: string;
 	description: string;
 }
+export interface FilterByType {
+	hotel_type: string[]; // Array of hotel types
+}
+
+export interface params {
+	page: number;
+	per_page: number;
+	sort_by?: string;
+	hotel_type?: [] | string;
+	location?: string;
+	review?: string;
+}
+
 export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase, reviewsBase }: HotesDataType) {
-	const [hotelsData, setHotelsData] = useState<HotelData>(hotelData);
-	const [perPage, setPerPage] = useState<number>(10);
-	useEffect(() => {
-		if (perPage > 10) {
-			const getPrPageData = async () => {
-				const response = await Fetch("top-hotels/" + slug + "?page=" + 1 + "&per_page=" + perPage);
-				setHotelsData(response?.data?.data||[]);
-			}
-			getPrPageData();
-		}
-	}, [perPage])
+	const { 
+		hotelsData,
+		perPage,
+		setPerPage,
+		sortedBy,
+		setSortedBy,
+		filterByType,
+		filterByLocation,
+		filterByReview,
+		handleClearFilters,
+		handleCheckboxChange,
+		handleLocationCheckboxChange,
+		handleReviewCheckboxChange 
+	} = useTopFilter(hotelData, slug)
 
 	return (
 		<>
@@ -133,12 +150,12 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 						<div className="box-content-main">
 							<div className="content-right">
 								<div className="box-filters mb-25 pb-5 border-bottom border-1">
-									<SortHotelsFilter
-										sortCriteria={"name"}
-										handleSortChange={()=>{}}
+									<SortTopHotelsFilter
+										sortCriteria={sortedBy}
+										handleSortChange={(e: ChangeEvent<HTMLSelectElement>) => { setSortedBy(e.target.value) }}
 										itemsPerPage={perPage}
 										handleItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>) => { setPerPage(Number(e.target.value)) }}
-										handleClearFilters={()=>{}}
+										handleClearFilters={handleClearFilters}
 										startItemIndex={hotelsData.hotels?.from}
 										endItemIndex={hotelsData.hotels?.to}
 										sortedHotels={hotelsData.hotels?.total}
@@ -154,15 +171,15 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									</div>
 								</div>
 								<ByHotelPagination
-									handlePreviousPage={()=>{}}
+									handlePreviousPage={() => { }}
 									totalPages={hotelData?.hotels?.last_page}
 									currentPage={hotelData?.hotels?.current_page}
-									handleNextPage={()=>{}}
-									handlePageChange={()=>{}}
+									handleNextPage={() => { }}
+									handlePageChange={() => { }}
 								/>
 							</div>
 							<div className="content-left order-lg-first">
-								
+
 								<div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
@@ -170,20 +187,21 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 											<ByTopHotelType
 												uniqueHotelsType={hotelTypeBase}
 												filter={hotelTypeBase}
-												handleCheckboxChange={()=>{}}
+												checked={filterByType}
+												handleCheckboxChange={handleCheckboxChange}
 											/>
 										</div>
 									</div>
 								</div>
-								
+
 								<div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Review Score </h6>
 											<ByTopRating
 												uniqueRatings={reviewsBase}
-												filter={reviewsBase}
-												handleCheckboxChange={()=>{}}
+												filter={filterByReview}
+												handleCheckboxChange={handleReviewCheckboxChange}
 											/>
 										</div>
 									</div>
@@ -194,8 +212,9 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 											<h6 className="text-lg-bold item-collapse neutral-1000">Booking Location</h6>
 											<ByHotelLocation
 												uniqueLocations={locationBase}
+												checked={filterByLocation}
 												filter={locationBase}
-												handleCheckboxChange={()=>{}} />
+												handleCheckboxChange={handleLocationCheckboxChange} />
 										</div>
 									</div>
 								</div>

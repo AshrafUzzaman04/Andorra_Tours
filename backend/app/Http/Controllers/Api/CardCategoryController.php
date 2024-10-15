@@ -63,7 +63,13 @@ class CardCategoryController extends Controller
         if ($request->has('sort_by')) {
             $sortBy = $request->input('sort_by');
             $sortOrder = $request->input('sort_order', 'asc'); // Default to ascending order
-            $hotelsQuery->orderBy($sortBy, $sortOrder);
+            if($sortBy == "total_review"){
+                $hotelsQuery->orderByRaw('CAST(total_review AS UNSIGNED) DESC');
+            }elseif($sortBy == "review"){
+                $hotelsQuery->orderByRaw('CAST(review AS DECIMAL(10,2)) DESC');
+            }else{
+                $hotelsQuery->orderBy($sortBy, $sortOrder);
+            }
         }
     
         // Paginate the hotels
@@ -85,6 +91,7 @@ class CardCategoryController extends Controller
         $reviewsCount = $categorie->hotels()
             ->select('review', DB::raw('count(*) as count'))
             ->groupBy('review')
+            ->orderBy('review', 'desc') // Order by the count in descending order
             ->get();
     
         // Assign paginated hotels to the category's hotels property
