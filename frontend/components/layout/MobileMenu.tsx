@@ -40,13 +40,13 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu, data }: any
 									<ul className="mobile-menu font-heading">
 										{
 											data?.categories?.map((category: any, index: number) => (
-												category?.sub?.length === 0 ? <li key={index}><Link href={category?.link}>{category?.category_name}</Link></li> :
+												category?.sub?.length === 0 ? <li key={index}><Link href={(category?.link === null || "null") ? category?.slug:category?.link}>{category?.category_name}</Link></li> :
 
 													<li key={index} className={`has-children ${isAccordion === index + 1 ? "active" : ""}`}>
 														<span className="menu-expand" onClick={() => handleAccordion(index + 1)}>
 															<i className="arrow-small-down"></i>
 														</span>
-														<Link className="active" href={category?.link}>{category?.category_name}</Link>
+														<Link className="active" href={(category?.link === null) ? category?.slug:category?.link}>{category?.category_name}</Link>
 														<ul className="sub-menu" style={{ display: `${isAccordion == index + 1 ? "block" : "none"}` }}>
 															{
 																category?.sub?.map((subCat: any, index: any) => (
