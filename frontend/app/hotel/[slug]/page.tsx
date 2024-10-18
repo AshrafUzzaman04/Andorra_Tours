@@ -30,7 +30,7 @@ export async function generateMetadata({params}:{params:{slug:string}}): Promise
             title: title,
             description: description,
             images: [image],
-            card:"summary_large_image"
+            card:"summary"
         }
     }
 }
