@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\HeroController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
+use App\Http\Controllers\Api\MultipleController;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\PageCategoryController;
 use App\Http\Controllers\Api\PartnersController;
@@ -108,6 +109,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
     //hotel
     Route::apiResource("hotels",HotelController::class);
     Route::get("hotel/create",[HotelController::class, 'create']);
+
+
+    //multiple
+    Route::apiResource("multiples",MultipleController::class);
+    Route::get("multiple/{for}",[MultipleController::class, 'create']);
     //footer
 });
 
@@ -120,6 +126,7 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("services",[ServiceController::class, 'Services']);
     Route::get("services/{slug}",[ServiceController::class, 'ServicesBySlug']);
     Route::get("cardCategory",[CardCategoryController::class, 'cardCategory']);
+    Route::get("cardCategory/{slug}",[CardCategoryController::class, 'cardCategoryBySlug']);
     Route::get("top-hotels/{slug}",[CardCategoryController::class, 'slugBaseHotels']);
     Route::get("advertisements",[AdvertisementController::class,"getAdvertisement"]);
     Route::get("why-travels",[WhyTravelController::class,"getWhyTravels"]);
@@ -132,6 +139,9 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::post("price",[BookingController::class,"PriceByDay"]);
 
     Route::get("hotel/{slug}",[HotelController::class, 'slugByHotel']);
+    Route::get("parent/{slug}",[HotelController::class, 'parentSlugByData']);
+    
+    Route::get("multiple/{for}",[MultipleController::class, 'create']);
  
 });
 // Route::get('/user', function (Request $request) {

@@ -9,6 +9,7 @@ export interface PromotionData {
     button_text_color: string;
     button_link: string;
     title: string;
+    company_logo:string;
     description: string;
     image_one: string;
     image_two: string;
@@ -38,7 +39,7 @@ export default function Payments2({ promotionData }: PromotionDataTypes) {
                                                 <div className="col-lg-6 mb-30">
                                                     <div className="box-left-payment">
                                                         <div className="">
-                                                            <img className="bdrd8 w-50" src="https://api.ownchoose.com/storage/logos/guVObZLST3JnsS4XEpT7C12c7CrF5PSdLP4O1Lo8.png" alt="" />
+                                                            <img className="bdrd8 w-50" src={process.env.NEXT_PUBLIC_STORAGE_URL +promotion?.company_logo} alt="" />
                                                         </div>
                                                         <h4 className="mb-25 neutral-1000">{promotion?.title}</h4>
                                                         <p className="text-xl-medium neutral-500 mb-35 promotion-desc">{promotion?.description}</p>
@@ -71,12 +72,12 @@ export default function Payments2({ promotionData }: PromotionDataTypes) {
                                                 <div className="col-lg-6 mb-30">
                                                     <div className="box-left-payment">
                                                         <div className="">
-                                                            <img className="bdrd8 w-50" src="https://api.ownchoose.com/storage/logos/guVObZLST3JnsS4XEpT7C12c7CrF5PSdLP4O1Lo8.png" alt="" />
+                                                            <img className="bdrd8 w-50" src={process.env.NEXT_PUBLIC_STORAGE_URL +promotion?.company_logo} alt="" />
                                                         </div>
                                                         <h4 className="mb-25 neutral-1000">{promotion?.title}</h4>
                                                         <p className="text-xl-medium neutral-500 mb-35 promotion-desc">{promotion?.description}</p>
                                                         <div className="d-flex align-items-center">
-                                                            <Link href="#"><span className="btn btn-tag-white">{promotion?.button_text}</span></Link>
+                                                            <Link href={promotion?.button_link}><span className="btn btn-tag-white">{promotion?.button_text}</span></Link>
                                                         </div>
                                                     </div>
                                                 </div>

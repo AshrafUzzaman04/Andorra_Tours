@@ -8,6 +8,7 @@ import Fetch from '@/helper/Fetch'
 import { ChangeEvent, useEffect, useState } from 'react'
 import SortTopHotelsFilter from '../elements/SortTopHotelsFilter'
 import useTopFilter from '@/util/useTopFilter'
+import useWidget from '@/util/useWidget'
 
 export interface HotelData {
 	map(arg0: (hotel: any) => import("react").JSX.Element): import("react").ReactNode
@@ -118,8 +119,11 @@ export interface params {
 }
 
 export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase, reviewsBase }: HotesDataType) {
-	const { 
+	const widget = useWidget();
+	const {
 		hotelsData,
+		page,
+		setPage,
 		perPage,
 		setPerPage,
 		sortedBy,
@@ -130,17 +134,18 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 		handleClearFilters,
 		handleCheckboxChange,
 		handleLocationCheckboxChange,
-		handleReviewCheckboxChange 
+		handleReviewCheckboxChange
 	} = useTopFilter(hotelData, slug)
 
 	return (
 		<>
 			<main className="main">
-				<section className="box-section block-banner-tourlist" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image})`, backgroundPosition: "center" }}>
+				<section className="box-section block-banner-tourlist position-relative" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image})`, backgroundPosition: "center" }}>
+					<img className="position-absolute end-0 top-0 z-2" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.tag} alt={hotelData?.tag} />
 					<div className="container text-center">
 						<div className="text-center bg-black d-inline-block justify-items-center bg-opacity-25 rounded p-2">
-							<h3 className="">A World Of Luxury Awaits You</h3>
-							<h6 className="heading-6-medium text-white">We Provide Our Best Facilities For You</h6>
+							<h3 className="">{hotelData?.title}</h3>
+							<h6 className="heading-6-medium text-white">{hotelData?.sub_title}</h6>
 						</div>
 					</div>
 				</section>
@@ -171,13 +176,15 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									</div>
 								</div>
 								<ByHotelPagination
-									handlePreviousPage={() => { }}
-									totalPages={hotelData?.hotels?.last_page}
-									currentPage={hotelData?.hotels?.current_page}
-									handleNextPage={() => { }}
-									handlePageChange={() => { }}
+									handlePreviousPage={() => setPage(page - 1)}
+									totalPages={hotelsData?.hotels?.last_page}
+									currentPage={hotelsData?.hotels?.current_page}
+									handleNextPage={() => setPage(page + 1)}
+									page={page}
+									handlePageChange={(page: number) => setPage(page)}
 								/>
 							</div>
+
 							<div className="content-left order-lg-first">
 
 								<div className="sidebar-left border-1 background-body">
@@ -208,7 +215,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 								</div>
 								<div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
-										<div className="block-filter border-1">
+										<div className="block-filter border-1 z-2">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Booking Location</h6>
 											<ByHotelLocation
 												uniqueLocations={locationBase}
@@ -217,6 +224,16 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 												handleCheckboxChange={handleLocationCheckboxChange} />
 										</div>
 									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div className="container">
+						<div className="row justify-content-center">
+							<div className="col-md-8">
+								<div className="mt-80">
+									{widget}
 								</div>
 							</div>
 						</div>

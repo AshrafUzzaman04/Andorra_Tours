@@ -112,15 +112,9 @@ const CategorySliderCreate = () => {
                 </div>
                 <div className="col-md-4">
                   <label>{t("Tag Title")} *</label>
-                  <select
-                    class="form-control"
+                  <input type="text" className="form-control" placeholder="Top-10-Example"
                     {...register("tag_title", { required: true })}
-                    required
-                  >
-
-                    <option value="Top-10-Hotels">Top-10-Hotels</option>
-                    <option value="Top-25-Hotels">Top-25-Hotels</option>
-                  </select>
+                    required />
                   <div className="invalid-feedback">
                     {errors.tag_title && errors.tag_title.message}
                   </div>

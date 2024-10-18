@@ -18,6 +18,20 @@ const merienda_init = Merienda({
 export const metadata: Metadata = {
     title: "Tours Andorra",
     description: "Portal de Actividades / Experiencias #1 en Andorra",
+    keywords:"tours andorra, andorra tours, travel andorra, travel, explore andorra,",
+    openGraph:{
+        title: "Tours Andorra",
+        description: "Portal de Actividades / Experiencias #1 en Andorra",
+        images:["https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png"],
+        url:"https://andorra-tours.vercel.app/"
+    },
+    twitter:{
+        title: "Tours Andorra",
+        description: "Portal de Actividades / Experiencias #1 en Andorra",
+        images:["https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png"],
+        card:"summary_large_image",
+        creator:"Seba Diaz"
+    }
 }
 
 export default async function RootLayout({

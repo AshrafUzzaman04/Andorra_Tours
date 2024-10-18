@@ -7,24 +7,28 @@ import { Grid, Step, StepLabel, Stepper } from "@mui/material";
 import VeranoDetails from "./components/VeranoDetails";
 import BookingForm from "./components/BookingForm";
 import Pricing from "./components/Pricing";
+import ProductInfo from "./components/ProductInfo";
+
 function getSteps() {
-  return ["Details", "Pricing", "Form"];
+  return ["Product","Details", "Pricing", "Form"];
 }
 
 function getStepContent(stepIndex, formData) {
   switch (stepIndex) {
     case 0:
-      return <VeranoDetails formData={formData} />;
+      return <ProductInfo formData={formData} />;
     case 1:
-      return <Pricing formData={formData} /> ;
+      return <VeranoDetails formData={formData} />;
     case 2:
+      return <Pricing formData={formData} /> ;
+    case 3:
       return <BookingForm formData={formData} />;
     default:
       return null;
   }
 }
 
-const InveranoDetailsCreate = () => {
+const ProductCreate = () => {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const { t } = useTranslation();
@@ -129,5 +133,4 @@ const InveranoDetailsCreate = () => {
     </div>
   );
 };
-
-export default InveranoDetailsCreate
+export default ProductCreate

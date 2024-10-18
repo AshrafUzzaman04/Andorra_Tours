@@ -27,11 +27,19 @@ class HotelController extends Controller
         return response()->json(["success" => true, "categories" => $categories], 200);
     }
 
-    public function slugByHotel($slug)
+    public function slugByHotel(Request $request,$slug)
     {
-        $hotel = Hotel::with([])->where("status", "Active")->where("slug", $slug)->first();
+        $hotel = Hotel::with(['categorie:id,tag,tag_slug'])->where("status", "Active")->where("slug", $slug)->first();
         return response()->json(["message" => "success", "data" => $hotel], 200);
     }
+
+    public function parentSlugByData(Request $request, $slug)
+    {
+        
+        $data = Hotel::with(['categorie:id,tag,tag_slug'])->where("status", "Active")->where("parent_slug", $slug)->paginate(10);
+        return response()->json(["message" => "success", "data" => $data], 200);
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -46,6 +54,8 @@ class HotelController extends Controller
             }
         }
         $data['categorie_id'] = $request->categorie;
+        $parent = CardCategory::find($request->categorie);
+        $data['parent_slug'] = $parent->slug;
         Hotel::create($data);
         return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
     }
@@ -78,6 +88,8 @@ class HotelController extends Controller
             }
         }
         $data['categorie_id'] = $request->categorie;
+        $parent = CardCategory::find($request->categorie);
+        $data['parent_slug'] = $parent->slug;
         $hotel->update($data);
         return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
     }

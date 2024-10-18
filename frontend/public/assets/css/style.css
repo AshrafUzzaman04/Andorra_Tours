@@ -12627,6 +12627,50 @@ a.link-black:hover svg {
   background-image: url(../imgs/page/car/banner-car.png);
 }
 
+.block-banner-hotel {
+  background-image: url(../imgs/page/tour/banner.png);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  height: 400px; /* Set the height according to your design */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Optional, to ensure any text stands out */
+}
+
+.block-banner-hotel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Adjust opacity as needed */
+  z-index: 1;
+}
+
+[data-bs-theme=dark] .block-banner-hote h3{
+  color: white !important;
+}
+[data-bs-theme=light] .block-banner-hote h3{
+  color: white !important;
+}
+
+[data-bs-theme=light] .hotel-heading{
+  color: #000000 !important;
+}
+
+[data-bs-theme=dark] .hotel-heading{
+  color: white !important;
+}
+
+
+
+/* Style the iframe */
+#bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d iframe {
+  z-index: 40;
+}
 .block-banner-tour-detail {
   position: relative;
   padding: 0px 45px;

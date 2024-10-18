@@ -1,9 +1,21 @@
 import MasterLayout from "@/components/layout/MasterLayout";
-
-export default function Hotels() {
+import Banner from "@/components/sections/Banner";
+import ExclusiveService from "@/components/sections/ExclusiveService";
+import HotelsCategory from "@/components/sections/HotelsCategory";
+import Axios from "@/helper/axios";
+const hotelData = async () => {
+  const res = await Axios.get("/cardCategory")
+  const data = res?.data?.data
+  const heading = res?.data?.heading
+  return {data,heading};
+};
+export default async function Hotels() {
+  const {data,heading} = await hotelData();
   return (
     <MasterLayout>
-        <div>Hotels</div>
+        <HotelsCategory data={data} headingData={heading}/>
+        <ExclusiveService/>
+        <Banner/>
     </MasterLayout>
   )
 }

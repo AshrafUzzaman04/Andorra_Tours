@@ -112,6 +112,7 @@ export interface params {
 // The main hook
 const useTopFilter = (hotelData: HotelData, slug:string) => {
 	const [hotelsData, setHotelsData] = useState<HotelData>(hotelData);
+	const [page, setPage] = useState(1);
 	const [perPage, setPerPage] = useState<number>(10);
 	const [sortedBy, setSortedBy] = useState<string>("");
 	const [filterByType, setFilterByType] = useState("");
@@ -121,7 +122,7 @@ const useTopFilter = (hotelData: HotelData, slug:string) => {
     useEffect(() => {
 		const getPrPageData = async () => {
 			const params: params = {
-				page: 1,
+				page: page,
 				per_page: perPage
 			};
 			if (sortedBy) {
@@ -141,7 +142,7 @@ const useTopFilter = (hotelData: HotelData, slug:string) => {
 			setHotelsData(response?.data?.data?.category || []);
 		}
 		getPrPageData();
-	}, [perPage, sortedBy, filterByType, filterByLocation, filterByReview])
+	}, [page, perPage, sortedBy, filterByType, filterByLocation, filterByReview])
 
 	const handleClearFilters = () => {
 		setPerPage(10);
@@ -178,6 +179,8 @@ const useTopFilter = (hotelData: HotelData, slug:string) => {
 
     return {
         hotelsData,
+		page,
+		setPage,
         perPage, 
         setPerPage,
         sortedBy, 

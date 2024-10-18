@@ -58,18 +58,7 @@ export default function Header1({ data }: { data: any }) {
 	}, [scroll])
 	return (
 		<>
-			<header className={`header sticky-bar ${scroll ? "stick" : ""} float-none`}>
-				{/* <div className="top-bar">
-					<div className="container-fluid">
-						<div className="text-header">
-							<div className="text-unlock text-sm-bold">Unlock the Magic of Travel with Travila - Your Gateway to
-								Extraordinary Experiences</div><Link className="link-secondary-2" href="#">Get This Now
-								<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16" >
-									<path d="M7.99992 12.6666L12.6666 7.99992L7.99992 3.33325M12.6666 7.99992L3.33325 7.99992" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-								</svg></Link>
-						</div>
-					</div>
-				</div> */}
+			<header className={`header sticky-bar ${scroll ? "stick" : ""} float-none z-3`}>
 				<div className="container-fluid background-body">
 					<div className="main-header">
 						<div className="header-left">
@@ -77,10 +66,11 @@ export default function Header1({ data }: { data: any }) {
 							<div className="header-nav">
 								<nav className="nav-main-menu">
 									<ul className="main-menu">
+									<li><Link href="/">Home</Link></li>
 										{
 											data?.categories?.map((category: any, index: number) => (
 												category?.sub?.length === 0 ?
-													<li key={index}><Link href={(category?.link === null) ? category?.slug:category?.link}>{category?.category_name}</Link></li> :
+													<li key={index}><Link href={(category?.link === null) ? category?.slug:"/"+category?.link}>{category?.category_name}</Link></li> :
 													<li key={index} className="has-children"><Link href={(category?.link === null || "null") ? "/"+category?.slug:category?.link}>{category?.category_name}</Link>
 														<ul className="sub-menu">
 															{
@@ -92,7 +82,6 @@ export default function Header1({ data }: { data: any }) {
 													</li>
 											))
 										}
-
 									</ul>
 								</nav>
 							</div>

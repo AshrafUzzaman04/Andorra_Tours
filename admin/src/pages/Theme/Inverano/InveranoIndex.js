@@ -16,7 +16,7 @@ function InveranoIndex() {
     const handleTabChange = (event, newValue) => {
         setTabIndex(newValue);
     };
-
+ 
     return (
         <>
             <div className="d-sm-flex justify-content-between">

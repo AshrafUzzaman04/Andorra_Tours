@@ -29,6 +29,12 @@ class CardCategoryController extends Controller
         return response()->json(["message" => "success", "data" => $cardCategories, 'heading' => $heading],200);
     }
 
+    public function cardCategoryBySlug($slug)
+    {
+        $cardCategorie = CardCategory::where("status", "Active")->where('slug',$slug)->first();
+        return response()->json(["message" => "success", "data" => $cardCategorie],200);
+    }
+
     public function slugBaseHotels($slug, Request $request)
     {
         // Get the items per page from request, default to 10

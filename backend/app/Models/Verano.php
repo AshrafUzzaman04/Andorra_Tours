@@ -12,6 +12,7 @@ class Verano extends Model
         "label",
         "reviews",
         "total_reviews",
+        "type",
         "reviews_link",
         "title",
         "price",

@@ -5,11 +5,10 @@ import DataTable from 'react-data-table-component';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
 
-function HotelIndexTable() {
+function ProductIndexTable() {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [roles, setRoles] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [searchKey, setSearchKey] = useState("")
 
@@ -19,49 +18,39 @@ function HotelIndexTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/hotels/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/theme-customization/inverano/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
-      name: t('Hotel Photo'),
-      sortable: true,
-      reorder: true,
-      selector: row => <div className="mt-1 mb-1" >
-        <img className="avatar avatar-md w-100" src={row?.photo ? process.env.REACT_APP_STORAGE_URL + row?.photo : '/assets/img/placeholder.png'} alt="photo" />
-      </div>
-    },
-    {
-      name: t('More Photos'),
+      name: t('Photo'),
+      width: "200px",
       sortable: true,
       reorder: true,
       selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '600px' }}>
-        <div className="col-6 pe-0 mb-1">
-          <img className="avatar avatar-sm" src={row?.photo_one ? process.env.REACT_APP_STORAGE_URL + row?.photo_one : '/assets/img/placeholder.png'} alt="photo" />
-          <img className="avatar avatar-sm ms-1" src={row?.photo_two ? process.env.REACT_APP_STORAGE_URL + row?.photo_two : '/assets/img/placeholder.png'} alt="photo" />
-          <img className="avatar avatar-sm ms-1" src={row?.photo_three ? process.env.REACT_APP_STORAGE_URL + row?.photo_three : '/assets/img/placeholder.png'} alt="photo" />
+        <div className="col-2 pe-0">
+          <img className="avatar avatar-xl" src={row?.photo ? process.env.REACT_APP_STORAGE_URL + row?.photo : '/assets/img/placeholder.png'} alt="photo" />
         </div>
       </div>
     },
-
     {
-        name: t('Title'),
-        sortable: true,
-        reorder: true,
-        selector: row => row.title
-    },
-    {
-      name: t('Location'),
+      name: t('Title'),
       sortable: true,
       reorder: true,
-      selector: row => row.location
-  },
-
+      selector: row => row.title
+    },
     {
-      name: t('Category'),
+      name: t('Price'),
       sortable: true,
       reorder: true,
-      selector: row => row?.categorie?.title
+      selector: row => row.price + "€"
     },
-    
+
+    {
+      name: t('Label'),
+      sortable: true,
+      reorder: true,
+      selector: row => row.label
+    },
+
     {
       name: t('Status'),
       sortable: true,
@@ -79,29 +68,25 @@ function HotelIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
-            <NavLink to={'/hotels/' + row.id + '/edit'} className="dropdown-item">
+            <NavLink to={'/theme-customization/inverano/' + row.id + '/edit'} className="dropdown-item">
               {t('Edit')}
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'hotels', row?.id, t).then(res => setRefresh(0))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'inverano', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    if(refresh === 0) {
-      callFetch("hotels?page=" + pageNumber, "GET", []).then((res) => {
-        setData(res.data);
-        setRefresh(1)
-      });
-    }
+    callFetch("inverano?page=" + pageNumber, "GET", []).then((res) => {
+      setData(res.data)
+    });
   }, [pageNumber, refresh]);
 
   const handlePageChange = page => {
     setPageNumber(page);
-    setRefresh(0)
   }
 
   function toPages(pages) {
@@ -214,4 +199,5 @@ function HotelIndexTable() {
     subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />}
   />;
 }
-export default HotelIndexTable
+
+export default ProductIndexTable

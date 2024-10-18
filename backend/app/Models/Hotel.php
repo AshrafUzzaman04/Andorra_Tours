@@ -10,6 +10,7 @@ class Hotel extends Model
     use HasFactory;
     protected $fillable = [
         "categorie_id",
+        "parent_slug",
         "photo",
         "photo_one",
         "photo_two",

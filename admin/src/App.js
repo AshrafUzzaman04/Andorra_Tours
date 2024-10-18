@@ -64,9 +64,9 @@ import ProjectCreate from './pages/project_management/ProjectCreate';
 import ProjectShow from './pages/project_management/ProjectShow';
 import ProjectEdit from './pages/project_management/ProjectEdit';
 
-import ProductIndex from "pages/product_management/ProductIndex";
-import ProductCreate from "pages/product_management/ProductCreate";
-import ProductEdit from "pages/product_management/ProductEdit";
+// import ProductIndex from "pages/product_management/ProductIndex";
+// import ProductCreate from "pages/product_management/ProductCreate";
+// import ProductEdit from "pages/product_management/ProductEdit";
 
 import SupplierCreate from "pages/customer_management/supplier/SupplierCreate";
 import SupplierEdit from "pages/customer_management/supplier/SupplierEdit";
@@ -92,7 +92,6 @@ import SeminarEdit from "pages/seminar/SeminarEdit";
 import OrderIndex from "pages/customer_management/orders/OrderIndex";
 import OrderCreate from "pages/customer_management/orders/OrderCreate";
 import OrderEdit from "pages/customer_management/orders/OrderEdit";
-import CustomerExapndTable from "examples/Tables/SalesTable/CustomerExapndTable";
 import InvoiceIndex from "pages/Finance/InvoiceIndex";
 import InvoiceCreate from "pages/Finance/InvoiceCreate";
 import InvoiceEdit from "pages/Finance/InvoiceEdit";
@@ -165,6 +164,9 @@ import TranslationEditor from "pages/Translation/TranslationEditor";
 import HotelIndex from "pages/Hotel/HotelIndex";
 import HotelCreate from "pages/Hotel/HotelCreate";
 import HotelEdit from "pages/Hotel/HotelEdit";
+import ProductIndex from "pages/Products/ProductIndex";
+import ProductCreate from "pages/Products/ProductCreate";
+import ProductEdit from "pages/Products/ProductEdit";
 
 
 function App() {
@@ -346,7 +348,9 @@ function App() {
                                 <Route path="hotels/create" element={<HotelCreate/>} />
                                 <Route path="hotels/:id/edit" element={<HotelEdit/>} />
 
-
+                                <Route path="products/:slug/multiple" element={<ProductIndex/>} />
+                                <Route path="products/:slug/multiple/create" element={<ProductCreate/>} />
+                                <Route path="products/:slug/multiple/:id/edit" element={<ProductEdit/>} />
 
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
@@ -390,9 +394,9 @@ function App() {
                                 <Route path="product-management/suppliers/create" element={<SupplierCreate />} />
                                 <Route path="product-management/suppliers/:id/edit" element={<SupplierEdit />} />
 
-                                <Route path="product-management/products" element={<ProductIndex />} />
+                                {/* <Route path="product-management/products" element={<ProductIndex />} />
                                 <Route path="product-management/products/create" element={<ProductCreate />} />
-                                <Route path="product-management/products/:id/edit" element={<ProductEdit />} />
+                                <Route path="product-management/products/:id/edit" element={<ProductEdit />} /> */}
 
                                 <Route path="forms" element={<FormIndex />} />
                                 <Route path="forms/create" element={<FormCreate />} />

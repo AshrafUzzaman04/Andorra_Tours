@@ -1,11 +1,11 @@
+import Fetch from '@/helper/Fetch'
 import { notFound, redirect } from 'next/navigation'
-
-export default function TagPage({ params }: { params: { tag_slug: string } }) {
-  redirect('/hotels')
+const getData = async (slug:string) =>{
+  const response = await Fetch("/cardCategory/"+slug);
+  return response?.data?.data
 }
-export async function generateStaticParams() {
-  const tags = ['tag1', 'tag2', 'tag3']
-  return tags.map((tag) => ({
-    tag_slug: tag,
-  }))
+export default async function TagPage({ params }: { params: { tag_slug: string } }) {
+  const data = await getData(params?.tag_slug);
+  const redirectUrl = "/"+data?.tag_slug+"/"+params?.tag_slug
+  redirect(redirectUrl)
 }

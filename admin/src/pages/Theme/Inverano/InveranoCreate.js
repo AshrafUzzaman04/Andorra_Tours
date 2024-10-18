@@ -94,7 +94,7 @@ const InveranoCreate = () => {
                 <div className="col-md-6">
                   <label>{t("Reviews Link")} </label>
                   <input type="text" className="form-control" placeholder="https://example.com"
-                    {...register("reviews_link")}/>
+                    {...register("reviews_link")} />
                   <div className="invalid-feedback">
                     {errors.reviews_link && errors.reviews_link.message}
                   </div>
@@ -131,15 +131,27 @@ const InveranoCreate = () => {
                 </div>
               </div>
               <div className="row g-3 mt-2">
-                <div className="col-md-16">
+                <div className="col-md-4">
                   <label>{t("Booking Link")} </label>
                   <input type="text" className="form-control" placeholder="https://booking.com"
-                    {...register("booking_link")}/>
+                    {...register("booking_link")} />
                   <div className="invalid-feedback">
                     {errors.booking_link && errors.booking_link.message}
                   </div>
                 </div>
-                <div className="col-md-16">
+                <div className="col-md-4">
+                  <label>{t("Type")} *</label>
+                  <select type="text" className="form-control" placeholder="https://booking.com"
+                    {...register("type", { required: true })}
+                    required>
+                    <option value="single">{t("Single")}</option>
+                    <option value="multiple">{t("Multiple")}</option>
+                  </select>
+                  <div className="invalid-feedback">
+                    {errors.type && errors.type.message}
+                  </div>
+                </div>
+                <div className="col-md-4">
                   <label>{t("Status")} *</label>
                   <select type="text" className="form-control" placeholder="https://booking.com"
                     {...register("status", { required: true })}

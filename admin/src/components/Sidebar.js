@@ -181,7 +181,7 @@ function Sidebar() {
 
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#hotels" className={nowDrop === 'hotels' ? activeClassName : navClassName} aria-controls="hotels" role="button" aria-expanded={nowDrop === 'hotels'}>
-                            <i className="fa-solid fa-briefcase icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <i className="fa-solid fa-hotel icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Hotel')}</span>
                         </a>
                         <div className={nowDrop === 'hotels' ? dropdownClassShow : dropdownClass} id="hotels">
@@ -190,6 +190,30 @@ function Sidebar() {
                                     <li className="nav-item">
                                         <NavLink to="/hotels" onClick={(e) => setNowDrop('hotels')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                                             <span className="sidenav-normal">{t('Hotels')}</span>
+                                        </NavLink>
+                                    </li>
+                                </>
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#products" className={nowDrop === 'products' ? activeClassName : navClassName} aria-controls="products" role="button" aria-expanded={nowDrop === 'products'}>
+                            <i className="fa-solid fa-cart-flatbed icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Products')}</span>
+                        </a>
+                        <div className={nowDrop === 'products' ? dropdownClassShow : dropdownClass} id="products">
+                            <ul className="nav ms-4 ps-3">
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/products/verano/multiple" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Verano Multiple')}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/products/inverano/multiple" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Inverano Multiple')}</span>
                                         </NavLink>
                                     </li>
                                 </>

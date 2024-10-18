@@ -25,6 +25,7 @@ class InveranoRequest extends FormRequest
             "label" => "required",
             "reviews" => "required",
             "total_reviews" => "required",
+            "type" => "required",
             "reviews_link" => "nullable|url",
             "title" => "required",
             "price" => "required",
