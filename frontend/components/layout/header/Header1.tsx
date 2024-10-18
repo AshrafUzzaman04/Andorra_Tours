@@ -70,8 +70,8 @@ export default function Header1({ data }: { data: any }) {
 										{
 											data?.categories?.map((category: any, index: number) => (
 												category?.sub?.length === 0 ?
-													<li key={index}><Link href={(category?.link === null) ? category?.slug:"/"+category?.link}>{category?.category_name}</Link></li> :
-													<li key={index} className="has-children"><Link href={(category?.link === null || "null") ? "/"+category?.slug:category?.link}>{category?.category_name}</Link>
+													<li key={index}><Link href={(category?.link === null) ? category?.slug:category?.link}>{category?.category_name}</Link></li> :
+													<li key={index} className="has-children"><Link href={(category?.link === null || "null") ? category?.slug:category?.link}>{category?.category_name}</Link>
 														<ul className="sub-menu">
 															{
 																category?.sub?.map((subCat: any, index: any) => (
