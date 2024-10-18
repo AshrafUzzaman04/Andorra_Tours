@@ -2,7 +2,6 @@ import MasterLayout from "@/components/layout/MasterLayout";
 import CategoryWiseHotels from "@/components/sections/CategoryWiseHotels";
 import Fetch from "@/helper/Fetch";
 import { Metadata } from "next";
-import parse from 'html-react-parser';
 const getData = async (slug:string) =>{
     const response = await Fetch("hotel/"+slug);
     return response?.data?.data;

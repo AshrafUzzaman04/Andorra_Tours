@@ -9,9 +9,18 @@ declare global {
   }
 }
 
-export default function useWidget(slug: string): JSX.Element {
+interface UseWidgetProps {
+  slug: string;
+}
+
+export default function useWidget({ slug }: UseWidgetProps): JSX.Element {
   useEffect(() => {
-    // Dynamically load the booking.com script
+    // Only load the script and initialize the widget if the slug is "hotels"
+    if (slug !== "hotels") {
+      return; // Exit early if slug is not "hotels"
+    }
+
+    // Dynamically load the Booking.com script
     const script = document.createElement('script');
     script.src = 'https://www.booking.com/affiliate/prelanding_sdk';
     script.async = true;
@@ -27,7 +36,7 @@ export default function useWidget(slug: string): JSX.Element {
               responsive: true,
             },
             widgetSettings: {
-              // Add any specific widget settings here as needed
+              theme: 'dark', // Example setting to change the theme
             },
           });
         } catch (error) {
@@ -41,14 +50,13 @@ export default function useWidget(slug: string): JSX.Element {
     };
 
     return () => {
-      // Clean up the script when the component unmounts
-      if (script) {
-        document.body.removeChild(script);
-      }
+      // Cleanup: remove the script when the component unmounts or slug changes
+      document.body.removeChild(script);
     };
-  }, []);
+  }, [slug]);
 
-  return (
+  // Return the widget container only if the slug is "hotels"
+  return slug === "hotels" ? (
     <div
       className="booking-widget-container z-2"
       id="bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d"
@@ -57,9 +65,10 @@ export default function useWidget(slug: string): JSX.Element {
         position: 'relative',
         height: '360px',
         borderRadius: '10px',
-        backgroundColor: "#00000"
+        backgroundColor: "#000000", // Ensure this is a valid color
       }}
-    />
-
-  );
+    >
+      <div>Loading...</div> {/* Optional: You can add loading or placeholder content */}
+    </div>
+  ) : <></>; // Return an empty fragment if the slug is not "hotels"
 }

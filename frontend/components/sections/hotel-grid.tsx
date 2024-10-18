@@ -228,17 +228,15 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 						</div>
 
 					</div>
-					{
-						slug === "hotels" && <div className="container">
+					<div className="container">
 						<div className="row justify-content-center">
 							<div className="col-md-8">
 								<div className="mt-80">
-									{useWidget(slug)}
+									{useWidget({slug})}
 								</div>
 							</div>
 						</div>
 					</div>
-					}
 					
 				</section>
 
