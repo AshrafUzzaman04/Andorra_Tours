@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export default function useWidget(): JSX.Element {
+export default function useWidget(slug: string): JSX.Element {
   useEffect(() => {
     // Dynamically load the booking.com script
     const script = document.createElement('script');
@@ -49,16 +49,21 @@ export default function useWidget(): JSX.Element {
   }, []);
 
   return (
-    <div
-      className="booking-widget-container z-2"
-      id="bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d"
-      style={{
-        overflow: 'visible',
-        position: 'relative',
-        height: '360px',
-        borderRadius: '10px',
-        backgroundColor:"#00000"
-      }}
-    />
+      <>
+        {
+          slug === "hotels" && <div
+          className="booking-widget-container z-2"
+          id="bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d"
+          style={{
+            overflow: 'visible',
+            position: 'relative',
+            height: '360px',
+            borderRadius: '10px',
+            backgroundColor:"#00000"
+          }}
+        />
+        }
+      </>
+    
   );
 }

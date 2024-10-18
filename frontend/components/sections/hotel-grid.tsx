@@ -119,7 +119,6 @@ export interface params {
 }
 
 export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase, reviewsBase }: HotesDataType) {
-	const widget = useWidget();
 	const {
 		hotelsData,
 		page,
@@ -234,7 +233,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 						<div className="row justify-content-center">
 							<div className="col-md-8">
 								<div className="mt-80">
-									{widget}
+									{useWidget(slug)}
 								</div>
 							</div>
 						</div>
