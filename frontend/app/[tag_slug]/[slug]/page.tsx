@@ -33,14 +33,13 @@ export async function generateMetadata({params}:{params:{slug:string}}): Promise
             title: title,
             description: description,
             images: [image],
-            card:"summary_large_image"
+            card:"summary"
         }
     }
 }
 
 export default async function SulgHotes({params}:{params:{slug:string}}) {
     const {hotels, locationBase, hotelTypeBase, reviewsBase} = await getData(params?.slug);
-    console.log(hotels)
     return (
         <MasterLayout headerStyle={1} footerStyle={5}>
             <HotelGrid hotelData={hotels} slug={params?.slug} locationBase={locationBase} hotelTypeBase={hotelTypeBase} reviewsBase={reviewsBase}/>

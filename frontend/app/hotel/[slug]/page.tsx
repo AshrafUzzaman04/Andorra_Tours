@@ -2,16 +2,19 @@ import MasterLayout from "@/components/layout/MasterLayout";
 import CategoryWiseHotels from "@/components/sections/CategoryWiseHotels";
 import Fetch from "@/helper/Fetch";
 import { Metadata } from "next";
+import parse from 'html-react-parser';
 const getData = async (slug:string) =>{
     const response = await Fetch("hotel/"+slug);
     return response?.data?.data;
 }
-
+const stripHtml = (html: string) => {
+    return html.replace(/<\/?[^>]+(>|$)/g, "");
+};
 export async function generateMetadata({params}:{params:{slug:string}}): Promise<Metadata> {
     const response = await Fetch("hotel/"+params?.slug);
     const hotel = response?.data?.data || [];
     const title = hotel?.title ?? ""
-    const description = hotel?.description ?? ""
+    const description = stripHtml(hotel?.description) ?? ""
     const image = process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo
     return {
         title: title,
