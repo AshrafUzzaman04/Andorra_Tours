@@ -49,21 +49,17 @@ export default function useWidget(slug: string): JSX.Element {
   }, []);
 
   return (
-      <>
-        {
-          slug === "hotels" && <div
-          className="booking-widget-container z-2"
-          id="bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d"
-          style={{
-            overflow: 'visible',
-            position: 'relative',
-            height: '360px',
-            borderRadius: '10px',
-            backgroundColor:"#00000"
-          }}
-        />
-        }
-      </>
-    
+    <div
+      className="booking-widget-container z-2"
+      id="bookingAffiliateWidget_e5fec07e-343d-49f7-8d26-79a1523ba03d"
+      style={{
+        overflow: 'visible',
+        position: 'relative',
+        height: '360px',
+        borderRadius: '10px',
+        backgroundColor: "#00000"
+      }}
+    />
+
   );
 }
