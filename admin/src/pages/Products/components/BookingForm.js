@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import callFetch from "helpers/callFetch";
 import dateFormat from "dateformat";
@@ -24,7 +24,7 @@ const BookingForm = ({ formData }) => {
   }
   useEffect(() => {
     if (times?.length === 0) {
-      setTimes([{ id: 0, time: "" }])
+      //setTimes([{ id: 0, time: "" }])
     }
     if (services?.length === 0) {
       setServices([{ id: 0, service_name: "", price: 0, quantity: 0 }])
@@ -35,15 +35,15 @@ const BookingForm = ({ formData }) => {
   }, [0])
 
   useEffect(() => {
-    const jsonDetails = getValues("times");
-    if (jsonDetails?.length > 0) {
-      setTimes(JSON.parse(jsonDetails))
-    }
+    // const jsonDetails = getValues("times");
+    // if (jsonDetails?.length > 0) {
+    //   setTimes(JSON.parse(jsonDetails))
+    // }
     const jsonservices = getValues("services");
     if (jsonservices?.length > 0) {
       setServices(JSON.parse(jsonservices))
     }
-    const jsonadd_extra = getValues("add_extra");
+    const jsonadd_extra = getValues("extra_services");
     if (jsonadd_extra?.length > 0) {
       setAddExtra(JSON.parse(jsonadd_extra))
     }
@@ -59,7 +59,7 @@ const BookingForm = ({ formData }) => {
     });
     setTimes(titems);
     setRefresh(refresh + 1);
-    setValue("times", JSON.stringify(times))
+    //setValue("times", JSON.stringify(times))
   }
 
   function deleteProductService() {
@@ -83,7 +83,7 @@ const BookingForm = ({ formData }) => {
     });
     setAddExtra(titems);
     setRefresh(refresh + 1);
-    setValue("add_extra", JSON.stringify(titems))
+    setValue("extra_services", JSON.stringify(titems))
   }
 
   return (
@@ -105,7 +105,7 @@ const BookingForm = ({ formData }) => {
         </div>
       </div>
 
-      <div className="row g-3">
+      {/* <div className="row g-3">
         {
           times && times.map((time, i) => (
             <div key={i} className="col-md-4">
@@ -142,7 +142,7 @@ const BookingForm = ({ formData }) => {
         <div className="col-md-12">
           <button type="button" className="btn btn-sm btn-primary" onClick={() => setTimes([...times, { id: 0, time: "" }])}>Add <i class="fas fa-plus"></i> </button>
         </div>
-      </div>
+      </div> */}
 
 
       <div className="row g-3">
@@ -167,8 +167,8 @@ const BookingForm = ({ formData }) => {
           <div className="row">
             {
               services && services.map((service, i) => (
-                <>
-                  <div key={i} className="col-md-6">
+                <Fragment key={i}>
+                  <div className="col-md-6">
                     <div className="d-flex align-items-center w-100">
                       <div class="form-group w-100">
                         <label>{t("Service Name")} *</label>
@@ -236,7 +236,7 @@ const BookingForm = ({ formData }) => {
                       <i className="fa-solid fa-circle-xmark text-danger cursor-pointer" data-key={i} onClick={() => { delete services[i]; deleteProductService(); }}></i>
                     </div>
                   </div>
-                </>
+                </Fragment>
 
               ))
             }
@@ -257,10 +257,10 @@ const BookingForm = ({ formData }) => {
               type="text"
               className="form-control mb-4"
               placeholder={t("Add Extra Service")}
-              {...register("add_extra_title")}
+              {...register("extra_service_title")}
             />
             <div className="invalid-feedback">
-              {errors.add_extra_title && errors.add_extra_title.message}
+              {errors.extra_service_title && errors.extra_service_title.message}
             </div>
           </div>
         </div>
@@ -270,8 +270,8 @@ const BookingForm = ({ formData }) => {
           <div className="row">
             {
               addExtra && addExtra.map((service, i) => (
-                <>
-                  <div key={i} className="col-md-6">
+                <Fragment key={i}>
+                  <div className="col-md-6">
                     <div className="d-flex align-items-center w-100">
                       <div class="form-group w-100">
                         <label>{t("Extra Service Name")} *</label>
@@ -284,7 +284,7 @@ const BookingForm = ({ formData }) => {
                             addExtra[i].id = i + 1;
                             addExtra[i].service_name = e.target.value;
                             setAddExtra(addExtra)
-                            setValue("add_extra", JSON.stringify(addExtra))
+                            setValue("extra_services", JSON.stringify(addExtra))
                           }}
                         />
                         <div className="invalid-feedback">
@@ -307,7 +307,7 @@ const BookingForm = ({ formData }) => {
                             addExtra[i].id = i + 1;
                             addExtra[i].price = e.target.value;
                             setAddExtra(addExtra)
-                            setValue("add_extra", JSON.stringify(addExtra))
+                            setValue("extra_services", JSON.stringify(addExtra))
                           }}
                         />
                         <div className="invalid-feedback">
@@ -318,7 +318,7 @@ const BookingForm = ({ formData }) => {
                       <i className="fa-solid fa-circle-xmark text-danger cursor-pointer" data-key={i} onClick={() => { delete addExtra[i]; deleteExtraService(); }}></i>
                     </div>
                   </div>
-                </>
+                </Fragment>
 
               ))
             }

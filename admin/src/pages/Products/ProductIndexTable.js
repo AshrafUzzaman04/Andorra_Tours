@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import DataTable from 'react-data-table-component';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
 
 function ProductIndexTable() {
+  const params = useParams();
   const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -18,7 +19,7 @@ function ProductIndexTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/theme-customization/inverano/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/products/${params?.slug}/product/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
       name: t('Photo'),
@@ -26,8 +27,13 @@ function ProductIndexTable() {
       sortable: true,
       reorder: true,
       selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '600px' }}>
-        <div className="col-2 pe-0">
-          <img className="avatar avatar-xl" src={row?.photo ? process.env.REACT_APP_STORAGE_URL + row?.photo : '/assets/img/placeholder.png'} alt="photo" />
+        <div className="col-6 pe-0 mb-1">
+          {
+            row?.photos && JSON.parse(row?.photos).map((photo, index) => (
+              <img key={index} className="avatar avatar-md me-1" src={photo ? process.env.REACT_APP_STORAGE_URL + photo : '/assets/img/placeholder.png'} alt="photo" />
+            ))
+          }
+
         </div>
       </div>
     },
@@ -38,17 +44,17 @@ function ProductIndexTable() {
       selector: row => row.title
     },
     {
-      name: t('Price'),
+      name: t('Parent'),
       sortable: true,
       reorder: true,
-      selector: row => row.price + "€"
+      selector: row => row?.inverano?.title
     },
 
     {
-      name: t('Label'),
+      name: t('Category'),
       sortable: true,
       reorder: true,
-      selector: row => row.label
+      selector: row => row?.product_for
     },
 
     {
@@ -68,22 +74,22 @@ function ProductIndexTable() {
         </a>
         <ul className="dropdown-menu">
           <li>
-            <NavLink to={'/theme-customization/inverano/' + row.id + '/edit'} className="dropdown-item">
+            <NavLink to={`/products/${params?.slug}/product/${row.id}/edit`} className="dropdown-item">
               {t('Edit')}
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'inverano', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, params?.slug, row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }
   ];
 
   useEffect(() => {
-    callFetch("inverano?page=" + pageNumber, "GET", []).then((res) => {
+    callFetch("multiples?page=" + pageNumber + "&product_for=" + params?.slug, "GET", []).then((res) => {
       setData(res.data)
     });
-  }, [pageNumber, refresh]);
+  }, [pageNumber, refresh, params?.slug]);
 
   const handlePageChange = page => {
     setPageNumber(page);

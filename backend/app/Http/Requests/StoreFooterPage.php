@@ -24,7 +24,7 @@ class StoreFooterPage extends FormRequest
         return [
             'category' => 'required|exists:page_categories,id', // Ensure category exists in page_categories table
             'page_name' => 'required|string|max:255|unique:footer_pages,page_name', // Ensure page_name is unique
-            //'page_slub' => 'required|string|max:255|unique:footer_pages,page_slub', // Ensure page_slub is unique
+            'title_for' => 'required|string|max:255',
             'page_title' => 'nullable|string|max:255|unique:footer_pages,page_title', // Optional and unique
             'content' => 'nullable|string', // No additional constraints
             'status' => 'required|in:Active,Inactive', // Enum values

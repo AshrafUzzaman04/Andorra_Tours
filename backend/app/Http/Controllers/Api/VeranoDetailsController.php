@@ -38,7 +38,7 @@ class VeranoDetailsController extends Controller
     public function store(Request $request)
     {
         $step = $request->get("step");
-        $data = $request->input('data', []);
+        $request->only(["pricing","details","form_title","times","service_title","services","add_extra_title","add_extra","status"]);
         $data['for'] = $request->get("for");
         if ($step == 0) {
             // Step 0 validation
@@ -58,8 +58,6 @@ class VeranoDetailsController extends Controller
             }elseif($request->get("for") == "inverano"){
                 $data['inverano_id'] = $request->verano;
             }
-            $data = array_merge($data, $validation->valid());
-
             // Return success, next step, and the accumulated data back to the frontend
             return response()->json(["success" => true, "step" => 1], 200);
         } elseif ($step == 1) {
@@ -72,10 +70,6 @@ class VeranoDetailsController extends Controller
                 return response()->json(["errors" => $validation->errors()], 422);
             }
 
-            // Merge validated step 1 data with the existing data
-            $data = array_merge($data, $validation->valid());
-
-            // Return success, next step, and the accumulated data back to the frontend
             return response()->json(["success" => true, "step" => 2], 200);
         } elseif ($step == 2) {
             // Step 2 validation
@@ -98,12 +92,8 @@ class VeranoDetailsController extends Controller
             }elseif($request->get("for") == "inverano"){
                 $data['inverano_id'] = $request->verano;
             }
-            $data = array_merge($data, $validation->valid());
 
-            // Save the accumulated data to the database
             VeranoDetail::create($data);
-
-            // Final success response
             return response()->json(["success" => true, "message" => "Activity details created", "step" => "done"], 201);
         }
     }
@@ -130,7 +120,7 @@ class VeranoDetailsController extends Controller
         }
 
         $step = $request->get("step");
-        $data = $request->input('data', []);
+        $data = $request->only(["pricing","details","form_title","times","service_title","services","add_extra_title","add_extra","status"]);
         $data['for'] = $request->get("for");
 
         if ($step == 0) {
@@ -149,7 +139,6 @@ class VeranoDetailsController extends Controller
             }elseif($request->get("for") == "inverano"){
                 $data['inverano_id'] = $request->verano;
             }
-            $data = array_merge($data, $validation->validated());
 
             return response()->json(["success" => true, "step" => 1], 200);
         } elseif ($step == 1) {
@@ -160,8 +149,6 @@ class VeranoDetailsController extends Controller
             if ($validation->fails()) {
                 return response()->json(["errors" => $validation->errors()], 422);
             }
-
-            $data = array_merge($data, $validation->validated());
 
             return response()->json(["success" => true, "step" => 2], 200);
         } elseif ($step == 2) {
@@ -183,10 +170,9 @@ class VeranoDetailsController extends Controller
             }elseif($request->get("for") == "inverano"){
                 $data['inverano_id'] = $request->verano;
             }
-            $data = array_merge($data, $validation->validated());
             $veranoDetail->update($data);
 
-            return response()->json(["success" => true, "message" => "Activity details updated", "step" => "done"], 200);
+            return response()->json(["success" => true, "message" => "Activity details updated", "step" => "done", 'data' => $data], 200);
         }
     }
 

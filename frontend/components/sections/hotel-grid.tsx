@@ -4,11 +4,9 @@ import ByHotelPagination from '@/components/Filter/ByHotelPagination'
 import ByTopHotelType from '@/components/Filter/ByTopHotelType'
 import ByTopRating from '@/components/Filter/ByTopRating'
 import HotelCard from '@/components/elements/hotelcard/HotelCard'
-import Fetch from '@/helper/Fetch'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent } from 'react'
 import SortTopHotelsFilter from '../elements/SortTopHotelsFilter'
 import useTopFilter from '@/util/useTopFilter'
-import useWidget from '@/util/useWidget'
 
 export interface HotelData {
 	map(arg0: (hotel: any) => import("react").JSX.Element): import("react").ReactNode
@@ -228,15 +226,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 						</div>
 
 					</div>
-					<div className="container">
-						<div className="row justify-content-center">
-							<div className="col-md-8">
-								<div className="mt-80">
-									{useWidget({slug})}
-								</div>
-							</div>
-						</div>
-					</div>
+					
 					
 				</section>
 

@@ -20,8 +20,8 @@ function ProductIndex() {
     <>
       <div className="d-sm-flex justify-content-between">
         <div>
-          <NavLink to={`/products/${params?.slug}/multiple/create`} className="btn btn-icon btn-primary">
-            {t('Add '+params?.slug)}
+          <NavLink to={`/products/${params?.slug}/product/create`} className="btn btn-icon btn-primary">
+            {t('Add '+params?.slug+ " Product")}
           </NavLink>
         </div>
       </div>
@@ -32,7 +32,7 @@ function ProductIndex() {
         <div className="col-12 mt-2">
           <div className="card mb-4">
             <div className="card-header pb-0">
-              <h6 className=" text-capitalize">{t(`All ${params?.slug} Base Products`)}</h6>
+              <h6 className=" text-capitalize">{t(`${params?.slug} Products`)}</h6>
             </div>
             <div className="card-body px-0 pt-0 pb-2">
               <ProductIndexTable />

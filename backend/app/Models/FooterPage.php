@@ -14,6 +14,7 @@ class FooterPage extends Model
         'page_name',
         'page_slug',
         'page_title',
+        'title_for',
         'content',
         'status',
     ];

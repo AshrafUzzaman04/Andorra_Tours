@@ -32,8 +32,10 @@ class UpdateHotelRequest extends FormRequest
             "title" => "required|unique:hotels,title,".$this->hotel->id,
             "location" => "required|string",
             "map_location" => "required|string|url",
+            "button_text_map" => "required|string",
             "tag" => "required|string",
             "hotel_link" => "required|string|url",
+            "button_text_link" => "required|string",
             "description" => "required|string",
             "status" => "required|string|in:Active,Inactive",
         ];

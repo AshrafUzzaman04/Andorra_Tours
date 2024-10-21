@@ -348,9 +348,9 @@ function App() {
                                 <Route path="hotels/create" element={<HotelCreate/>} />
                                 <Route path="hotels/:id/edit" element={<HotelEdit/>} />
 
-                                <Route path="products/:slug/multiple" element={<ProductIndex/>} />
-                                <Route path="products/:slug/multiple/create" element={<ProductCreate/>} />
-                                <Route path="products/:slug/multiple/:id/edit" element={<ProductEdit/>} />
+                                <Route path="products/:slug/product" element={<ProductIndex/>} />
+                                <Route path="products/:slug/product/create" element={<ProductCreate/>} />
+                                <Route path="products/:slug/product/:id/edit" element={<ProductEdit/>} />
 
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />

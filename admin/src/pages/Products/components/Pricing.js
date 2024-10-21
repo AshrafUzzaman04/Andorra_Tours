@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "flatpickr/dist/themes/material_green.css";
 const Pricing = ({ formData }) => {
@@ -39,8 +39,8 @@ const Pricing = ({ formData }) => {
                 {
                     pricing && pricing?.map((price, i) => (
                         
-                        <>
-                            <div key={i} className="col-md-4">
+                        <Fragment key={i}>
+                            <div className="col-md-4">
                                 <label>{t("Day")} *</label>
                                 <input
                                     type="text"
@@ -109,7 +109,7 @@ const Pricing = ({ formData }) => {
 
                             </div>
 
-                        </>
+                        </Fragment>
                     ))
                 }
                 <div className="col-md-12">

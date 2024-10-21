@@ -42,7 +42,7 @@ class FormBuilderController extends Controller
      */
     public function show(FormBuilder $formBuilder,$form)
     {
-        $formBuilder = FormBuilder::find($form);
+        $formBuilder = FormBuilder::where("service_id",$form)->first();
         return response()->json(["success" => true, "data"=> $formBuilder], 200);
     }
 
@@ -51,7 +51,7 @@ class FormBuilderController extends Controller
      */
     public function update(Request $request, FormBuilder $formBuilder,$form)
     {
-        $formBuilder = FormBuilder::find($form);
+        $formBuilder = FormBuilder::where("service_id",$form)->first();
         $validation = Validator::make($request->all(), [
             "service_id" => "required|exists:services,id|unique:form_builders,service_id,".$formBuilder->service_id,
             "form" => "required|string",
@@ -71,7 +71,7 @@ class FormBuilderController extends Controller
      */
     public function destroy(FormBuilder $formBuilder,$form)
     {
-        $formBuilder = FormBuilder::find($form);
+        $formBuilder = FormBuilder::where("service_id",$form)->first();
         $formBuilder->delete();
         return response()->json(["success" => true, "message"=>"Form deleted successfully"], 200);
     }

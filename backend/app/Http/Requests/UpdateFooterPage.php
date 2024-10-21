@@ -24,6 +24,7 @@ class UpdateFooterPage extends FormRequest
             "category" => "required",
             "page_name" => "required|string|max:255|unique:footer_pages,page_name," . $this->footer_page->id,
             "page_title" => "nullable|string|max:255|unique:footer_pages,page_title," . $this->footer_page->id,
+            'title_for' => 'required|string|max:255',
             "content" => 'nullable|string',
             "status" => "required|in:Active,Inactive",
         ];

@@ -207,13 +207,13 @@ function Sidebar() {
                             <ul className="nav ms-4 ps-3">
                                 <>
                                     <li className="nav-item">
-                                        <NavLink to="/products/verano/multiple" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                            <span className="sidenav-normal">{t('Verano Multiple')}</span>
+                                        <NavLink to="/products/verano/product" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Verano Products')}</span>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink to="/products/inverano/multiple" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                            <span className="sidenav-normal">{t('Inverano Multiple')}</span>
+                                        <NavLink to="/products/inverano/product" onClick={(e) => setNowDrop('products')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Inverano Products')}</span>
                                         </NavLink>
                                     </li>
                                 </>

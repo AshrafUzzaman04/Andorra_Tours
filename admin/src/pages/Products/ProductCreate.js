@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 import { Grid, Step, StepLabel, Stepper } from "@mui/material";
-import VeranoDetails from "./components/VeranoDetails";
 import BookingForm from "./components/BookingForm";
 import Pricing from "./components/Pricing";
 import ProductInfo from "./components/ProductInfo";
 
 function getSteps() {
-  return ["Product","Details", "Pricing", "Form"];
+  return ["Product", "Pricing", "Form"];
 }
 
 function getStepContent(stepIndex, formData) {
@@ -18,10 +17,8 @@ function getStepContent(stepIndex, formData) {
     case 0:
       return <ProductInfo formData={formData} />;
     case 1:
-      return <VeranoDetails formData={formData} />;
-    case 2:
       return <Pricing formData={formData} /> ;
-    case 3:
+    case 2:
       return <BookingForm formData={formData} />;
     default:
       return null;
@@ -30,6 +27,7 @@ function getStepContent(stepIndex, formData) {
 
 const ProductCreate = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const params = useParams()
   const steps = getSteps();
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
@@ -49,11 +47,11 @@ const ProductCreate = () => {
   const onSubmit = (formData) => {
     setSaving(true);
     formData.details = JSON.stringify(formData?.details)
-    //formData.details = JSON.stringify(getValues("details"));
-    callFetch("veranoDeatils?step="+activeStep+"&for=inverano", "POST", formData, setError).then((res) => {
+    formData.photos = formData?.photos
+    callFetch("multiples?step="+activeStep+`&product_for=${params?.slug}`, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
-      setActiveStep(res?.step)
+      setActiveStep(Number(res?.step))
       if (res.step === "done"){
         setSubmitSuccess(true);
         setActiveStep(0)
@@ -61,7 +59,7 @@ const ProductCreate = () => {
     });
   };
   return submitSuccess ? (
-    <Navigate to="/details/inverano" />
+    <Navigate to={`/products/${params?.slug}/product`} />
   ) : (
     <div className="row">
       <div className="col-12">

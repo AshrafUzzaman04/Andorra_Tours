@@ -21,8 +21,10 @@ class Hotel extends Model
         "slug",
         "location",
         "map_location",
+        "button_text_map",
         "tag",
         "hotel_link",
+        "button_text_link",
         "description",
         "status",
     ];

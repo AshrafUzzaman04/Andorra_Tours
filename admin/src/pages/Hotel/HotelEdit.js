@@ -247,6 +247,30 @@ const HotelEdit = () => {
               </div>
 
 
+              <div className="row g-3 mb-4">
+                <div className="col-md-6">
+                  <label>{t("Button Text Link")} *</label>
+                  <input type="text" className="form-control" placeholder="Check"
+                    {...register("button_text_link", { required: true })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.button_text_link && errors.button_text_link.message}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Button Text Map")} *</label>
+                  <input type="text" className="form-control" placeholder="Google Map"
+                    {...register("button_text_map", { required: true })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.button_text_map && errors.button_text_map.message}
+                  </div>
+                </div>
+              </div>
+
+
               <div className="row g-3">
                 <div class="form-group">
                   <label>{t("Description")} *</label>

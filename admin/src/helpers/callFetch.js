@@ -31,8 +31,11 @@ function makeFormData(fetchMethod, data) {
     let formData = new FormData();
     for (let [key, value] of Object.entries(data)) {
         if (value instanceof FileList) {
-            if (typeof value[0] !== 'undefined')
-                formData.append(key, value[0]);
+            if (typeof value[0] !== 'undefined'){
+                for (let i = 0; i < value.length; i++) {
+                    formData.append(`${value.length > 1 ? key+'[]':key}`, value[i]);
+                }
+            }
         }
         else
             formData.append(key, value);

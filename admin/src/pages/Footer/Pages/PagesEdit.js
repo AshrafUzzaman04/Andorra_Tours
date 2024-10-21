@@ -4,6 +4,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
+const footerAditonalData = [
+  {id:1, name:"Email", selected:false},
+  {id:2, name:"Phone", selected:false},
+  {id:3, name:"Whats App", selected:false},
+  {id:4, name:"New Page", selected:true},
+  {id:5, name:"Link", selected:false},
+];
 const PagesEdit = () => {
   const params = useParams();
   const [categories, setCategories] = useState([]);
@@ -122,7 +129,7 @@ const PagesEdit = () => {
               </div>
 
               <div className="row g-3">
-                <div className="col-md-12">
+                <div className="col-md-6">
                   <label>{t("Page Title")} *</label>
                   <input
                     type="text"
@@ -135,6 +142,24 @@ const PagesEdit = () => {
                   />
                   <div className="invalid-feedback">
                     {errors.page_title && errors.page_title.message}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <label>{t("Title For")} *</label>
+                  <select
+                    class="form-control"
+                    {...register("title_for", { required: true })}
+                    required
+                  >
+                    {
+                      footerAditonalData && footerAditonalData?.map((data, index) => (
+                        <option key={index} value={data?.name}>{data?.name}</option>
+                      ))
+                    }
+                  </select>
+                  <div className="invalid-feedback">
+                    {errors.title_for && errors.title_for.message}
                   </div>
                 </div>
 

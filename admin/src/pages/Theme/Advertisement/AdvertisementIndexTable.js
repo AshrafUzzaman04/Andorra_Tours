@@ -25,7 +25,7 @@ function AdvertisementIndexTable() {
       name: t('Images'),
       sortable: true,
       reorder: true,
-      selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '600px' }}>
+      selector: row => <div className="row mt-1 mb-1 d-flex align-items-center" style={{ width: '500px' }}>
         <div className="col-6 pe-0 mb-1">
           <img className="avatar avatar-sm" src={row?.image_one ? process.env.REACT_APP_STORAGE_URL + row?.image_one : '/assets/img/placeholder.png'} alt="photo" />
           <img className="avatar avatar-sm ms-1" src={row?.image_two ? process.env.REACT_APP_STORAGE_URL + row?.image_two : '/assets/img/placeholder.png'} alt="photo" />
