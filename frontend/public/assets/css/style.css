@@ -15618,6 +15618,6 @@ a{
   background: #000000 !important;
 } */
 
-[data-bs-theme=dark] p{
+[data-bs-theme=dark] .footer > p{
   color: var(--bs-neutral-400) !important;;
 }
