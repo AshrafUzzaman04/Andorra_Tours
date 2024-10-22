@@ -15602,12 +15602,12 @@ a{
 } */
 
 [data-bs-theme=dark] .page-link{
-  color: #000000 !important;
+  color: #FFF !important;
 }
 
 
 [data-bs-theme=light] h2{
-  background: #000000 !important;
+  color: #000000 !important;
 }
 
 [data-bs-theme=dark] h2{
