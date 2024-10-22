@@ -142,6 +142,10 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("parent/{slug}",[HotelController::class, 'parentSlugByData']);
     
     Route::get("multiple/{for}",[MultipleController::class, 'create']);
+
+    Route::get("product/{slug}",[MultipleController::class,"slugByProduct"]);
+    Route::post("product/price",[BookingController::class,"ProductPriceByDay"]);
+
  
 });
 // Route::get('/user', function (Request $request) {

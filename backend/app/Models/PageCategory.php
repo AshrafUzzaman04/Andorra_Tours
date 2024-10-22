@@ -15,6 +15,6 @@ class PageCategory extends Model
 
     public function pages()
     {
-        return $this->hasMany(FooterPage::class, "category");
+        return $this->hasMany(FooterPage::class, "category")->where("status","Active");
     }
 }

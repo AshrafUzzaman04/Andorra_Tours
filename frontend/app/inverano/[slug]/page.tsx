@@ -13,6 +13,6 @@ export default async function Inverano({params}:{params:{slug:string}}){
     return (
         <MasterLayout>
             <TourDetails details={details} popular_tours={popular_tours} promotionData={promotionData}/>
-        </MasterLayout>
+        </MasterLayout> 
     )
 }

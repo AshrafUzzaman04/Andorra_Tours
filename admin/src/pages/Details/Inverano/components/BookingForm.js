@@ -71,7 +71,7 @@ const BookingForm = ({ formData }) => {
     });
     setServices(titems);
     setRefresh(refresh + 1);
-    setValue("services", JSON.stringify(services))
+    setValue("services", JSON.stringify(titems))
   }
 
   function deleteExtraService() {

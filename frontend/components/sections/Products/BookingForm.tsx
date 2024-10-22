@@ -7,29 +7,20 @@ import Fetch from "@/helper/Fetch";
 import { NumericFormat } from "react-number-format";
 
 export interface VeranoDetailsType {
-	for?: string;
-	id: number;
-	verano_id: number;
-	duration: string;
-	duration_title: string;
-	group_size: string;
-	group_size_title: string;
-	tour_type: string;
-	tour_type_title: string;
-	language: string;
-	language_title: string;
-	details: string; // This is a string that will be parsed
-	form_title: string;
-	times: string; // This is a string that will be parsed
-	service_title: string;
-	services: string; // This is a string that will be parsed
-	add_extra_title: string;
-	add_extra: string; // This is a string that will be parsed
-	question_title: string;
-	answers: string; // This is a string that will be parsed
-	status: string;
-	created_at: string;
-	updated_at: string;
+    id: number;
+    inverano_id: number | null;
+    verano_id: number | null;
+    product_for: string;
+    title: string;
+    slug: string;
+    photos: string;
+    description: string;
+    pricing: string;
+    form_title: string;
+    service_title: string;
+    services: string;
+    extra_service_title: string;
+    extra_services: string;
 }
 
 export interface TimeSlot {
@@ -54,7 +45,7 @@ export interface ExtraService {
 export interface FromDataPriceTypes {
 	FormData: VeranoDetailsType,
 	price: string;
-	bookingLink: string
+	bookingLink: string | null;
 }
 
 
@@ -70,9 +61,8 @@ interface DayPrices {
 }
 
 export default function BookingForm({ FormData, price, bookingLink }: FromDataPriceTypes) {
-	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
-	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
+	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.extra_services || '[]');
 	const [quantities, setQuantities] = useState(parsedServices?.map(() => 0));
 	const [dayPrices, setDayPrices] = useState<DayPrices>({});
 	// State to store selected extras
@@ -151,35 +141,36 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			const day = endDate ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1 : 1; // Add 1 for the start date if only it is selected
 
 			// Fetch the price using the calculated day count
-			const res = await Fetch.post("/price", { id: FormData?.id, for: FormData?.for, day: day });
-			const price = res?.data;
+			const res = await Fetch.post("/product/price", { id: FormData?.id, for: FormData?.product_for, day: day });
+			const price = res?.data ?? 0;
+			
 			setDayPrices(price);
 			setBookingData(prev => ({
 				...prev,
-				day: day, // Set the calculated day count
+				day: day,
 				price: Number(price?.online_price) + calculateTotalPrice() // Calculate total price including day price
 			}));
 		};
 		calculateDayCount()
 	}, [selectedDates]);
 
-	useEffect(() => {
-		if ((bookingLink === "null" || bookingLink === null) && selectedDates?.length === 0) {
+	useEffect(()=>{
+		if (selectedDates?.length === 0) {
 			const calculateDayCount = async () => {
 				const day = 1
-				const res = await Fetch.post("/price", { id: FormData?.id, for: FormData?.for, day: day });
+				const res = await Fetch.post("/product/price", { id: FormData?.id, for: FormData?.product_for, day: day });
 				const price = res?.data;
-
+				
 				setDayPrices(price);
 				setBookingData(prev => ({
 					...prev,
 					day: day,
-					price: price?.online_price ? Number(price?.online_price) : 0 + calculateTotalPrice()
+					price: Number(price?.online_price) + calculateTotalPrice()
 				}));
 			};
 			calculateDayCount()
 		}
-	}, [quantities, selectedExtras])
+	},[quantities,selectedExtras])
 
 	// Function to handle quantity input change
 	const handleQuantityChange = (i: number, value: number) => {
@@ -205,7 +196,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
 		setSelectedExtras(updatedExtras);
 		const newTotalPrice = calculateTotalPrice();
-
+		
 		setBookingData(prev => ({
 			...prev,
 			extra_services: parsedAddExtras.map((extra, index) => ({
@@ -245,7 +236,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 					(bookingLink === "null" || bookingLink === null) && (
 						<>
 
-							<div className="item-line-booking">
+							{/* <div className="item-line-booking">
 								<div className="line-booking-right">
 									<div className="row">
 										{parsedTimes?.length !== 0 && <strong className="text-md-bold neutral-1000">Times:</strong>}
@@ -266,7 +257,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 										}
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="item-line-booking">
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{
@@ -289,7 +280,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 								</div>
 							</div>
 							<div className="item-line-booking">
-								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.add_extra_title}:</strong>
+								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.extra_service_title}:</strong>
 									{
 										parsedAddExtras && parsedAddExtras?.map((extra, i) => (
 											<div key={i} className="line-booking-tickets">
@@ -321,29 +312,29 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 							<div className="item-line-booking last-item"> <strong className="text-md-bold neutral-1000">Total:</strong>
 								<div className="line-booking-right">
 									<p className="text-xl-bold neutral-1000">{dayPrices?.online_price ? <NumericFormat
-										value={Number(dayPrices?.online_price) + calculateTotalPrice()}
-										displayType="text"
-										thousandSeparator={","}
-										decimalSeparator="."
-										decimalScale={2}
-										fixedDecimalScale
-										suffix='€'
-									/> : <NumericFormat
-										value={bookingData?.price}
-										displayType="text"
-										thousandSeparator={","}
-										decimalSeparator="."
-										decimalScale={2}
-										fixedDecimalScale
-										suffix='€'
-									/>}</p>
+                                        value={Number(dayPrices?.online_price) + calculateTotalPrice()}
+                                        displayType="text"
+                                        thousandSeparator={","}
+                                        decimalSeparator="."
+                                        decimalScale={2}
+                                        fixedDecimalScale
+                                        suffix='€'
+                                    />:<NumericFormat
+                                        value={bookingData?.price}
+                                        displayType="text"
+                                        thousandSeparator={","}
+                                        decimalSeparator="."
+                                        decimalScale={2}
+                                        fixedDecimalScale
+                                        suffix='€'
+                                    />}</p>
 								</div>
 							</div>
 						</>
 					)
 				}
 
-				<div className="box-button-book" onClick={() => { bookingLink === null && handleBooking() }}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>Book Now
+				<div className="box-button-book" onClick={()=>{bookingLink === null && handleBooking()}}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>Book Now
 					<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 					</svg></Link></div>

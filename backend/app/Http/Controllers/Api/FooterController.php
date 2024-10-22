@@ -19,7 +19,7 @@ class FooterController extends Controller
     {
         $footerLogo = Header::first();
         $footerDetails = FooterDetails::first();
-        $footerPages = PageCategory::with(['pages:id,page_name,page_slug,page_title,category'])->where("status","Active")->get();
+        $footerPages = PageCategory::with(['pages:id,page_name,page_slug,page_title,category,title_for'])->where("status","Active")->get();
         $partners = Partner::where("status","Active")->get();
         $socialLinks = SocialLink::where("status","Active")->get();
         return response()->json(['success' => true, "data" => [

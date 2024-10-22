@@ -38,4 +38,9 @@ class Inverano extends Model
     {
         return $this->hasOne(VeranoDetail::class, 'inverano_id')->where('for', '=', 'inverano');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Multiple::class, 'inverano_id')->where('product_for', 'inverano');
+    }
 }

@@ -30,7 +30,7 @@ class InveranoController extends Controller
 
     public function InveranoBySlug($slug)
     {
-        $Inverano = Inverano::where("slug", $slug)->with(['details'])->first();
+        $Inverano = Inverano::where("slug", $slug)->with(['details','products:id,inverano_id,slug,title,photos,pricing,product_for'])->first();
         $popularTours = Inverano::where("id", '!=', $Inverano->id)->where("status","Active")->get(["photo","title","price","booking_link","slug"]);
         $offerBanner = OfferBanner::where("status","Active")->get();
         return response()->json(["success" => true, "data" => $Inverano, "popular_tours"=> $popularTours,"offerBanner"=> $offerBanner], 200);

@@ -2,6 +2,7 @@ import FooterLogoSlider from "@/components/slider/FooterLogoSlider";
 import Axios from "@/helper/axios";
 import Link from "next/link";
 import parse from 'html-react-parser';
+import PageIdentify from "@/util/PageIdetnify";
 type FooterPage = {
 	category_name: string;
 	pages: Array<any>;  // You can specify the type of the items in the array if you know it
@@ -46,7 +47,9 @@ export default async function Footer5() {
 								<ul className="menu-footer">
 									{
 										footerPage?.pages?.map((page, index: number) => (
-											<li key={index}><Link href={"/page/"+page?.page_slug}>{page?.page_name}</Link></li>
+											<li key={index}>
+												<PageIdentify title_for={page?.title_for} page_slug={page?.page_slug} page_name={page?.page_name} page_title={page?.page_title} />
+											</li>
 										))
 									}
 								</ul>

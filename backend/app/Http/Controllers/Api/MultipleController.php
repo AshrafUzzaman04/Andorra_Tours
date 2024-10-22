@@ -24,6 +24,15 @@ class MultipleController extends Controller
         return response()->json(["success" => true, "data" => $products], 200);
     }
 
+    public function slugByProduct($slug)
+    {
+        $product = Multiple::where("slug", $slug)->first();
+        if (!$product) {
+            return response()->json(["success" => false, "message" => "Product not found"], 422);
+        }
+        return response()->json(["success" => true, "data" => $product], 200);
+    }
+
     public function create($for)
     {
         if ($for == "verano") {

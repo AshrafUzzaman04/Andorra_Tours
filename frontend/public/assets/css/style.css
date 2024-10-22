@@ -15604,3 +15604,20 @@ a{
 [data-bs-theme=dark] .page-link{
   color: #000000 !important;
 }
+
+
+[data-bs-theme=light] h2{
+  background: #000000 !important;
+}
+
+[data-bs-theme=dark] h2{
+  color: #ffffff !important;
+}
+
+/* [data-bs-theme=light] h2{
+  background: #000000 !important;
+} */
+
+[data-bs-theme=dark] p{
+  color: var(--bs-neutral-400) !important;;
+}

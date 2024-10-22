@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Multiple;
 use App\Models\VeranoDetail;
 use Illuminate\Http\Request;
 
@@ -30,10 +31,31 @@ class BookingController extends Controller
             if ($priceDetail) {
                 return response()->json($priceDetail); // Return the matched price object
             } else {
-                return response()->json(['message' => 'Price detail not found for the specified day'], 404);
+                $data = ["day"=>1, "online_price" => 0, "shop_price" => 0];
+                return response()->json($data);
             }
         } else {
-            return response()->json(['message' => 'Details not found'], 404);
+            $data = ["day"=>1, "online_price" => 0, "shop_price" => 0];
+            return response()->json($data);
+        }
+    }
+
+    public function ProductPriceByDay(Request $request)
+    {
+        $product = Multiple::where('id', $request->id)
+            ->where('product_for', $request->for)
+            ->first();
+
+        if ($product) {
+            // Filter pricing to find the object that matches the specific day
+            $priceDetail = collect(json_decode($product->pricing))->firstWhere('day', (string)$request->day);
+            if ($priceDetail) {
+                return response()->json($priceDetail); // Return the matched price object
+            } else {
+                return response()->json(['message' => 'Price not found for the specified day'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Product not found'], 404);
         }
     }
     /**
