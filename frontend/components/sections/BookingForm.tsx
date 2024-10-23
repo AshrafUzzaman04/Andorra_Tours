@@ -19,7 +19,7 @@ export interface VeranoDetailsType {
 	language: string;
 	language_title: string;
 	details: string; // This is a string that will be parsed
-	pricing: string;
+	pricing?:string;
 	form_title: string;
 	times: string; // This is a string that will be parsed
 	service_title: string;
@@ -55,7 +55,7 @@ export interface ExtraService {
 export interface FromDataPriceTypes {
 	FormData: VeranoDetailsType,
 	price: string;
-	bookingLink: string
+	bookingLink: string;
 }
 
 

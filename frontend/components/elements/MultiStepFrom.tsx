@@ -27,7 +27,6 @@ export default function MultiStepFrom({ parsedForm }: MergerTypes) {
 
     };
 
-    console.log(parsedForm[steps]?.fields)
     return (
         <>
             {
