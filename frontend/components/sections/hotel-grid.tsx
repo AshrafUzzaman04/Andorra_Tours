@@ -153,6 +153,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 							<div className="content-right">
 								<div className="box-filters mb-25 pb-5 border-bottom border-1">
 									<SortTopHotelsFilter
+										name={slug}
 										sortCriteria={sortedBy}
 										handleSortChange={(e: ChangeEvent<HTMLSelectElement>) => { setSortedBy(e.target.value) }}
 										itemsPerPage={perPage}
@@ -184,7 +185,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 
 							<div className="content-left order-lg-first">
 
-								<div className="sidebar-left border-1 background-body">
+								{/* <div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Hotel Type</h6>
@@ -196,9 +197,9 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 											/>
 										</div>
 									</div>
-								</div>
+								</div> */}
 
-								<div className="sidebar-left border-1 background-body">
+								{/* <div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Review Score </h6>
@@ -209,7 +210,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 											/>
 										</div>
 									</div>
-								</div>
+								</div> */}
 								<div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1 z-2">

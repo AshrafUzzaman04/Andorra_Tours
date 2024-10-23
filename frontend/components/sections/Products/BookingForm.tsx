@@ -63,6 +63,8 @@ interface DayPrices {
 export default function BookingForm({ FormData, price, bookingLink }: FromDataPriceTypes) {
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.extra_services || '[]');
+	const pricing = JSON.parse(FormData?.pricing || '[]');
+	const addDays = pricing.length === 0 ? pricing.length : pricing.length - 1;
 	const [quantities, setQuantities] = useState(parsedServices?.map(() => 0));
 	const [dayPrices, setDayPrices] = useState<DayPrices>({});
 	// State to store selected extras
@@ -96,7 +98,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				if (dates.length > 0) {
 					const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
 					const latestDate = new Date(earliestDate);
-					latestDate.setDate(earliestDate.getDate() + 9); // Set max date as 10 days from the earliest date
+					latestDate.setDate(earliestDate.getDate() + addDays); // Set max date as 10 days from the earliest date
 
 					setMinDate(earliestDate);
 					setMaxDate(latestDate);
@@ -109,7 +111,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				// Disable all dates outside the selected range (10 days from the earliest selected date)
 				if (minDate) {
 					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + 9); // Calculate the end date as 10 days from minDate
+					endDate.setDate(endDate.getDate() + addDays); // Calculate the end date as 10 days from minDate
 
 					return date < minDate || date > endDate; // Disable dates outside the 10-day range
 				}
@@ -236,28 +238,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 					(bookingLink === "null" || bookingLink === null) && (
 						<>
 
-							{/* <div className="item-line-booking">
-								<div className="line-booking-right">
-									<div className="row">
-										{parsedTimes?.length !== 0 && <strong className="text-md-bold neutral-1000">Times:</strong>}
-										{
-											parsedTimes?.length !== 0 && parsedTimes?.map((time: any, i: any) => (
-												<div key={i} className="col-md-3">
-													<label className="ms-0">
-														{time?.time && <input
-															type="radio"
-															name="time"
-															value={time?.time} // Set the radio button value
-															checked={bookingData.time === time?.time} // Reflect selected state
-															onChange={handleTimeChange} // Update state on change
-														/>}{time?.time}
-													</label>
-												</div>
-											))
-										}
-									</div>
-								</div>
-							</div> */}
 							<div className="item-line-booking">
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{

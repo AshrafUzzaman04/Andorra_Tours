@@ -1,5 +1,6 @@
 "use client"
 import React, { FormEvent, ReactEventHandler, useState } from 'react'
+import FormBuilderInputs from './FormBuilderInputs'
 export interface parsedDataTypes {
     title: string,
     fields: FieldsTypes[]
@@ -25,6 +26,8 @@ export default function MultiStepFrom({ parsedForm }: MergerTypes) {
         }
 
     };
+
+    console.log(parsedForm[steps]?.fields)
     return (
         <>
             {
@@ -40,10 +43,7 @@ export default function MultiStepFrom({ parsedForm }: MergerTypes) {
                                                 <div className="row">
                                                     {parsedForm && parsedForm[steps]?.fields?.map((form: any, index: any) => (
                                                         <div key={index} className={`${index === 0 ? "col-lg-12" : "col-lg-4"}`}>
-                                                            <div className="form-group">
-                                                                <label className="text-sm-medium neutral-1000">{form?.label}</label>
-                                                                <input className={`form-control ${form?.name}`} type={form?.type} placeholder={form?.placeholder} required />
-                                                            </div>
+                                                            <FormBuilderInputs label={form?.label} name={form?.name} type={form?.type} placeholder={form?.placeholder} options={form?.options}/>
                                                         </div>
                                                     ))}
 

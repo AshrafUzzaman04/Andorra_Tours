@@ -1,4 +1,3 @@
-import Axios from '@/helper/axios'
 import Fetch from '@/helper/Fetch'
 import Link from 'next/link'
 import React from 'react'

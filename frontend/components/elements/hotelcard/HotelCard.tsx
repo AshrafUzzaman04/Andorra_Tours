@@ -23,8 +23,8 @@ export default function HotelCard({ hotel }: { hotel: Hotel }) {
     return (
         <>
             <div className="card-journey-small background-card">
-                <div className="card-image"> <Link className="label z-2" href="#">{hotel?.tag}</Link>
-                    <Link href="/hotel-detail">
+                <div className="card-image"> <Link className="label z-2" href={"/hotel/"+hotel?.slug}>{hotel?.tag}</Link>
+                    <Link href={"/hotel/"+hotel?.slug}>
                         <img src={process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo} alt="Travila" />
                     </Link>
                 </div>
@@ -33,7 +33,7 @@ export default function HotelCard({ hotel }: { hotel: Hotel }) {
                         <div className="card-left"> </div>
                         <div className="card-right"> <span className="rating">{hotel?.review} <span className="text-sm-medium neutral-500">({hotel?.total_review} reviews)</span></span></div>
                     </div>
-                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href="/hotel-detail">{hotel?.title}</Link></div>
+                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/hotel/"+hotel?.slug}>{hotel?.title}</Link></div>
                     <div className="card-program">
                         <div className="card-location">
                             <Link href={hotel?.map_location}><p className="text-location text-sm-medium neutral-500">{hotel?.location}</p></Link>

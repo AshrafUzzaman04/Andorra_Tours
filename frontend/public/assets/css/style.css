@@ -15602,7 +15602,7 @@ a{
 } */
 
 [data-bs-theme=dark] .page-link{
-  color: #FFF !important;
+  color: #000000 !important;
 }
 
 

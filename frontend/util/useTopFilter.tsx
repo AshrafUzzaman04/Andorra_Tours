@@ -148,6 +148,7 @@ const useTopFilter = (hotelData: HotelData, slug:string) => {
 		setPerPage(10);
 		setSortedBy("title");
 		setFilterByType("");
+		setFilterByLocation("");
 	}
 
 	const handleCheckboxChange = (hotelType: string) => (event: React.ChangeEvent<HTMLInputElement>) => {

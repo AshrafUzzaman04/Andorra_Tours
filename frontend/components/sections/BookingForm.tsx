@@ -19,6 +19,7 @@ export interface VeranoDetailsType {
 	language: string;
 	language_title: string;
 	details: string; // This is a string that will be parsed
+	pricing: string;
 	form_title: string;
 	times: string; // This is a string that will be parsed
 	service_title: string;
@@ -73,9 +74,9 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
+	const pricing = JSON.parse(FormData?.pricing || '[]');
 	const [quantities, setQuantities] = useState(parsedServices?.map(() => 0));
 	const [dayPrices, setDayPrices] = useState<DayPrices>({});
-	// State to store selected extras
 	const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras?.map(() => false));
 	const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 	const [minDate, setMinDate] = useState<Date | null>(null);
@@ -87,14 +88,11 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		extra_services: [{ title: "", price: 0 }],
 		price: 0
 	});
-
+	const addDays = pricing.length === 0 ? pricing.length : pricing.length - 1;
 	function handleBooking() {
 		alert(JSON.stringify(bookingData, null, 2)); // Indentation of 2 spaces
 	}
-
-
 	useEffect(() => {
-		// Initialize Flatpickr
 		flatpickr(".mydatepicker", {
 			dateFormat: "Y/m/d",
 			mode: "range", // Use range mode
@@ -106,7 +104,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				if (dates.length > 0) {
 					const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
 					const latestDate = new Date(earliestDate);
-					latestDate.setDate(earliestDate.getDate() + 9); // Set max date as 10 days from the earliest date
+					latestDate.setDate(earliestDate.getDate() + addDays); // Set max date as 10 days from the earliest date
 
 					setMinDate(earliestDate);
 					setMaxDate(latestDate);
@@ -119,7 +117,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				// Disable all dates outside the selected range (10 days from the earliest selected date)
 				if (minDate) {
 					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + 9); // Calculate the end date as 10 days from minDate
+					endDate.setDate(endDate.getDate() + addDays); // Calculate the end date as 10 days from minDate
 
 					return date < minDate || date > endDate; // Disable dates outside the 10-day range
 				}
@@ -127,37 +125,32 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			}],
 			disableMobile: false
 		});
-
 		// Clean up the Flatpickr instance on component unmount
-	}, [minDate, maxDate]);
+	}, [minDate, maxDate,addDays]);
 	useEffect(() => {
 		if (selectedDates?.length === 0) return;
 		const calculateDayCount = async () => {
-			// Ensure that the start date is selected
 			const startDate = selectedDates[0]; // Start date
 			const endDate = selectedDates[1]; // End date
 
-			// Check if startDate is defined
 			if (!startDate) {
 				console.error("No start date selected.");
-				return; // Exit early if no start date is provided
+				return;
 			}
 
-			// If endDate is not selected, treat it as a single day
 			const timeDifference = endDate
-				? Math.abs(endDate.getTime() - startDate.getTime()) // Calculate difference if endDate exists
-				: 0; // No difference if only startDate is selected
+				? Math.abs(endDate.getTime() - startDate.getTime())
+				: 0;
 
-			const day = endDate ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1 : 1; // Add 1 for the start date if only it is selected
+			const day = endDate ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1 : 1;
 
-			// Fetch the price using the calculated day count
 			const res = await Fetch.post("/price", { id: FormData?.id, for: FormData?.for, day: day });
 			const price = res?.data;
 			setDayPrices(price);
 			setBookingData(prev => ({
 				...prev,
-				day: day, // Set the calculated day count
-				price: Number(price?.online_price) + calculateTotalPrice() // Calculate total price including day price
+				day: day,
+				price: Number(price?.online_price) + calculateTotalPrice()
 			}));
 		};
 		calculateDayCount()
