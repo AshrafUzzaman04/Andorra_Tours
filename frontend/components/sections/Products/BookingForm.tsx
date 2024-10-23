@@ -67,7 +67,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 	const addDays = pricing.length === 0 ? pricing.length : pricing.length - 1;
 	const [quantities, setQuantities] = useState(parsedServices?.map(() => 0));
 	const [dayPrices, setDayPrices] = useState<DayPrices>({});
-	// State to store selected extras
 	const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras?.map(() => false));
 	const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 	const [minDate, setMinDate] = useState<Date | null>(null);
@@ -84,13 +83,12 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		alert(JSON.stringify(bookingData, null, 2)); // Indentation of 2 spaces
 	}
 
-
 	useEffect(() => {
 		// Initialize Flatpickr
 		flatpickr(".mydatepicker", {
 			dateFormat: "Y/m/d",
-			mode: "range", // Use range mode
-			inline: true, // Keep the calendar always open
+			mode: addDays === 1 ? "single":"range",
+			inline: true,
 			onChange: (dates: Date[]) => {
 				// Update selected dates
 				setSelectedDates(dates);
@@ -120,8 +118,9 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			disableMobile: false
 		});
 
-		// Clean up the Flatpickr instance on component unmount
 	}, [minDate, maxDate]);
+
+
 	useEffect(() => {
 		if (selectedDates?.length === 0) return;
 		const calculateDayCount = async () => {

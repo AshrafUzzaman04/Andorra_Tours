@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEvent, ReactEventHandler, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import FormBuilderInputs from './FormBuilderInputs'
 export interface parsedDataTypes {
     title: string,

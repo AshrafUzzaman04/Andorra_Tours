@@ -6,28 +6,30 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import parse from 'html-react-parser';
 export interface Hotel {
     id: number;
-	categorie_id: number;
-	photo: string;
-	photo_one: string;
-	photo_two: string;
-	photo_three: string;
-	review: string;
-	total_review: string;
-	title: string;
-	slug: string;
-	location: string;
-	map_location: string;
-	tag: string;
-	hotel_link: string;
-	description: string;
-    categorie:{
-        id:number;
-        slug:string;
-        tag:string;
-        tag_slug:string;
+    categorie_id: number;
+    photo: string;
+    photo_one: string;
+    photo_two: string;
+    photo_three: string;
+    review: string;
+    total_review: string;
+    title: string;
+    slug: string;
+    location: string;
+    map_location: string;
+    button_text_map: string;
+    tag: string;
+    hotel_link: string;
+    button_text_link: string;
+    description: string;
+    categorie: {
+        id: number;
+        slug: string;
+        tag: string;
+        tag_slug: string;
     }
 }
-export default function CategoryWiseHotels({hotel}:{hotel:Hotel}) {
+export default function CategoryWiseHotels({ hotel }: { hotel: Hotel }) {
     const stars = useReview(hotel?.review);
     return (
         <main className="main">
@@ -38,7 +40,7 @@ export default function CategoryWiseHotels({hotel}:{hotel:Hotel}) {
                             <svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg></span></li>
-                        <li> <Link href={"/"+hotel?.categorie?.tag_slug + "/" + hotel?.categorie?.slug}>Hotels</Link><span className="arrow-right">
+                        <li> <Link href={"/" + hotel?.categorie?.tag_slug + "/" + hotel?.categorie?.slug}>Hotels</Link><span className="arrow-right">
                             <svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg></span></li>
@@ -52,9 +54,9 @@ export default function CategoryWiseHotels({hotel}:{hotel:Hotel}) {
                         <div className="swiper-container swiper-group-1">
                             <Swiper {...swiperGroup1}>
                                 <SwiperSlide>
-                                    <div className="item-banner-box position-relative" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL+hotel?.photo})` }}>
-                                        <img className="position-absolute end-0 top-0 z-2" src={process.env.NEXT_PUBLIC_STORAGE_URL+hotel?.categorie?.tag} alt={hotel?.categorie?.tag} />
-                                        <div className="item-banner-box-inner"> 
+                                    <div className="item-banner-box position-relative" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo})` }}>
+                                        <img className="position-absolute end-0 top-0 z-2" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.categorie?.tag} alt={hotel?.categorie?.tag} />
+                                        <div className="item-banner-box-inner">
                                             <span className="btn btn-white-sm">
                                                 {stars}
                                             </span>
@@ -85,13 +87,20 @@ export default function CategoryWiseHotels({hotel}:{hotel:Hotel}) {
                                 </div>
                                 <div className="box-telephone-booking">
                                     <div className="box-tel-left">
-
+                                        <Link className="btn btn-tag" href={hotel?.map_location}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={16} height={16} strokeWidth="1.5" stroke="currentColor" className="size-6 me-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                            </svg>
+                                            {hotel?.button_text_map}
+                                        </Link>
                                     </div>
                                     <div className="box-tel-right">
-                                        <Link className="btn btn-tag" href={hotel?.hotel_link}>Availability Rooms
-                                            <svg width={16} height={16} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8 15L15 8L8 1M15 8L1 8" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                        <Link className="btn btn-tag" href={hotel?.hotel_link}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 me-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                                             </svg>
+                                            {hotel?.button_text_link}
                                         </Link>
                                     </div>
                                 </div>
@@ -99,15 +108,15 @@ export default function CategoryWiseHotels({hotel}:{hotel:Hotel}) {
                             </div>
                         </div>
                         <div className="col-lg-6 mb-30 text-center text-lg-end">
-                            <div className="box-image-vision"> <img className="w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+hotel?.photo_one} alt="Travila" />
-                                <div className="image-vision-1"><img className="w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL+hotel?.photo_two} alt="Travila" /></div>
-                                <div className="image-vision-2"><img className="w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL+hotel?.photo_three} alt="Travila" /></div>
+                            <div className="box-image-vision"> <img className="w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo_one} alt="Travila" />
+                                <div className="image-vision-1"><img className="w-100 mb-15" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo_two} alt="Travila" /></div>
+                                <div className="image-vision-2"><img className="w-100" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotel?.photo_three} alt="Travila" /></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-           
+
 
         </main>
     )

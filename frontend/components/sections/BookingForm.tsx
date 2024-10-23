@@ -88,23 +88,22 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		extra_services: [{ title: "", price: 0 }],
 		price: 0
 	});
-	const addDays = pricing.length === 0 ? pricing.length : pricing.length - 1;
+	const addDays = (pricing?.length === 1 || pricing?.length === 0) ? 9 : pricing.length - 1;
 	function handleBooking() {
-		alert(JSON.stringify(bookingData, null, 2)); // Indentation of 2 spaces
+		alert(JSON.stringify(bookingData, null, 2));
 	}
+
 	useEffect(() => {
 		flatpickr(".mydatepicker", {
 			dateFormat: "Y/m/d",
-			mode: "range", // Use range mode
-			inline: true, // Keep the calendar always open
+			mode: (pricing?.length === 1 || pricing?.length === 0) ? "single":"range",
+			inline: true,
 			onChange: (dates: Date[]) => {
-				// Update selected dates
 				setSelectedDates(dates);
-				// Update min and max dates based on selection
 				if (dates.length > 0) {
 					const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
 					const latestDate = new Date(earliestDate);
-					latestDate.setDate(earliestDate.getDate() + addDays); // Set max date as 10 days from the earliest date
+					latestDate.setDate(earliestDate.getDate() + addDays);
 
 					setMinDate(earliestDate);
 					setMaxDate(latestDate);
@@ -114,24 +113,23 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				}
 			},
 			disable: [(date: Date) => {
-				// Disable all dates outside the selected range (10 days from the earliest selected date)
 				if (minDate) {
 					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + addDays); // Calculate the end date as 10 days from minDate
+					endDate.setDate(endDate.getDate() + addDays);
 
-					return date < minDate || date > endDate; // Disable dates outside the 10-day range
+					return date < minDate || date > endDate;
 				}
-				return false; // Enable all dates if no selection
+				return false;
 			}],
 			disableMobile: false
 		});
-		// Clean up the Flatpickr instance on component unmount
+
 	}, [minDate, maxDate,addDays]);
 	useEffect(() => {
 		if (selectedDates?.length === 0) return;
 		const calculateDayCount = async () => {
-			const startDate = selectedDates[0]; // Start date
-			const endDate = selectedDates[1]; // End date
+			const startDate = selectedDates[0];
+			const endDate = selectedDates[1];
 
 			if (!startDate) {
 				console.error("No start date selected.");
@@ -147,6 +145,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			const res = await Fetch.post("/price", { id: FormData?.id, for: FormData?.for, day: day });
 			const price = res?.data;
 			setDayPrices(price);
+
 			setBookingData(prev => ({
 				...prev,
 				day: day,
@@ -162,7 +161,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				const day = 1
 				const res = await Fetch.post("/price", { id: FormData?.id, for: FormData?.for, day: day });
 				const price = res?.data;
-
 				setDayPrices(price);
 				setBookingData(prev => ({
 					...prev,
@@ -174,7 +172,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		}
 	}, [quantities, selectedExtras])
 
-	// Function to handle quantity input change
 	const handleQuantityChange = (i: number, value: number) => {
 		const updatedQuantities = [...quantities];
 		updatedQuantities[i] = value;
@@ -230,7 +227,6 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			time: selectedTime
 		}));
 	};
-
 	return (
 		<>
 			<div className="content-booking-form">
@@ -238,7 +234,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 					(bookingLink === "null" || bookingLink === null) && (
 						<>
 
-							<div className="item-line-booking">
+							{(parsedTimes?.length !== 0 && parsedTimes[0] !== null)  && <div className="item-line-booking">
 								<div className="line-booking-right">
 									<div className="row">
 										{parsedTimes?.length !== 0 && <strong className="text-md-bold neutral-1000">Times:</strong>}
@@ -259,7 +255,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 										}
 									</div>
 								</div>
-							</div>
+							</div>}
 							<div className="item-line-booking">
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{
@@ -322,7 +318,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 										fixedDecimalScale
 										suffix='€'
 									/> : <NumericFormat
-										value={bookingData?.price}
+										value={Number(bookingData?.price)}
 										displayType="text"
 										thousandSeparator={","}
 										decimalSeparator="."
