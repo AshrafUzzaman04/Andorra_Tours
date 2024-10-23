@@ -53,7 +53,7 @@ class FormBuilderController extends Controller
     {
         $formBuilder = FormBuilder::where("service_id",$form)->first();
         $validation = Validator::make($request->all(), [
-            "service_id" => "required|exists:services,id|unique:form_builders,service_id,".$formBuilder->service_id,
+            "service_id" => "required|exists:services,id",
             "form" => "required|string",
         ]);
     

@@ -3,14 +3,19 @@ import Link from 'next/link'
 import { NumericFormat } from 'react-number-format';
 export interface Products {
     id: number;
-    inverano_id: number;
+    inverano_id?: number | undefined | null;
     product_for: string;
     title: string;
     slug: string;
     photos: string;
     pricing: string;
 }
-export default function ProductsCard({ product, parentSlug }: { product: Products, parentSlug: string }) {
+
+export interface ProductsCardType {
+    product: Products;
+    parentSlug: string | undefined | null;
+}
+export default function ProductsCard({ product, parentSlug }: ProductsCardType) {
     const photo = product?.photos ? JSON.parse(product?.photos)[0] ?? "" : "";
     const priceObject = product?.pricing ? JSON.parse(product?.pricing)[0] : "";
     return (

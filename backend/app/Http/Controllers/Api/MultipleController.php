@@ -27,10 +27,13 @@ class MultipleController extends Controller
     public function slugByProduct($slug)
     {
         $product = Multiple::where("slug", $slug)->first();
+        $parent_id = $product->product_for == "verano" ? "verano_id" : "inverano_id";
+        $relation = $product->product_for == "verano" ? "verano" : "inverano";
+        $restProduct = Multiple::where("slug", "!=",$slug)->with(["$relation:id,slug"])->get(["id","title","slug",$parent_id,"product_for","photos","pricing"]);
         if (!$product) {
             return response()->json(["success" => false, "message" => "Product not found"], 422);
         }
-        return response()->json(["success" => true, "data" => $product], 200);
+        return response()->json(["success" => true, "data" => $product, "popular"=>$restProduct], 200);
     }
 
     public function create($for)

@@ -4,7 +4,9 @@ import Fetch from "@/helper/Fetch";
 import { Metadata } from "next";
 const getPorducts = async (slug:string) => {
   const res = await Fetch("/product/"+slug);
-  return res.data?.data;
+  const product = res?.data?.data || [];
+  const PopularProducts = res?.data?.popular || [];
+  return {product,PopularProducts};
 }
 const stripHtml = (html: string) => {
   return html.replace(/<\/?[^>]+(>|$)/g, "");
@@ -35,10 +37,10 @@ export async function generateMetadata({params}:{params:{product_slug:string}}):
   }
 }
 export default async function SingleProduct({params}:{params:{product_slug:string}}) {
-  const product = await getPorducts(params?.product_slug);
+  const {product,PopularProducts} = await getPorducts(params?.product_slug);
   return (
     <MasterLayout>
-      <ProductDetail product={product}/>
+      <ProductDetail product={product} PopularProducts={PopularProducts}/>
     </MasterLayout>
   )
 }

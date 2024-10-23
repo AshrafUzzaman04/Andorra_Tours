@@ -6,6 +6,7 @@ import Slider from "react-slick"
 import BookingForm from './BookingForm'
 import parse from 'html-react-parser';
 import { usePathname } from 'next/navigation'
+import ProductSlider from './ProductSlider'
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
     <button
         {...props}
@@ -47,7 +48,12 @@ export interface Product {
     extra_service_title: string;
     extra_services: string;
 }
-export default function ProductDetail({ product }: { product: Product }) {
+
+export interface ProductDetailsType {
+    product: Product;
+    PopularProducts:Product[]
+}
+export default function ProductDetail({ product, PopularProducts}: ProductDetailsType) {
     const path = usePathname();
 	const type = path.split('/')[1];
     const photos = product?.photos ? JSON.parse(product?.photos) : [];
@@ -153,7 +159,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                                             </div>
                                         ))
                                 }
-								<div className="banner-slide"></div>
+								{photos?.length === 2 &&<div className="banner-slide"></div>}
                                     
                                 </Slider>
                             </div>
@@ -199,6 +205,23 @@ export default function ProductDetail({ product }: { product: Product }) {
                                 </div>
                                
 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="section-box box-news background-body">
+                    <div className="container">
+                        <div className="row align-items-end">
+                            <div className="col-md-6 mb-20 wow fadeInLeft">
+                                <h2 className="neutral-1000">Related products</h2>
+                                {/* <p className="text-xl-medium neutral-500">Favorite destinations based on customer reviews</p> */}
+                            </div>
+                        </div>
+                        <div className="box-list-news wow fadeInUp">
+                            <div className="box-swiper mt-30">
+                                <div className="swiper-container swiper-group-3">
+                                    <ProductSlider PopularProducts={PopularProducts}/>
+                                </div>
                             </div>
                         </div>
                     </div>
