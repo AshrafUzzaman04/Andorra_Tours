@@ -167,6 +167,9 @@ import HotelEdit from "pages/Hotel/HotelEdit";
 import ProductIndex from "pages/Products/ProductIndex";
 import ProductCreate from "pages/Products/ProductCreate";
 import ProductEdit from "pages/Products/ProductEdit";
+import BlogIndex from "pages/Blog/BlogIndex";
+import BlogCreate from "pages/Blog/BlogCreate";
+import BlogEdit from "pages/Blog/BlogEdit";
 
 
 function App() {
@@ -351,6 +354,10 @@ function App() {
                                 <Route path="products/:slug/product" element={<ProductIndex/>} />
                                 <Route path="products/:slug/product/create" element={<ProductCreate/>} />
                                 <Route path="products/:slug/product/:id/edit" element={<ProductEdit/>} />
+
+                                <Route path="blogs" element={<BlogIndex/>} />
+                                <Route path="blogs/create" element={<BlogCreate/>} />
+                                <Route path="blogs/:slug/edit" element={<BlogEdit/>} />
 
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />

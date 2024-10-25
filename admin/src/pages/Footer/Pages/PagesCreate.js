@@ -9,8 +9,9 @@ const footerAditonalData = [
   {id:1, name:"Email", selected:false},
   {id:2, name:"Phone", selected:false},
   {id:3, name:"Whats App", selected:false},
-  {id:4, name:"New Page", selected:true},
+  {id:4, name:"New Page", selected:false},
   {id:5, name:"Link", selected:false},
+  {id:6, name:"Text", selected:true},
 ];
 const PagesCreate = () => {
   const [categories, setCategories] = useState([]);

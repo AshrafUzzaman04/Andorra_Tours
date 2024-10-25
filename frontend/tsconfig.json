@@ -22,6 +22,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "build/types/**/*.ts"
-  ],
+, "app/tours/[slug]"  ],
   "exclude": ["node_modules"]
 }

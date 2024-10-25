@@ -13,7 +13,7 @@ export default function Iframe() {
             <div className="container-banner">
                 <iframe
                     title="Embedded Content"
-                    src="https://motor.skirenting.com/"
+                    src="https://motor.toursandorra.com/"
                     width="100%"
                     height="100vh"
                     style={{ border: "none", width: '100%', height: '100vh' }}

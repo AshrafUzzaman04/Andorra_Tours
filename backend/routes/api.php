@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdvertisementController;
+use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
@@ -114,6 +115,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     //multiple
     Route::apiResource("multiples",MultipleController::class);
     Route::get("multiple/{for}",[MultipleController::class, 'create']);
+
+    //blog route start will be from here
+    Route::apiResource("blogs",BlogController::class);
     //footer
 });
 
@@ -145,6 +149,11 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
 
     Route::get("product/{slug}",[MultipleController::class,"slugByProduct"]);
     Route::post("product/price",[BookingController::class,"ProductPriceByDay"]);
+
+    //blog route start will be from here
+    Route::get("blogs",[BlogController::class, 'Blogs']);
+    Route::get("blogs/{slug}",[BlogController::class, 'SlugByBlog']);
+
 
  
 });

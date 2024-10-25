@@ -221,6 +221,14 @@ function Sidebar() {
                         </div>
                     </li>
 
+
+                    <li className="nav-item">
+                        <NavLink to="/blogs" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-blog icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Blogs')}</span>
+                        </NavLink>
+                    </li>
+
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#footer" className={nowDrop === 'footer' ? activeClassName : navClassName} aria-controls="footer" role="button" aria-expanded={nowDrop === 'footer'}>
                             <i className="fa-solid fa-copyright icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
