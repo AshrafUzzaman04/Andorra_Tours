@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CardCategoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ChatMessageController;
+use App\Http\Controllers\Api\CompanyPromotionController;
 use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\FooterDetailsController;
 use App\Http\Controllers\Api\FooterPageController;
@@ -118,6 +119,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //blog route start will be from here
     Route::apiResource("blogs",BlogController::class);
+
+    //partners company
+    Route::apiResource("company-promotions",CompanyPromotionController::class);
     //footer
 });
 

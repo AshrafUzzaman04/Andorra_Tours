@@ -102,7 +102,7 @@ const HotelEdit = () => {
                 <div className="col-md-6">
                   <label>{t("Status")} *</label>
                   <select
-                    class="form-control"
+                    className="form-control"
                     {...register("status", { required: true })}
                     required
                   >
@@ -119,7 +119,7 @@ const HotelEdit = () => {
                 <div className="col-md-4">
                   <label>{t("Category")} *</label>
                   <select
-                    class="form-control"
+                    className="form-control"
                     {...register("categorie", { required: true })}
                     required
                   >
@@ -272,9 +272,9 @@ const HotelEdit = () => {
 
 
               <div className="row g-3">
-                <div class="form-group">
+                <div className="form-group">
                   <label>{t("Description")} *</label>
-                  {/* <textarea class="form-control" rows="3" placeholder="Description" {...register("description", { required: true })}></textarea> */}
+                  {/* <textarea className="form-control" rows="3" placeholder="Description" {...register("description", { required: true })}></textarea> */}
                   <SoftEditor value={editorValue} onChange={(e) => {
                     setEditorValue(e)
                     setValue("description", e)

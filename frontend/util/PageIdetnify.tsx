@@ -3,11 +3,11 @@ import React from 'react';
 
 export default function PageIdentify({ title_for, page_slug, page_name, page_title }: { title_for: string, page_slug: string, page_name: string, page_title:string }) {
     switch (title_for) {
-        case "Email":
+        case "email":
             return <a className="text-md neutral-400" href={`mailto:${page_title}`}>{page_title}</a>; // Email link
-        case "Phone":
+        case "phone":
             return <a className="text-md neutral-400" href={`tel:${page_title}`}>{page_title}</a>; // Phone link
-        case "Whats App":
+        case "whats-app":
             const message = "Hello From Tours Andorra"; // Your pre-filled message
             return (
                 <a className="text-md neutral-400"
@@ -19,15 +19,15 @@ export default function PageIdentify({ title_for, page_slug, page_name, page_tit
                 </a>
             ); // WhatsApp link with a message
         
-        case "Link":
+        case "link":
             return <Link className="text-md neutral-400" href={"/page/" + page_slug}>{page_title}</Link>;
-        case "New Page":
+        case "new-page":
             return (
-            page_title === "Blog" ?
+            (page_title === "Blog" || page_title === "Blogs") ?
             <Link className="text-md neutral-400" href={page_slug}>{page_title}</Link>:
             <Link className="text-md neutral-400" href={"/page/" + page_slug}>{page_title}</Link>
         );
-        case "Text":
+        case "text":
             return <div className="text-md neutral-400">{page_title}</div>;
         default:
             return <div className="text-md neutral-400">{page_title}</div>; // Fallback for other cases

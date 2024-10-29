@@ -5,12 +5,12 @@ import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
 const footerAditonalData = [
-  {id:1, name:"Email", selected:false},
-  {id:2, name:"Phone", selected:false},
-  {id:3, name:"Whats App", selected:false},
-  {id:4, name:"New Page", selected:false},
-  {id:5, name:"Link", selected:false},
-  {id:6, name:"Text", selected:true},
+  { id: 1, name: "Email", value: "email", selected: false },
+  { id: 2, name: "Phone", value: "phone", selected: false },
+  { id: 3, name: "Whats App", value: "whats-app", selected: false },
+  { id: 4, name: "New Page", value: "new-page", selected: false },
+  { id: 5, name: "Link", value: "link", selected: false },
+  { id: 6, name: "Text", value: "text", selected: true },
 ];
 const PagesEdit = () => {
   const params = useParams();
@@ -21,6 +21,10 @@ const PagesEdit = () => {
   const [refresh, setRefresh] = useState(0);
   const [title, setTitle] = useState([{ title: "" }]);
   const [editorContent, setEditorContent] = useState("");
+  const [selectedValue, setSelectedValue] = useState(
+    footerAditonalData.find(item => item.selected)?.value || ""
+  );
+  const [link, setLink] = useState("");
   const {
     register,
     handleSubmit,
@@ -40,12 +44,20 @@ const PagesEdit = () => {
     setEditorContent(content);
   };
 
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   useEffect(() => {
     if (params?.id) {
       callFetch("footer-pages/" + params.id, "GET", []).then((res) => {
         setEditorContent(res.data?.content)
+        setSelectedValue(res.data?.title_for)
+        setLink(res.data?.page_slug);
         for (let [key, value] of Object.entries(res.data)) {
-          setValue(key, value);
+          if (key !== "page_slug") {
+            setValue(key, value);
+          }
         }
       });
     }
@@ -53,7 +65,8 @@ const PagesEdit = () => {
 
   const onSubmit = (formData) => {
     setSaving(true);
-    formData.content = editorContent
+    formData.content = editorContent;
+    formData.page_slug = selectedValue === "link" ? link : ""
     callFetch("footer-pages/" + params.id, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
@@ -98,7 +111,7 @@ const PagesEdit = () => {
                   </div>
                 </div>
                 <div className="col-md-4">
-                  <label>{t("Page Name")} *</label>
+                  <label>{t("Page Name")} (You can't change this) *</label>
                   <input
                     type="text"
                     className="form-control mb-4"
@@ -107,6 +120,7 @@ const PagesEdit = () => {
                       required: true,
                     })}
                     required
+                    readOnly
                   />
                   <div className="invalid-feedback">
                     {errors.page_name && errors.page_name.message}
@@ -152,15 +166,30 @@ const PagesEdit = () => {
                     class="form-control"
                     {...register("title_for", { required: true })}
                     required
+                    onChange={handleSelectChange}
                   >
                     {
                       footerAditonalData && footerAditonalData?.map((data, index) => (
-                        <option key={index} value={data?.name}>{data?.name}</option>
+                        <option key={index} value={data?.value}>{data?.name}</option>
                       ))
                     }
                   </select>
                   <div className="invalid-feedback">
                     {errors.title_for && errors.title_for.message}
+                  </div>
+                </div>
+
+              </div>
+              <div className="row mb-3">
+                <div className="col-md-12">
+                  {selectedValue === "link" && (
+                    <div>
+                      <label>Link: </label>
+                      <input type="url" className="form-control" defaultValue={link} onChange={(e) => setLink(e.target.value)} placeholder="Enter the link" />
+                    </div>
+                  )}
+                  <div className="invalid-feedback">
+                    {errors.content && errors.content.message}
                   </div>
                 </div>
 

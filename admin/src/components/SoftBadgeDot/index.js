@@ -74,7 +74,7 @@ const SoftBadgeDot = forwardRef(({ variant, color, size, badgeContent, font, ...
         variant={fontSize}
         fontWeight={font.weight ? font.weight : "regular"}
         color={font.color ? font.color : "dark"}
-        sx={{ lineHeight: 0 }}
+        sx={{ lineHeight: 0, ml: "0.20rem" }}
       >
         {badgeContent}
       </SoftTypography>

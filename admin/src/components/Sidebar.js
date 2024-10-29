@@ -230,6 +230,34 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
+                        <a data-bs-toggle="collapse" href="#others" className={nowDrop === 'others' ? activeClassName : navClassName} aria-controls="others" role="button" aria-expanded={nowDrop === 'others'}>
+                            <i className="fa-solid fa-arrows-to-dot icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
+                            <span className="nav-link-text ms-1">{t('Others')}</span>
+                        </a>
+                        <div className={nowDrop === 'others' ? dropdownClassShow : dropdownClass} id="others">
+                            <ul className="nav ms-4 ps-3">
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/others/partners" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Partners')}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/others/cameras" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Cameras')}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/others/resorts" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Resorts')}</span>
+                                        </NavLink>
+                                    </li>
+                                </>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#footer" className={nowDrop === 'footer' ? activeClassName : navClassName} aria-controls="footer" role="button" aria-expanded={nowDrop === 'footer'}>
                             <i className="fa-solid fa-copyright icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Footer')}</span>

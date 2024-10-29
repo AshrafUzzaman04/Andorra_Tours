@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Translation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
@@ -18,7 +19,7 @@ class HotelController extends Controller
     public function index()
     {
         $hotels = Hotel::with(["categorie:title,id"])->paginate(10);
-        return response()->json(["message" => "success", "data" => $hotels], 200);
+        return response()->json(["message" => "success", "data" => $hotels,], 200);
     }
 
     public function create()
@@ -57,6 +58,7 @@ class HotelController extends Controller
         $parent = CardCategory::find($request->categorie);
         $data['parent_slug'] = $parent->slug;
         Hotel::create($data);
+        Translation::addOrUpdateTranslations($data);
         return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
     }
 
@@ -91,7 +93,8 @@ class HotelController extends Controller
         $parent = CardCategory::find($request->categorie);
         $data['parent_slug'] = $parent->slug;
         $hotel->update($data);
-        return response()->json(["success" => true, "message" => "Hotel created successfully"], 201);
+        Translation::addOrUpdateTranslations($data);
+        return response()->json(["success" => true, "message" => "Hotel updated successfully"], 200);
     }
 
     /**
@@ -99,17 +102,18 @@ class HotelController extends Controller
      */
     public function destroy(Hotel $hotel)
     {
-        $photoFields = ['photo', 'photo_one', 'photo_two', 'photo_three'];
-        foreach ($photoFields as $field) {
-            if (!empty($hotel->$field)) {
-                $expolde = explode("/", $hotel->$field);
-                $imageUrl = $expolde[1] . "/" . $expolde[2];
-                if (Storage::exists($imageUrl)) {
-                    Storage::delete($imageUrl);
-                }
-            }
-        }
-        $hotel->delete();
+        // $photoFields = ['photo', 'photo_one', 'photo_two', 'photo_three'];
+        // foreach ($photoFields as $field) {
+        //     if (!empty($hotel->$field)) {
+        //         $expolde = explode("/", $hotel->$field);
+        //         $imageUrl = $expolde[1] . "/" . $expolde[2];
+        //         if (Storage::exists($imageUrl)) {
+        //             Storage::delete($imageUrl);
+        //         }
+        //     }
+        // }
+        Translation::deleteTranslations($hotel->toArray());
+        //$hotel->delete();
         return response()->json(["message" => "Hotel deleted successfully"], 200);
     }
 }

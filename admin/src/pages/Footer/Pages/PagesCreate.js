@@ -6,12 +6,12 @@ import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
 
 const footerAditonalData = [
-  {id:1, name:"Email", selected:false},
-  {id:2, name:"Phone", selected:false},
-  {id:3, name:"Whats App", selected:false},
-  {id:4, name:"New Page", selected:false},
-  {id:5, name:"Link", selected:false},
-  {id:6, name:"Text", selected:true},
+  {id:1, name:"Email", value:"email", selected:false},
+  {id:2, name:"Phone", value:"phone", selected:false},
+  {id:3, name:"Whats App", value:"whats-app", selected:false},
+  {id:4, name:"New Page", value:"new-page", selected:false},
+  {id:5, name:"Link", value:"link", selected:false},
+  {id:6, name:"Text", value:"text", selected:true},
 ];
 const PagesCreate = () => {
   const [categories, setCategories] = useState([]);
@@ -143,7 +143,7 @@ const PagesCreate = () => {
                   >
                     {
                       footerAditonalData && footerAditonalData?.map((data, index) => (
-                        <option key={index} value={data?.name}>{data?.name}</option>
+                        <option key={index} value={data?.value}>{data?.name}</option>
                       ))
                     }
                   </select>
