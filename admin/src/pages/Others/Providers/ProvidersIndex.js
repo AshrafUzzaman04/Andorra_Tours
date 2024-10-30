@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next';
 import { NavLink } from "react-router-dom";
-import WebcamsTable from './WebcamsTable';
+import { useTranslation } from 'react-i18next';
+import ProvidersIndexTable from './ProvidersIndexTable';
 
-function CamerasIndex() {
+function ProvidersIndex() {
     const { t } = useTranslation();
+
     useEffect(() => {
         document.title = "Tours Andorra . Travel";
     }, []);
@@ -12,8 +13,8 @@ function CamerasIndex() {
         <>
             <div className="d-sm-flex justify-content-between">
                 <div>
-                    <NavLink to="/others/webcams/create" className="btn btn-icon btn-primary">
-                        {t('Add Webcam')}
+                    <NavLink to="/others/providers/create" className="btn btn-icon btn-primary">
+                        {t('Add Provider')}
                     </NavLink>
                 </div>
             </div>
@@ -21,16 +22,15 @@ function CamerasIndex() {
                 <div className="col-12">
                     <div className="card mb-4">
                         <div className="card-header pb-0">
-                            <h6 className="text-capitalize">{t('Webcams')}</h6>
+                            <h6 className="text-capitalize">{t('All Provider')}</h6>
                         </div>
                         <div className="card-body px-0 pt-0 pb-2">
-                            <WebcamsTable />
+                            <ProvidersIndexTable/> 
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </> 
     );
 }
-
-export default CamerasIndex
+export default ProvidersIndex

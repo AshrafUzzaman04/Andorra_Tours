@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import callFetch from "helpers/callFetch";
+import SoftEditor from "components/SoftEditor";
 
-const CamerasEdit = () => {
-  const params = useParams();
+const SectionOne = ({ updateData }) => {
+  const [editorValue, setEditorValue] = useState("");
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [webcams, setWebcams] = useState([{ name: "", webcam: "" }]);
-  const [refresh, setRefresh] = useState(1);
-  const [refresh2, setRefresh2] = useState(0);
-  const [providers, setProviders] = useState([]);
   const {
     register,
     handleSubmit,
@@ -22,31 +20,22 @@ const CamerasEdit = () => {
   } = useForm();
 
   useEffect(() => {
-    callFetch("webcam-provider", "GET", []).then((res) => {
-      setProviders(res?.data);
-      setRefresh2(refresh2 + 1)
-    });
-  }, [refresh]);
-
-
-  
-  useEffect(() => {
-    if (params?.id && refresh2 > 0) {
-      callFetch("webcams/" + params.id, "GET", []).then((res) => {
-        for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "map") {
-            if(key === "cameras"){
-              setWebcams(JSON.parse(value))
-            }else if(key === "provider_id"){
-              setValue("providers", value);
-            }else{
-              setValue(key, value);
-            }
+    if (updateData) {
+      for (let [key, value] of Object.entries(updateData)) {
+        if (key !== "logo") {
+          if (key === "sub_title") {
+            setEditorValue(value)
+          } else if (key === "cameras") {
+            setWebcams(JSON.parse(value) || []);
+          } else {
+            setValue(key, value);
           }
         }
-      });
+      }
     }
-  },[params?.id,refresh2]);
+    //setPricingCards(JSON.parse("[{\"title\":\"1 Sitio Alta\",\"sub_title\":\"Alta en portal turistico\",\"tag\":\"Básico\",\"price\":\"39.99\",\"duration\":\"Mensual\",\"button_text\":\"Lo quiero\"}]"))
+  }, [updateData]);
+
   const handleWebcamChange = (index, field, value) => {
     const updatedWebcams = webcams.map((item, idx) =>
       idx === index ? { ...item, [field]: value } : item
@@ -70,18 +59,19 @@ const CamerasEdit = () => {
   const onSubmit = (formData) => {
     setSaving(true);
     formData.cameras = JSON.stringify(webcams);
-    callFetch("webcams/" + params?.id, "POST", formData, setError).then((res) => {
+    formData.sub_title = editorValue
+    callFetch("webcams/" + updateData?.id, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);
     });
   };
-  return submitSuccess ? <Navigate to="/others/webcams" /> : (
+  return submitSuccess ? <Navigate to="/others/cameras" /> : (
     <div className="row">
       <div className="col-12">
         <div className="card mb-4">
           <div className="card-header pb-0">
-            <h6>{t("Webcam Update")}</h6>
+            <h6>{t("Section One")}</h6>
           </div>
           <div className="card-body">
             <form
@@ -95,23 +85,18 @@ const CamerasEdit = () => {
 
               <div className="row g-3">
                 <div className="col-md-6">
-                  <div className=" form-group">
-                    <label>{t("Providers")} *</label>
-                    <select
-                      className="form-control"
-                      {...register("providers", { required: true })}
-                      required
-                    >
-                      <option>--Providers--</option>
-                      {
-                        providers && providers?.map((provider, i) => (
-                          <option key={i} value={provider?.id}>{provider?.name}</option>
-                        ))
-                      }
-                    </select>
-                    <div className="invalid-feedback">
-                      {errors.title && errors.title.message}
-                    </div>
+                  <label>{t("Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control mb-4"
+                    placeholder={t("title")}
+                    {...register("title", {
+                      required: true,
+                    })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.title && errors.title.message}
                   </div>
                 </div>
 
@@ -130,7 +115,18 @@ const CamerasEdit = () => {
                   </div>
                 </div>
               </div>
-
+              <div className="row g-3">
+                <div className="col-md-12">
+                  <div className=" form-group">
+                  <label>{t("Logo")} *</label>
+                  <input type="file" className="form-control"
+                    {...register("logo")} />
+                  <div className="invalid-feedback">
+                    {errors.logo && errors.logo.message}
+                  </div>
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col-md-12">
                   {webcams?.map((webcam, index) => (
@@ -146,7 +142,7 @@ const CamerasEdit = () => {
                               className="form-control"
                               placeholder="ANDORRA"
                               value={webcam.name}
-                              onChange={(e) => handleWebcamChange(index, "name", e.target.value)}
+                              onChange={(e) => handleWebcamChange(index, "name" ,e.target.value)}
                             />
                             <div className="invalid-feedback">
                               {errors.name && errors.name.message}
@@ -166,7 +162,7 @@ const CamerasEdit = () => {
                               className="form-control"
                               placeholder="https://"
                               value={webcam.webcam}
-                              onChange={(e) => handleWebcamChange(index, "webcam", e.target.value)}
+                              onChange={(e) => handleWebcamChange(index,"webcam", e.target.value)}
                             />
                             <div className="invalid-feedback">
                               {errors.webcam && errors.webcam.message}
@@ -190,6 +186,19 @@ const CamerasEdit = () => {
                 </div>
               </div>
 
+              <div className="row g-3 mt-3">
+                <div className="form-group">
+                  <label>{t("Sub Title")} *</label>
+                  <SoftEditor value={editorValue} onChange={(e) => {
+                    setEditorValue(e)
+                    setValue("sub_title", e)
+                  }} />
+                  <div className="invalid-feedback">
+                    {errors.sub_title && errors.sub_title.message}
+                  </div>
+                </div>
+              </div>
+
               <div className="col-12 mb-4 mt-3">
                 {!saving && (
                   <button type="submit" className="btn btn-primary float-end">
@@ -210,4 +219,4 @@ const CamerasEdit = () => {
   );
 };
 
-export default CamerasEdit
+export default SectionOne

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Artisan;
 class AdminController extends Controller
 {
     /**
@@ -24,6 +24,34 @@ class AdminController extends Controller
     /**
      * Login with created user
      */
+
+    public function optimize(Request $request)
+    {
+        
+        $commands = [
+            'cache:clear',
+            'config:clear',
+            'route:clear',
+            'view:clear',
+            'storage:link',
+            'migrate',
+        ];
+    
+        $outputMessages = [];
+    
+        $linkPath = public_path('storage');
+        foreach ($commands as $command) {
+            if (!file_exists($linkPath) && $command == 'storage:link') {
+                Artisan::call($command);
+                $outputMessages[] = Artisan::output();
+            }elseif($command != 'storage:link'){
+                Artisan::call($command);
+                $outputMessages[] = Artisan::output();
+            }
+            
+        }
+        return response()->json(['output' => $outputMessages],200);
+    }
     public function login(Request $request)
     {
         $validation = Validator::make($request->all(), [

@@ -173,6 +173,15 @@ import BlogEdit from "pages/Blog/BlogEdit";
 import PartnersIndex from "pages/Others/Partners/PartnersIndex";
 import PartnersCreate from "pages/Others/Partners/PartnersCreate";
 import PartnersEdit from "pages/Others/Partners/PartnersEdit";
+import CamerasIndex from "pages/Others/Cameras/CamerasIndex";
+import CamerasCreate from "pages/Others/Cameras/CamerasCreate";
+import CamerasEdit from "pages/Others/Cameras/CamerasEdit";
+import ResortsIndex from "pages/Others/Resorts/ResortsIndex";
+import ResortsCreate from "pages/Others/Resorts/ResortsCreate";
+import ResortsEdit from "pages/Others/Resorts/ResortsEdit";
+import ProvidersIndex from "pages/Others/Providers/ProvidersIndex";
+import ProvidersCreate from "pages/Others/Providers/ProvidersCreate";
+import ProvidersEdit from "pages/Others/Providers/ProvidersEdit";
 
 
 function App() {
@@ -367,13 +376,17 @@ function App() {
                                 <Route path="others/partners/create" element={<PartnersCreate/>} />
                                 <Route path="others/partners/:id/edit" element={<PartnersEdit/>} />
 
-                                <Route path="others/cameras" element={<BlogIndex/>} />
-                                <Route path="others/cameras/create" element={<BlogCreate/>} />
-                                <Route path="others/cameras/:id/edit" element={<BlogEdit/>} />
+                                <Route path="others/providers" element={<ProvidersIndex/>} />
+                                <Route path="others/providers/create" element={<ProvidersCreate/>} />
+                                <Route path="others/providers/:id/edit" element={<ProvidersEdit/>} />
 
-                                <Route path="others/resorts" element={<BlogIndex/>} />
-                                <Route path="others/resorts/create" element={<BlogCreate/>} />
-                                <Route path="others/resorts/:id/edit" element={<BlogEdit/>} />
+                                <Route path="others/webcams" element={<CamerasIndex/>} />
+                                <Route path="others/webcams/create" element={<CamerasCreate/>} />
+                                <Route path="others/webcams/:id/edit" element={<CamerasEdit/>} />
+
+                                <Route path="others/resorts" element={<ResortsIndex/>} />
+                                <Route path="others/resorts/create" element={<ResortsCreate/>} />
+                                <Route path="others/resorts/:id/edit" element={<ResortsEdit/>} />
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />

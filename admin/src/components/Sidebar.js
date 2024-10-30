@@ -243,8 +243,13 @@ function Sidebar() {
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink to="/others/cameras" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
-                                            <span className="sidenav-normal">{t('Cameras')}</span>
+                                        <NavLink to="/others/providers" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Providers')}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/others/webcams" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Webcams')}</span>
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">

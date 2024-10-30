@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\MultipleController;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\PageCategoryController;
 use App\Http\Controllers\Api\PartnersController;
+use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\SectionHeadingController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SocialLinksController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VeranoController;
 use App\Http\Controllers\Api\VeranoDetailsController;
+use App\Http\Controllers\Api\WebcamsController;
 use App\Http\Controllers\Api\WhyTravelController;
 use App\Http\Middleware\AuthKeyCheck;
 use Illuminate\Http\Request;
@@ -45,6 +47,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::post("logout",[AdminController::class, 'logout']);
         Route::post("update/password",[AdminController::class, 'passwordUpdate']);
     });
+
+    Route::post("optimize",[AdminController::class, 'optimize']);
+
     Route::apiResource('admins',AdminController::class);
     Route::apiResource('user',UserController::class);
     Route::apiResource("categories",CategoryController::class);
@@ -122,6 +127,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //partners company
     Route::apiResource("company-promotions",CompanyPromotionController::class);
+    //providers
+    Route::apiResource("providers",ProviderController::class);
+    //webcams
+    Route::apiResource("webcams",WebcamsController::class);
+    Route::get("webcam-provider",[WebcamsController::class,"create"]);
     //footer
 });
 

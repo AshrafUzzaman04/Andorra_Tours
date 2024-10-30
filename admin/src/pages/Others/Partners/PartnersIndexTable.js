@@ -20,31 +20,6 @@ function PartnersIndexTable() {
     }
   }, [pageNumber]);
 
-  const parseSubtitle = (html) => {
-    if (!html) return "";
-
-    // Create a temporary DOM element to strip HTML tags
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
-
-    // Get the plain text content
-    const text = tempDiv.textContent || tempDiv.innerText || "";
-
-    // Split the text into words
-    const words = text.split(" ");
-
-    // Limit to 33 words
-    const limitedText = words.slice(0, 33).join(" ");
-
-    // Create a new temporary div for the limited text
-    const limitedDiv = document.createElement("div");
-
-    // Preserve formatting by putting the limited text back into a span or div
-    limitedDiv.innerHTML = limitedText + (words.length > 33 ? "..." : "");
-
-    return limitedDiv.innerHTML; // Return as HTML to maintain any formatting
-  };
-
   return (
     <div className="row p-3">
       {
