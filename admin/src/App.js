@@ -182,6 +182,7 @@ import ResortsEdit from "pages/Others/Resorts/ResortsEdit";
 import ProvidersIndex from "pages/Others/Providers/ProvidersIndex";
 import ProvidersCreate from "pages/Others/Providers/ProvidersCreate";
 import ProvidersEdit from "pages/Others/Providers/ProvidersEdit";
+import MapIndex from "pages/Others/Map/MapIndex";
 
 
 function App() {
@@ -387,6 +388,9 @@ function App() {
                                 <Route path="others/resorts" element={<ResortsIndex/>} />
                                 <Route path="others/resorts/create" element={<ResortsCreate/>} />
                                 <Route path="others/resorts/:id/edit" element={<ResortsEdit/>} />
+
+                                <Route path="others/maps" element={<MapIndex/>} />
+
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />

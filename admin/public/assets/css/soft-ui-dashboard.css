@@ -25915,3 +25915,17 @@ body.dark-version {
 .language-add{
     overflow-x: hidden !important;
 }
+
+@keyframes blink { 50% { fill: transparent }}
+.dot { 
+  animation: 1s blink infinite;
+  fill: grey;
+}
+.dot:nth-child(2) { animation-delay: 250ms }
+.dot:nth-child(3) { animation-delay: 500ms }
+
+.loader {
+  background-color: transparent;
+
+  color: grey;
+}

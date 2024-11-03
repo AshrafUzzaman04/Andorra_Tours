@@ -35,6 +35,7 @@ class AdminController extends Controller
             'view:clear',
             'storage:link',
             'migrate',
+            // 'db:seed CompanyPromotionSeeder',
         ];
     
         $outputMessages = [];

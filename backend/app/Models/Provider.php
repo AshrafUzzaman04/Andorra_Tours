@@ -14,4 +14,14 @@ class Provider extends Model
         "logo",
         "status"
     ];
+
+    public function Webcams()
+    {
+        return $this->hasMany(Webcam::class, 'provider_id', )->where('status', 'Active');
+    }
+
+    public function Resorts()
+    {
+        return $this->hasMany(Resort::class, 'provider_id', )->where('status', 'Active');
+    }
 }

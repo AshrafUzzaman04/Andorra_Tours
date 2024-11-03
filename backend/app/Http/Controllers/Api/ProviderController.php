@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProviders;
 use App\Http\Requests\UpdateProviders;
 use App\Models\Provider;
-use Illuminate\Http\Request;
+use App\Models\Map;
 use Illuminate\Support\Facades\Storage;
 
 class ProviderController extends Controller
@@ -18,6 +18,29 @@ class ProviderController extends Controller
     {
         $providers = Provider::with([])->paginate(10);
         return response()->json(["message" => "success", "data" => $providers], 200);
+    }
+
+    public function getProviders($provider)
+    {
+        $providers = Provider::query()
+        ->where('status', 'Active')
+        ->where('provider_for', $provider)
+        ->select('id', 'name', 'logo');
+        if($provider == "Webcams"){
+            $providers->with(["$provider:id,provider_id,cameras as webcams"]);
+        }else{
+            $providers->with(["$provider:id,provider_id,photo,name,slug,country,height"]);
+        }
+        $providers = $providers->get();
+
+        $map = Map::select('map_photo')->first();
+        return response()->json([
+            "message"=> "success",
+            "data"=> [
+            "providers"=>$providers,
+            "map"=>$map
+            ]
+        ],200);
     }
 
     /**

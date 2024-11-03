@@ -22,16 +22,16 @@ class UpdateResorts extends FormRequest
     public function rules(): array
     {
         return [
-            "provider_id" => "required|exists:providers,id",
-            "photo" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:5048",
+            "providers" => "required|exists:providers,id",
+            "photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048",
             "name" => "required|string|max:255|unique:resorts,name, {$this->resort->id}",
             "country" => "required|string|max:255",
             "height" => "required|string|max:255",
-            "alpine_skiing" => "required|string|max:255",
-            "ski_lifts" => "required|string|max:255",
-            "clues" => "required|string|max:255",
-            "details_title" => "required|string|max:255",
-            "description" => "required|string",
+            "alpine_skiing" => "nullable|string|max:255",
+            "ski_lifts" => "nullable|string|max:255",
+            "clues" => "nullable|string|max:255",
+            "details_title" => "nullable|string|max:255",
+            "description" => "nullable|string",
             "status" => "required|string|in:Active,Inactive",
         ];
     }

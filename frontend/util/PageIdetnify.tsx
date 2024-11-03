@@ -20,11 +20,11 @@ export default function PageIdentify({ title_for, page_slug, page_name, page_tit
             ); // WhatsApp link with a message
         
         case "link":
-            return <Link className="text-md neutral-400" href={"/page/" + page_slug}>{page_title}</Link>;
+            return <Link className="text-md neutral-400" href={page_slug}>{page_title}</Link>;
         case "new-page":
             return (
             (page_title === "Blog" || page_title === "Blogs") ?
-            <Link className="text-md neutral-400" href={page_slug}>{page_title}</Link>:
+            <Link className="text-md neutral-400" href={"/"+page_slug}>{page_title}</Link>:
             <Link className="text-md neutral-400" href={"/page/" + page_slug}>{page_title}</Link>
         );
         case "text":

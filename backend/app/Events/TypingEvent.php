@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RetriveMessages implements ShouldBroadcast
+class TypingEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,7 +32,7 @@ class RetriveMessages implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("messages.{$this->receiver->id}"),
+            new PrivateChannel("typing.{$this->receiver->id}"),
         ];
     }
 }

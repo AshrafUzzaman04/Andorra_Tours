@@ -18,11 +18,13 @@ use App\Http\Controllers\Api\HeroController;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\InveranoController;
 use App\Http\Controllers\Api\Language;
+use App\Http\Controllers\Api\MapController;
 use App\Http\Controllers\Api\MultipleController;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\PageCategoryController;
 use App\Http\Controllers\Api\PartnersController;
 use App\Http\Controllers\Api\ProviderController;
+use App\Http\Controllers\Api\ResortsController;
 use App\Http\Controllers\Api\SectionHeadingController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SocialLinksController;
@@ -132,6 +134,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
     //webcams
     Route::apiResource("webcams",WebcamsController::class);
     Route::get("webcam-provider",[WebcamsController::class,"create"]);
+
+    //resorts
+    Route::apiResource("resorts",ResortsController::class);
+    Route::get("resorts-provider",[ResortsController::class,"create"]);
+
+    //map route
+    Route::apiResource("maps",MapController::class);
+    Route::get("map/show",[MapController::class,"show"]);
     //footer
 });
 
@@ -168,9 +178,13 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     Route::get("blogs",[BlogController::class, 'Blogs']);
     Route::get("blogs/{slug}",[BlogController::class, 'SlugByBlog']);
 
+    //partners
+    Route::get('promotion-partners',[CompanyPromotionController::class,'getPartners']);
 
- 
+    //providers
+    Route::get('providers/{provider}',[ProviderController::class,'getProviders']);
+    
+    //slug base resorts
+    Route::get('resorts/{slug}',[ResortsController::class,'slugByResorts']);
 });
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+

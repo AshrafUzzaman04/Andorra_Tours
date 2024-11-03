@@ -47,7 +47,7 @@ const CamerasCreate = () => {
 
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("webcams/", "POST", formData, setError).then((res) => {
+    callFetch("webcams", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);

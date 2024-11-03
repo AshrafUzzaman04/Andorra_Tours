@@ -19,6 +19,23 @@ class CompanyPromotionController extends Controller
         return response()->json(["message" => "success", "data" => $companyPromotions], 200);
     }
 
+
+    public function getPartners()
+    {
+        $companyPromotions = CompanyPromotion::where('status', 'active')->get();
+        $filteredData = $companyPromotions->map(function ($promotion) {
+            return array_filter($promotion->getAttributes(), function ($value) {
+                return !is_null($value) && $value !== "null";
+            });
+        });
+    
+        if ($filteredData->isNotEmpty()) {
+            return response()->json(["message" => "success", "data" => $filteredData->values()], 200);
+        } else {
+            return response()->json(["message" => "Company promotion not found"], 404);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -38,7 +55,7 @@ class CompanyPromotionController extends Controller
             $filteredData = array_filter($companyPromotion->toArray(), function ($value) {
                 return !is_null($value) && $value !== 'null';
             });
-            
+
             return response()->json(["message" => "success", "data" => $filteredData], 200);
         } else {
             return response()->json(["message" => "Company promotion not found"], 404);
@@ -53,14 +70,14 @@ class CompanyPromotionController extends Controller
         //if the data not found
         if (!$companyPromotion) return response()->json(["message" => "Company Promotion not found"], 422);
         $data = $request->validated();
-        if($request->hasFile('image')){
-            if(!empty($companyPromotion->image)){
-                $oldpath = str_replace("storage/","",$companyPromotion->image);
-                if(Storage::exists($oldpath)){
+        if ($request->hasFile('image')) {
+            if (!empty($companyPromotion->image)) {
+                $oldpath = str_replace("storage/", "", $companyPromotion->image);
+                if (Storage::exists($oldpath)) {
                     Storage::delete($oldpath);
                 }
             }
-            $data['image'] = "storage/". $request->file('image')->store('company_promotion');
+            $data['image'] = "storage/" . $request->file('image')->store('company_promotion');
         }
         $companyPromotion->update($data);
         return response()->json(["success" => true, "message" => "Updated successfully"], 200);

@@ -25,7 +25,7 @@ function ProvidersIndexTable() {
       name: t('Provider Logo'),
       sortable: true,
       reorder: true,
-      selector: row => <div className="mt-1 mb-1" >
+      selector: row => <div className="mt-1 mb-1 bg-dark rounded">
         <img className="avatar avatar-md w-100" src={row?.logo ? process.env.REACT_APP_STORAGE_URL + row?.logo : '/assets/img/placeholder.png'} alt="photo" />
       </div>
     },

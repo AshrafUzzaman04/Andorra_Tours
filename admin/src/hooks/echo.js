@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
-import callFetch from "helpers/callFetch";
 import axios from "helpers/axios";
 window.Pusher = Pusher;
 const useEcho = () =>{

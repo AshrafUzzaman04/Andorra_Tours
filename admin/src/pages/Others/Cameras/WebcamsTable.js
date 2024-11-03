@@ -19,13 +19,13 @@ function WebcamsTable() {
       width: "150px",
       sortable: true,
       reorder: true,
-      selector: row => <NavLink to={`/hotels/${row.id}/edit`} >{row.id}</NavLink>
+      selector: row => <NavLink to={`/others/webcams/${row.id}/edit`} >{row.id}</NavLink>
     },
     {
       name: t('Provider Logo'),
       sortable: true,
       reorder: true,
-      selector: row => <div className="mt-1 mb-1" >
+      selector: row => <div className="mt-1 mb-1 bg-dark rounded">
         <img className="avatar avatar-md w-100" src={row?.provider?.logo ? process.env.REACT_APP_STORAGE_URL + row?.provider?.logo : '/assets/img/placeholder.png'} alt="photo" />
       </div>
     },

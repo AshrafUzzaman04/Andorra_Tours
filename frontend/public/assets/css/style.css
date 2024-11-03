@@ -15593,13 +15593,6 @@ a{
   background: #ffffff !important;
 }
 
-/* [data-bs-theme=dark] .promotion-desc{
-  color: #FFFFFF !important;
-}
-
-[data-bs-theme=dark] .promotion-desc{
-  color: #FFFFFF !important;
-} */
 
 [data-bs-theme=dark] .page-link{
   color: #000000 !important;
@@ -15607,17 +15600,151 @@ a{
 
 
 [data-bs-theme=light] h2{
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 [data-bs-theme=dark] h2{
   color: #ffffff !important;
 }
 
-/* [data-bs-theme=light] h2{
-  background: #000000 !important;
-} */
 
 [data-bs-theme=dark] .footer > p{
   color: var(--bs-neutral-400) !important;;
+}
+
+
+
+/* Pricing Card Styles */
+
+[data-bs-theme=dark] h1{
+  color: var(--bs-neutral-1000) !important;
+}
+
+[data-bs-theme=dark] h2{
+  color: var(--bs-neutral-1000) !important;
+}
+
+
+
+[data-bs-theme=dark] .pricing-card{
+  background-color: #171717 !important;
+}
+.pricing-card {
+  border-radius: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Ribbon Styles */
+.ribbon {
+  position: absolute;
+  right: -3rem;
+  top: 1.5rem;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+.ribbon-text {
+  background-color: #33416E;
+  text-align: center;
+  color: white;
+  padding: 0.25rem 3rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Price Container */
+.price-container {
+  margin-bottom: 1.5rem;
+}
+
+/* Custom Button */
+.custom-btn {
+  border-radius: 0.5rem;
+  background-color: #33416E;
+  border-color: #33416E;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.custom-btn:hover {
+  background-color: #33416E;
+  border-color: #33416E;
+  color: white;
+}
+
+/* Benefit Card Styles */
+[data-bs-theme=dark] .benefit-card{
+  background-color: #171717 !important;
+  color: var(--bs-neutral-1000)
+}
+.benefit-card {
+  border-radius: 0.5rem;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.benefit-card:hover {
+  transform: translateY(-2px);
+}
+
+.check-icon {
+  color: #40c057;
+  width: 1.25rem;
+  /* height: 1.25rem; */
+  margin-top: 0.125rem;
+}
+
+/* Voucher Card Styles */
+.voucher-card {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.voucher-image {
+  transition: transform 0.4s;
+  cursor: pointer;
+}
+
+.voucher-image:hover {
+  transform: scale(1.09);
+}
+
+/* PDF Demo Container */
+.pdf-demo-container {
+  width: 100%;
+  margin-top: -1rem;
+  padding: 1.5rem 1rem;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .ribbon {
+    right: -4rem;
+    top: 1rem;
+  }
+  
+  .ribbon-text {
+    padding: 0.25rem 4rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .display-5 {
+    font-size: 2rem;
+  }
+  
+  .price-container .display-6 {
+    font-size: 1.75rem;
+  }
 }

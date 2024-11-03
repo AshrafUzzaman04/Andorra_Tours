@@ -23,7 +23,7 @@ class StoreProviders extends FormRequest
     {
         return [
             "provider_for" => "required|string|max:255",
-            "name" => "required|string|max:255|unique:providers,name",
+            "name" => "required|string|max:255",
             "logo" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:5048",
             "status" => "required|string|in:Active,Inactive",
         ];

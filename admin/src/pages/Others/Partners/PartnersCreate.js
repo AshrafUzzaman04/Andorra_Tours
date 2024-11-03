@@ -12,7 +12,6 @@ const PartnersCreate = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [categories, setCategories] = useState([]);
-  const [pricingCards, setPricingCards] = useState([{title: "",sub_title: "",tag: "",price: 0,duration: "",button_text: ""}]);
   const {
     register,
     handleSubmit,

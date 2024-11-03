@@ -19,12 +19,13 @@ import { Grid, Menu, MenuItem } from "@mui/material";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import useEcho from "hooks/echo";
 import Cookies from "js-cookie";
+import TypingIndicator from "components/TypingIdicator";
 function Message() {
     const echo = useEcho()
     const [participations, setParticipations] = useState([]);
     const [messages, setMessages] = useState([]);
     const [user, setUser] = useState(JSON.parse(Cookies.get("user")));
-    const [userId, setUserId] = useState([]);
+    const [userId, setUserId] = useState(user?.id);
     const [isRender, setIsRender] = useState(false);
     const { t } = useTranslation();
     const { id } = useParams();
@@ -39,6 +40,8 @@ function Message() {
     const [newMessage, setNewMessage] = useState(0);
     const [file, setFile] = useState();
     const [uid, setUid] = useState(0);
+    const [isTyping, setIsTyping] = useState(false);
+    const [messageText, setMessageText] = useState('');
     const chatConversationRef = useRef(null);
     const {
         reset, resetField, register, handleSubmit, setError, setValue, getValues,
@@ -63,8 +66,48 @@ function Message() {
                 }
                     
             })
+            return () => {
+                echo.leaveChannel(`messages.${user?.id}`)
+            }
         }
+        
     }, [echo,id]);
+
+    const typingHandle = (e) => {
+        if (echo) {
+            echo.private(`typing.${id}`).whisper('typing',{
+                sender_id: user?.id
+            })
+
+        }
+    }
+    const [isTypeingNotifyRecipient, setIsTypeingNotifyRecipient] = useState(null);
+    const typingTimeoutRef = useRef(null)
+    useEffect(()=>{
+        if (echo) {
+            echo.private(`typing.${user?.id}`).listenForWhisper('typing', (event) => {
+                setIsTyping(true);
+                setIsTypeingNotifyRecipient(event.sender_id)
+
+                if (typingTimeoutRef.current) {
+                    clearTimeout(typingTimeoutRef.current)
+                }
+    
+                typingTimeoutRef.current = setTimeout(() => {
+                    setIsTyping(false)
+                    setIsTypeingNotifyRecipient(null)
+                }, 2000)
+            })
+            
+
+            return () => {
+                if (typingTimeoutRef.current) {
+                    clearTimeout(typingTimeoutRef.current)
+                }
+                echo.leaveChannel(`typing.${user?.id}`)
+            }
+        }
+    },[echo,id,user?.id])
 
     const deleteChat = (id) => {
         callFetch("delete-chat/" + id, "GET", []).then((res) => {
@@ -107,10 +150,10 @@ function Message() {
             handleAutoScroll();
         });
 
-        callFetch("message/receiver/" + id, "GET", []).then((res) => {
-            // console.log(res.data);
-            setUser(res.data);
-        });
+        // callFetch("message/receiver/" + id, "GET", []).then((res) => {
+        //     // console.log(res.data);
+        //     setUser(res.data);
+        // });
         callFetch("seen-messages/"+id, "POST", []).then((res) => {
             //
         });
@@ -154,7 +197,7 @@ function Message() {
     };
 
     useEffect(() => {
-        document.title = "INGTEC . Nachrichten";
+        document.title = "TOURS ANDORRA";
     }, []);
 
     const [searchData, setSearchData] = useState([])
@@ -438,6 +481,7 @@ function Message() {
                                                                         <h5 className="text-truncate font-size-15 mb-1">{user?.user.name}</h5>
                                                                         <p className="chat-user-message text-truncate mb-0">
                                                                             <LastMessage userId={user?.user.id}></LastMessage>
+                                                                            {   user?.user?.id !== id && (isTyping && user?.user.id === isTypeingNotifyRecipient ) && <TypingIndicator/>}
                                                                         </p>
                                                                     </div>
                                                                     <div className="font-size-11"></div>
@@ -472,6 +516,7 @@ function Message() {
                                                                         <h5 className="text-truncate font-size-15 mb-1">{user?.user.name}</h5>
                                                                         <p className="chat-user-message text-truncate mb-0">
                                                                             <LastMessage userId={user?.user.id}></LastMessage>
+                                                                            {(isTyping && user?.user.id === isTypeingNotifyRecipient && user?.user?.id !== id) && <TypingIndicator/>}
                                                                         </p>
                                                                     </div>
                                                                     <div className="font-size-11"></div>
@@ -663,7 +708,9 @@ function Message() {
                                                     <div className="w-100">
                                                         <input type="hidden" {...register('receiver_id')} />
                                                         <div className="form-group">
-                                                            <SoftInput placeholder={t("Type here...")} multiline rows={2} {...register('messages')} />
+                                                            <SoftInput placeholder={t("Type here...")} multiline rows={2} {...register('messages')} 
+                                                                onChange={typingHandle}
+                                                            />
                                                         </div>
                                                     </div>
 

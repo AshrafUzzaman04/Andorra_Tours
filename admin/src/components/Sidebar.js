@@ -257,6 +257,11 @@ function Sidebar() {
                                             <span className="sidenav-normal">{t('Resorts')}</span>
                                         </NavLink>
                                     </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/others/maps" onClick={(e) => setNowDrop('others')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                                            <span className="sidenav-normal">{t('Maps')}</span>
+                                        </NavLink>
+                                    </li>
                                 </>
                             </ul>
                         </div>
