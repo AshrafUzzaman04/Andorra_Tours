@@ -2,7 +2,7 @@
 
 import MasterLayout from "@/components/layout/MasterLayout"
 
-export default function Resorts() {
+export default async function Resorts() {
   return (
     <MasterLayout>
         <div>Resorts</div>
