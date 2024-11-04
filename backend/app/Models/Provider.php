@@ -17,7 +17,7 @@ class Provider extends Model
 
     public function Webcams()
     {
-        return $this->hasMany(Webcam::class, 'provider_id', )->where('status', 'Active');
+        return $this->hasOne(Webcam::class, 'provider_id', )->where('status', 'Active');
     }
 
     public function Resorts()

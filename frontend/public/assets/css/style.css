@@ -15600,11 +15600,11 @@ a{
 
 
 [data-bs-theme=light] h2{
-  color: #ffffff !important;
+  color: var(--bs-neutral-1000) !important;
 }
 
 [data-bs-theme=dark] h2{
-  color: #ffffff !important;
+  color: var(--bs-neutral-1000) !important;
 }
 
 
@@ -15747,4 +15747,152 @@ a{
   .price-container .display-6 {
     font-size: 1.75rem;
   }
+}
+
+
+
+
+[data-bs-theme=dark] .resort-card{
+  background-color: var(--bs-background-body) !important;
+  color: var(--bs-neutral-1000) !important;
+}
+
+[data-bs-theme=light] .resort-logo{
+  filter: drop-shadow(5px 5px 10px #171717) !important;
+}
+
+.resort-card {
+  background-color: var(--bs-background-body) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 10px;
+}
+.resort-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.resort-logo {
+  transition: all 0.3s ease;
+}
+.resort-card:hover .resort-logo {
+  transform: scale(1.05);
+}
+.custom-btn {
+  height: 48px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
+}
+.custom-btn:hover,
+.custom-btn.hovered {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.snowflake-icon {
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+.custom-btn:hover .snowflake-icon,
+.custom-btn.hovered .snowflake-icon {
+  transform: translateY(-50%) rotate(15deg) scale(1.2);
+  color: #ffffff;
+}
+.location-text {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+.custom-btn:hover .location-text,
+.custom-btn.hovered .location-text {
+  transform: translateX(5px);
+  color: #ffffff;
+}
+.hover-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #394b81;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+.custom-btn:hover .hover-bg,
+.custom-btn.hovered .hover-bg {
+  width: 100%;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.custom-btn {
+  animation: fadeInScale 0.3s ease forwards;
+  opacity: 0;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.resort-logo {
+  animation: pulse 2s infinite;
+}
+@keyframes snowfall {
+  0% {
+    transform: translateY(-50%) translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-50%) translateX(5px) rotate(180deg);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0) rotate(360deg);
+  }
+}
+.custom-btn:hover .snowflake-icon,
+.custom-btn.hovered .snowflake-icon {
+  animation: snowfall 2s infinite linear;
+}
+
+.screen{
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  height: 170px;
+  z-index: 9999;
+  box-shadow: none !important;
+  border-radius: 5px;
+}
+
+.card-screen{
+  height: 170px;
 }

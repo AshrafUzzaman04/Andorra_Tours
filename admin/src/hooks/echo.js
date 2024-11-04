@@ -9,7 +9,7 @@ const useEcho = () =>{
     useEffect(()=>{
         const echo = new Echo({
             broadcaster: 'reverb',
-            encrypted:false,
+            encrypted:true,
             key: process.env.REACT_APP_REVERB_APP_KEY,
             authorizer: (channel) => {
                 return {
