@@ -15896,3 +15896,15 @@ a{
 .card-screen{
   height: 170px;
 }
+
+.resort-description a{
+  color:#333366 !important;
+}
+
+[data-bs-theme=dark] .resort-description a{
+  color: #4545e8 !important;
+  text-decoration: underline;
+}
+
+
+

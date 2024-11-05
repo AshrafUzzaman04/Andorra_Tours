@@ -47,7 +47,7 @@ export default function WebcamViewer({ webcam }: { webcam: WebcamType }): JSX.El
 
 
     return (
-        <div className="container" ref={containerRef}>
+        <div className="" ref={containerRef}>
             {/* Header only visible in fullscreen */}
             {/* {isFullscreen && (
                 <header className="fullscreen-header">

@@ -25,7 +25,7 @@ const echo = new Echo({
         };
     },
     wsHost: process.env.REACT_APP_REVERB_HOST,
-    wsPort: process.env.REACT_APP_REVERB_PORT ?? 80,
+    //wsPort: process.env.REACT_APP_REVERB_PORT ?? 80,
     wssPort: process.env.REACT_APP_REVERB_PORT ?? 443,
     forceTLS: (process.env.REACT_APP_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],

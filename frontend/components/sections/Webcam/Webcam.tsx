@@ -16,7 +16,9 @@ export interface WebcamsType {
 
 export interface WebcamsTypes {
     webcamsData: WebcamsType[];
-    map: string
+    map: {
+        map_photo: string;
+    }
 }
 export default function Webcam({ webcamsData, map }: WebcamsTypes) {
     const [hoveredLocation, setHoveredLocation] = useState(0);
@@ -42,7 +44,7 @@ export default function Webcam({ webcamsData, map }: WebcamsTypes) {
                             {JSON.parse(webcams?.webcams?.webcams || '[]').length > 0 && (
                                 <div className="row g-3">
                                     {JSON.parse(webcams?.webcams?.webcams || '[]')?.map((webcam: any, index: number) => (
-                                        <div key={index} className="col-sm-6 col-md-4">
+                                        <div key={index} className="col-md-4">
                                             {webcams?.name === "Andorra" ? (
                                                 <Link href={webcam?.webcam}
                                                     className={`btn btn-outline-primary w-100 position-relative text-start custom-btn ${hoveredLocation === webcam?.name ? "hovered" : ""
@@ -65,7 +67,11 @@ export default function Webcam({ webcamsData, map }: WebcamsTypes) {
                         </div>
                     </div>
                 ))}
+                <div className="pt-120">
+                    <img src={process.env.NEXT_PUBLIC_STORAGE_URL + map?.map_photo} alt="map" className="img-fluid rounded" />
+                </div>
             </div>
+
         </div>
     );
 }

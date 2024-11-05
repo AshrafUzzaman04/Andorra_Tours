@@ -3,13 +3,42 @@ import Banner from "@/components/sections/Banner";
 import ExclusiveService from "@/components/sections/ExclusiveService";
 import Webcam from "@/components/sections/Webcam/Webcam";
 import Fetch from "@/helper/Fetch";
+import { Metadata } from "next";
 import React from "react";
 const webcamsData = async () => {
   const res = await Fetch("/providers/Webcams");
-  const webcams = res?.data?.data?.providers;
+  const webcams = res?.data?.data?.providers || [];
   const map = res?.data?.data?.map;
   return { webcams, map };
 };
+
+// const stripHtml = (html: string) => {
+//   return html?.replace(/<\/?[^>]+(>|$)/g, "");
+// };
+// export async function generateMetadata({params}:{params:{slug:string}}): Promise<Metadata> {
+// const res = await Fetch.get("/resorts/"+params?.slug);
+// const resort = res?.data?.data || [];
+// const title = resort?.name ?? ""
+// const description = stripHtml(resort?.description) ?? ""
+// const image = process.env.NEXT_PUBLIC_STORAGE_URL + resort?.photo
+// return {
+//     title: title,
+//     description: description,
+//     keywords:"tours andorra, andorra tours, travel andorra, travel, explore andorra,",
+//     openGraph:{
+//         title: title,
+//         description: description,
+//         images: [image],
+//         url:"https://andorra-tours.vercel.app/"
+//     },
+//     twitter:{
+//         title: title,
+//         description: description,
+//         images: [image],
+//         card:"summary"
+//     }
+// }
+// }
 export default async function Webcams() {
   const { webcams, map } = await webcamsData();
   return (
