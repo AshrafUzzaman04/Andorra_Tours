@@ -195,7 +195,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 				</section>
 				{
 					details && details?.type !== "multiple" && <section className="box-section box-content-tour-detail background-body">
-						<div className="container">
+						<div className="container-fluid px-5">
 							<div className="row">
 								<div className="col-lg-8">
 									
@@ -225,7 +225,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 										{details?.booking_link === null && <div className="head-booking-form">
 											<p className="text-xl-bold neutral-1000">{details?.details?.form_title}</p>
 										</div>}
-										<BookingForm bookingLink={details?.booking_link} FormData={details.details} price={details.price} />
+										<BookingForm bookingLink={details?.booking_link} product={details} FormData={details.details} price={details.price} />
 									</div>
 									<div className="sidebar-left border-1 background-body">
 										<h6 className="text-lg-bold neutral-1000">Popular Tours</h6>

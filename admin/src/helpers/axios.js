@@ -4,8 +4,7 @@ import Cookies from "js-cookie";
 const axios = Axios.create({
     baseURL: process.env.REACT_APP_STORAGE_URL,
     headers: {
-        "X-Requested-With": "XMLHttpRequest",
-        "Authorization": "Bearer 193|yxCfYj73aPQgzo1migejlxHEtcAaPTEpCT0JVvUe03ec6c8c"
+        "X-Requested-With": "XMLHttpRequest"
     },
     withCredentials: true,
     withXSRFToken: true,

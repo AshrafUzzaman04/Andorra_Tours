@@ -15,7 +15,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $bookings = Booking::with(['user'])->paginate(10);
+        return response()->json(['message' => "success", "data" => $bookings]);
     }
 
     public function PriceByDay(Request $request)
@@ -63,7 +64,7 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

@@ -15520,10 +15520,17 @@ h2 span {
 a{
   cursor: pointer !important;
 }
-
+.visually-hidden {
+  position: absolute; /* Hides it off-screen */
+  width: 0;
+  height: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+}
 
 .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month, .flatpickr-months .flatpickr-next-month.flatpickr-prev-month {
-
   color: #fff !important;
 }
 
@@ -15906,5 +15913,43 @@ a{
   text-decoration: underline;
 }
 
+.bg-success-gradient {
+  background: linear-gradient(135deg, #4ade80, #3b82f6);
+}
 
+.bg-danger-gradient {
+  background: linear-gradient(135deg, #f87171, #8b5cf6);
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.animate-confetti {
+  position: absolute;
+  animation: confetti 5s ease-in-out infinite;
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotateZ(0deg); }
+  100% { transform: translateY(100vh) rotateZ(720deg); }
+}
 

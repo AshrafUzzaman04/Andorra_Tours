@@ -40,7 +40,7 @@ export default function CategoryWiseHotels({ hotel }: { hotel: Hotel }) {
                             <svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg></span></li>
-                        <li> <Link href={"/" + hotel?.categorie?.tag_slug + "/" + hotel?.categorie?.slug}>Hotels</Link><span className="arrow-right">
+                        <li> Hotels<span className="arrow-right">
                             <svg width={7} height={12} viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 11L6 6L1 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg></span></li>
@@ -60,7 +60,7 @@ export default function CategoryWiseHotels({ hotel }: { hotel: Hotel }) {
                                             <span className="btn btn-white-sm">
                                                 {stars}
                                             </span>
-                                            <h1 className="mt-20 mb-20 color-white">Welcom to<br className="d-none d-lg-block" />{hotel?.title}</h1>
+                                            <h1 className="mt-20 mb-20 color-white">Welcome to<br className="d-none d-lg-block" />{hotel?.title}</h1>
                                             {/* <ul className="list-disc">
                                                 <li>Spacious and Well-Appointed Rooms</li>
                                                 <li>Fine Dining Restaurants</li>
