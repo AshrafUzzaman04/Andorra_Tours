@@ -337,8 +337,8 @@ export default function CheckOutPage() {
                                                         <p className="font-medium text-gray-100 mt-2">Services:</p>
                                                         {
                                                             product?.services?.map((service: any, index: number) => (
-                                                                <div className="flex items-center justify-between">
-                                                                    <p key={index} className="font-medium text-gray-100">{service?.title}</p>
+                                                                <div key={index} className="flex items-center justify-between">
+                                                                    <p className="font-medium text-gray-100">{service?.title}</p>
                                                                     <div className="flex items-center gap-2 text-gray-100 mt-1">
                                                                         <div className=" bg-gray-800 p-1 rounded cursor-pointer">
                                                                             <Minus className="size-4" />
