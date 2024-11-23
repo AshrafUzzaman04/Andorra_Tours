@@ -58,6 +58,13 @@ function Sidebar() {
                         </NavLink>
                     </li>
 
+                    <li className="nav-item">
+                        <NavLink to="/booking-management/bookings" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-basket-shopping icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Bookings')}</span>
+                        </NavLink>
+                    </li>
+
 
                     <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#categories" className={nowDrop === 'categories' ? activeClassName : navClassName} aria-controls="categories" role="button" aria-expanded={nowDrop === 'categories'}>

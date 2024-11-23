@@ -5,7 +5,7 @@ import "flatpickr/dist/themes/dark.css";
 import flatpickr from "flatpickr";
 import Fetch from "@/helper/Fetch";
 import { NumericFormat } from "react-number-format";
-
+import { useRouter } from "next/navigation";
 export interface VeranoDetailsType {
     id: number;
     inverano_id: number | null;
@@ -61,10 +61,11 @@ interface DayPrices {
 }
 
 export default function BookingForm({ FormData, price, bookingLink }: FromDataPriceTypes) {
+	const router = useRouter();
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.extra_services || '[]');
 	const pricing = JSON.parse(FormData?.pricing || '[]');
-	const addDays = pricing.length === 0 ? pricing.length : pricing.length - 1;
+	const addDays = (pricing?.length === 1 || pricing?.length === 0) ? 9 : pricing.length - 1;
 	const [quantities, setQuantities] = useState(parsedServices?.map(() => 0));
 	const [dayPrices, setDayPrices] = useState<DayPrices>({});
 	const [selectedExtras, setSelectedExtras] = useState(parsedAddExtras?.map(() => false));
@@ -76,27 +77,87 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		day: 0,
 		services: [{ title: "", price: 0, quantity: 0 }],
 		extra_services: [{ title: "", price: 0 }],
-		price: 0
+		price: 0,
+		product_id: FormData?.id,
+		product_photo: FormData?.photos,
+		title: FormData?.title
 	});
 
-	function handleBooking() {
-		alert(JSON.stringify(bookingData, null, 2)); // Indentation of 2 spaces
+	async function handleBooking() {
+		try {
+			// Retrieve the existing cart items from localStorage
+			const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
+
+			// Find if a product with the same product_id exists in the cart
+			const existingProductIndex = cartData.findIndex(
+				(item: { product_id: number; }) => item.product_id === bookingData.product_id
+			);
+
+			if (existingProductIndex !== -1) {
+				// If a matching product_id is found, check services for merging
+				const existingProduct = cartData[existingProductIndex];
+
+				// Initialize a flag to check if all services match
+				let allServicesMatch = true;
+
+				// Iterate over the new services in bookingData
+				bookingData.services.forEach((newService) => {
+					const existingServiceIndex = existingProduct.services.findIndex(
+						(service: { title: string; }) => service.title === newService.title
+					);
+
+					if (existingServiceIndex !== -1) {
+						// If the service already exists, update quantity and price
+						existingProduct.services[existingServiceIndex].quantity += newService.quantity;
+						existingProduct.services[existingServiceIndex].price += newService.price;
+					} else {
+						// If even one service doesn't match, mark the item as not fully matching
+						allServicesMatch = false;
+					}
+				});
+
+				if (allServicesMatch) {
+					// If all services matched, update the main price and quantity
+					existingProduct.price += bookingData.price;
+					existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+					cartData[existingProductIndex] = existingProduct;
+				} else {
+					// If services didn't fully match, treat as a new product and add to the cart
+					cartData.push({ ...bookingData, quantity: 1 });
+				}
+			} else {
+				// If no match, add the new product as a new item in the cart
+				cartData.push({ ...bookingData, quantity: 1 });
+			}
+
+			// Save the updated cart back to localStorage
+			localStorage.setItem("bookingData", JSON.stringify(cartData));
+
+			// Update the state to reflect the updated cart
+			// setProducts(cartData);
+
+			// Redirect to checkout if the total price of the cart is greater than 0
+			if (bookingData.price > 0) {
+				// Uncomment the following line when ready to use router
+				await router.push("/checkout");
+			}
+		} catch (error) {
+			console.error("Error in handleBooking:", error);
+			alert("An error occurred during booking.");
+		}
 	}
 
 	useEffect(() => {
-		// Initialize Flatpickr
 		flatpickr(".mydatepicker", {
 			dateFormat: "Y/m/d",
-			mode: addDays === 1 ? "single":"range",
+			mode: (pricing?.length === 1 || pricing?.length === 0) ? "single" : "range",
 			inline: true,
 			onChange: (dates: Date[]) => {
-				// Update selected dates
 				setSelectedDates(dates);
-				// Update min and max dates based on selection
 				if (dates.length > 0) {
 					const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
 					const latestDate = new Date(earliestDate);
-					latestDate.setDate(earliestDate.getDate() + addDays); // Set max date as 10 days from the earliest date
+					latestDate.setDate(earliestDate.getDate() + addDays);
 
 					setMinDate(earliestDate);
 					setMaxDate(latestDate);
@@ -106,88 +167,86 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				}
 			},
 			disable: [(date: Date) => {
-				// Disable all dates outside the selected range (10 days from the earliest selected date)
 				if (minDate) {
 					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + addDays); // Calculate the end date as 10 days from minDate
+					endDate.setDate(endDate.getDate() + addDays);
 
-					return date < minDate || date > endDate; // Disable dates outside the 10-day range
+					return date < minDate || date > endDate;
 				}
-				return false; // Enable all dates if no selection
+				return false;
 			}],
 			disableMobile: false
 		});
 
-	}, [minDate, maxDate]);
+	}, [minDate, maxDate, addDays]);
 
 
 	useEffect(() => {
 		if (selectedDates?.length === 0) return;
 		const calculateDayCount = async () => {
-			// Ensure that the start date is selected
-			const startDate = selectedDates[0]; // Start date
-			const endDate = selectedDates[1]; // End date
+			const startDate = selectedDates[0];
+			const endDate = selectedDates[1];
 
-			// Check if startDate is defined
 			if (!startDate) {
 				console.error("No start date selected.");
-				return; // Exit early if no start date is provided
+				return;
 			}
 
-			// If endDate is not selected, treat it as a single day
 			const timeDifference = endDate
-				? Math.abs(endDate.getTime() - startDate.getTime()) // Calculate difference if endDate exists
-				: 0; // No difference if only startDate is selected
+				? Math.abs(endDate.getTime() - startDate.getTime())
+				: 0;
 
-			const day = endDate ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1 : 1; // Add 1 for the start date if only it is selected
+			const day = endDate ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) + 1 : 1;
 
-			// Fetch the price using the calculated day count
 			const res = await Fetch.post("/product/price", { id: FormData?.id, for: FormData?.product_for, day: day });
-			const price = res?.data ?? 0;
-			
+			const price = res?.data;
 			setDayPrices(price);
+
 			setBookingData(prev => ({
 				...prev,
 				day: day,
-				price: Number(price?.online_price) + calculateTotalPrice() // Calculate total price including day price
+				price: Number(price?.online_price) + calculateTotalPrice(),
+				startDate: startDate, // Set startDate in bookingData
+				endDate: endDate      // Set endDate in bookingData
 			}));
 		};
 		calculateDayCount()
 	}, [selectedDates]);
 
-	useEffect(()=>{
-		if (selectedDates?.length === 0) {
+	useEffect(() => {
+		if ((bookingLink === "null" || bookingLink === null) && selectedDates?.length === 0) {
 			const calculateDayCount = async () => {
 				const day = 1
 				const res = await Fetch.post("/product/price", { id: FormData?.id, for: FormData?.product_for, day: day });
 				const price = res?.data;
-				
 				setDayPrices(price);
 				setBookingData(prev => ({
 					...prev,
 					day: day,
-					price: Number(price?.online_price) + calculateTotalPrice()
+					price: price?.online_price ? Number(price?.online_price) : 0 + calculateTotalPrice()
 				}));
 			};
 			calculateDayCount()
 		}
-	},[quantities,selectedExtras])
+	}, [quantities, selectedExtras])
 
 	// Function to handle quantity input change
 	const handleQuantityChange = (i: number, value: number) => {
 		const updatedQuantities = [...quantities];
 		updatedQuantities[i] = value;
 		setQuantities(updatedQuantities);
-		const newTotalPrice = calculateTotalPrice();
+		const newTotalPrice = calculateTotalPrice(updatedQuantities, selectedExtras);
 
 		setBookingData(prev => ({
 			...prev,
-			services: parsedServices.map((service, index) => ({
-				title: service.service_name,
-				price: Number(service.price),
-				quantity: updatedQuantities[index],
-			})),
-			price: newTotalPrice + (Number(dayPrices?.online_price) || 0), // Add online price if available
+			services: parsedServices
+				.map((service, index) => ({
+					title: service.service_name,
+					price: Number(service.price),
+					quantity: updatedQuantities[index],
+				}))
+				.filter(service => service.quantity > 0), // Only include items with quantity > 0
+			price: newTotalPrice + (Number(dayPrices?.online_price) || 0),
 		}));
 	};
 
@@ -209,26 +268,22 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 	};
 
 	// Function to calculate total price
-	const calculateTotalPrice = () => {
+	const calculateTotalPrice = (updatedQuantities = quantities, updatedSelectedExtras = selectedExtras) => {
 		const serviceTotal = parsedServices?.reduce((sum, service, i) => {
-			return sum + Number(service.price) * quantities[i];
+			return sum + Number(service.price) * updatedQuantities[i];
 		}, 0);
-		const totalSum = quantities?.reduce((sum, value) => sum + value, 0);
+
+		const totalQuantity = updatedQuantities?.reduce((sum, quantity) => sum + quantity, 0);
+
 		const extrasTotal = parsedAddExtras?.reduce((sum, extra, i) => {
-			return totalSum !== 0 ? sum + (selectedExtras[i] ? Number(extra.price) * totalSum : 0) : sum + (selectedExtras[i] ? Number(extra.price) : 0);
+			return totalQuantity !== 0
+				? sum + (updatedSelectedExtras[i] ? Number(extra.price) * totalQuantity : 0)
+				: sum + (updatedSelectedExtras[i] ? Number(extra.price) : 0);
 		}, 0);
 
-		return serviceTotal + extrasTotal; // Combine both totals
+		return serviceTotal + extrasTotal;
 	};
 
-	const handleTimeChange = (event: { target: { value: any; }; }) => {
-		const selectedTime = event.target.value;
-		// Update the bookingData state with the selected time
-		setBookingData((prevData) => ({
-			...prevData,
-			time: selectedTime
-		}));
-	};
 
 	return (
 		<>

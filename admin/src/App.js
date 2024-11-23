@@ -183,6 +183,8 @@ import ProvidersIndex from "pages/Others/Providers/ProvidersIndex";
 import ProvidersCreate from "pages/Others/Providers/ProvidersCreate";
 import ProvidersEdit from "pages/Others/Providers/ProvidersEdit";
 import MapIndex from "pages/Others/Map/MapIndex";
+import BookingIndex from "pages/Booking/BookingIndex";
+import BookingView from "pages/Booking/BookingView";
 
 
 function App() {
@@ -410,6 +412,10 @@ function App() {
                                 <Route path="customer-management/orders/create" element={<OrderCreate />} />
                                 <Route path="customer-management/orders/:id/create" element={<OrderCreate />} />
                                 <Route path="customer-management/orders/:id/edit" element={<OrderEdit />} />
+
+                                {/* booking route */}
+                                <Route path="booking-management/bookings" element={<BookingIndex/>}/>
+                                <Route path="booking-management/bookings/view" element={<BookingView/>}/>
 
                                 <Route path="course-management/students" element={<StudentIndex />} />
                                 <Route path="course-management/students/create" element={<StudentCreate/>} />

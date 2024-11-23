@@ -4,7 +4,6 @@ import "flatpickr/dist/themes/dark.css";
 import flatpickr from "flatpickr";
 import Fetch from "@/helper/Fetch";
 import { NumericFormat } from "react-number-format";
-import { initiatePayment } from "@/app/payment/redsys/actions";
 import { useRouter } from "next/navigation";
 
 export interface VeranoDetailsType {
@@ -107,7 +106,8 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		extra_services: [{ title: "", price: 0 }],
 		price: 0,
 		product_id: product?.id,
-		product_photo: product?.photo
+		product_photo: product?.photo,
+		title: product?.title
 	});
 
 	const [paymentData, setPaymentData] = useState<null | {
@@ -183,7 +183,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		}
 	}
 
-
+ 
 
 
 

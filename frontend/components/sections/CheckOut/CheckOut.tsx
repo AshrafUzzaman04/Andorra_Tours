@@ -48,6 +48,7 @@ export default function CheckOutPage() {
     const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false)
     const countryDropdownRef = useRef<HTMLDivElement>(null)
     const [agreed, setAgreed] = useState(false)
+    const [formData, setFormData] = useState({first_name: '', name: '', company: '', country: '', address: '', email: '', phone:'', order_notes:''});
     const [paymentData, setPaymentData] = useState<null | {
         url: string;
         params: {
@@ -114,6 +115,7 @@ export default function CheckOutPage() {
 
     async function handleSubmit() {
         setPlaceOrder(true)
+        alert(JSON.stringify(formData));
         const result = await initiatePayment(totalPrice, "889963"); initiatePayment
         if (result.success && result.url) {
             setPaymentData(result);
@@ -154,6 +156,9 @@ export default function CheckOutPage() {
                                             type="text"
                                             id="firstName"
                                             name="firstName"
+                                            placeholder="First Name"
+                                            value={formData?.first_name}
+                                            onChange={(e)=>setFormData({...formData,first_name: e.target.value})}
                                             required
                                             className="mt-1 block w-full px-3 py-2 border border-gray-300 neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                         />
@@ -166,60 +171,69 @@ export default function CheckOutPage() {
                                             type="text"
                                             id="lastName"
                                             name="lastName"
+                                            placeholder="Last Name"
+                                            value={formData?.name}
+                                            onChange={(e)=>setFormData({...formData,name: e.target.value})}
                                             required
                                             className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Company name (optional)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="company"
-                                        name="company"
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
-                                <div className="relative" ref={countryDropdownRef}>
-                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Country / Region *
-                                    </label>
-                                    <div
-                                        className="mt-1 relative"
-                                        onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                                    >
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label htmlFor="company" className="block text-sm font-medium text-gray-700 neutral-1000">
+                                            Company name (optional)
+                                        </label>
                                         <input
                                             type="text"
-                                            id="country"
-                                            name="country"
-                                            required
-                                            value={selectedCountry || countrySearch}
-                                            onChange={(e) => {
-                                                setCountrySearch(e.target.value)
-                                                setIsCountryDropdownOpen(true)
-                                            }}
-                                            className="block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                            placeholder="Search for a country"
+                                            id="company"
+                                            name="company"
+                                            placeholder="Enter company name"
+                                            value={formData?.company}
+                                            onChange={(e)=>setFormData({...formData,company: e.target.value})}
+                                            className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                         />
-                                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                            <ChevronDown className="h-5 w-5 text-gray-400" />
-                                        </div>
                                     </div>
-                                    {isCountryDropdownOpen && (
-                                        <div className="absolute z-10 mt-1 w-full background-body shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                            {filteredCountries.map((country) => (
-                                                <div
-                                                    key={country}
-                                                    className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-800 rounded-md duration-300 ease-in-out"
-                                                    onClick={() => handleCountrySelect(country)}
-                                                >
-                                                    {country}
-                                                </div>
-                                            ))}
+                                    <div className="relative" ref={countryDropdownRef}>
+                                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 neutral-1000">
+                                            Country / Region *
+                                        </label>
+                                        <div
+                                            className="mt-1 relative"
+                                            onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+                                        >
+                                            <input
+                                                type="text"
+                                                id="country"
+                                                name="country"
+                                                required
+                                                value={selectedCountry || countrySearch}
+                                                onChange={(e) => {
+                                                    setCountrySearch(e.target.value)
+                                                    setIsCountryDropdownOpen(true)
+                                                    setFormData({...formData,country: e.target.value})
+                                                }}
+                                                className="block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                                placeholder="Search for a country"
+                                            />
+                                            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                                <ChevronDown className="h-5 w-5 text-gray-400" />
+                                            </div>
                                         </div>
-                                    )}
+                                        {isCountryDropdownOpen && (
+                                            <div className="absolute z-10 mt-1 w-full background-body shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                {filteredCountries.map((country) => (
+                                                    <div
+                                                        key={country}
+                                                        className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-800 rounded-md duration-300 ease-in-out"
+                                                        onClick={() => handleCountrySelect(country)}
+                                                    >
+                                                        {country}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div>
                                     <label htmlFor="street" className="block text-sm font-medium text-gray-700 neutral-1000">
@@ -230,82 +244,49 @@ export default function CheckOutPage() {
                                         id="street"
                                         name="street"
                                         required
+                                        value={formData?.address}
+                                        onChange={(e)=>setFormData({...formData,address: e.target.value})}
                                         placeholder="House number and street name"
                                         className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                     />
                                 </div>
-                                <div>
-                                    <label htmlFor="apartment" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Apartment, suite, etc. (optional)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="apartment"
-                                        name="apartment"
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
+
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label htmlFor="population" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                            Population *
+                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 neutral-1000">
+                                            Email address *
                                         </label>
                                         <input
-                                            type="text"
-                                            id="population"
-                                            name="population"
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Email address"
+                                            value={formData?.email}
+                                            onChange={(e)=>setFormData({...formData,email: e.target.value})}
                                             required
                                             className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                            Neighborhood *
+                                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 neutral-1000">
+                                            Phone *
                                         </label>
                                         <input
-                                            type="text"
-                                            id="neighborhood"
-                                            name="neighborhood"
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            placeholder="Phone number"
+                                            value={formData?.phone}
+                                            onChange={(e)=>setFormData({...formData,phone: e.target.value})}
                                             required
                                             className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                         />
                                     </div>
+
                                 </div>
-                                <div>
-                                    <label htmlFor="postcode" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Postcode / ZIP (optional)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="postcode"
-                                        name="postcode"
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Phone *
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        name="phone"
-                                        required
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 neutral-1000">
-                                        Email address *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        required
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                    />
-                                </div>
+
+
+
                                 <div>
                                     <label htmlFor="notes" className="block text-sm font-medium text-gray-700 neutral-1000">
                                         Order notes (optional)
@@ -316,6 +297,8 @@ export default function CheckOutPage() {
                                         rows={3}
                                         cols={2}
                                         placeholder="Notes about your order, e.g. special notes for delivery"
+                                        value={formData?.order_notes}
+                                        onChange={(e)=>setFormData({...formData,order_notes: e.target.value})}
                                         className="mt-1 block w-full px-3 py-2 neutral-1000 background-body border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                     ></textarea>
                                 </div>
@@ -332,14 +315,15 @@ export default function CheckOutPage() {
                                                     <div className="">
                                                         <div className="flex items-center gap-2">
                                                             <p className="font-medium text-gray-100">Start Date: {formatDate(product?.startDate)}</p>
-                                                            {product?.endDate &&<p className="font-medium text-gray-100">End Date: {formatDate(product?.endDate)}</p>}
+                                                            {product?.endDate && <p className="font-medium text-gray-100">End Date: {formatDate(product?.endDate)}</p>}
                                                         </div>
-                                                        <p className="font-medium text-gray-100 mt-2">Services:</p>
+                                                        <p className="font-medium text-gray-100 mt-2">{product?.title}</p>
                                                         {
                                                             product?.services?.map((service: any, index: number) => (
-                                                                <div key={index} className="flex items-center justify-between">
+                                                                <div key={index} className="flex items-center gap-2">
+                                                                    <p className="font-medium text-gray-100">{service?.quantity}.</p>
                                                                     <p className="font-medium text-gray-100">{service?.title}</p>
-                                                                    <div className="flex items-center gap-2 text-gray-100 mt-1">
+                                                                    {/* <div className="flex items-center gap-2 text-gray-100 mt-1">
                                                                         <div className=" bg-gray-800 p-1 rounded cursor-pointer">
                                                                             <Minus className="size-4" />
                                                                         </div>
@@ -347,18 +331,18 @@ export default function CheckOutPage() {
                                                                         <div className="bg-gray-800 p-1 rounded cursor-pointer">
                                                                             <Plus className=" size-4" />
                                                                         </div>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                             ))
                                                         }
-                                                        <p className="font-medium mt-2 text-gray-100">Extra Services:</p>
+                                                        {product?.extra_services?.length > 0 && <p className="font-medium mt-2 text-gray-100">Extra Services:</p>}
                                                         {
                                                             product?.extra_services?.map((service: any, index: number) => (
                                                                 <p key={index} className="font-medium text-gray-100">{service?.title}</p>
                                                             ))
                                                         }
                                                     </div>
-                                                    
+
                                                     <span className="text-gray-100 font-semibold">
                                                         <NumericFormat
                                                             value={Number(product?.price)}
@@ -385,7 +369,7 @@ export default function CheckOutPage() {
                                             <span className="text-muted">Shipping</span>
                                             <span className="text-muted">Free shipping</span>
                                         </div> */}
-                                        
+
                                         <div className="!border-t !border-indigo-500 pt-4 flex justify-between items-center font-semibold">
                                             <span className="text-muted font-semibold">Total</span>
                                             <span className="text-xl text-muted font-semibold">
@@ -490,7 +474,7 @@ export default function CheckOutPage() {
                                                 </span>
                                             )
                                         }
-                                        
+
                                     </motion.button>
                                     {paymentData && (
                                         <form ref={formRef} method="POST" action={paymentData.url} className="hidden">
