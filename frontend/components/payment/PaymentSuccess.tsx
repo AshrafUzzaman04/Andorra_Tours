@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { CheckCircle, ArrowRight, Package, CreditCard, Calendar } from 'lucide-react'
 import { useSearchParams } from 'next/navigation';
 import { NumericFormat } from 'react-number-format';
+import Fetch from '@/helper/Fetch';
+import Link from 'next/link';
 interface MerchantParameters {
     Ds_Date: string;
     Ds_Hour: string;
@@ -37,6 +39,9 @@ export default function PaymentSuccess() {
         if (Ds_MerchantParameters) {
           try {
             const decodedParams = JSON.parse(atob(Ds_MerchantParameters)) as MerchantParameters;
+            Fetch.post("booking/status/"+decodedParams?.Ds_Order,{status:"Paid"}).then((res)=>{
+                // console.log(res)
+            })
             setMerchantParameters(decodedParams);
           } catch (error) {
             console.error('Error decoding Ds_MerchantParameters:', error);
@@ -93,10 +98,10 @@ export default function PaymentSuccess() {
                     </div>
                 </div>
                 <div className="flex justify-center p-6">
-                    <button className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center">
+                    <Link href={"/booking/details/"+merchantParameters?.Ds_Order} className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center">
                         View Order Details
                         <ArrowRight className="ml-2 h-5 w-5" />
-                    </button>
+                    </Link>
                 </div>
             </div>
             {showConfetti && <Confetti />}

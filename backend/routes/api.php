@@ -142,6 +142,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
     //map route
     Route::apiResource("maps",MapController::class);
     Route::get("map/show",[MapController::class,"show"]);
+
+
+    //bookings
+    Route::apiResource('bookings',BookingController::class);
     //footer
 });
 
@@ -186,5 +190,10 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
     
     //slug base resorts
     Route::get('resorts/{slug}',[ResortsController::class,'slugByResorts']);
+
+    Route::apiResource('bookings',BookingController::class);
+    Route::post("booking/status/{orderId}",[BookingController::class, 'updateByOrderId']);
+    Route::get("booking/notification",[BookingController::class, 'notification']);
+    
 });
 

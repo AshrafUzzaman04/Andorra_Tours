@@ -415,7 +415,7 @@ function App() {
 
                                 {/* booking route */}
                                 <Route path="booking-management/bookings" element={<BookingIndex/>}/>
-                                <Route path="booking-management/bookings/view" element={<BookingView/>}/>
+                                <Route path="booking-management/bookings/:id/view" element={<BookingView/>}/>
 
                                 <Route path="course-management/students" element={<StudentIndex />} />
                                 <Route path="course-management/students/create" element={<StudentCreate/>} />

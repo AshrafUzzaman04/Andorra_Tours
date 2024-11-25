@@ -8,6 +8,7 @@ import { NumericFormat } from 'react-number-format'
 import formatDate from '@/util/formatDate'
 import { initiatePayment } from '@/app/payment/redsys/actions'
 import { useRouter } from 'next/navigation'
+import Fetch from '@/helper/Fetch'
 
 const countries = [
     "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
@@ -35,10 +36,19 @@ const countries = [
     "Yemen",
     "Zambia", "Zimbabwe"
 ]
-
+interface ErrosTypes{
+    name: string,
+    last_name: string,
+    email: string,
+    phone: string,
+    address: string,
+    country: string,
+    company: null | string,
+}
 export default function CheckOutPage() {
     const router = useRouter();
     const [products, setProducts] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [couponVisible, setCouponVisible] = useState(false)
     const [couponCode, setCouponCode] = useState('')
     const [couponError, setCouponError] = useState('')
@@ -48,7 +58,19 @@ export default function CheckOutPage() {
     const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false)
     const countryDropdownRef = useRef<HTMLDivElement>(null)
     const [agreed, setAgreed] = useState(false)
-    const [formData, setFormData] = useState({first_name: '', name: '', company: '', country: '', address: '', email: '', phone:'', order_notes:''});
+    const [errors, setErrors] = useState<ErrosTypes>();
+    const [formData, setFormData] = useState({
+        price: totalPrice,
+        name: '',
+        last_name: '',
+        company: '',
+        country: '',
+        address: '',
+        email: '',
+        phone: '',
+        order_note: '',
+        products: '',
+    });
     const [paymentData, setPaymentData] = useState<null | {
         url: string;
         params: {
@@ -61,16 +83,18 @@ export default function CheckOutPage() {
     const filteredCountries = countries.filter(country =>
         country.toLowerCase().includes(countrySearch.toLowerCase())
     )
-    const [totalPrice, setTotalPrice] = useState(0);
     const [placeOrder, setPlaceOrder] = useState(false);
     function removeItems(indexToRemove: number) {
         const items = products?.filter((_: any, index: number) => index !== indexToRemove);
         setProducts(items);
         localStorage.setItem("bookingData", JSON.stringify(items)); // update localStorage if needed
+        setFormData({ ...formData, products: JSON.stringify(items) })
+
     }
     useEffect(() => {
         const total = products.reduce((sum: any, product: { price: any }) => sum + product.price, 0);
         setTotalPrice(total);
+        setFormData({ ...formData, price: total })
     }, [products]);
 
     useEffect(() => {
@@ -79,6 +103,7 @@ export default function CheckOutPage() {
             const storedData = localStorage.getItem("bookingData");
             const parsedData = JSON.parse(storedData || '[]')
             setProducts(parsedData);
+            setFormData({ ...formData, products: JSON.stringify(parsedData) })
         }
     }, [router]);
 
@@ -115,14 +140,36 @@ export default function CheckOutPage() {
 
     async function handleSubmit() {
         setPlaceOrder(true)
-        alert(JSON.stringify(formData));
-        const result = await initiatePayment(totalPrice, "889963"); initiatePayment
-        if (result.success && result.url) {
-            setPaymentData(result);
-        } else {
-            alert('Error initiating payment: ' + result.error);
-            return; // Stop further execution if payment initiation fails
-        }
+        Fetch.post("bookings", formData)
+        .then(async (res) => {
+            if (res?.status === 200 && res?.data?.whatsappLink) {
+                try {
+                    // const result = await initiatePayment(totalPrice, res?.data?.order_id);
+                    // if (result.success && result.url) {
+                    //     setPaymentData(result); // Store payment data for further use
+                    // } else {
+                    //     alert(`Error initiating payment: ${result.error}`);
+                    //     setPlaceOrder(false); // Reset placeOrder state
+                    //     return; // Exit early if payment fails
+                    // }
+                    router.push(res?.data?.whatsappLink)
+                } catch (paymentError) {
+                    console.error("Payment initiation failed:", paymentError);
+                    setPlaceOrder(false);
+                    return;
+                }
+            }
+            setPlaceOrder(false); // Reset placeOrder state
+        })
+        .catch((error) => {
+            if (error?.response?.status === 422) {
+                setErrors(error?.response?.data?.errors); // Handle validation errors
+            } else {
+                console.error("Unexpected error:", error.message); // Handle other errors
+            }
+            setPlaceOrder(false); // Reset placeOrder state
+        });
+    
     }
     useEffect(() => {
         if (paymentData && formRef.current) {
@@ -157,11 +204,12 @@ export default function CheckOutPage() {
                                             id="firstName"
                                             name="firstName"
                                             placeholder="First Name"
-                                            value={formData?.first_name}
-                                            onChange={(e)=>setFormData({...formData,first_name: e.target.value})}
+                                            value={formData?.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             required
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                            className={`mt-1 block w-full px-3 py-2 border ${errors?.name ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                         />
+                                        {errors?.name && <label htmlFor="firstName" className="text-red-500">{errors?.name}</label>}
                                     </div>
                                     <div>
                                         <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 neutral-1000">
@@ -172,11 +220,12 @@ export default function CheckOutPage() {
                                             id="lastName"
                                             name="lastName"
                                             placeholder="Last Name"
-                                            value={formData?.name}
-                                            onChange={(e)=>setFormData({...formData,name: e.target.value})}
+                                            value={formData?.last_name}
+                                            onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                                             required
-                                            className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                            className={`mt-1 block w-full px-3 py-2 border ${errors?.last_name ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                         />
+                                        {errors?.last_name && <label htmlFor="firstName" className="text-red-500">{errors?.last_name}</label>}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
@@ -190,9 +239,10 @@ export default function CheckOutPage() {
                                             name="company"
                                             placeholder="Enter company name"
                                             value={formData?.company}
-                                            onChange={(e)=>setFormData({...formData,company: e.target.value})}
-                                            className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                            onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                                            className={`mt-1 block w-full px-3 py-2 border ${errors?.company ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                         />
+                                        {errors?.company && <label htmlFor="firstName" className="text-red-500">{errors?.company}</label>}
                                     </div>
                                     <div className="relative" ref={countryDropdownRef}>
                                         <label htmlFor="country" className="block text-sm font-medium text-gray-700 neutral-1000">
@@ -211,15 +261,16 @@ export default function CheckOutPage() {
                                                 onChange={(e) => {
                                                     setCountrySearch(e.target.value)
                                                     setIsCountryDropdownOpen(true)
-                                                    setFormData({...formData,country: e.target.value})
+                                                    setFormData({ ...formData, country: e.target.value })
                                                 }}
-                                                className="block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                                className={`block w-full px-3 py-2 neutral-1000 border ${errors?.country ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                                 placeholder="Search for a country"
                                             />
                                             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                                 <ChevronDown className="h-5 w-5 text-gray-400" />
                                             </div>
                                         </div>
+                                        {errors?.country && <label htmlFor="firstName" className="text-red-500">{errors?.country}</label>}
                                         {isCountryDropdownOpen && (
                                             <div className="absolute z-10 mt-1 w-full background-body shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                 {filteredCountries.map((country) => (
@@ -245,10 +296,11 @@ export default function CheckOutPage() {
                                         name="street"
                                         required
                                         value={formData?.address}
-                                        onChange={(e)=>setFormData({...formData,address: e.target.value})}
+                                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                                         placeholder="House number and street name"
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                        className={`mt-1 block w-full px-3 py-2 border ${errors?.address ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                     />
+                                    {errors?.address && <label htmlFor="firstName" className="text-red-500">{errors?.address}</label>}
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
@@ -262,10 +314,11 @@ export default function CheckOutPage() {
                                             name="email"
                                             placeholder="Email address"
                                             value={formData?.email}
-                                            onChange={(e)=>setFormData({...formData,email: e.target.value})}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                             required
-                                            className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                            className={`mt-1 block w-full px-3 py-2 border ${errors?.email ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                         />
+                                        {errors?.email && <label htmlFor="firstName" className="text-red-500">{errors?.email}</label>}
                                     </div>
                                     <div>
                                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 neutral-1000">
@@ -277,10 +330,11 @@ export default function CheckOutPage() {
                                             name="phone"
                                             placeholder="Phone number"
                                             value={formData?.phone}
-                                            onChange={(e)=>setFormData({...formData,phone: e.target.value})}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                             required
-                                            className="mt-1 block w-full px-3 py-2 neutral-1000 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                            className={`mt-1 block w-full px-3 py-2 border ${errors?.email ? "!border-red-500 ring-1 !ring-red-500":"border-gray-300"} neutral-1000 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary`}
                                         />
+                                        {errors?.phone && <label htmlFor="firstName" className="text-red-500">{errors?.phone}</label>}
                                     </div>
 
                                 </div>
@@ -297,8 +351,8 @@ export default function CheckOutPage() {
                                         rows={3}
                                         cols={2}
                                         placeholder="Notes about your order, e.g. special notes for delivery"
-                                        value={formData?.order_notes}
-                                        onChange={(e)=>setFormData({...formData,order_notes: e.target.value})}
+                                        value={formData?.order_note}
+                                        onChange={(e) => setFormData({ ...formData, order_note: e.target.value })}
                                         className="mt-1 block w-full px-3 py-2 neutral-1000 background-body border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                     ></textarea>
                                 </div>
@@ -355,7 +409,7 @@ export default function CheckOutPage() {
                                                         />
                                                     </span>
                                                     <div onClick={() => removeItems(index)} className="absolute right-1 top-1 cursor-pointer">
-                                                        <XCircle className="text-red-600" />
+                                                        <XCircle className="text-red-600 size-5" />
                                                     </div>
                                                 </div>
                                             ))

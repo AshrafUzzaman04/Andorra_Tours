@@ -31,7 +31,7 @@ class OfferBannerController extends Controller
     {
         $data = $request->only(["banner_title","banner_title_color","button_text","button_color","button_text_color","button_link","status"]);
         if($request->hasFile("banner_image")){
-            $banner_image = "Storage/". $request->banner_image->store("banner_image");
+            $banner_image = "storage/". $request->banner_image->store("banner_image");
             $data["banner_image"] = $banner_image;
         }
         OfferBanner::create($data);
@@ -58,7 +58,7 @@ class OfferBannerController extends Controller
             $imageUrl = $expolde[1]."/".$expolde[2];
             if(Storage::exists($imageUrl)){
                 Storage::delete($imageUrl);
-                $banner_image = "Storage/". $request->banner_image->store("banner_image");
+                $banner_image = "storage/". $request->banner_image->store("banner_image");
                 $data["banner_image"] = $banner_image;
             }
         }

@@ -68,7 +68,6 @@ const SoftBadgeDot = forwardRef(({ variant, color, size, badgeContent, font, ...
         borderRadius="50%"
         bgColor={validColors[validColorIndex]}
         variant={variant}
-        ml={1}
       />
       <SoftTypography
         variant={fontSize}

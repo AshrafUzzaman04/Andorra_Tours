@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('last_name')->nullable()->after('name');
-            $table->string('company')->nullable()->after('last_name');
-            $table->string('country')->nullable()->after('last_name');
-            $table->longText('order_note')->nullable()->change();
+            $table->string('company')->nullable()->after('email');
+            $table->string('country')->nullable()->after('gender');
         });
     }
 
@@ -24,6 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('last_name');
+            $table->dropColumn('company');
+            $table->dropColumn('country');
+        });
     }
 };

@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->string("order_id",6);
+            $table->string("order_id",6)->unique();
             $table->json("products");
+            $table->string('quantity')->nullable();
+            $table->string('price')->nullable();
+            $table->longText('order_note')->nullable();
             $table->enum("status",['Processing','Awaiting','Paid', 'Cancelled']);
             $table->timestamps();
         });

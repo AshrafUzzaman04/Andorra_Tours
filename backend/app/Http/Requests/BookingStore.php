@@ -22,7 +22,16 @@ class BookingStore extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => "required",
+            "last_name" => "required",
+            "email" => "required|email",
+            "phone" => "required",
+            "address" => "required",
+            "country" => "required",
+            "company" => "required",
+            "quantity" => "nullable",
+            "price"=> "nullable",
+            "products" => "required",
         ];
     }
 }

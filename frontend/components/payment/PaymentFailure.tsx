@@ -1,11 +1,54 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { XCircle, RefreshCcw, ArrowLeft, AlertTriangle, ShieldOff } from 'lucide-react'
-
+import { useSearchParams } from 'next/navigation';
+import { NumericFormat } from 'react-number-format';
+import Fetch from '@/helper/Fetch';
+interface MerchantParameters {
+    Ds_Date: string;
+    Ds_Hour: string;
+    Ds_SecurePayment: string;
+    Ds_Amount: string;
+    Ds_Currency: string;
+    Ds_Order: string;
+    Ds_MerchantCode: string;
+    Ds_Terminal: string;
+    Ds_Response: string;
+    Ds_TransactionType: string;
+    Ds_MerchantData: string;
+    Ds_AuthorisationCode: string;
+    Ds_ConsumerLanguage: string;
+    [key: string]: string; // Allow additional dynamic properties
+}
 export default function PaymentFailure() {
   const [shake, setShake] = useState(false)
+  const searchParams = useSearchParams()
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [merchantParameters, setMerchantParameters] = useState<MerchantParameters | null>(null);
+  const [signature, setSignature] = useState<string>('');
+  const [signatureVersion, setSignatureVersion] = useState<string>('');
+  const Ds_SignatureVersion = searchParams.get("Ds_SignatureVersion")
+  const Ds_MerchantParameters = searchParams.get("Ds_MerchantParameters")
+  const Ds_Signature = searchParams.get("Ds_Signature")
+  useEffect(() => {
+    if (searchParams?.size > 0) {
+      if (Ds_SignatureVersion) setSignatureVersion(Ds_SignatureVersion);
+      if (Ds_Signature) setSignature(Ds_Signature);
 
+      // Optional: Decode and parse the Ds_MerchantParameters
+      if (Ds_MerchantParameters) {
+        try {
+          const decodedParams = JSON.parse(atob(Ds_MerchantParameters)) as MerchantParameters;
+          Fetch.post("booking/status/"+decodedParams?.Ds_Order,{status:"Cancelled"}).then((res)=>{
+              // console.log(res)
+          })
+          setMerchantParameters(decodedParams);
+        } catch (error) {
+          console.error('Error decoding Ds_MerchantParameters:', error);
+        }
+      }
+    }
+  }, [searchParams]);
   useEffect(() => {
     setShake(true)
     const timer = setTimeout(() => setShake(false), 1000)
