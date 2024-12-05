@@ -5,6 +5,7 @@ import flatpickr from "flatpickr";
 import Fetch from "@/helper/Fetch";
 import { NumericFormat } from "react-number-format";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export interface VeranoDetailsType {
 	for?: string;
@@ -118,7 +119,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 			Ds_Signature: string;
 		};
 	}>(null)
-	const addDays = (pricing?.length === 1 || pricing?.length === 0) ? 9 : pricing.length - 1;
+	const addDays = (pricing?.length === 1 || pricing?.length === 0) ? 9 : pricing?.length - 1;
 	async function handleBooking() {
 		try {
 			// Retrieve the existing cart items from localStorage
@@ -183,7 +184,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		}
 	}
 
- 
+
 
 
 
@@ -437,21 +438,27 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 						</>
 					)
 				}
-
-				<div className="box-button-book" onClick={() => { bookingLink === null && handleBooking() }}>
-					<button type="button" className="btn btn-book">Book Now
+				{
+					(bookingLink === "null" || bookingLink === null) ? <div className="box-button-book" onClick={() => { (bookingLink === "null" || bookingLink === null) && handleBooking() }}>
+						<button type="button" className="btn btn-book">Book Now
+							<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+							</svg>
+						</button>
+						{paymentData && (
+							<form ref={formRef} method="POST" action={paymentData.url} className="hidden">
+								<input type="hidden" name="Ds_SignatureVersion" value={paymentData.params.Ds_SignatureVersion} />
+								<input type="hidden" name="Ds_MerchantParameters" value={paymentData.params.Ds_MerchantParameters} />
+								<input type="hidden" name="Ds_Signature" value={paymentData.params.Ds_Signature} />
+							</form>
+						)}
+					</div> : <Link href={bookingLink} type="button" className="btn btn-book text-dark">Book Now
 						<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>
-					</button>
-					{paymentData && (
-						<form ref={formRef} method="POST" action={paymentData.url} className="hidden">
-							<input type="hidden" name="Ds_SignatureVersion" value={paymentData.params.Ds_SignatureVersion} />
-							<input type="hidden" name="Ds_MerchantParameters" value={paymentData.params.Ds_MerchantParameters} />
-							<input type="hidden" name="Ds_Signature" value={paymentData.params.Ds_Signature} />
-						</form>
-					)}
-				</div>
+					</Link>
+				}
+
 			</div>
 
 		</>
