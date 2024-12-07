@@ -1,5 +1,11 @@
 
-export default function Iframe() {
+async function getCsrfToken(){
+    const response = await fetch('https://motor.toursandorra.com/iframe/csrf-token')
+    const data = await response.json();
+    return data.csrf_token;
+}
+export default async function Iframe() {
+    const csrfToken = await getCsrfToken();
     return (
         <section className="section-box box-our-featured background-body pt-60">
             <div className="container">
@@ -13,7 +19,7 @@ export default function Iframe() {
             <div className="container-banner">
                 <iframe
                     title="Embedded Content"
-                    src="https://motor.toursandorra.com/"
+                    src={`https://motor.toursandorra.com/?csrf_token=${csrfToken}`}
                     width="100%"
                     height="100vh"
                     style={{ border: "none", width: '100%', height: '100vh' }}
