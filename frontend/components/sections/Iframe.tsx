@@ -19,7 +19,7 @@ export default async function Iframe() {
             <div className="container-banner">
                 <iframe
                     title="Embedded Content"
-                    src={`https://motor.toursandorra.com/?csrf_token=${csrfToken}`}
+                    src={`https://motor.toursandorra.com/?_token=${csrfToken}`}
                     width="100%"
                     height="100vh"
                     style={{ border: "none", width: '100%', height: '100vh' }}
