@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\MultipleController;
 use App\Http\Controllers\Api\OfferBannerController;
 use App\Http\Controllers\Api\PageCategoryController;
 use App\Http\Controllers\Api\PartnersController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\ResortsController;
 use App\Http\Controllers\Api\SectionHeadingController;
@@ -146,6 +147,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //bookings
     Route::apiResource('bookings',BookingController::class);
+    Route::post("booking/canceled/{id}",[BookingController::class, 'cancelBooking']);
+    Route::post("booking/payment-link/{id}",[PaymentController::class, 'sendPaymentLink']);
     //footer
 });
 
@@ -193,7 +196,9 @@ Route::prefix("frontend")->middleware(AuthKeyCheck::class)->group(function(){
 
     Route::apiResource('bookings',BookingController::class);
     Route::post("booking/status/{orderId}",[BookingController::class, 'updateByOrderId']);
+    Route::get("booking/{orderId}",[BookingController::class, 'getBookingsByOrderId']);
     Route::get("booking/notification",[BookingController::class, 'notification']);
+    
     
 });
 

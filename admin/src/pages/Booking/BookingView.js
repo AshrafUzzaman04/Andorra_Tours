@@ -33,6 +33,7 @@ const BookingView = () => {
   const [booking, setBooking] = useState(null);
   const [bookingData, setBookingData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(0);
   const [loadingButton, setLoadingButton] = useState({ paymentSend: false, cancelOrder: false });
   useEffect(() => {
     fetchBookingData(545454).then(data => {
@@ -47,8 +48,30 @@ const BookingView = () => {
         setLoading(false);
       })
     }
-  }, [params?.id]);
+  }, [params?.id, refresh]);
   const products = JSON.parse(bookingData?.products || '[]');
+
+  const canceledBooking = () => {
+    setLoadingButton({ ...loadingButton, cancelOrder: true })
+    callFetch('booking/canceled/' + params?.id, "POST", []).then((res) => {
+      if (!res.ok) return;
+      setRefresh(refresh + 1)
+      setLoadingButton({ ...loadingButton, cancelOrder: false })
+    })
+  }
+
+  const paymentLinkSend = () => {
+    setLoadingButton({ ...loadingButton, paymentSend: true })
+    callFetch('booking/payment-link/' + params?.id, "POST", []).then((res) => {
+      if (!res.ok) return;
+      setRefresh(refresh + 1)
+      setLoadingButton({ ...loadingButton, paymentSend: false })
+    })
+  }
+
+
+
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -59,7 +82,7 @@ const BookingView = () => {
     );
   }
 
-  if (!booking) {
+  if (!bookingData) {
     return <div className="d-flex justify-content-center align-items-center vh-100">Booking not found</div>;
   }
 
@@ -105,7 +128,17 @@ const BookingView = () => {
                 <CircleDollarSign className="me-2" size={18} />
                 <div className="d-flex justify-content-between w-100">
                   <span className="fw-bold">Total Cost:</span>
-                  <span className="fs-5 fw-bold">{booking.total}</span>
+                  <span className="fs-5 fw-bold">
+                    <NumericFormat
+                      value={bookingData?.price}
+                      displayType="text"
+                      thousandSeparator={","}
+                      decimalSeparator="."
+                      decimalScale={2}
+                      fixedDecimalScale
+                      suffix=' €'
+                    />
+                  </span>
                 </div>
               </div>
               <div className="d-flex align-items-center justify-content-between mb-3">
@@ -188,9 +221,9 @@ const BookingView = () => {
                             item.services.map((service, index) => (
                               <div key={index} className='d-flex justify-content-between'>
                                 <span className="w-50">{service.title}</span>
-                                <span>{service.quantity}</span>
+                                <span>x{service.quantity}</span>
                                 <span><NumericFormat
-                                  value={service.price}
+                                  value={service.price * service.quantity}
                                   displayType="text"
                                   thousandSeparator={","}
                                   decimalSeparator="."
@@ -268,7 +301,7 @@ const BookingView = () => {
               </div>
               <Divider />
               <div className="mt-4 d-flex justify-content-end">
-                <Button disabled={loadingButton?.cancelOrder} variant={loadingButton?.cancelOrder ? "light" : "danger"} className="me-2" onClick={() => setLoadingButton({ ...loadingButton, cancelOrder: true })}>
+                <Button disabled={loadingButton?.cancelOrder || bookingData?.status === "Cancelled"} variant={loadingButton?.cancelOrder ? "light" : "danger"} className="me-2" onClick={canceledBooking}>
                   {
                     loadingButton?.cancelOrder ?
                       <div>Canceling... <div class="spinner-border spinner-border-sm" role="status">
@@ -277,7 +310,7 @@ const BookingView = () => {
                   }
 
                 </Button>
-                <Button disabled={loadingButton?.paymentSend} variant={loadingButton?.paymentSend ? "light" : "success"} onClick={() => setLoadingButton({ ...loadingButton, paymentSend: true })}>
+                <Button disabled={loadingButton?.paymentSend} variant={loadingButton?.paymentSend ? "light" : "success"} onClick={paymentLinkSend}>
                   {
                     loadingButton?.paymentSend ?
                       <div>Link Sending... <div class="spinner-border spinner-border-sm" role="status">

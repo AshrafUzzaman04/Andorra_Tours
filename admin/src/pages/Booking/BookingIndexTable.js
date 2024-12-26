@@ -65,7 +65,7 @@ function BookingIndexTable() {
             : 
             row?.status === "Awaiting" ? "secondary" 
             : row?.status === "Paid" ? "success"
-            : row?.status === "Cancelled" && "danger" 
+            : row?.status === "Cancelled" && "error" 
           }
           badgeContent={row?.status}
         />
@@ -87,7 +87,7 @@ function BookingIndexTable() {
             </NavLink>
           </li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'hotels', row?.id, t).then(res => setRefresh(0))}>{t('Delete')}</a></li>
+          <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'bookings', row?.id, t).then(res => setRefresh(0))}>{t('Delete')}</a></li>
         </ul>
       </div>
     }

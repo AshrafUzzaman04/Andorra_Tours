@@ -186,6 +186,22 @@ class BookingController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function cancelBooking($id)
+    {
+        $booking = Booking::find($id);
+        if (!$booking) return response()->json(["message" => "Booking not found",], 422);
+        $booking->status = "Cancelled";
+        $booking->save();
+        return response()->json(["message" => "Booking cancelled successfully",], 200);
+    }
+
+    public function getBookingsByOrderId($orderId)
+    {
+        $bookings = Booking::where('order_id', $orderId)->get();
+        if (!$bookings) return response()->json(["message" => "No bookings found for this order",], 422);
+        return response()->json(["message" => "success", "data" => $bookings], 200);
+    }
     /**
      * Update the specified resource in storage.
      */

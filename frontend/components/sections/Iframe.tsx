@@ -29,6 +29,5 @@ export default async function Iframe() {
                 />
             </div>
         </section>
-
     );
 }
