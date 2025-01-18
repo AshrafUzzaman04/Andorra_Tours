@@ -89,6 +89,7 @@ interface DayPrices {
 
 export default function BookingForm({ FormData, price, product, bookingLink }: FromDataPriceTypes) {
 	const router = useRouter();
+	  const [bookingNow, setBookingNow] = useState(false);
 	const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || '[]');
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.add_extra || '[]');
@@ -119,8 +120,10 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 			Ds_Signature: string;
 		};
 	}>(null)
+
 	const addDays = (pricing?.length === 1 || pricing?.length === 0) ? 9 : pricing?.length - 1;
 	async function handleBooking() {
+		 setBookingNow(true);
 		try {
 			// Retrieve the existing cart items from localStorage
 			const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
@@ -175,6 +178,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 
 			// Redirect to checkout if the total price of the cart is greater than 0
 			if (bookingData.price > 0) {
+				setBookingNow(false);
 				// Uncomment the following line when ready to use router
 				await router.push("/checkout");
 			}
@@ -183,9 +187,6 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 			alert("An error occurred during booking.");
 		}
 	}
-
-
-
 
 
 	useEffect(() => {
@@ -213,15 +214,16 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 					setMaxDate(null);
 				}
 			},
-			disable: [(date: Date) => {
-				if (minDate) {
-					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + addDays);
+			// disable: [(date: Date) => {
+			// 	if (minDate) {
+			// 		const endDate = new Date(minDate);
+			// 		endDate.setDate(endDate.getDate() + addDays);
 
-					return date < minDate || date > endDate;
-				}
-				return false;
-			}],
+			// 		return date < minDate || date > endDate;
+			// 	}
+			// 	return false;
+			// }],
+			disable: [],
 			disableMobile: false
 		});
 
@@ -374,7 +376,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 												</div>
 												<input
 													type="number"
-													className="w-25 h-25 border-none text-md-medium neutral-500"
+													className="border-none w-25 h-25 text-md-medium neutral-500"
 													defaultValue={0}
 													min={0}
 													onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
@@ -440,10 +442,42 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 				}
 				{
 					(bookingLink === "null" || bookingLink === null) ? <div className="box-button-book" onClick={() => { (bookingLink === "null" || bookingLink === null) && handleBooking() }}>
-						<button type="button" className="btn btn-book">Book Now
-							<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-							</svg>
+						<button
+							type="button"
+							className="btn btn-book">
+							{
+								bookingNow && (
+									<div
+										style={{
+											width: '40px',
+											height: '40px',
+											border: '5px solid #f3f3f3',
+											borderTop: '5px solid #3498db',
+											borderRadius: '50%',
+											animation: 'spin 1s linear infinite',
+										}}
+									></div>
+									//
+								)}
+							{ !bookingNow &&
+                        <>
+                            Book Now
+                            <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 15L15 8L8 1M15 8L1 8" stroke="#0D0D0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </>
+
+							}
+							 <style jsx>{`
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  `}</style>
 						</button>
 						{paymentData && (
 							<form ref={formRef} method="POST" action={paymentData.url} className="hidden">

@@ -1,0 +1,46 @@
+.ski-rental-desc p {
+  margin-bottom: 0.5rem; /* Equivalent to mb-2 */
+}
+
+.ski-rental-desc strong {
+  font-weight: bold;
+}
+
+.ski-rental-desc ul {
+  padding-bottom: 0.5rem; /* Equivalent to pb-2 */
+  list-style-type: disc;
+  color: #7a7a7a;
+  margin-left: 40px;
+}
+
+.ski-rental-desc ol{
+  list-style-type : decimal;
+  padding-bottom: 0.5rem;
+  margin-left: 40px;
+}
+
+.ski-rental-desc li {
+  /* Add any additional styling if needed */
+}
+
+.ski-rental-desc table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ski-rental-desc td {
+  padding: 1rem; /* Equivalent to py-3 */
+  border: 1px solid #dee2e6; /* Similar to Bootstrap border */
+}
+
+.ski-rental-desc table.table-bordered td {
+  border: 1px solid #dee2e6; /* Border style for table cells */
+}
+
+.ski-rental-desc table.table-striped tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Stripe color */
+}
+
+.ski-rental-desc table.table-hover tr:hover {
+  background-color: #f1f1f1; /* Hover color */
+}

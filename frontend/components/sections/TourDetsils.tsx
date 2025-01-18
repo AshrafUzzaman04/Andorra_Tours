@@ -173,13 +173,13 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 								</div>
 								<div className="tour-metas">
 									<div className="tour-meta-left">
-										{/* <p className="text-md-medium color-white mr-20 tour-location">
+										{/* <p className="mr-20 text-md-medium color-white tour-location">
 												<svg width={12} height={16} viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
 													<path d="M5.99967 0C2.80452 0 0.205078 2.59944 0.205078 5.79456C0.205078 9.75981 5.39067 15.581 5.61145 15.8269C5.81883 16.0579 6.18089 16.0575 6.38789 15.8269C6.60867 15.581 11.7943 9.75981 11.7943 5.79456C11.7942 2.59944 9.1948 0 5.99967 0ZM5.99967 8.70997C4.39211 8.70997 3.0843 7.40212 3.0843 5.79456C3.0843 4.187 4.39214 2.87919 5.99967 2.87919C7.6072 2.87919 8.91502 4.18703 8.91502 5.79459C8.91502 7.40216 7.6072 8.70997 5.99967 8.70997Z" />
 												</svg>{details?. ? details?.title:""}
 											</p><Link className="text-md-medium color-white mr-30" href="#">Show on map</Link> */}
 									</div>
-									<div className="tour-meta-right"> 
+									<div className="tour-meta-right">
 										{/* <Link className="btn btn-share" href="#">
 										<svg width={16} height={18} viewBox="0 0 16 18" xmlns="http://www.w3.org/2000/svg">
 											<path d="M13 11.5332C12.012 11.5332 11.1413 12.0193 10.5944 12.7584L5.86633 10.3374C5.94483 10.0698 6 9.79249 6 9.49989C6 9.10302 5.91863 8.72572 5.77807 8.37869L10.7262 5.40109C11.2769 6.04735 12.0863 6.46655 13 6.46655C14.6543 6.46655 16 5.12085 16 3.46655C16 1.81225 14.6543 0.466553 13 0.466553C11.3457 0.466553 10 1.81225 10 3.46655C10 3.84779 10.0785 4.20942 10.2087 4.54515L5.24583 7.53149C4.69563 6.90442 3.8979 6.49989 3 6.49989C1.3457 6.49989 0 7.84559 0 9.49989C0 11.1542 1.3457 12.4999 3 12.4999C4.00433 12.4999 4.8897 11.9996 5.4345 11.2397L10.147 13.6529C10.0602 13.9331 10 14.2249 10 14.5332C10 16.1875 11.3457 17.5332 13 17.5332C14.6543 17.5332 16 16.1875 16 14.5332C16 12.8789 14.6543 11.5332 13 11.5332Z" />
@@ -195,10 +195,10 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 				</section>
 				{
 					details && details?.type !== "multiple" && <section className="box-section box-content-tour-detail background-body">
-						<div className="container-fluid px-5">
+						<div className="px-5 container-fluid">
 							<div className="row">
 								<div className="col-lg-8">
-									
+
 									<div className="box-collapse-expand">
 										{
 											parsedDetails && parsedDetails?.map((details, i) => (
@@ -217,7 +217,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 												</div>
 											))
 										}
-										
+
 									</div>
 								</div>
 								<div className="col-lg-4">
@@ -275,7 +275,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 																				<div className="card-info">
 																					<h4 style={{ width: "251px" }} className="fs-2">{promotion?.banner_title}</h4>
 																					<Link href={promotion?.button_link}>
-																						<button className="btn btn-secondary fw-bold fs-6 rounded-pill border-0 mt-110 ml-85 mx-auto" style={{ backgroundColor: promotion?.button_color, color: promotion?.button_text_color }}>
+																						<button className="mx-auto border-0 btn btn-secondary fw-bold fs-6 rounded-pill mt-110 ml-85" style={{ backgroundColor: promotion?.button_color, color: promotion?.button_text_color }}>
 																							{promotion?.button_text}
 																							<ArrowRightIcon width={16} height={16} className=" ms-2" />
 																						</button>

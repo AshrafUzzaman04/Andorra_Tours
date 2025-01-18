@@ -10,9 +10,9 @@ export default async function Iframe() {
         <section className="section-box box-our-featured background-body pt-60">
             <div className="container">
                 <div className="row align-items-end">
-                    <div className="col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
-                        <h2 className="neutral-1000 text-center">SKI RENTING</h2>
-                        <p className="text-xl-medium neutral-500 text-center">Travel with SKI RENTING</p>
+                    <div className="text-center col-lg-12 mb-30 text-lg-start wow fadeInUp">
+                        <h2 className="text-center neutral-1000">SKI RENTAL ONLINE</h2>
+                        <p className="text-center text-xl-medium neutral-500">Travel with SKI RENTAL</p>
                     </div>
                 </div>
             </div>

@@ -49,6 +49,7 @@ export default function CheckOutPage() {
     const router = useRouter();
     const [products, setProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [couponDiscountPrice, setCouponDiscountPrice] = useState(0);
     const [couponVisible, setCouponVisible] = useState(false)
     const [couponCode, setCouponCode] = useState('')
     const [couponError, setCouponError] = useState('')
@@ -70,6 +71,8 @@ export default function CheckOutPage() {
         phone: '',
         order_note: '',
         products: '',
+        coupon_id: '',
+        discounted_price: 0,
     });
     const [paymentData, setPaymentData] = useState<null | {
         url: string;
@@ -110,13 +113,45 @@ export default function CheckOutPage() {
 
     const handleCouponSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (couponCode === '2151323') {
-            setCouponError('Coupon "2151323" does not exist!')
-            setCouponSuccess(false)
-        } else if (couponCode) {
-            setCouponError('')
-            setCouponSuccess(true)
-        }
+        // if (couponCode === '2151323') {
+        //     setCouponError('Coupon "2151323" does not exist!')
+        //     setCouponSuccess(false)
+        // } else if (couponCode) {
+        //     setCouponError('')
+        //     setCouponSuccess(true)
+        // }
+
+        Fetch.get("coupons/" + couponCode + "/check")
+            .then(async (res) => {
+                if (res?.status === 200) {
+                    const couponId = res?.data?.data?.id;
+                    const discountPercentage = res?.data?.data?.percentage;
+                    setCouponDiscountPrice(discountPercentage);
+
+                    // Calculate the final price after applying the coupon
+                    const discountPrice = totalPrice * (discountPercentage / 100);
+
+                    const finalPrice = totalPrice - discountPrice;
+
+                    // Update formData with the final price
+                    setFormData({ ...formData, coupon_id: couponId, discounted_price: discountPrice,  price: finalPrice });
+
+                setCouponError('')
+                setCouponSuccess(true)
+            }
+        })
+        .catch((error) => {
+            if (error?.response?.status === 404) {
+                setCouponError('Coupon is not valid!');
+                setCouponDiscountPrice(0)
+            } else if (error?.response?.status === 500) {
+                setCouponError('An unexpected error occurred. Please try again later.');
+            } else {
+                setCouponError('Unexpected error occurred.');
+            }
+            setFormData({ ...formData, price: totalPrice });
+            setCouponSuccess(false);
+        });
     }
 
     const handleCountrySelect = (country: string) => {
@@ -169,7 +204,7 @@ export default function CheckOutPage() {
             }
             setPlaceOrder(false); // Reset placeOrder state
         });
-    
+
     }
     useEffect(() => {
         if (paymentData && formRef.current) {
@@ -179,20 +214,20 @@ export default function CheckOutPage() {
     }, [paymentData])
     return (
         <div className="min-h-screen py-12">
-            <div className=" mx-auto px-20">
+            <div className="px-20 mx-auto ">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="background-body rounded-2xl overflow-hidden"
+                    className="overflow-hidden background-body rounded-2xl"
                 >
-                    <div className="text-primary-foreground p-6">
+                    <div className="p-6 text-primary-foreground">
                         <h1 className="text-3xl font-bold neutral-1000">Checkout</h1>
                     </div>
 
                     <div className="p-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                             {/* Billing Information */}
-                            <div className="lg:col-span-2 space-y-6 card pricing-card p-3">
+                            <div className="p-3 space-y-6 lg:col-span-2 card pricing-card">
                                 <h2 className="text-2xl font-semibold">Billing Details</h2>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
@@ -249,7 +284,7 @@ export default function CheckOutPage() {
                                             Country / Region *
                                         </label>
                                         <div
-                                            className="mt-1 relative"
+                                            className="relative mt-1"
                                             onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
                                         >
                                             <input
@@ -267,16 +302,16 @@ export default function CheckOutPage() {
                                                 placeholder="Search for a country"
                                             />
                                             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                                <ChevronDown className="h-5 w-5 text-gray-400" />
+                                                <ChevronDown className="w-5 h-5 text-gray-400" />
                                             </div>
                                         </div>
                                         {errors?.country && <label htmlFor="firstName" className="text-red-500">{errors?.country}</label>}
                                         {isCountryDropdownOpen && (
-                                            <div className="absolute z-10 mt-1 w-full background-body shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                            <div className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base rounded-md shadow-lg background-body max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                                 {filteredCountries.map((country) => (
                                                     <div
                                                         key={country}
-                                                        className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-800 rounded-md duration-300 ease-in-out"
+                                                        className="relative py-2 pl-3 duration-300 ease-in-out rounded-md cursor-pointer select-none pr-9 hover:bg-gray-800"
                                                         onClick={() => handleCountrySelect(country)}
                                                     >
                                                         {country}
@@ -353,43 +388,43 @@ export default function CheckOutPage() {
                                         placeholder="Notes about your order, e.g. special notes for delivery"
                                         value={formData?.order_note}
                                         onChange={(e) => setFormData({ ...formData, order_note: e.target.value })}
-                                        className="mt-1 block w-full px-3 py-2 neutral-1000 background-body border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm neutral-1000 background-body focus:outline-none focus:ring-primary focus:border-primary"
                                     ></textarea>
                                 </div>
                             </div>
 
                             {/* Order Summary */}
                             <div className="lg:col-span-2">
-                                <div className="background-body p-6 rounded-lg shadow-md card pricing-card">
-                                    <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+                                <div className="p-6 rounded-lg shadow-md background-body card pricing-card">
+                                    <h2 className="mb-4 text-xl font-semibold">Order Summary</h2>
                                     <div className="space-y-4">
                                         {
                                             products?.length > 0 && products?.map((product: any, index: number) => (
-                                                <div key={index} className="flex justify-between items-center bg-white/5 p-2 rounded relative">
+                                                <div key={index} className="relative flex items-center justify-between p-2 rounded bg-white/5">
                                                     <div className="">
                                                         <div className="flex items-center gap-2">
                                                             <p className="font-medium text-gray-100">Start Date: {formatDate(product?.startDate)}</p>
                                                             {product?.endDate && <p className="font-medium text-gray-100">End Date: {formatDate(product?.endDate)}</p>}
                                                         </div>
-                                                        <p className="font-medium text-gray-100 mt-2">{product?.title}</p>
+                                                        <p className="mt-2 font-medium text-gray-100">{product?.title}</p>
                                                         {
                                                             product?.services?.map((service: any, index: number) => (
                                                                 <div key={index} className="flex items-center gap-2">
                                                                     <p className="font-medium text-gray-100">{service?.quantity}.</p>
                                                                     <p className="font-medium text-gray-100">{service?.title}</p>
-                                                                    {/* <div className="flex items-center gap-2 text-gray-100 mt-1">
-                                                                        <div className=" bg-gray-800 p-1 rounded cursor-pointer">
+                                                                    {/* <div className="flex items-center gap-2 mt-1 text-gray-100">
+                                                                        <div className="p-1 bg-gray-800 rounded cursor-pointer ">
                                                                             <Minus className="size-4" />
                                                                         </div>
                                                                         <p className="bg-gray-800 px-3 py-0.5 rounded cursor-pointer">{service?.quantity}</p>
-                                                                        <div className="bg-gray-800 p-1 rounded cursor-pointer">
+                                                                        <div className="p-1 bg-gray-800 rounded cursor-pointer">
                                                                             <Plus className=" size-4" />
                                                                         </div>
                                                                     </div> */}
                                                                 </div>
                                                             ))
                                                         }
-                                                        {product?.extra_services?.length > 0 && <p className="font-medium mt-2 text-gray-100">Extra Services:</p>}
+                                                        {product?.extra_services?.length > 0 && <p className="mt-2 font-medium text-gray-100">Extra Services:</p>}
                                                         {
                                                             product?.extra_services?.map((service: any, index: number) => (
                                                                 <p key={index} className="font-medium text-gray-100">{service?.title}</p>
@@ -397,7 +432,7 @@ export default function CheckOutPage() {
                                                         }
                                                     </div>
 
-                                                    <span className="text-gray-100 font-semibold">
+                                                    <span className="font-semibold text-gray-100">
                                                         <NumericFormat
                                                             value={Number(product?.price)}
                                                             displayType="text"
@@ -408,25 +443,26 @@ export default function CheckOutPage() {
                                                             suffix=' €'
                                                         />
                                                     </span>
-                                                    <div onClick={() => removeItems(index)} className="absolute right-1 top-1 cursor-pointer">
+                                                    <div onClick={() => removeItems(index)} className="absolute cursor-pointer right-1 top-1">
                                                         <XCircle className="text-red-600 size-5" />
                                                     </div>
                                                 </div>
                                             ))
                                         }
 
-                                        {/* <div className="flex justify-between items-center text-sm text-gray-600">
+                                        {/* <div className="flex items-center justify-between text-sm text-gray-600">
                                             <span className="text-muted">Subtotal</span>
                                             <span className="text-muted">95.00 €</span>
                                         </div>
-                                        <div className="flex justify-between items-center text-sm text-gray-600">
+                                        <div className="flex items-center justify-between text-sm text-gray-600">
                                             <span className="text-muted">Shipping</span>
                                             <span className="text-muted">Free shipping</span>
                                         </div> */}
 
-                                        <div className="!border-t !border-indigo-500 pt-4 flex justify-between items-center font-semibold">
-                                            <span className="text-muted font-semibold">Total</span>
-                                            <span className="text-xl text-muted font-semibold">
+                                        <div className="!border-t !border-indigo-500 pt-4 flex flex-col justify-between items-center font-semibold">
+                                            <div className="flex items-center justify-between w-100">
+                                            <span className="font-semibold text-muted">Total</span>
+                                            <span className="text-xl font-semibold text-muted">
                                                 <NumericFormat
                                                     value={Number(totalPrice)}
                                                     displayType="text"
@@ -437,6 +473,44 @@ export default function CheckOutPage() {
                                                     suffix=' €'
                                                 />
                                             </span>
+                                            </div>
+
+                                            {/* Discounted Price */}
+                                            {couponDiscountPrice > 0 ? (
+                                                <div className="flex items-center justify-between w-100">
+                                                    <span className="font-semibold text-muted">Discount</span>
+                                                    <span className="text-xl font-semibold text-red-500">-
+                                                        <NumericFormat
+                                                            value={Number(totalPrice * (couponDiscountPrice / 100))}
+                                                            displayType="text"
+                                                            thousandSeparator={","}
+                                                            decimalSeparator="."
+                                                            decimalScale={2}
+                                                            fixedDecimalScale
+                                                            suffix=' €'
+                                                        />
+                                                    </span>
+                                                </div>
+                                            ) : null}
+
+
+                                            {/* Final Price After Discount */}
+                                            {couponDiscountPrice > 0 ? (
+                                            <div className="flex items-center justify-between w-100">
+                                                <span className="font-semibold text-muted">Final Price</span>
+                                                <span className="text-xl font-semibold text-green-500">
+                                                    <NumericFormat
+                                                        value={Number(totalPrice - (totalPrice * (couponDiscountPrice / 100)))}
+                                                        displayType="text"
+                                                        thousandSeparator={","}
+                                                        decimalSeparator="."
+                                                        decimalScale={2}
+                                                        fixedDecimalScale
+                                                        suffix=' €'
+                                                    />
+                                                </span>
+                                            </div>
+                                        ) : null}
                                         </div>
 
                                     </div>
@@ -445,7 +519,7 @@ export default function CheckOutPage() {
                                     <div className="mt-6">
                                         <button
                                             onClick={() => setCouponVisible(!couponVisible)}
-                                            className="text-primary hover:text-primary/80 text-sm font-medium transition-colors flex items-center"
+                                            className="flex items-center text-sm font-medium transition-colors text-primary hover:text-primary/80"
                                         >
                                             {couponVisible ? 'Hide coupon code' : 'Have a coupon code?'}
                                             <ChevronDown
@@ -471,17 +545,17 @@ export default function CheckOutPage() {
                                                         />
                                                         <button
                                                             type="submit"
-                                                            className="w-full px-4 py-2 bg-red-500 text-white font-semibold text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                                                            className="w-full px-4 py-2 font-semibold text-white transition-colors bg-red-500 rounded-md text-primary-foreground hover:bg-primary/90"
                                                         >
                                                             Apply Coupon
                                                         </button>
                                                         {couponError && (
-                                                            <p className="text-red-500 text-sm flex items-center">
+                                                            <p className="flex items-center text-sm text-red-500">
                                                                 <AlertCircle size={16} className="mr-1" /> {couponError}
                                                             </p>
                                                         )}
                                                         {couponSuccess && (
-                                                            <p className="text-green-500 text-sm flex items-center">
+                                                            <p className="flex items-center text-sm text-green-500">
                                                                 <Check size={16} className="mr-1" /> Coupon applied successfully!
                                                             </p>
                                                         )}
@@ -492,14 +566,14 @@ export default function CheckOutPage() {
                                     </div>
 
                                     {/* Place Order Button */}
-                                    <div className="box-remember-forgot mt-3">
+                                    <div className="mt-3 box-remember-forgot">
                                         <div className="form-group">
                                             <div className="remeber-me">
                                                 <label className="text-sm-medium neutral-500">
                                                     <input
                                                         checked={agreed}
                                                         onChange={(e) => setAgreed(e.target.checked)}
-                                                        className="cb-remember mt-1"
+                                                        className="mt-1 cb-remember"
                                                         type="checkbox" />
                                                     I have read and agree to the website{' '}
                                                     <Link href="#" className="text-primary hover:text-primary/80">
@@ -538,7 +612,7 @@ export default function CheckOutPage() {
                                         </form>
                                     )}
                                     {/* WhatsApp Availability Check */}
-                                    <div className="mt-6 flex items-center text-sm text-gray-600">
+                                    <div className="flex items-center mt-6 text-sm text-gray-600">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"

@@ -20,7 +20,9 @@ export interface VeranoDetailsType {
     service_title: string;
     services: string;
     extra_service_title: string;
-    extra_services: string;
+	extra_services: string;
+	startDate?: Date; // Add startDate
+    endDate?: Date;
 }
 
 export interface TimeSlot {
@@ -62,6 +64,7 @@ interface DayPrices {
 
 export default function BookingForm({ FormData, price, bookingLink }: FromDataPriceTypes) {
 	const router = useRouter();
+		  const [bookingNow, setBookingNow] = useState(false);
 	const parsedServices: ServiceItem[] = JSON.parse(FormData?.services || '[]');
 	const parsedAddExtras: ExtraService[] = JSON.parse(FormData?.extra_services || '[]');
 	const pricing = JSON.parse(FormData?.pricing || '[]');
@@ -80,10 +83,13 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		price: 0,
 		product_id: FormData?.id,
 		product_photo: FormData?.photos,
-		title: FormData?.title
+		title: FormData?.title,
+		startDate: new Date(),
+    	endDate: new Date(),
 	});
 
 	async function handleBooking() {
+		setBookingNow(true);
 		try {
 			// Retrieve the existing cart items from localStorage
 			const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
@@ -137,10 +143,10 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			// setProducts(cartData);
 
 			// Redirect to checkout if the total price of the cart is greater than 0
-			if (bookingData.price > 0) {
-				// Uncomment the following line when ready to use router
-				await router.push("/checkout");
-			}
+			if (bookingData.price > 0 && bookingData.startDate && bookingData.endDate) {
+				setBookingNow(false);
+			await router.push("/checkout");
+		}
 		} catch (error) {
 			console.error("Error in handleBooking:", error);
 			alert("An error occurred during booking.");
@@ -152,30 +158,32 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			dateFormat: "Y/m/d",
 			mode: (pricing?.length === 1 || pricing?.length === 0) ? "single" : "range",
 			inline: true,
+			// defaultDate: new Date(),
 			onChange: (dates: Date[]) => {
-				setSelectedDates(dates);
-				if (dates.length > 0) {
-					const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
-					const latestDate = new Date(earliestDate);
-					latestDate.setDate(earliestDate.getDate() + addDays);
+					setSelectedDates(dates);
+					if (dates.length > 0) {
+						const earliestDate = new Date(Math.min(...dates.map(date => date.getTime())));
+						const latestDate = new Date(earliestDate);
+						latestDate.setDate(earliestDate.getDate() + addDays);
 
-					setMinDate(earliestDate);
-					setMaxDate(latestDate);
-				} else {
-					setMinDate(null);
-					setMaxDate(null);
-				}
+						setMinDate(earliestDate);
+						setMaxDate(latestDate);
+					} else {
+						setMinDate(null);
+						setMaxDate(null);
+					}
 			},
-			disable: [(date: Date) => {
-				if (minDate) {
-					const endDate = new Date(minDate);
-					endDate.setDate(endDate.getDate() + addDays);
+			// disable: [(date: Date) => {
+			// 	if (minDate) {
+			// 		const endDate = new Date(minDate);
+			// 		endDate.setDate(endDate.getDate() + addDays);
 
-					return date < minDate || date > endDate;
-				}
-				return false;
-			}],
-			disableMobile: false
+			// 		return date < minDate || date > endDate;
+			// 	}
+			// 	return false;
+			// }],
+			disable: [],
+			disableMobile: false,
 		});
 
 	}, [minDate, maxDate, addDays]);
@@ -207,7 +215,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				day: day,
 				price: Number(price?.online_price) + calculateTotalPrice(),
 				startDate: startDate, // Set startDate in bookingData
-				endDate: endDate      // Set endDate in bookingData
+				endDate: endDate ?? startDate      // Set endDate in bookingData
 			}));
 		};
 		calculateDayCount()
@@ -256,7 +264,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
 		setSelectedExtras(updatedExtras);
 		const newTotalPrice = calculateTotalPrice();
-		
+
 		setBookingData(prev => ({
 			...prev,
 			extra_services: parsedAddExtras.map((extra, index) => ({
@@ -303,7 +311,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 												</div>
 												<input
 													type="number"
-													className="w-25 h-25 border-none text-md-medium neutral-500"
+													className="border-none w-25 h-25 text-md-medium neutral-500"
 													defaultValue={0}
 													min={0}
 													onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
@@ -341,7 +349,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 								</div>
 							</div>
 							<div className="item-line-booking">
-								<input className="form-control mydatepicker hidden" type="text" />
+								<input className="hidden form-control mydatepicker" type="text" />
 							</div>
 							<div className="item-line-booking last-item"> <strong className="text-md-bold neutral-1000">Total:</strong>
 								<div className="line-booking-right">
@@ -367,11 +375,42 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 						</>
 					)
 				}
+				<div className="box-button-book" onClick={() => { bookingLink === null && handleBooking() }}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>
+{
+								bookingNow && (
+									<div
+										style={{
+											width: '40px',
+											height: '40px',
+											border: '5px solid #f3f3f3',
+											borderTop: '5px solid #3498db',
+											borderRadius: '50%',
+											animation: 'spin 1s linear infinite',
+										}}
+									></div>
+									//
+								)}
+							{ !bookingNow &&
+                        <>
+                            Book Now
+                            <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 15L15 8L8 1M15 8L1 8" stroke="#0D0D0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </>
 
-				<div className="box-button-book" onClick={()=>{bookingLink === null && handleBooking()}}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>Book Now
-					<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M8 15L15 8L8 1M15 8L1 8" stroke='#0D0D0D' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-					</svg></Link></div>
+							}
+							 <style jsx>{`
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  `}</style>
+
+				</Link></div>
 
 			</div>
 
