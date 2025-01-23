@@ -9,7 +9,7 @@ export default function SkirentalBottom() {
           style={{ height: "30px", width: "100%" }}
         >
           <path
-            className="elementor-shape-fill"
+            class="elementor-shape-fill"
             d="M500,98.9L0,6.1V0h1000v6.1L500,98.9z"
             style={{ fill: "#3D436A" }}
           ></path>
