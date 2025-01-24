@@ -44,7 +44,7 @@ export default function Layout({ headerStyle, footerStyle, breadcrumbTitle, chil
 				<div className="body-overlay-1" onClick={handleSidebar} />
 			}
 
-			<main className="main">
+			<main className="main background-body">
 				{breadcrumbTitle && <Breadcrumb breadcrumbTitle={breadcrumbTitle} />}
 
 				{children}

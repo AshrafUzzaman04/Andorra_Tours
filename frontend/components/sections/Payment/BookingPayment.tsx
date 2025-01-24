@@ -120,7 +120,11 @@ export default function BookingPaymentFrom({ booking, totalAmount }: { booking: 
                             <tfoot>
                                 <tr className="border-t border-gray-200">
                                     <td colSpan={2} className="py-2 font-extrabold neutral-1000">Subtotal</td>
-                                    <td className="py-2 font-extrabold text-right neutral-1000">{Number(booking?.price).toFixed(2)}€</td>
+                                    <td className="py-2 font-extrabold text-right neutral-1000">{(Number(booking?.price) + Number(booking?.discounted_price)).toFixed(2)}€</td>
+                                </tr>
+                                <tr className="border-t border-gray-200">
+                                    <td colSpan={2} className="py-2 font-extrabold neutral-1000">Discount</td>
+                                    <td className="py-2 font-extrabold text-right text-red-500">- {Number(booking?.discounted_price).toFixed(2)}€</td>
                                 </tr>
                                 <tr>
                                     <td colSpan={2} className="py-2 font-extrabold neutral-1000">Payment method</td>
@@ -128,7 +132,7 @@ export default function BookingPaymentFrom({ booking, totalAmount }: { booking: 
                                 </tr>
                                 <tr>
                                     <td colSpan={2} className="py-2 font-extrabold neutral-1000">Total</td>
-                                    <td className="py-2 font-extrabold text-right neutral-1000">{Number(booking?.price).toFixed(2)}€</td>
+                                    <td className="py-2 font-extrabold text-right text-green-500">{Number(booking?.price).toFixed(2)}€</td>
                                 </tr>
                             </tfoot>
                         </table>

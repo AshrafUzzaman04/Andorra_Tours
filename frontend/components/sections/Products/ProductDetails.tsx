@@ -160,14 +160,14 @@ export default function ProductDetail({ product, PopularProducts}: ProductDetail
                                         ))
                                 }
 								{photos?.length === 2 &&<div className="banner-slide"></div>}
-                                    
+
                                 </Slider>
                             </div>
                         </div>
                     </div>
                 </section>
                 <section className="box-section box-content-tour-detail background-body">
-                    <div className="container">
+                    <div className="container-lg">
                         <div className="tour-header">
                             <div className="row">
                                 <div className="col-lg-8">
@@ -178,7 +178,7 @@ export default function ProductDetail({ product, PopularProducts}: ProductDetail
                             </div>
                         </div>
                         <div className="row mt-30">
-                            <div className="col-lg-8">
+                            <div className="col-lg-7">
 
                                 <div className="box-collapse-expand">
                                     <div className="group-collapse-expand">
@@ -196,14 +196,14 @@ export default function ProductDetail({ product, PopularProducts}: ProductDetail
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-lg-5">
                                 <div className="booking-form">
                                     <div className="head-booking-form">
                                         <p className="text-xl-bold neutral-1000">Booking Form</p>
                                     </div>
                                     <BookingForm FormData={product} price={''} bookingLink={null} />
                                 </div>
-                               
+
 
                             </div>
                         </div>
@@ -212,7 +212,7 @@ export default function ProductDetail({ product, PopularProducts}: ProductDetail
                 <section className="section-box box-news background-body">
                     <div className="container">
                         <div className="row align-items-end">
-                            <div className="col-md-6 mb-20 wow fadeInLeft">
+                            <div className="mb-20 col-md-6 wow fadeInLeft">
                                 <h2 className="neutral-1000">Related products</h2>
                                 {/* <p className="text-xl-medium neutral-500">Favorite destinations based on customer reviews</p> */}
                             </div>

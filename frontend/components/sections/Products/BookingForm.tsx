@@ -75,7 +75,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 	const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 	const [minDate, setMinDate] = useState<Date | null>(null);
 	const [maxDate, setMaxDate] = useState<Date | null>(null);
-	const [bookingData, setBookingData] = useState({
+	const [bookingReantData, setbookingReantData] = useState({
 		time: "",
 		day: 0,
 		services: [{ title: "", price: 0, quantity: 0 }],
@@ -92,11 +92,11 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		setBookingNow(true);
 		try {
 			// Retrieve the existing cart items from localStorage
-			const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
+			const cartData = JSON.parse(localStorage.getItem("bookingReantData") || "[]");
 
 			// Find if a product with the same product_id exists in the cart
 			const existingProductIndex = cartData.findIndex(
-				(item: { product_id: number; }) => item.product_id === bookingData.product_id
+				(item: { product_id: number; }) => item.product_id === bookingReantData.product_id
 			);
 
 			if (existingProductIndex !== -1) {
@@ -106,8 +106,8 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				// Initialize a flag to check if all services match
 				let allServicesMatch = true;
 
-				// Iterate over the new services in bookingData
-				bookingData.services.forEach((newService) => {
+				// Iterate over the new services in bookingReantData
+				bookingReantData.services.forEach((newService) => {
 					const existingServiceIndex = existingProduct.services.findIndex(
 						(service: { title: string; }) => service.title === newService.title
 					);
@@ -124,29 +124,31 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 
 				if (allServicesMatch) {
 					// If all services matched, update the main price and quantity
-					existingProduct.price += bookingData.price;
+					existingProduct.price += bookingReantData.price;
 					existingProduct.quantity = (existingProduct.quantity || 1) + 1;
 					cartData[existingProductIndex] = existingProduct;
 				} else {
 					// If services didn't fully match, treat as a new product and add to the cart
-					cartData.push({ ...bookingData, quantity: 1 });
+					cartData.push({ ...bookingReantData, quantity: 1 });
 				}
 			} else {
 				// If no match, add the new product as a new item in the cart
-				cartData.push({ ...bookingData, quantity: 1 });
+				cartData.push({ ...bookingReantData, quantity: 1 });
 			}
 
 			// Save the updated cart back to localStorage
-			localStorage.setItem("bookingData", JSON.stringify(cartData));
+			localStorage.setItem("bookingReantData", JSON.stringify(cartData));
 
 			// Update the state to reflect the updated cart
 			// setProducts(cartData);
 
 			// Redirect to checkout if the total price of the cart is greater than 0
-			if (bookingData.price > 0 && bookingData.startDate && bookingData.endDate) {
-				setBookingNow(false);
-			await router.push("/checkout");
-		}
+			if (bookingReantData.price > 0 && bookingReantData.startDate && bookingReantData.endDate) {
+				setTimeout(() => {
+					setBookingNow(false);
+				}, 500);
+				await router.push("/checkout/reant");
+			}
 		} catch (error) {
 			console.error("Error in handleBooking:", error);
 			alert("An error occurred during booking.");
@@ -210,12 +212,12 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 			const price = res?.data;
 			setDayPrices(price);
 
-			setBookingData(prev => ({
+			setbookingReantData(prev => ({
 				...prev,
 				day: day,
 				price: Number(price?.online_price) + calculateTotalPrice(),
-				startDate: startDate, // Set startDate in bookingData
-				endDate: endDate ?? startDate      // Set endDate in bookingData
+				startDate: startDate, // Set startDate in bookingReantData
+				endDate: endDate ?? startDate      // Set endDate in bookingReantData
 			}));
 		};
 		calculateDayCount()
@@ -228,7 +230,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 				const res = await Fetch.post("/product/price", { id: FormData?.id, for: FormData?.product_for, day: day });
 				const price = res?.data;
 				setDayPrices(price);
-				setBookingData(prev => ({
+				setbookingReantData(prev => ({
 					...prev,
 					day: day,
 					price: price?.online_price ? Number(price?.online_price) : 0 + calculateTotalPrice()
@@ -245,7 +247,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 		setQuantities(updatedQuantities);
 		const newTotalPrice = calculateTotalPrice(updatedQuantities, selectedExtras);
 
-		setBookingData(prev => ({
+		setbookingReantData(prev => ({
 			...prev,
 			services: parsedServices
 				.map((service, index) => ({
@@ -260,12 +262,15 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 
 	// Function to handle checkbox change
 	const handleExtraChange = (i: number) => {
-		const updatedExtras = [...selectedExtras];
-		updatedExtras[i] = !updatedExtras[i]; // Toggle the checkbox
+		// const updatedExtras = [...selectedExtras];
+		// updatedExtras[i] = !updatedExtras[i];
+
+		// select one extra service
+		const updatedExtras = selectedExtras.map((_, index) => index === i);
 		setSelectedExtras(updatedExtras);
 		const newTotalPrice = calculateTotalPrice();
 
-		setBookingData(prev => ({
+		setbookingReantData(prev => ({
 			...prev,
 			extra_services: parsedAddExtras.map((extra, index) => ({
 				title: extra.service_name,
@@ -304,18 +309,26 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{
 										parsedServices && parsedServices.map((service: any, i: number) => (
-											<div key={i} className="line-booking-tickets">
+											<div key={i} className="gap-1 line-booking-tickets">
 												<div className="item-ticket">
 													<p className="text-md-medium neutral-500 mr-30">{service?.service_name}</p>
 													<p className="text-md-medium neutral-500">{service?.price}€</p>
 												</div>
+
+												<div className="gap-1 mb-2 justify-content-end align-items-center d-flex min-w-14 max-w-28">
+													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() =>
+														handleQuantityChange(i, Math.max(0, quantities[i] - 1))
+													}>-</button>
 												<input
 													type="number"
-													className="border-none w-25 h-25 text-md-medium neutral-500"
-													defaultValue={0}
+													className="p-0 text-center border-none w-25 h-25 text-md-medium neutral-500"
+													value={quantities[i]}
 													min={0}
-													onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
+														onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
+														readOnly
 												/>
+													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() => handleQuantityChange(i, quantities[i] + 1)}>+</button>
+												</div>
 											</div>
 										))
 									}
@@ -331,7 +344,8 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 														<li>
 															<label className="cb-container">
 																<input
-																	type="checkbox"
+																	type="radio"
+																	name="extraService"
 																	checked={selectedExtras[i]}
 																	onChange={() => handleExtraChange(i)}
 																/>
@@ -348,8 +362,8 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 									}
 								</div>
 							</div>
-							<div className="item-line-booking">
-								<input className="hidden form-control mydatepicker" type="text" />
+							<div className="item-line-booking" style={{justifyContent: "center !important"}}>
+								<input className="hidden text-center form-control mydatepicker" type="text" />
 							</div>
 							<div className="item-line-booking last-item"> <strong className="text-md-bold neutral-1000">Total:</strong>
 								<div className="line-booking-right">
@@ -362,7 +376,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
                                         fixedDecimalScale
                                         suffix='€'
                                     />:<NumericFormat
-                                        value={bookingData?.price}
+                                        value={bookingReantData?.price}
                                         displayType="text"
                                         thousandSeparator={","}
                                         decimalSeparator="."
@@ -376,7 +390,7 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 					)
 				}
 				<div className="box-button-book" onClick={() => { bookingLink === null && handleBooking() }}> <Link className="btn btn-book" href={bookingLink !== null ? bookingLink : "#"}>
-{
+								{
 								bookingNow && (
 									<div
 										style={{
@@ -400,15 +414,15 @@ export default function BookingForm({ FormData, price, bookingLink }: FromDataPr
 
 							}
 							 <style jsx>{`
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  `}</style>
+								@keyframes spin {
+									0% {
+										transform: rotate(0deg);
+									}
+									100% {
+										transform: rotate(360deg);
+									}
+								}
+							`}</style>
 
 				</Link></div>
 

@@ -195,7 +195,7 @@ export default function TourDetails({ details, popular_tours, promotionData }: {
 				</section>
 				{
 					details && details?.type !== "multiple" && <section className="box-section box-content-tour-detail background-body">
-						<div className="px-5 container-fluid">
+						<div className="px-2 px-md-5 container-fluid">
 							<div className="row">
 								<div className="col-lg-8">
 

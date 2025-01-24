@@ -109,7 +109,8 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		price: 0,
 		product_id: product?.id,
 		product_photo: product?.photo,
-		title: product?.title
+		title: product?.title,
+		startDate: "",
 	});
 
 	const [paymentData, setPaymentData] = useState<null | {
@@ -125,66 +126,75 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 	async function handleBooking() {
 		 setBookingNow(true);
 		try {
-			// Retrieve the existing cart items from localStorage
-			const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
+			if (bookingData.price > 0 && bookingData.startDate) {
+					// Retrieve the existing cart items from localStorage
+					const cartData = JSON.parse(localStorage.getItem("bookingData") || "[]");
 
-			// Find if a product with the same product_id exists in the cart
-			const existingProductIndex = cartData.findIndex(
-				(item: { product_id: number; }) => item.product_id === bookingData.product_id
-			);
-
-			if (existingProductIndex !== -1) {
-				// If a matching product_id is found, check services for merging
-				const existingProduct = cartData[existingProductIndex];
-
-				// Initialize a flag to check if all services match
-				let allServicesMatch = true;
-
-				// Iterate over the new services in bookingData
-				bookingData.services.forEach((newService) => {
-					const existingServiceIndex = existingProduct.services.findIndex(
-						(service: { title: string; }) => service.title === newService.title
+					// Find if a product with the same product_id exists in the cart
+					const existingProductIndex = cartData.findIndex(
+						(item: { product_id: number; }) => item.product_id === bookingData.product_id
 					);
 
-					if (existingServiceIndex !== -1) {
-						// If the service already exists, update quantity and price
-						existingProduct.services[existingServiceIndex].quantity += newService.quantity;
-						existingProduct.services[existingServiceIndex].price += newService.price;
+					if (existingProductIndex !== -1) {
+						// If a matching product_id is found, check services for merging
+						const existingProduct = cartData[existingProductIndex];
+
+						// Initialize a flag to check if all services match
+						let allServicesMatch = true;
+
+						// Iterate over the new services in bookingData
+						bookingData.services.forEach((newService) => {
+							const existingServiceIndex = existingProduct.services.findIndex(
+								(service: { title: string; }) => service.title === newService.title
+							);
+
+							if (existingServiceIndex !== -1) {
+								// If the service already exists, update quantity and price
+								existingProduct.services[existingServiceIndex].quantity += newService.quantity;
+								existingProduct.services[existingServiceIndex].price += newService.price;
+							} else {
+								// If even one service doesn't match, mark the item as not fully matching
+								allServicesMatch = false;
+							}
+						});
+
+						if (allServicesMatch) {
+							// If all services matched, update the main price and quantity
+							existingProduct.price += bookingData.price;
+							existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+							cartData[existingProductIndex] = existingProduct;
+						} else {
+							// If services didn't fully match, treat as a new product and add to the cart
+							cartData.push({ ...bookingData, quantity: 1 });
+						}
 					} else {
-						// If even one service doesn't match, mark the item as not fully matching
-						allServicesMatch = false;
+						// If no match, add the new product as a new item in the cart
+						cartData.push({ ...bookingData, quantity: 1 });
 					}
-				});
 
-				if (allServicesMatch) {
-					// If all services matched, update the main price and quantity
-					existingProduct.price += bookingData.price;
-					existingProduct.quantity = (existingProduct.quantity || 1) + 1;
-					cartData[existingProductIndex] = existingProduct;
-				} else {
-					// If services didn't fully match, treat as a new product and add to the cart
-					cartData.push({ ...bookingData, quantity: 1 });
-				}
+					// Save the updated cart back to localStorage
+					localStorage.setItem("bookingData", JSON.stringify(cartData));
+
+					// Update the state to reflect the updated cart
+					// setProducts(cartData);
+
+					// Redirect to checkout if the total price of the cart is greater than 0
+					setTimeout(() => {
+						setBookingNow(false);
+					}, 500);
+
+					// Uncomment the following line when ready to use router
+					await router.push("/checkout");
 			} else {
-				// If no match, add the new product as a new item in the cart
-				cartData.push({ ...bookingData, quantity: 1 });
-			}
-
-			// Save the updated cart back to localStorage
-			localStorage.setItem("bookingData", JSON.stringify(cartData));
-
-			// Update the state to reflect the updated cart
-			// setProducts(cartData);
-
-			// Redirect to checkout if the total price of the cart is greater than 0
-			if (bookingData.price > 0) {
-				setBookingNow(false);
-				// Uncomment the following line when ready to use router
-				await router.push("/checkout");
+				setTimeout(() => {
+						alert("Please select the product and start date!");
+					setBookingNow(false);
+				}, 500);
 			}
 		} catch (error) {
 			console.error("Error in handleBooking:", error);
 			alert("An error occurred during booking.");
+			setBookingNow(false);
 		}
 	}
 
@@ -228,6 +238,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		});
 
 	}, [minDate, maxDate, addDays]);
+
 	useEffect(() => {
 		if (selectedDates?.length === 0) return;
 		const calculateDayCount = async () => {
@@ -298,8 +309,11 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 
 	// Function to handle checkbox change
 	const handleExtraChange = (i: number) => {
-		const updatedExtras = [...selectedExtras];
-		updatedExtras[i] = !updatedExtras[i];
+		// const updatedExtras = [...selectedExtras];
+		// updatedExtras[i] = !updatedExtras[i];
+
+		// select one extra service
+		const updatedExtras = selectedExtras.map((_, index) => index === i);
 		setSelectedExtras(updatedExtras);
 		const newTotalPrice = calculateTotalPrice(quantities, updatedExtras);
 
@@ -369,18 +383,26 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{
 										parsedServices && parsedServices.map((service: any, i: number) => (
-											<div key={i} className="line-booking-tickets">
+											<div key={i} className="gap-1 line-booking-tickets">
 												<div className="item-ticket">
 													<p className="text-md-medium neutral-500 mr-30">{service?.service_name}</p>
 													<p className="text-md-medium neutral-500">{service?.price}€</p>
 												</div>
+
+												<div className="gap-1 mb-2 justify-content-end align-items-center d-flex min-w-14 max-w-28">
+													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() =>
+														handleQuantityChange(i, Math.max(0, quantities[i] - 1))
+													}>-</button>
 												<input
 													type="number"
-													className="border-none w-25 h-25 text-md-medium neutral-500"
-													defaultValue={0}
+													className="p-0 text-center border-none w-25 h-25 text-md-medium neutral-500"
+													value={quantities[i]}
 													min={0}
-													onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
+														onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
+														readOnly
 												/>
+													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() => handleQuantityChange(i, quantities[i] + 1)}>+</button>
+												</div>
 											</div>
 										))
 									}
@@ -396,7 +418,8 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 														<li>
 															<label className="cb-container">
 																<input
-																	type="checkbox"
+																	type="radio"
+                													name="extraService"
 																	checked={selectedExtras[i]}
 																	onChange={() => handleExtraChange(i)}
 																/>
@@ -417,6 +440,7 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 								<input className="form-control mydatepicker w-100 visually-hidden" type="text" />
 							</div>
 							<div className="item-line-booking last-item"> <strong className="text-md-bold neutral-1000">Total:</strong>
+
 								<div className="line-booking-right">
 									<p className="text-xl-bold neutral-1000">{dayPrices?.online_price ? <NumericFormat
 										value={Number(dayPrices?.online_price) + calculateTotalPrice()}

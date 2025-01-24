@@ -15,7 +15,7 @@ export default async function SkiRentalDesc() {
   return (
     <>
       <section
-        className="container py-3 py-md-4 background-100"
+        className="container py-3 py-md-4"
         style={{ color: "#7a7a7a", fontSize: "15px" }}
       >
         {/* { parse(details?.category_desc)} */}

@@ -90,7 +90,7 @@ export default function CheckOutPage() {
     function removeItems(indexToRemove: number) {
         const items = products?.filter((_: any, index: number) => index !== indexToRemove);
         setProducts(items);
-        localStorage.setItem("bookingData", JSON.stringify(items)); // update localStorage if needed
+        localStorage.setItem("bookingReantData", JSON.stringify(items)); // update localStorage if needed
         setFormData({ ...formData, products: JSON.stringify(items) })
     }
     useEffect(() => {
@@ -102,7 +102,7 @@ export default function CheckOutPage() {
     useEffect(() => {
         // Ensure this runs only in the browser
         if (typeof window !== "undefined") {
-            const storedData = localStorage.getItem("bookingData");
+            const storedData = localStorage.getItem("bookingReantData");
             const parsedData = JSON.parse(storedData || '[]')
             setProducts(parsedData);
             setFormData({ ...formData, products: JSON.stringify(parsedData) })
@@ -176,7 +176,7 @@ export default function CheckOutPage() {
         setPlaceOrder(true)
         Fetch.post("bookings", formData)
         .then(async (res) => {
-            if (res?.status === 200 && res?.data?.whatsappLink) {
+            if (res?.status === 200 && res?.data?.order_id) {
                 try {
                     // const result = await initiatePayment(totalPrice, res?.data?.order_id);
                     // if (result.success && result.url) {
@@ -186,7 +186,9 @@ export default function CheckOutPage() {
                     //     setPlaceOrder(false); // Reset placeOrder state
                     //     return; // Exit early if payment fails
                     // }
-                    router.push(res?.data?.whatsappLink)
+                    // router.push(res?.data?.whatsappLink)
+
+                    router.push('/booking-payment/' + res?.data?.order_id);
                 } catch (paymentError) {
                     console.error("Payment initiation failed:", paymentError);
                     setPlaceOrder(false);
@@ -207,7 +209,7 @@ export default function CheckOutPage() {
     }
     useEffect(() => {
         if (paymentData && formRef.current) {
-            localStorage.removeItem("bookingData");
+            localStorage.removeItem("bookingReantData");
             formRef.current.submit()
         }
     }, [paymentData])
