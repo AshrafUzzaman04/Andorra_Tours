@@ -101,7 +101,18 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 	const [minDate, setMinDate] = useState<Date | null>(null);
 	const [maxDate, setMaxDate] = useState<Date | null>(null);
 	const formRef = useRef<HTMLFormElement>(null)
-	const [bookingData, setBookingData] = useState({
+	const [bookingData, setBookingData] = useState<{
+		time: string;
+		day: number;
+		services: { title: string; price: number; quantity: number }[];
+		extra_services: { title: string; price: number }[];
+		price: number;
+		product_id: number;
+		product_photo: string;
+		title: string;
+		startDate: Date | null; // Allow Date or null
+		endDate: Date | null;   // Allow Date or null
+	}>({
 		time: "",
 		day: 0,
 		services: [{ title: "", price: 0, quantity: 0 }],
@@ -110,7 +121,8 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 		product_id: product?.id,
 		product_photo: product?.photo,
 		title: product?.title,
-		startDate: "",
+		startDate: null,
+		endDate: null,
 	});
 
 	const [paymentData, setPaymentData] = useState<null | {
