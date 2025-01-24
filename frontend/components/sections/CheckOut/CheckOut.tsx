@@ -311,7 +311,10 @@ export default function CheckOutPage() {
                                                     <div
                                                         key={country}
                                                         className="relative py-2 pl-3 duration-300 ease-in-out rounded-md cursor-pointer select-none pr-9 hover:bg-gray-800"
-                                                        onClick={() => handleCountrySelect(country)}
+                                                        onClick={() => {
+                                                            handleCountrySelect(country)
+                                                            setFormData({ ...formData, country: country })
+                                                        }}
                                                     >
                                                         {country}
                                                     </div>

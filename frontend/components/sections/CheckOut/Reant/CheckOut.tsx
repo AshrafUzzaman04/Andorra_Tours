@@ -153,6 +153,10 @@ export default function CheckOutPage() {
         });
     }
 
+    // useEffect(() => {
+    // console.log("FormData changed:", formData);
+    // }, [formData]);
+
     const handleCountrySelect = (country: string) => {
         setSelectedCountry(country)
         setCountrySearch('')
@@ -174,6 +178,8 @@ export default function CheckOutPage() {
 
     async function handleSubmit() {
         setPlaceOrder(true)
+        console.log(formData);
+        // return;
         Fetch.post("bookings", formData)
         .then(async (res) => {
             if (res?.status === 200 && res?.data?.order_id) {
@@ -313,7 +319,10 @@ export default function CheckOutPage() {
                                                     <div
                                                         key={country}
                                                         className="relative py-2 pl-3 duration-300 ease-in-out rounded-md cursor-pointer select-none pr-9 hover:bg-gray-800"
-                                                        onClick={() => handleCountrySelect(country)}
+                                                        onClick={() => {
+                                                            handleCountrySelect(country)
+                                                            setFormData({ ...formData, country: country })
+                                                        }}
                                                     >
                                                         {country}
                                                     </div>
