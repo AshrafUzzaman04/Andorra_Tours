@@ -37,8 +37,10 @@ export interface BookingData {
     price: string;
     order_note: string | null;
     status: string;
+    discounted_price?: string | number;
     created_at: string; // ISO 8601 format
     updated_at: string; // ISO 8601 format
+
 }
 
 export default function BookingPaymentFrom({ booking, totalAmount }: { booking: BookingData; totalAmount: number; }) {
