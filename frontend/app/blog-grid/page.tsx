@@ -1,6 +1,6 @@
 'use client'
 import Layout from "@/components/layout/Layout"
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import { swiperGroup5, swiperGroupCenter4 } from "@/util/swiperOption"
 import Link from "next/link"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -297,7 +297,7 @@ export default function Home() {
 							<div className="box-list-news wow fadeInUp">
 								<div className="box-swiper mt-30">
 									<div className="swiper-container swiper-group-3">
-										<SwiperGroup3Slider />
+										<BlogsLatestSlider />
 									</div>
 								</div>
 							</div>

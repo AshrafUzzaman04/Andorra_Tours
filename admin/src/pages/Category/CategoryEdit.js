@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
+import SoftEditor from "components/SoftEditor";
+import { Hidden } from '@mui/material/Hidden';
 const CategoryEdit = () => {
   const params = useParams();
   const [editorValue, setEditorValue] = useState("");
@@ -17,24 +19,34 @@ const CategoryEdit = () => {
     setError,
     setValue,
     formState: { errors },
+    watch
   } = useForm();
 
   useEffect(() => {
     callFetch("categories/" + params.id, "GET", []).then((res) => {
-      for (let [key, value] of Object.entries(res.data)) {
-        setValue(key, value);
+      if (res.ok && res.data) {
+        for (let [key, value] of Object.entries(res.data)) {
+          setValue(key, value); // Set other fields
+        }
+        // Set the category_desc.category_desc separately
+        if (res.data.category_desc && res.data.category_desc.category_desc) {
+          setValue("description", res.data.category_desc.category_desc);
+        }
       }
     });
-  }, [params.id]);
+  }, [params.id, setValue]);
+
+  const descriptionValue = watch("description");
 
   const onSubmit = (formData) => {
     setSaving(true);
-    callFetch("categories/"+params?.id, "POST", formData, setError).then((res) => {
+    callFetch("categories/" + params?.id, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setSubmitSuccess(true);
     });
   };
+
   return submitSuccess ? (
     <Navigate to="/categories/category" />
   ) : (
@@ -46,9 +58,8 @@ const CategoryEdit = () => {
           </div>
           <div className="card-body">
             <form
-              className={`needs-validation ${
-                Object.keys(errors).length ? "was-validated" : ""
-              }`}
+              className={`needs-validation ${Object.keys(errors).length ? "was-validated" : ""
+                }`}
               onSubmit={handleSubmit(onSubmit)}
               noValidate
               autoComplete="off"
@@ -96,6 +107,18 @@ const CategoryEdit = () => {
                     {errors.link && errors.link.message}
                   </div>
                 </div>
+                <div className="col-md-12">
+                  <div class="form-group">
+                    <label>{t("Description")} *</label>
+                    <SoftEditor
+                      value={descriptionValue} // Pass the watched value to SoftEditor
+                      onChange={(value) => setValue("description", value)} // Update form value on editor change
+                    />
+                    <div className="invalid-feedback">
+                      {errors.description && errors.description.message}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="col-12 mb-4 mt-3">
@@ -113,8 +136,8 @@ const CategoryEdit = () => {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\AuthKeyCheck;
 use App\Http\Requests\StoreBlog;
 use App\Http\Requests\UpdateBlog;
 use App\Models\Blog;
@@ -11,12 +12,30 @@ use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
+    // public static function middleware(): array
+    // {
+    //     return [
+    //         new Middleware(AuthKeyCheck::class, only: ['latestBlogs', 'Blogs', 'SlugByBlog']),
+    //     ];
+    // }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $blogs = Blog::with([])->paginate(10);
+        return response()->json(["message" => "success", "data" => $blogs], 200);
+    }
+
+    public function latestBlogs()
+    {
+        $blogs = Blog::where("status", "active")
+            ->select(['title', 'slug', 'tag', 'photo', 'user_photo', 'user_name', 'button_text', 'date', 'created_at'])
+            ->latest()
+            ->limit(10)
+            ->get();
+
         return response()->json(["message" => "success", "data" => $blogs], 200);
     }
 
@@ -33,11 +52,11 @@ class BlogController extends Controller
     public function SlugByBlog($slug)
     {
         $blog = Blog::where("status", "active")
-        ->where("slug", $slug)
-        ->select('tag', 'title', 'slug', 'photo', 'user_photo', 'user_name', 'button_text', 'description', 'images', 'date', 'created_at')
-        ->first();
-        $blogs = Blog::where('status', 'active')->where("id","!=" ,$blog->id)->get(['title', 'slug', 'photo','date']);
-        return response()->json(["message" => "success", "data" => $blog, "trending"=> $blogs], 200);
+            ->where("slug", $slug)
+            ->select('tag', 'title', 'slug', 'photo', 'user_photo', 'user_name', 'button_text', 'description', 'images', 'date', 'created_at')
+            ->first();
+        $blogs = Blog::where('status', 'active')->where("id", "!=", $blog->id)->get(['title', 'slug', 'photo', 'date']);
+        return response()->json(["message" => "success", "data" => $blog, "trending" => $blogs], 200);
     }
 
     /**
@@ -72,7 +91,8 @@ class BlogController extends Controller
     public function show(Blog $blog)
     {
         //if the blog is not found return 404
-        if (!$blog) return response()->json(["message" => "Blog not found",], 422);
+        if (!$blog)
+            return response()->json(["message" => "Blog not found",], 422);
         return response()->json(["message" => "success", "data" => $blog], 200);
     }
 
@@ -125,7 +145,7 @@ class BlogController extends Controller
             $data["photo"] = $photoUrl;
         }
         if ($request->hasFile("user_photo")) {
-            if(!empty($blog->user_photo)){
+            if (!empty($blog->user_photo)) {
                 $explode = explode('/', $blog->user_photo);
                 $deletePath = $explode[1] . "/" . $explode[2];
                 if (Storage::exists($deletePath)) {
@@ -144,7 +164,8 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        if (!$blog) return response()->json(["message" => "Blog not found",], 422);
+        if (!$blog)
+            return response()->json(["message" => "Blog not found",], 422);
 
         if (!empty($blog->photo)) {
             $expolde = explode("/", $blog->photo);

@@ -14,6 +14,9 @@ class Service extends Model
         "service_image",
         "total_services",
         "service_link",
+        "seo_title",
+        "meta_description",
+        "meta_tags",
         "status"
     ];
 
@@ -26,7 +29,7 @@ class Service extends Model
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->service_name); 
+            $model->slug = Str::slug($model->service_name);
         });
     }
 

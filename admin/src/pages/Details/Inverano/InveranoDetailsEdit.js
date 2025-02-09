@@ -46,7 +46,7 @@ const InveranoDetailsEdit = () => {
   useEffect(() => {
     if (params?.id) {
       reset();
-      callFetch("veranoDeatils/" + params.id +"?for=inverano", "GET", []).then((res) => {
+      callFetch("veranoDeatils/" + params.id + "?for=inverano", "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
           if (key !== "photo" && value !== "null" && key !== "verano_id") {
             setValue(key, value);
@@ -56,15 +56,15 @@ const InveranoDetailsEdit = () => {
       });
     }
   }, [params?.id]);
- 
+
   const handleBack = () => { if (activeStep !== 0) setActiveStep(activeStep - 1) };
 
   const onSubmit = (formData) => {
     setSaving(true);
-    if(typeof formData?.details !== "string"){
+    if (typeof formData?.details !== "string") {
       formData.details = JSON.stringify(formData?.details)
     }
-    callFetch("veranoDeatils/"+params?.id + "?step="+ activeStep +"&for=inverano", "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils/" + params?.id + "?step=" + activeStep + "&for=inverano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)

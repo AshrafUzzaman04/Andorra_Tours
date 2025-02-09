@@ -2,7 +2,7 @@
 import BookingForm from '@/components/elements/BookingForm'
 import VideoPopup from '@/components/elements/VideoPopup'
 import Layout from "@/components/layout/Layout"
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import Slider from "react-slick"
@@ -736,7 +736,7 @@ export default function ActivitiesDetail() {
 							<div className="box-list-news wow fadeInUp">
 								<div className="box-swiper mt-30">
 									<div className="swiper-container swiper-group-3">
-										<SwiperGroup3Slider />
+										<BlogsLatestSlider />
 									</div>
 								</div>
 							</div>

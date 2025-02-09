@@ -4,14 +4,15 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
+import CreatableSelect from "react-select/creatable";
 
 const footerAditonalData = [
-  {id:1, name:"Email", value:"email", selected:false},
-  {id:2, name:"Phone", value:"phone", selected:false},
-  {id:3, name:"Whats App", value:"whats-app", selected:false},
-  {id:4, name:"New Page", value:"new-page", selected:false},
-  {id:5, name:"Link", value:"link", selected:false},
-  {id:6, name:"Text", value:"text", selected:true},
+  { id: 1, name: "Email", value: "email", selected: false },
+  { id: 2, name: "Phone", value: "phone", selected: false },
+  { id: 3, name: "Whats App", value: "whats-app", selected: false },
+  { id: 4, name: "New Page", value: "new-page", selected: false },
+  { id: 5, name: "Link", value: "link", selected: false },
+  { id: 6, name: "Text", value: "text", selected: true },
 ];
 const PagesCreate = () => {
   const [categories, setCategories] = useState([]);
@@ -19,6 +20,7 @@ const PagesCreate = () => {
   const [saving, setSaving] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [editorContent, setEditorContent] = useState("");
+  const [metaTags, setMetaTags] = useState([]);
   const {
     register,
     handleSubmit,
@@ -46,6 +48,12 @@ const PagesCreate = () => {
       setSubmitSuccess(true);
     });
   };
+
+  const handleMetaTagsChange = (selectedOptions) => {
+    const newTags = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setMetaTags(selectedOptions);
+    setValue("meta_tags", newTags); // Store as an array
+  };
   return submitSuccess ? <Navigate to="/footer/pages" /> : (
     <div className="row">
       <div className="col-12">
@@ -72,7 +80,7 @@ const PagesCreate = () => {
                     {...register("category", { required: true })}
                     required
                   >
-                    <option value="">--Selecte--</option>
+                    <option value="">--Select--</option>
                     {
                       categories && categories?.map((category, index) => (
                         <option key={index} value={category?.id}>{category?.category_name}</option>
@@ -151,7 +159,33 @@ const PagesCreate = () => {
                     {errors.title_for && errors.title_for.message}
                   </div>
                 </div>
+              </div>
 
+              <div className="row g-3 mt-2">
+                <div className="col-md-6">
+                  <label>{t("Meta Tags")} (Optional)</label>
+                  <CreatableSelect
+                    isMulti
+                    value={metaTags}
+                    onChange={handleMetaTagsChange}
+                    className={`basic-multi-select mb-4 ${errors.meta_tags ? "is-invalid" : ""}`}
+                    classNamePrefix="select"
+                    placeholder={t("Type and press Enter")}
+                  />
+                  {errors.meta_tags && <div className="invalid-feedback d-block">{errors.meta_tags.message}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Meta Description")} *</label>
+                  <textarea
+                    className="form-control mb-4"
+                    placeholder={t("Enter Meta Description")}
+                    {...register("meta_description", { required: true })}
+                    required
+                  ></textarea>
+                  <div className="invalid-feedback">
+                    {errors.meta_description && errors.meta_description.message}
+                  </div>
+                </div>
               </div>
 
               <div className="row g-3">

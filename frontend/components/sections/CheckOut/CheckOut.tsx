@@ -426,7 +426,7 @@ export default function CheckOutPage() {
                                                                 </div>
                                                             ))
                                                         }
-                                                        {product?.extra_services?.length > 0 && <p className="mt-2 font-medium text-gray-100">Extra Services:</p>}
+                                                        {product?.extra_services?.length > 0 && <p className="mt-2 font-medium text-gray-100">Location:</p>}
                                                         {
                                                             product?.extra_services?.map((service: any, index: number) => (
                                                                 <p key={index} className="font-medium text-gray-100">{service?.title}</p>
@@ -578,7 +578,7 @@ export default function CheckOutPage() {
                                                         className="mt-1 cb-remember"
                                                         type="checkbox" />
                                                     I have read and agree to the website{' '}
-                                                    <Link href="#" className="text-primary hover:text-primary/80">
+                                                    <Link href="/page/legal-notice" className="text-primary hover:text-primary/80">
                                                         terms and conditions
                                                     </Link>{' '}
                                                 </label>

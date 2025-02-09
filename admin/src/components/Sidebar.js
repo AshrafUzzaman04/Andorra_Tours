@@ -37,6 +37,7 @@ function Sidebar() {
                             <span className="nav-link-text ms-1">{t('Dashboard')}</span>
                         </NavLink>
                     </li>
+
                     <li className="nav-item">
                         {lastMessage && (
                             <NavLink to={lastMessage.sender_id == authId ? '/chat/message/' + lastMessage.receiver_id : '/chat/message/' + lastMessage.sender_id} onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
@@ -62,6 +63,13 @@ function Sidebar() {
                         <NavLink to="/booking-management/bookings" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                             <i className="fa-solid fa-basket-shopping icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
                             <span className="nav-link-text ms-1">{t('Bookings')}</span>
+                        </NavLink>
+                    </li>
+
+                    <li className="nav-item">
+                        <NavLink to="/coupons" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-ticket icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Cupons')}</span>
                         </NavLink>
                     </li>
 
@@ -237,6 +245,13 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
+                        <NavLink to="/service-newsletter" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-envelope-open-text icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Service Newsletter')}</span>
+                        </NavLink>
+                    </li>
+
+                    <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#others" className={nowDrop === 'others' ? activeClassName : navClassName} aria-controls="others" role="button" aria-expanded={nowDrop === 'others'}>
                             <i className="fa-solid fa-arrows-to-dot icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Others')}</span>
@@ -314,15 +329,24 @@ function Sidebar() {
                     </li>
 
 
-
+                    {/* Seo Settings */}
                     <li className="nav-item">
+                        <NavLink to="/seo-settings" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
+                            <i className="fa-solid fa-magnifying-glass-chart icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
+                            <span className="nav-link-text ms-1">{t('Seo Settings')}</span>
+                        </NavLink>
+                    </li>
+
+
+
+                    {/* <li className="nav-item">
                         <NavLink to="/translations" onClick={(e) => setNowDrop('')} className={({ isActive }) => isActive ? activeClassName : navClassName}>
                             <i className="fa-solid fa-language icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"></i>
                             <span className="nav-link-text ms-1">{t('Translations')}</span>
                         </NavLink>
-                    </li>
+                    </li> */}
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a data-bs-toggle="collapse" href="#user-settings" className={nowDrop === 'user-settings' ? activeClassName : navClassName} aria-controls="user-settings" role="button" aria-expanded={nowDrop === 'user-settings'}>
                             <i className="fa-solid fa-gear icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Settings')}</span>
@@ -344,7 +368,7 @@ function Sidebar() {
                                 </>
                             </ul>
                         </div>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </aside>

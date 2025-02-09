@@ -5,6 +5,7 @@ import DataTable from 'react-data-table-component';
 import callFetch from 'helpers/callFetch';
 import deleteAlert from 'helpers/deleteAlert';
 import SoftBadgeDot from 'components/SoftBadgeDot';
+import Cookies from 'js-cookie';
 
 function BookingIndexTable() {
   const { t } = useTranslation();
@@ -61,11 +62,11 @@ function BookingIndexTable() {
       selector: row => <>
         <SoftBadgeDot
           color={
-            row?.status === "Processing" ? "info" 
-            : 
-            row?.status === "Awaiting" ? "secondary" 
-            : row?.status === "Paid" ? "success"
-            : row?.status === "Cancelled" && "error" 
+            row?.status === "Processing" ? "info"
+              :
+              row?.status === "Awaiting" ? "secondary"
+                : row?.status === "Paid" ? "success"
+                  : row?.status === "Cancelled" && "error"
           }
           badgeContent={row?.status}
         />
@@ -202,20 +203,60 @@ function BookingIndexTable() {
     );
   };
 
-  return <DataTable
-    columns={tableHeadings}
-    data={data?.data}
-    noDataComponent={t('There are no records to display')}
-    pagination
-    highlightOnHover
-    paginationComponentOptions={{ noRowsPerPage: true }}
-    paginationServer
-    paginationTotalRows={data?.total}
-    onChangePage={handlePageChange}
-    paginationComponent={BootyPagination}
-    subHeader
-    subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />}
-  />;
+  const handleExport = async () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    try {
+      const response = await fetch(`${apiUrl}bookings/export`, {
+        method: "GET",
+        headers: {
+          "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
+          "Authorization": `Bearer ${Cookies.get("token")}`, // Add the Bearer token to the header
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to download file");
+      }
+
+      // Convert response to a Blob
+      const blob = await response.blob();
+
+      // Create a downloadable link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bookings_export.xlsx"; // Set file name
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
+
+
+  return (<div><button onClick={handleExport} className="btn btn-primary mb-3 mx-4">
+    Export All Bookings
+  </button>
+    <DataTable
+      columns={tableHeadings}
+      data={data?.data}
+      noDataComponent={t('There are no records to display')}
+      pagination
+      highlightOnHover
+      paginationComponentOptions={{ noRowsPerPage: true }}
+      paginationServer
+      paginationTotalRows={data?.total}
+      onChangePage={handlePageChange}
+      paginationComponent={BootyPagination}
+      subHeader
+      subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />}
+    />
+  </div>);
 }
 
 export default BookingIndexTable

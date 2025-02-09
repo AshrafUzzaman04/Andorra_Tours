@@ -12,49 +12,48 @@ function CategoryIndexTable() {
     const [pageNumber, setPageNumber] = useState(1);
     const [roles, setRoles] = useState([]);
     const [refresh, setRefresh] = useState(0);
-    const [searchKey,setSearchKey] = useState("")
+    const [searchKey, setSearchKey] = useState("")
 
     const tableHeadings = [
         {
             name: t('ID'),
-            sortable:true,
+            sortable: true,
             reorder: true,
             selector: row => <NavLink to={`/categories/category/${row.id}/edit`} >{row.id}</NavLink>
         },
         {
             name: t('Name'),
-            sortable:true,
+            sortable: true,
             reorder: true,
             selector: row => row.category_name
         },
         {
             name: t('Redirect Link'),
-            sortable:true,
+            sortable: true,
             reorder: true,
-            selector: row => row?.link ? row?.link:row?.slug
+            selector: row => row?.link ? row?.link : row?.slug
         },
-
         {
             name: t('Status'),
-            sortable:true,
+            sortable: true,
             reorder: true,
             selector: row => row.status
         },
-        
+
         {
             name: t('Actions'),
-            sortable:true,
+            sortable: true,
             reorder: true,
             cell: row => <div className="text-center dropstart">
                 <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="fa fa-ellipsis-v text-xs"></i>
                 </a>
                 <ul className="dropdown-menu">
-                        <li>
-                            <NavLink to={'/categories/category/' + row.id + '/edit'} className="dropdown-item">
-                                {t('Edit')}
-                            </NavLink>
-                        </li>
+                    <li>
+                        <NavLink to={'/categories/category/' + row.id + '/edit'} className="dropdown-item">
+                            {t('Edit')}
+                        </NavLink>
+                    </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item text-danger" href="#0" onClick={(e) => deleteAlert(e, 'categories', row?.id, t).then(res => setRefresh(refresh + 1))}>{t('Delete')}</a></li>
                 </ul>
@@ -83,16 +82,16 @@ function CategoryIndexTable() {
     }
 
 
-    useEffect(()=>{
-        if(searchKey.length > 0){
-            callFetch('employee/serach/'+searchKey, "GET", []).then((res)=>{
+    useEffect(() => {
+        if (searchKey.length > 0) {
+            callFetch('employee/serach/' + searchKey, "GET", []).then((res) => {
                 setCategories(res.data)
             })
-            
-        }else{
+
+        } else {
             setRefresh(refresh + 1)
         }
-},[searchKey])
+    }, [searchKey])
 
     // RDT exposes the following internal pagination properties
     const BootyPagination = ({
@@ -179,7 +178,7 @@ function CategoryIndexTable() {
         onChangePage={handlePageChange}
         paginationComponent={BootyPagination}
         subHeader
-        subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e)=>setSearchKey(e.target.value)} />}
+        subHeaderComponent={<input type="text" placeholder='Search...' className=' form-control w-15' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />}
     />;
 }
 

@@ -34,20 +34,20 @@ export interface ExperienceVeranoSliderProps {
 
 export default function ExperienceVeranoSlider({ veranoData ,headingData }: ExperienceVeranoSliderProps) {
     return (
-        <> 
+        <>
 
             <section className="section-box box-our-featured background-body pt-60">
                 <div className="container">
                     <div className="row align-items-end">
-                        <div className="col-12 col-lg-12 mb-30 text-center text-lg-start wow fadeInUp">
-                            {headingData?.heading && <h2 className="neutral-1000 text-center">{headingData?.heading}</h2>}
-                            {headingData?.heading && <p className="text-xl-medium neutral-500 text-center">{headingData?.sub_heading}</p>}
+                        <div className="text-center col-12 col-lg-12 mb-30 text-lg-start wow fadeInUp">
+                            {headingData?.heading && <h2 className="text-center neutral-1000">{headingData?.heading}</h2>}
+                            {headingData?.heading && <p className="text-center text-xl-medium neutral-500">{headingData?.sub_heading}</p>}
                         </div>
                     </div>
                 </div>
                 <div className="container-slider box-swiper-padding">
                     <div className="box-swiper mt-30">
-                        <div className="swiper-container swiper-group-animate swiper-group-journey pb-0">
+                        <div className="pb-0 swiper-container swiper-group-animate swiper-group-journey">
                             <Swiper {...swiperGroupAnimate}>
                                 {
                                     veranoData && veranoData?.map((verano, index) => (
@@ -64,7 +64,7 @@ export default function ExperienceVeranoSlider({ veranoData ,headingData }: Expe
                                                         <div className="card-right"> <span className="rating">{verano?.reviews} <span className="text-sm-medium neutral-500">({verano?.total_reviews} reviews)</span></span>
                                                         </div>
                                                     </div>
-                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={"/verano/"+verano?.slug}>{verano?.title}</Link>
+                                                    <div className="card-title"> <Link className="heading-6 neutral-1000" href={"/summer/"+verano?.slug}>{verano?.title}</Link>
                                                     </div>
                                                     <div className="card-program">
                                                         <div className="card-duration-tour">
@@ -75,7 +75,7 @@ export default function ExperienceVeranoSlider({ veranoData ,headingData }: Expe
                                                                 <p className="text-md-medium neutral-500 me-2"> Desde / </p>
                                                                 <h6 className="heading-6 neutral-1000"> {verano?.price} € </h6>
                                                             </div>
-                                                            <div className="card-button"> <Link className="btn btn-gray" target="_blank" href={"/verano/"+verano?.slug}>Book Now</Link></div>
+                                                            <div className="card-button"> <Link className="btn btn-gray" target="_blank" href={"/summer/"+verano?.slug}>Book Now</Link></div>
                                                         </div>
                                                     </div>
                                                 </div>

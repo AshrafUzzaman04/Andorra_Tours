@@ -395,25 +395,24 @@ export default function BookingForm({ FormData, price, product, bookingLink }: F
 								<div className="box-tickets"><strong className="text-md-bold neutral-1000">{FormData?.service_title ? FormData?.service_title : ""}:</strong>
 									{
 										parsedServices && parsedServices.map((service: any, i: number) => (
-											<div key={i} className="gap-1 line-booking-tickets">
+											<div key={i} className="gap-1 mt-2 line-booking-tickets">
 												<div className="item-ticket">
 													<p className="text-md-medium neutral-500 mr-30">{service?.service_name}</p>
 													<p className="text-md-medium neutral-500">{service?.price}€</p>
 												</div>
 
-												<div className="gap-1 mb-2 justify-content-end align-items-center d-flex min-w-14 max-w-28">
-													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() =>
+												<div className="gap-1 mb-2 justify-content-end align-items-center d-flex">
+													<button className="btn btn-mode" onClick={() =>
 														handleQuantityChange(i, Math.max(0, quantities[i] - 1))
 													}>-</button>
 												<input
 													type="number"
-													className="p-0 text-center border-none w-25 h-25 text-md-medium neutral-500"
+													className="p-0 text-center border-none neutral-500"
 													value={quantities[i]}
 													min={0}
 														onChange={(e) => handleQuantityChange(i, parseInt(e.target.value) || 0)}
-														readOnly
 												/>
-													<button className="px-3 py-1 h-25 btn btn-mode" onClick={() => handleQuantityChange(i, quantities[i] + 1)}>+</button>
+													<button className="btn btn-mode" onClick={() => handleQuantityChange(i, quantities[i] + 1)}>+</button>
 												</div>
 											</div>
 										))

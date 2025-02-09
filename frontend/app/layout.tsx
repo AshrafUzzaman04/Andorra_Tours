@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Manrope, Merienda } from "next/font/google"
 import { FacebookPixelEvents } from '@/components/elements/FacebookPixelEvents'
 import { Suspense } from 'react'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const manrope_init = Manrope({
     weight: ['300', '400', '500', '600', '700','800'],
@@ -49,6 +51,7 @@ export default async function RootLayout({
                 <Suspense fallback={null}>
                     <FacebookPixelEvents/>
                 </Suspense>
+                <ToastContainer theme="dark" position="top-right" autoClose={3000} />
             </body>
         </html>
     )

@@ -1,6 +1,6 @@
 
 import Link from "next/link"
-import SwiperGroup3Slider from '../slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '../slider/BlogsLatestSlider'
 
 export default function SlideBanner2() {
     return (
@@ -10,7 +10,7 @@ export default function SlideBanner2() {
                 <div className="container">
                     <div className="box-swiper mt-30">
                         <div className="swiper-container swiper-group-3 swiper-group-journey">
-						<SwiperGroup3Slider />
+						<BlogsLatestSlider />
                         </div>
                         <div className="box-button-slider box-button-slider-team">
                             <div className="swiper-button-prev swiper-button-prev-style-1 swiper-button-prev-3">

@@ -15,7 +15,10 @@ class Booking extends Model
         "quantity",
         "price",
         "products",
-        "status"
+        "status",
+        "order_note",
+        "coupon_id",
+        "discounted_price",
     ];
 
     protected static function boot()
@@ -27,7 +30,7 @@ class Booking extends Model
         });
 
         // static::updating(function ($model) {
-        //     $model->slug = Str::slug($model->title); 
+        //     $model->slug = Str::slug($model->title);
         // });
     }
     public function customer()

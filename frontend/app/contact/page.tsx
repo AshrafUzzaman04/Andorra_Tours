@@ -7,7 +7,6 @@ export default function Contact() {
 
     return (
         <>
-
             <Layout headerStyle={1} footerStyle={1}>
                 <main className="main">
                     <section className="box-section box-breadcrumb background-100">
@@ -190,7 +189,7 @@ export default function Contact() {
                                             <div className="col-sm-6">
                                                 <div className="banner-img-contact">
                                                     <div className="box-traveled-in">
-                                                        <p className="text-xl-medium mb-20">1684 people used <strong>Travila </strong>in the last <strong>24 hours</strong></p>
+                                                        <p className="mb-20 text-xl-medium">1684 people used <strong>Travila </strong>in the last <strong>24 hours</strong></p>
                                                         <div className="box-authors-partner wow fadeInUp">
                                                             <div className="authors-partner-left"><img src="/assets/imgs/page/homepage5/author.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/author2.png" alt="Travila" /><img src="/assets/imgs/page/homepage5/author3.png" alt="Travila" /><span className="item-author">
                                                                 <svg width={18} height={18} viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
@@ -227,7 +226,7 @@ export default function Contact() {
                                 <div className="col-lg-6 mb-30"><img className="light-mode" src="/assets/imgs/page/homepage7/img-testimonial.png" alt="Travila" /><img className="dark-mode" src="/assets/imgs/page/homepage7/img-testimonial-dark.png" alt="Travila" /></div>
                                 <div className="col-lg-6 mb-30">
                                     <div className="box-swiper box-swiper-home7">
-                                        <div className="swiper-container swiper-group-testimonials-1 swiper-group-journey pb-0">
+                                        <div className="pb-0 swiper-container swiper-group-testimonials-1 swiper-group-journey">
                                             <Swiper {...swiperGroupTestimonials1}>
                                                 <SwiperSlide>
                                                     <div className="card-testimonial background-card">
@@ -324,7 +323,7 @@ export default function Contact() {
                                 <div className="footer-col-1">
                                     <div className="box-footer-help"><img className="light-mode" alt="Travila" src="/assets/imgs/template/icons/help-w.svg" /><img className="dark-mode" alt="Travila" src="/assets/imgs/page/homepage6/help.svg" />
                                         <div className="box-info-support">
-                                            <p className="text-md-medium mb-5 neutral-1000">Need help? Call us</p><Link className="heading-6 phone-support neutral-1000" href="/tel:1-800-222-8888">1-800-222-8888</Link>
+                                            <p className="mb-5 text-md-medium neutral-1000">Need help? Call us</p><Link className="heading-6 phone-support neutral-1000" href="/tel:1-800-222-8888">1-800-222-8888</Link>
                                         </div>
                                     </div>
                                 </div>

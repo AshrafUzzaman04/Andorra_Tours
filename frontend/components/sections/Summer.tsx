@@ -37,7 +37,7 @@ export default function Summer({ veranoData }: ExperienceVeranoSliderProps) {
             <section className="section-box box-our-featured background-body">
                 <div className="container">
                     <div className="row align-items-end">
-                        <div className="col-lg-6 mb-30 text-center text-lg-start wow fadeInUp">
+                        <div className="text-center col-lg-6 mb-30 text-lg-start wow fadeInUp">
                             {/* <h2 className="neutral-1000">Our Featured Tours</h2>
                             <p className="text-xl-medium neutral-500">Favorite destinations based on customer reviews</p> */}
                         </div>
@@ -47,7 +47,7 @@ export default function Summer({ veranoData }: ExperienceVeranoSliderProps) {
                     </div>
                     <div className="box-list-featured">
                         <div className="row">
-                            
+
                                 {
                                     summers && summers?.map((verano, index) => (
                                         <div key={index} className="col-lg-4 col-md-6 wow fadeIn">
@@ -63,7 +63,7 @@ export default function Summer({ veranoData }: ExperienceVeranoSliderProps) {
                                                     <div className="card-right"> <span className="rating">{verano?.reviews} <span className="text-sm-medium neutral-500">({verano?.total_reviews} reviews)</span></span>
                                                     </div>
                                                 </div>
-                                                <div className="card-title"> <Link className="heading-6 neutral-1000" href={"/verano/" + verano?.slug}>{verano?.title}</Link>
+                                                <div className="card-title"> <Link className="heading-6 neutral-1000" href={"/summer/" + verano?.slug}>{verano?.title}</Link>
                                                 </div>
                                                 <div className="card-program">
                                                     <div className="card-duration-tour">
@@ -74,7 +74,7 @@ export default function Summer({ veranoData }: ExperienceVeranoSliderProps) {
                                                             <p className="text-md-medium neutral-500 me-2"> Desde / </p>
                                                             <h6 className="heading-6 neutral-1000"> {verano?.price} € </h6>
                                                         </div>
-                                                        <div className="card-button"> <Link className="btn btn-gray" href={"/verano/" + verano?.slug}>Book Now</Link></div>
+                                                        <div className="card-button"> <Link className="btn btn-gray" href={"/summer/" + verano?.slug}>Book Now</Link></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,9 +82,9 @@ export default function Summer({ veranoData }: ExperienceVeranoSliderProps) {
                                         </div>
                                     ))
                                 }
-                            
+
                         </div>
-                        {/* <div className="d-flex justify-content-center pb-20"><Link className="btn btn-black-lg" href="#">
+                        {/* <div className="pb-20 d-flex justify-content-center"><Link className="btn btn-black-lg" href="#">
                             <svg className="first" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.5 4H6.5V6H4.5V4Z" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                                 <path d="M4.5 18H6.5V20H4.5V18Z" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>

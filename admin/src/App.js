@@ -107,6 +107,16 @@ import SmtpEdit from './pages/user_settings/smtp/SmtpEdit';
 import CategoryIndex from "pages/Category/CategoryIndex";
 import CategoryCreate from "pages/Category/CategoryCreate";
 import CategoryEdit from "pages/Category/CategoryEdit";
+import ServiceNewsletterIndex from 'pages/ServiceNewsletter/ServiceNewsletterIndex.js';
+import ServiceNewsletterView from 'pages/ServiceNewsletter/ServiceNewsletterView';
+import CouponIndex from 'pages/Coupon/CouponIndex.js';
+import CouponCreate from 'pages/Coupon/CouponCreate.js';
+import CouponEdit from 'pages/Coupon/CouponEdit.js';
+
+import SeoSettingsIndex from 'pages/SeoSettings/SeoSettingsIndex';
+import SeoSettingsCreate from 'pages/SeoSettings/SeoSettingsCreate';
+import SeoSettingsEdit from 'pages/SeoSettings/SeoSettingsEdit';
+
 import SubCategoryIndex from "pages/Sub_Category/SubCategoryIndex";
 import SubCategoryCreate from "pages/Sub_Category/SubCategoryCreate";
 import SubCategoryEdit from "pages/Sub_Category/SubCategoryEdit";
@@ -290,6 +300,20 @@ function App() {
                                 <Route path="categories/sub-category/create" element={<SubCategoryCreate />} />
                                 <Route path="categories/sub-category/:id/edit" element={<SubCategoryEdit />} />
 
+                                {/* coupons routes */}
+                                <Route path="coupons" element={<CouponIndex />} />
+                                <Route path="coupons/create" element={<CouponCreate />} />
+                                <Route path="coupons/:id/edit" element={<CouponEdit />} />
+
+                                {/* Service Newsletter */}
+                                <Route path="service-newsletter" element={<ServiceNewsletterIndex />} />
+                                <Route path="service-newsletter/:id/view" element={<ServiceNewsletterView />} />
+
+                                {/* Seo Settings */}
+                                <Route path="seo-settings" element={<SeoSettingsIndex />} />
+                                <Route path="seo-settings/create" element={<SeoSettingsCreate />} />
+                                <Route path="seo-settings/:id/edit" element={<SeoSettingsEdit />} />
+
                                 {/*theme customization*/}
                                 <Route path="theme-customization/header" element={<HeaderIndex />} />
                                 <Route path="theme-customization/hero" element={<HeroIndex />} />
@@ -362,49 +386,49 @@ function App() {
                                 <Route path="translations/:id" element={<TranslationTable />} />
                                 <Route path="translations/translate/:code/:id" element={<TranslationEditor />} />
 
-                                <Route path="hotels" element={<HotelIndex/>} />
-                                <Route path="hotels/create" element={<HotelCreate/>} />
-                                <Route path="hotels/:id/edit" element={<HotelEdit/>} />
+                                <Route path="hotels" element={<HotelIndex />} />
+                                <Route path="hotels/create" element={<HotelCreate />} />
+                                <Route path="hotels/:id/edit" element={<HotelEdit />} />
 
-                                <Route path="products/:slug/product" element={<ProductIndex/>} />
-                                <Route path="products/:slug/product/create" element={<ProductCreate/>} />
-                                <Route path="products/:slug/product/:id/edit" element={<ProductEdit/>} />
+                                <Route path="products/:slug/product" element={<ProductIndex />} />
+                                <Route path="products/:slug/product/create" element={<ProductCreate />} />
+                                <Route path="products/:slug/product/:id/edit" element={<ProductEdit />} />
 
-                                <Route path="blogs" element={<BlogIndex/>} />
-                                <Route path="blogs/create" element={<BlogCreate/>} />
-                                <Route path="blogs/:slug/edit" element={<BlogEdit/>} />
+                                <Route path="blogs" element={<BlogIndex />} />
+                                <Route path="blogs/create" element={<BlogCreate />} />
+                                <Route path="blogs/:slug/edit" element={<BlogEdit />} />
 
 
-                                <Route path="others/partners" element={<PartnersIndex/>} />
-                                <Route path="others/partners/create" element={<PartnersCreate/>} />
-                                <Route path="others/partners/:id/edit" element={<PartnersEdit/>} />
+                                <Route path="others/partners" element={<PartnersIndex />} />
+                                <Route path="others/partners/create" element={<PartnersCreate />} />
+                                <Route path="others/partners/:id/edit" element={<PartnersEdit />} />
 
-                                <Route path="others/providers" element={<ProvidersIndex/>} />
-                                <Route path="others/providers/create" element={<ProvidersCreate/>} />
-                                <Route path="others/providers/:id/edit" element={<ProvidersEdit/>} />
+                                <Route path="others/providers" element={<ProvidersIndex />} />
+                                <Route path="others/providers/create" element={<ProvidersCreate />} />
+                                <Route path="others/providers/:id/edit" element={<ProvidersEdit />} />
 
-                                <Route path="others/webcams" element={<CamerasIndex/>} />
-                                <Route path="others/webcams/create" element={<CamerasCreate/>} />
-                                <Route path="others/webcams/:id/edit" element={<CamerasEdit/>} />
+                                <Route path="others/webcams" element={<CamerasIndex />} />
+                                <Route path="others/webcams/create" element={<CamerasCreate />} />
+                                <Route path="others/webcams/:id/edit" element={<CamerasEdit />} />
 
-                                <Route path="others/resorts" element={<ResortsIndex/>} />
-                                <Route path="others/resorts/create" element={<ResortsCreate/>} />
-                                <Route path="others/resorts/:id/edit" element={<ResortsEdit/>} />
+                                <Route path="others/resorts" element={<ResortsIndex />} />
+                                <Route path="others/resorts/create" element={<ResortsCreate />} />
+                                <Route path="others/resorts/:id/edit" element={<ResortsEdit />} />
 
-                                <Route path="others/maps" element={<MapIndex/>} />
+                                <Route path="others/maps" element={<MapIndex />} />
 
 
                                 <Route path="human-resources/employees" element={<EmployeeIndex />} />
                                 <Route path="human-resources/employees/create" element={<EmployeeCreate />} />
                                 <Route path="human-resources/employees/:id/edit" element={<EmployeeEdit />} />
-                                <Route path="human-resources/employees/:id/profile" element={<EmployeeDetails/>} />
+                                <Route path="human-resources/employees/:id/profile" element={<EmployeeDetails />} />
 
                                 {/*customer route start form here */}
-                                <Route path="customer-management/overview" element={<OverView/>} />                                
+                                <Route path="customer-management/overview" element={<OverView />} />
                                 <Route path="customer-management/customers" element={<CustomerIndex />} />
                                 <Route path="customer-management/customers/create" element={<CustomerCreate />} />
                                 <Route path="customer-management/customers/:id/edit" element={<CustomerEdit />} />
-                                <Route path="customer-management/customers/:id/details" element={<CustomerDetails/>}/>
+                                <Route path="customer-management/customers/:id/details" element={<CustomerDetails />} />
                                 <Route path="customer-management/quotations" element={<QuotationIndex />} />
                                 <Route path="customer-management/quotations/create" element={<QuotationCreate />} />
                                 <Route path="customer-management/quotations/:id/edit" element={<QuotationEdit />} />
@@ -414,27 +438,27 @@ function App() {
                                 <Route path="customer-management/orders/:id/edit" element={<OrderEdit />} />
 
                                 {/* booking route */}
-                                <Route path="booking-management/bookings" element={<BookingIndex/>}/>
-                                <Route path="booking-management/bookings/:id/view" element={<BookingView/>}/>
+                                <Route path="booking-management/bookings" element={<BookingIndex />} />
+                                <Route path="booking-management/bookings/:id/view" element={<BookingView />} />
 
                                 <Route path="course-management/students" element={<StudentIndex />} />
-                                <Route path="course-management/students/create" element={<StudentCreate/>} />
-                                <Route path="course-management/students/:id/edit" element={<StudentEdit/>} />
-                                
-                                <Route path="course-management/workshops" element={<WorkshopIndex/>} />
-                                <Route path="course-management/workshops/create" element={<WorkshopCreate/>} />
-                                <Route path="course-management/workshops/:id/edit" element={<WorkshopEdit/>} />
-                                
-                                <Route path="course-management/seminars" element={<SeminarIndex/>} />
-                                <Route path="course-management/seminars/create" element={<SeminarCreate/>} />
-                                <Route path="course-management/seminars/:id/students" element={<SeminarwiseStudent/>} />
-                                <Route path="course-management/seminars/:id/edit" element={<SeminarEdit/>} />
-                                
-                                <Route path="finance/invoice" element={<InvoiceIndex/>} />
-                                <Route path="finance/invoice/create" element={<InvoiceCreate/>} />
-                                <Route path="finance/invoice/:id/edit" element={<InvoiceEdit/>} />
-                                <Route path="finance/invoice/:id/create" element={<InvoiceCreateAsOrder/>} />
-                                
+                                <Route path="course-management/students/create" element={<StudentCreate />} />
+                                <Route path="course-management/students/:id/edit" element={<StudentEdit />} />
+
+                                <Route path="course-management/workshops" element={<WorkshopIndex />} />
+                                <Route path="course-management/workshops/create" element={<WorkshopCreate />} />
+                                <Route path="course-management/workshops/:id/edit" element={<WorkshopEdit />} />
+
+                                <Route path="course-management/seminars" element={<SeminarIndex />} />
+                                <Route path="course-management/seminars/create" element={<SeminarCreate />} />
+                                <Route path="course-management/seminars/:id/students" element={<SeminarwiseStudent />} />
+                                <Route path="course-management/seminars/:id/edit" element={<SeminarEdit />} />
+
+                                <Route path="finance/invoice" element={<InvoiceIndex />} />
+                                <Route path="finance/invoice/create" element={<InvoiceCreate />} />
+                                <Route path="finance/invoice/:id/edit" element={<InvoiceEdit />} />
+                                <Route path="finance/invoice/:id/create" element={<InvoiceCreateAsOrder />} />
+
                                 <Route path="product-management/suppliers" element={<SupplierIndex />} />
                                 <Route path="product-management/suppliers/create" element={<SupplierCreate />} />
                                 <Route path="product-management/suppliers/:id/edit" element={<SupplierEdit />} />
@@ -454,9 +478,9 @@ function App() {
                                 <Route path="project-management/projects/:id/edit" element={<ProjectEdit />} />
 
                                 <Route path="course-management/students" element={<StudentIndex />} />
-                                <Route path="course-management/students/create" element={<StudentCreate/>} />
-                                <Route path="course-management/students/:id/edit" element={<StudentEdit/>} />
-                                
+                                <Route path="course-management/students/create" element={<StudentCreate />} />
+                                <Route path="course-management/students/:id/edit" element={<StudentEdit />} />
+
                                 <Route path="user-settings/roles" element={<RoleIndex />} />
                                 <Route path="user-settings/roles/create" element={<RoleCreate />} />
                                 <Route path="user-settings/roles/:id/edit" element={<RoleEdit />} />

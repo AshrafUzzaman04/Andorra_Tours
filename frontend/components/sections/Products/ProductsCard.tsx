@@ -22,12 +22,12 @@ export default function ProductsCard({ product, parentSlug }: ProductsCardType) 
         <>
             <div className="card-journey-big background-card">
                 <div className="card-image">
-                    <Link className="text-lg-bold neutral-1000" href={"/" + product?.product_for + "/" + parentSlug + "/product/" + product?.slug}>
+                    <Link className="text-lg-bold neutral-1000" href={"/" + (product?.product_for == "inverano" ? "winter" : "summer") + "/" + parentSlug + "/product/" + product?.slug}>
                         <img src={process.env.NEXT_PUBLIC_STORAGE_URL + photo} alt={product?.title} />
                     </Link>
                 </div>
-                <div className="card-info background-card py-3">
-                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/" + product?.product_for + "/" + parentSlug + "/product/" + product?.slug}>{product?.title} </Link></div>
+                <div className="py-3 card-info background-card">
+                    <div className="card-title"> <Link className="text-lg-bold neutral-1000" href={"/" + (product?.product_for == "inverano" ? "winter" : "summer") + "/" + parentSlug + "/product/" + product?.slug}>{product?.title} </Link></div>
                     <div className="card-program">
                         <div className="endtime w-100">
                             <div className="card-price">
@@ -42,7 +42,7 @@ export default function ProductsCard({ product, parentSlug }: ProductsCardType) 
                                         suffix='€'
                                     /></h6>
                             </div>
-                            <div className="card-button"> <Link className="btn btn-gray w-100 mt-3" href={"/" + product?.product_for + "/" + parentSlug + "/product/" + product?.slug}>Reant</Link></div>
+                            <div className="card-button"> <Link className="mt-3 btn btn-gray w-100" href={"/" + (product?.product_for == "inverano" ? "winter" : "summer") + "/" + parentSlug + "/product/" + product?.slug}>Reant</Link></div>
                         </div>
                     </div>
                 </div>

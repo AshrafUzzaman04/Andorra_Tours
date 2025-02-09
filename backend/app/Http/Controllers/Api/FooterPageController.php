@@ -54,12 +54,12 @@ class FooterPageController extends Controller
     {
         // Validate and create a new FooterPage
         $data = $request->validated();
-        if(empty($request->page_slug)){
+        if (empty($request->page_slug)) {
             $data['page_slug'] = Str::slug($request->page_name);
-        }else{
+        } else {
             $data['page_slug'] = $request->page_slug;
         }
-        
+
         $footerPage = FooterPage::create($data);
         return response()->json(["success" => true, "message" => "Footer page created successfully"], 201);
     }
@@ -86,13 +86,13 @@ class FooterPageController extends Controller
     {
         // Validate and update the FooterPage
         $data = $request->validated();
-        if(empty($request->page_slug)){
+        if (empty($request->page_slug)) {
             $data['page_slug'] = Str::slug($request->page_name);
-        }else{
+        } else {
             $data['page_slug'] = $request->page_slug;
         }
         $footerPage->update($data);
-        return response()->json(["success" => true, "message" => "Footer page updated successfully",empty($request->page_slug)], 200);
+        return response()->json(["success" => true, "message" => "Footer page updated successfully", empty($request->page_slug)], 200);
     }
 
     /**

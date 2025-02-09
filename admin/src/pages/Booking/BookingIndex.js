@@ -25,12 +25,12 @@ function BookingIndex() {
                             <h6 className="text-capitalize">{t('All Booking')}</h6>
                         </div>
                         <div className="card-body px-0 pt-0 pb-2">
-                            <BookingIndexTable/> 
+                            <BookingIndexTable />
                         </div>
                     </div>
                 </div>
             </div>
-        </> 
+        </>
     );
 }
 export default BookingIndex

@@ -7,7 +7,7 @@ const getData = async () =>{
     const inverano = res?.data?.data;
     const heading = res?.data?.heading;
     return {inverano, heading}
-    
+
 }
 
 export const ExperienceInverano = async () => {

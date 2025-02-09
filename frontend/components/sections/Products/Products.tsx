@@ -1,6 +1,6 @@
 'use client'
 import ByPagination from '@/components/Filter/ByPagination'
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import rawToursData from "@/util/tours.json"
 import useTourFilter from '@/util/useTourFilter'
 import Link from "next/link"
@@ -30,12 +30,12 @@ export default function Products({products,parentSlug}:ProductsType) {
     return (
         <>
             <div>
-                
+
                 <section className="box-section block-content-tourlist box-border-bottom background-body">
                     <div className="container">
                         <div className="box-content-main">
                             <div className="content-right">
-                                
+
                                 <div className="box-grid-tours wow fadeIn">
                                     <div className="row">
                                         {products?.map((product) => (
@@ -45,7 +45,7 @@ export default function Products({products,parentSlug}:ProductsType) {
                                         ))}
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ export default function Products({products,parentSlug}:ProductsType) {
                                 <p className="text-xl-medium neutral-500">Favorite destinations based on customer reviews</p>
                             </div>
                             <div className="col-md-6 mb-30 wow fadeInRight">
-                                <div className="d-flex justify-content-center justify-content-md-end"><Link className="btn btn-black-lg" href="#">View More
+                                <div className="d-flex justify-content-center justify-content-md-end"><Link className="btn btn-black-lg" href="/blogs">View More
                                     <svg width={16} height={16} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8 15L15 8L8 1M15 8L1 8" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                                     </svg></Link></div>
@@ -67,7 +67,7 @@ export default function Products({products,parentSlug}:ProductsType) {
                         <div className="box-list-news wow fadeInUp">
                             <div className="box-swiper mt-30">
                                 <div className="swiper-container swiper-group-3">
-                                    <SwiperGroup3Slider />
+                                    <BlogsLatestSlider />
                                 </div>
                             </div>
                         </div>

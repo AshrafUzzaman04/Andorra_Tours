@@ -246,8 +246,9 @@ export const swiperBannerOffer: SwiperConfig = {
 		nextEl: ".swiper-button-next-3",
 		prevEl: ".swiper-button-prev-3"
 	},
+	// autoplay: false,
 	autoplay: {
-		delay: 10000
+		delay: 10000,
 	},
 	breakpoints: {
 		1199: {
@@ -468,7 +469,7 @@ export const swiperGroupPayment10: SwiperConfig = {
 		}
 	}
 }
-//logos slider 
+//logos slider
 export const footerLogosSlider: SwiperConfig = {
 	modules: [Autoplay, Pagination, Navigation],
 	spaceBetween: 20,

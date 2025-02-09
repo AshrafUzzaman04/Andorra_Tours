@@ -6,9 +6,13 @@ use App\Helpers\WhatsAppMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingStore;
 use App\Models\Booking;
+use App\Models\CompanyPromotion;
+use App\Models\FooterDetails;
+use App\Models\Header;
 use App\Models\Multiple;
 use App\Models\User;
 use App\Models\VeranoDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +28,17 @@ class BookingController extends Controller
         return response()->json(['message' => "success", "data" => $bookings]);
     }
 
+    public function downloadInvoice(int $id)
+    {
+        $booking = Booking::where("id", $id)->with("customer")->first();
+        $details = FooterDetails::where("id", 1)->first();
+        $promotions = CompanyPromotion::where("content_for", "section_two")->first();
+        $header = Header::where("id", 1)->first();
+
+        $pdf = Pdf::loadView('invoice', compact('booking', 'details', "promotions", "header"));
+        return $pdf->download('invoice.pdf');
+    }
+
     public function PriceByDay(Request $request)
     {
         $details = VeranoDetail::where('id', $request->id)
@@ -32,16 +47,16 @@ class BookingController extends Controller
 
         if ($details) {
             // Filter pricing to find the object that matches the specific day
-            $priceDetail = collect(json_decode($details->pricing))->firstWhere('day', (string)$request->day);
+            $priceDetail = collect(json_decode($details->pricing))->firstWhere('day', (string) $request->day);
             // Check if priceDetail exists
             if ($priceDetail) {
                 return response()->json($priceDetail); // Return the matched price object
             } else {
-                $data = ["day"=>1, "online_price" => 0, "shop_price" => 0];
+                $data = ["day" => 1, "online_price" => 0, "shop_price" => 0];
                 return response()->json($data);
             }
         } else {
-            $data = ["day"=>1, "online_price" => 0, "shop_price" => 0];
+            $data = ["day" => 1, "online_price" => 0, "shop_price" => 0];
             return response()->json($data);
         }
     }
@@ -54,7 +69,7 @@ class BookingController extends Controller
 
         if ($product) {
             // Filter pricing to find the object that matches the specific day
-            $priceDetail = collect(json_decode($product->pricing))->firstWhere('day', (string)$request->day);
+            $priceDetail = collect(json_decode($product->pricing))->firstWhere('day', (string) $request->day);
             if ($priceDetail) {
                 return response()->json($priceDetail); // Return the matched price object
             } else {
@@ -83,7 +98,7 @@ class BookingController extends Controller
                 'password' => Hash::make($data['email']) // Set the password
             ]
         );
-        if($user){
+        if ($user) {
             $data['user_id'] = $user->id;
             $booking = Booking::create($data);
             // Set locale to Spanish
@@ -97,34 +112,37 @@ class BookingController extends Controller
                     return "⭐ {$service['title']} x {$service['quantity']} => €" . number_format($service['price'] * $service['quantity'], 2, '.', '') . " EUR";
                 })->implode("\n");
             })->implode("\n");
-            $formattedPrice = '€' . number_format($booking->price, 2, '.', '') . ' EUR';
+            $formattedTotalPrice = '€' . number_format($booking->price, 2, '.', '') . ' EUR';
+            $formattedDiscountPrice = '€' . number_format($booking->discounted_price, 2, '.', '') . ' EUR';
+            $formattedSubTotalPrice = '€' . number_format($booking->price + $booking->discounted_price, 2, '.', '') . ' EUR';
             $order = [
                 'order_number' => $booking->order_id,
                 'status' => "Processing",
                 'date' => $todayDate,
                 'email' => $user->email,
-                'total_amount' => $formattedPrice,
+                'total_amount' => $formattedTotalPrice,
                 'details' => $orderDetails,
-                'subtotal' => $formattedPrice,
-                'total' => $formattedPrice,
+                'subtotal' => $formattedSubTotalPrice,
+                'discountPrice' => $formattedDiscountPrice,
+                'total' => $formattedTotalPrice,
                 'note' => $booking->order_note,
-                'billing_name' => $user->name." ".$user->last_name,
+                'billing_name' => $user->name . " " . $user->last_name,
                 'billing_address' => $user->address,
                 'country' => $user->country,
                 'phone' => $user->phone,
-                'pay_now_link' => 'https://toursandorra.com/checkout/order-pay/9808/?pay_for_order=true&key=wc_order_Ufz6ryk5aYguh',
-                'view_order_link' => 'https://toursandorra.com/my-account/view-order/9808/',
+                'view_order_link' => env('FRONTEND_LINK') . 'booking-payment/' . $booking->order_id,
+                // 'pay_now_link' => 'https://toursandorra.com/checkout/order-pay/9808/?pay_for_order=true&key=wc_order_Ufz6ryk5aYguh',
             ];
             $message = WhatsAppMessage::buildOrderMessage($order);
             $shopOwnerPhone = env("WHATS_APP_NUMBER");
-            $whatsappLink = WhatsAppMessage::buildWhatsAppLink($shopOwnerPhone,$message);
+            $whatsappLink = WhatsAppMessage::buildWhatsAppLink($shopOwnerPhone, $message);
             return response()->json([
-                'message' => "Booking created successfully", 
-                "order_id" => (string)$booking->order_id,
+                'message' => "Booking created successfully",
+                "order_id" => (string) $booking->order_id,
                 "whatsappLink" => $whatsappLink
             ], 200);
-                
-        }else{
+
+        } else {
             return response()->json(['message' => "Error creating booking"], 500);
         }
 
@@ -136,7 +154,8 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         //booking not found
-        if (!$booking) return response()->json(["message" => "Booking not found",], 422);
+        if (!$booking)
+            return response()->json(["message" => "Booking not found",], 422);
         $booking->load("customer:id,name,last_name,email,country,phone,address,company");
         return response()->json(["message" => "success", "data" => $booking], 200);
     }
@@ -144,7 +163,8 @@ class BookingController extends Controller
     public function updateByOrderId(Request $request, $orderId)
     {
         $booking = Booking::where('order_id', $orderId)->first();
-        if (!$booking) return response()->json(["message" => "Booking not found",], 422);
+        if (!$booking)
+            return response()->json(["message" => "Booking not found",], 422);
         $booking->status = $request->status;
         $booking->save();
         return response()->json(["message" => "Booking updated successfully",], 200);
@@ -190,7 +210,8 @@ class BookingController extends Controller
     public function cancelBooking($id)
     {
         $booking = Booking::find($id);
-        if (!$booking) return response()->json(["message" => "Booking not found",], 422);
+        if (!$booking)
+            return response()->json(["message" => "Booking not found",], 422);
         $booking->status = "Cancelled";
         $booking->save();
         return response()->json(["message" => "Booking cancelled successfully",], 200);
@@ -198,8 +219,9 @@ class BookingController extends Controller
 
     public function getBookingsByOrderId($orderId)
     {
-        $bookings = Booking::where('order_id', $orderId)->get();
-        if (!$bookings) return response()->json(["message" => "No bookings found for this order",], 422);
+        $bookings = Booking::where('order_id', $orderId)->first();
+        if (!$bookings)
+            return response()->json(["message" => "No bookings found for this order",], 422);
         return response()->json(["message" => "success", "data" => $bookings], 200);
     }
     /**
@@ -216,7 +238,8 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //booking is not found
-        if (!$booking) return response()->json(["message" => "Booking not found",], 422);
+        if (!$booking)
+            return response()->json(["message" => "Booking not found",], 422);
         $booking->delete();
         return response()->json(["message" => "Booking deleted successfully",], 200);
     }

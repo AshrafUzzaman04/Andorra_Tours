@@ -1,32 +1,43 @@
 import React from 'react'
 
-export interface FieldsTypes{
+export interface FieldsTypes {
     name: string,
     type: string | number,
     label: string,
     placeholder: string,
-    options?: any
+    options?: any,
+    value?: any,
+    onChange: (value: any) => void
 }
-export default function FormBuilderInputs({label, name, type, placeholder,options}:FieldsTypes) {
+
+export default function FormBuilderInputs({ label, name, type, placeholder, options, value, onChange }: FieldsTypes) {
     switch (type) {
         case "text":
-            return <div className="form-group">
-                <label className="text-sm-medium neutral-1000">{label}</label>
-                <input className={`form-control ${name}`} type={type} placeholder={placeholder} required />
-            </div>
         case "date":
-            return <div className="form-group">
-                <label className="text-sm-medium neutral-1000">{label}</label>
-                <input className={`form-control ${name}`} type={type} placeholder={placeholder} required />
-            </div>
-         case "textarea":
+        case "file":
             return (
                 <div className="form-group">
                     <label className="text-sm-medium neutral-1000">{label}</label>
-                    <textarea 
-                        className={`form-control ${name}`} 
-                        placeholder={placeholder} 
-                        required 
+                    <input
+                        className={`form-control ${name}`}
+                        type={type}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        required
+                    />
+                </div>
+            );
+        case "textarea":
+            return (
+                <div className="form-group">
+                    <label className="text-sm-medium neutral-1000">{label}</label>
+                    <textarea
+                        className={`form-control ${name}`}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        required
                     />
                 </div>
             );
@@ -35,10 +46,11 @@ export default function FormBuilderInputs({label, name, type, placeholder,option
             return (
                 <div className="form-group">
                     <label className="text-sm-medium neutral-1000">
-                        <input 
-                            className={`form-control ${name}`} 
-                            type="checkbox" 
-                            required 
+                        <input
+                            type="checkbox"
+                            checked={value}
+                            onChange={(e) => onChange(e.target.checked)}
+                            required
                         /> {label}
                     </label>
                 </div>
@@ -48,20 +60,19 @@ export default function FormBuilderInputs({label, name, type, placeholder,option
             return (
                 <div className="form-group">
                     <label className="text-sm-medium neutral-1000">{label}</label>
-                    {
-                        options && options.map((option: any, index: any) => (
-                            <div key={index}>
-                                <input 
-                                    className={`form-control ${name}`} 
-                                    type="radio" 
-                                    name={name} 
-                                    value={option.value} 
-                                    required 
-                                />
-                                {option.label}
-                            </div>
-                        ))
-                    }
+                    {options?.map((option: any, index: any) => (
+                        <div key={index}>
+                            <input
+                                type="radio"
+                                name={name}
+                                value={option.value}
+                                checked={value === option.value}
+                                onChange={(e) => onChange(e.target.value)}
+                                required
+                            />
+                            {option.label}
+                        </div>
+                    ))}
                 </div>
             );
 
@@ -69,31 +80,32 @@ export default function FormBuilderInputs({label, name, type, placeholder,option
             return (
                 <div className="form-group">
                     <label className="text-sm-medium neutral-1000">{label}</label>
-                    <select className={`form-control ${name}`} required>
-                        {
-                            options && options.map((option: any, index: any) => (
-                                <option key={index} value={option.value}>{option.label}</option>
-                            ))
-                        }
+                    <select
+                        className={`form-control ${name}`}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        required
+                    >
+                        {options?.map((option: any, index: any) => (
+                            <option key={index} value={option.value}>{option.label}</option>
+                        ))}
                     </select>
                 </div>
             );
 
-        case "file":
+        default:
             return (
                 <div className="form-group">
                     <label className="text-sm-medium neutral-1000">{label}</label>
-                    <input 
-                        className={`form-control ${name}`} 
-                        type="file" 
-                        required 
+                    <input
+                        className={`form-control ${name}`}
+                        type={typeof type === 'number' ? String(type) : type}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        required
                     />
                 </div>
-            )
-        default:
-            return <div className="form-group">
-                <label className="text-sm-medium neutral-1000">{label}</label>
-                <input className={`form-control ${name}`} type={typeof type === 'number' ? String(type) : type} placeholder={placeholder} required />
-            </div>
+            );
     }
 }

@@ -1,7 +1,7 @@
 'use client'
 import BookingForm from '@/components/elements/BookingForm'
 import Layout from "@/components/layout/Layout"
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import { swiperCenterSlider } from "@/util/swiperOption"
 import Link from "next/link"
 import { useState } from 'react'
@@ -577,7 +577,7 @@ export default function TourDetail5() {
 							<div className="box-list-news wow fadeInUp">
 								<div className="box-swiper mt-30">
 									<div className="swiper-container swiper-group-3">
-										<SwiperGroup3Slider />
+										<BlogsLatestSlider />
 									</div>
 								</div>
 							</div>

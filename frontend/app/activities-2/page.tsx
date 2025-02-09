@@ -3,7 +3,7 @@ import ByPagination from '@/components/Filter/ByPagination'
 import SortToursFilter from '@/components/elements/SortToursFilter'
 import TourCard3 from '@/components/elements/tourcard/TourCard3'
 import Layout from "@/components/layout/Layout"
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import rawToursData from "@/util/tours.json"
 import useTourFilter from '@/util/useTourFilter'
 import Link from "next/link"
@@ -214,7 +214,7 @@ export default function Activities2() {
 							<div className="box-list-news wow fadeInUp">
 								<div className="box-swiper mt-30">
 									<div className="swiper-container swiper-group-3">
-										<SwiperGroup3Slider />
+										<BlogsLatestSlider />
 									</div>
 								</div>
 							</div>

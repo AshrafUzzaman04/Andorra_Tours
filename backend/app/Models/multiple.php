@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class Multiple extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         "verano_id",
         "inverano_id",
@@ -38,7 +39,7 @@ class Multiple extends Model
             $model->slug = Str::slug($model->title);
         });
     }
-    
+
     public function verano()
     {
         return $this->belongsTo(Verano::class, 'verano_id');

@@ -4,7 +4,7 @@ import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
 
 const VeranoDetails = ({ formData }) => {
-    
+
     const { register, handleSubmit, setError, setValue, getValues, errors, data } = formData;
     const [details, setDetails] = useState([]);
     const { t } = useTranslation();
@@ -14,7 +14,7 @@ const VeranoDetails = ({ formData }) => {
 
 
     useEffect(() => {
-        if(details?.length === 0 ){
+        if (details?.length === 0) {
             setDetails([{ id: 0, title: "", description: "" }])
         }
     }, [0])
@@ -40,11 +40,11 @@ const VeranoDetails = ({ formData }) => {
             if (savedDetails && savedDetails.length > 0 && parsedDetails?.length === savedDetails?.length) {
                 if (typeof savedDetails === 'string') {
                     setDetails(JSON.parse(savedDetails));
-                }else{
+                } else {
                     setDetails(savedDetails);
                 }
-                
-            }else{
+
+            } else {
                 if (parsedDetails?.length > 0) {
                     setDetails(parsedDetails);
                 }
@@ -70,7 +70,7 @@ const VeranoDetails = ({ formData }) => {
         setRefresh(refresh + 1);
         setValue("details", details)
     }
-    
+
 
     return (
         <>
@@ -83,11 +83,11 @@ const VeranoDetails = ({ formData }) => {
                             {...register("verano", {
                                 required: true,
                             })}
-                            required className=" form-control" value={veranoId} onChange={(e)=>{
+                            required className=" form-control" value={veranoId} onChange={(e) => {
                                 setVeranoId(e.target.value)
                                 setValue("verano", e.target.value)
                             }}>
-                                <option>{t("--Select--")}</option>
+                            <option>{t("--Select--")}</option>
                             {
                                 veranos && veranos?.map((verano, i) => (
                                     <option key={verano?.id} value={verano?.id}>{verano?.title}</option>

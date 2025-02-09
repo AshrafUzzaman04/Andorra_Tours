@@ -180,6 +180,20 @@ video {
   vertical-align: baseline;
 }
 
+
+.whatsapp-btn {
+  content: "";
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #4AC959;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  z-index: 99999999999;
+  padding: 8px;
+}
+
 main {
   display: block;
   clear: both;
@@ -3008,13 +3022,14 @@ body {
   padding: 0px;
   width: 40px;
   color: #ffffff;
-  right: 30px;
+  right: 100px;
   bottom: 30px;
   text-align: center;
   z-index: 999 !important;
   border: 0;
   background: var(--bs-neutral-900);
   line-height: 40px;
+  opacity: 0.6;
 }
 
 #scrollUp svg {
@@ -3141,11 +3156,6 @@ button {
   background-color: var(--bs-button-bg-2);
   line-height: 48px;
   cursor: pointer;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: var(--bs-neutral-900);
-  color: #fff;
 }
 
 /*End button Switch On Off*/
@@ -4528,7 +4538,7 @@ label {
 .card-news .card-image {
   position: relative;
   overflow: hidden;
-  height: auto;
+  height: 300px;
 }
 
 .card-news .card-image .label {
@@ -4570,6 +4580,8 @@ label {
 .card-news .card-image img {
   display: block;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-news .card-info {
@@ -4653,6 +4665,7 @@ label {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .card-news .card-info .card-program .endtime .card-author {
@@ -4857,15 +4870,20 @@ label {
 
 .card-banner .card-info {
   position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   z-index: 12;
-  padding: 36px;
+  padding: 36px 36px 10px 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card-banner .card-info h4 {
   margin-bottom: 29px;
+  text-align: center;
 }
 
 .card-banner .card-info h5 {
@@ -14451,10 +14469,14 @@ a.link-black:hover svg {
   padding: 28px 35px;
 }
 
+.min-w-max {
+  min-width: max-content;
+}
+
 .content-booking-form .item-line-booking {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding-bottom: 24px;
   margin-bottom: 24px;
   border-bottom: 1px solid var(--bs-border-color);
@@ -14501,6 +14523,84 @@ a.link-black:hover svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.line-booking-tickets :nth-child(2) input {
+  width: 40px !important;
+}
+
+.line-booking-tickets :nth-child(2) button {
+  border-radius: 50%;
+  padding: 5px 12px;
+}
+
+.line-booking-tickets :nth-child(2) input::-webkit-outer-spin-button,
+.line-booking-tickets :nth-child(2) input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.line-booking-tickets :nth-child(2) input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1500px) {
+  .content-booking-form {
+    padding: 10px 15px;
+  }
+
+  .line-booking-tickets {
+    flex-direction: column !important;
+    padding: 10px;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: var(--bs-border-color);
+  }
+
+  .line-booking-tickets :nth-child(1) {
+    gap: 4px;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .line-booking-tickets :nth-child(1) p {
+    margin-right: 0px !important;
+    text-align: center;
+  }
+
+  .line-booking-tickets :nth-child(2) {
+    justify-content: center !important;
+  }
+}
+
+@media only screen and (min-width: 0px) and (max-width: 700px) {
+  .content-booking-form {
+    padding: 10px 15px;
+  }
+
+  .line-booking-tickets {
+    flex-direction: column !important;
+    padding: 10px 8px;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: var(--bs-border-color);
+  }
+
+  .line-booking-tickets :nth-child(1) {
+    gap: 4px;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .line-booking-tickets :nth-child(1) p {
+    margin-right: 0px !important;
+    text-align: center;
+  }
+
+  .line-booking-tickets :nth-child(2) {
+    justify-content: center !important;
+  }
 }
 
 .line-booking-tickets .item-ticket {
@@ -16882,7 +16982,7 @@ li>a {
   }
 
   .sticky-bar.stick .burger-icon {
-    top: 0px;
+    /* top: 0px; */
   }
 
   .card-journey-small {
@@ -17582,11 +17682,19 @@ a {
   background: #ffffff !important;
 }
 
-
-[data-bs-theme=dark] .page-link {
+[data-bs-theme=dark] .pagination .page-item.active .page-link {
+  background-color: var(--bs-neutral-900);
   color: #000000 !important;
 }
 
+[data-bs-theme=dark] .page-link {
+  color: #ffffff;
+}
+
+[data-bs-theme=light] .pagination .page-item.active .page-link {
+  background-color: var(--bs-neutral-1000);
+  color: #ffffff !important;
+}
 
 [data-bs-theme=light] h2 {
   color: var(--bs-neutral-1000) !important;

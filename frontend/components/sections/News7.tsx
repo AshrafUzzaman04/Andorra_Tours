@@ -1,6 +1,6 @@
 
 import Link from "next/link"
-import SwiperGroup3Slider from '../slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '../slider/BlogsLatestSlider'
 
 export default function News7() {
     return (
@@ -23,7 +23,7 @@ export default function News7() {
                     <div className="box-list-news wow fadeInUp">
                         <div className="box-swiper">
                             <div className="swiper-container swiper-group-3">
-							<SwiperGroup3Slider />
+							<BlogsLatestSlider />
                             </div>
                         </div>
                     </div>

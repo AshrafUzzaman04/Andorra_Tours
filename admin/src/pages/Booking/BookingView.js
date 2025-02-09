@@ -5,6 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import callFetch from 'helpers/callFetch';
 import { NumericFormat } from 'react-number-format';
 import { Divider } from '@mui/material';
+import { number } from 'prop-types';
+import Cookies from 'js-cookie';
 
 // This is a mock function to simulate fetching booking data
 // In a real application, you would replace this with an actual API call
@@ -35,6 +37,8 @@ const BookingView = () => {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
   const [loadingButton, setLoadingButton] = useState({ paymentSend: false, cancelOrder: false });
+  const [loadingPdfBtn, setLoadingPdfBtn] = useState(false);
+
   useEffect(() => {
     fetchBookingData(545454).then(data => {
       setBooking(data);
@@ -69,8 +73,43 @@ const BookingView = () => {
     })
   }
 
+  const downloadPdf = async () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    setLoadingPdfBtn(true);
 
+    try {
+      const response = await fetch(`${apiUrl}booking/${bookingData.id}/invoice/download`, {
+        method: "GET",
+        headers: {
+          "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel MIME type
+          "Authorization": `Bearer ${Cookies.get("token")}`, // Add the Bearer token to the header
+        },
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to download file");
+      }
+
+      // Convert response to a Blob
+      const blob = await response.blob();
+
+      // Create a downloadable link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "invoice.pdf"; // Set file name
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Export failed:", error);
+    } finally {
+      setLoadingPdfBtn(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -95,6 +134,15 @@ const BookingView = () => {
             Back to Bookings
           </Button>
         </Link>
+        <button disabled={loadingPdfBtn} type='button' onClick={downloadPdf} className="ms-3 btn btn-success">
+          {loadingPdfBtn ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2"></span>Downloading...
+            </>
+          ) : (
+            "Download PDF"
+          )}
+        </button>
       </div>
 
       <Row className="g-4">
@@ -238,7 +286,7 @@ const BookingView = () => {
                       </li>
                       <li>
                         <div className="mb-2">
-                          <div className="fw-bold">Extra Services: </div>
+                          <div className="fw-bold">Location Shop: </div>
 
                           {
                             item.extra_services &&
@@ -268,7 +316,7 @@ const BookingView = () => {
                   <span className="fw-bold">Sub Total:</span>
                   <span className="ms-2 fw-bold">
                     <NumericFormat
-                      value={bookingData?.price}
+                      value={Number(bookingData?.price || 0) + Number(bookingData?.discounted_price || 0)}
                       displayType="text"
                       thousandSeparator={","}
                       decimalSeparator="."
@@ -280,8 +328,8 @@ const BookingView = () => {
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span className="fw-bold">Discount:</span>
-                  <span className="ms-2 fw-bold">
-                    10%
+                  <span className="ms-2 fw-bold text-danger">
+                    -{bookingData?.discounted_price ? bookingData?.discounted_price : 0} €
                   </span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">

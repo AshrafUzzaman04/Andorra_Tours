@@ -28,6 +28,8 @@ class StoreFooterPage extends FormRequest
             'page_title' => 'nullable|string|max:255|unique:footer_pages,page_title', // Optional and unique
             'content' => 'nullable|string', // No additional constraints
             'status' => 'required|in:Active,Inactive', // Enum values
+            "meta_description" => "required",
+            "meta_tags" => "nullable",
         ];
     }
 }

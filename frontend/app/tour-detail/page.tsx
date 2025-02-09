@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import BookingForm from '@/components/elements/BookingForm'
 import Layout from "@/components/layout/Layout"
-import SwiperGroup3Slider from '@/components/slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '@/components/slider/BlogsLatestSlider'
 import Link from "next/link"
 export default function TourDetail() {
 	const [isAccordion, setIsAccordion] = useState(null)
@@ -582,7 +582,7 @@ export default function TourDetail() {
 							<div className="box-list-news wow fadeInUp">
 								<div className="box-swiper mt-30">
 									<div className="swiper-container swiper-group-3">
-										<SwiperGroup3Slider />
+										<BlogsLatestSlider />
 									</div>
 								</div>
 							</div>

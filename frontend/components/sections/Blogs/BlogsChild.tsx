@@ -6,6 +6,7 @@ import Link from "next/link"
 import BlogsPagination from "./BlogsPagination";
 import { useEffect, useState } from "react";
 import Fetch from "@/helper/Fetch";
+
 export interface Blog {
     title: string;
     slug: string;
@@ -47,7 +48,12 @@ export default function BlogsChild({ blogs }: { blogs: BlogsResponse }) {
             setBlogsData(res?.data?.data)
         };
         fetchData();
-    },[page]);
+    }, [page]);
+
+    const handlePageChange = (pageNumber: number) => {
+    setPage(pageNumber);
+    };
+
     return (
         <main className="main">
             <section className="box-section box-breadcrumb background-body">
@@ -101,11 +107,18 @@ export default function BlogsChild({ blogs }: { blogs: BlogsResponse }) {
                             }
 
                         </div>
-                        <BlogsPagination 
-                            getPaginationGroup={blogs?.total} 
-                            pages={blogs?.total} 
-                            handleActive={(pageNumber:number)=>setPage(pageNumber)} 
+                        {/* <BlogsPagination
+                            getPaginationGroup={blogs?.total}
+                            pages={blogs?.total}
+                            handleActive={(pageNumber:number)=>setPage(pageNumber)}
                             DataArray={blogs?.data}
+                        /> */}
+
+                        {/* Updated Pagination Component */}
+                        <BlogsPagination
+                        currentPage={blogsData.current_page}
+                        totalPages={blogsData.last_page}
+                        onPageChange={handlePageChange}
                         />
                     </div>
                 </div>

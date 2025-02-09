@@ -1,6 +1,6 @@
 
 import Link from "next/link"
-import SwiperGroup3Slider from '../slider/SwiperGroup3Slider'
+import BlogsLatestSlider from '../slider/BlogsLatestSlider'
 
 export default function News5() {
     return (
@@ -23,7 +23,7 @@ export default function News5() {
                     <div className="box-list-news">
                         <div className="box-swiper mt-30">
                             <div className="swiper-container swiper-group-3">
-							<SwiperGroup3Slider />
+							<BlogsLatestSlider />
                             </div>
                         </div>
                     </div>

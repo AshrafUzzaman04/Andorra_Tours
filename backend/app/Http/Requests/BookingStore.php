@@ -26,12 +26,15 @@ class BookingStore extends FormRequest
             "last_name" => "required",
             "email" => "required|email",
             "phone" => "required",
-            "address" => "required",
+            "address" => "nullable",
             "country" => "required",
-            "company" => "required",
+            "company" => "nullable",
             "quantity" => "nullable",
-            "price"=> "nullable",
+            "price" => "nullable",
             "products" => "required",
+            "order_note" => "nullable",
+            "coupon_id" => "nullable|exists:cupon_codes,id",
+            "discounted_price" => "nullable|numeric",
         ];
     }
 }

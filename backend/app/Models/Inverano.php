@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+
 class Inverano extends Model
 {
     use HasFactory;
@@ -30,7 +31,7 @@ class Inverano extends Model
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->title); 
+            $model->slug = Str::slug($model->title);
         });
     }
 
@@ -41,6 +42,6 @@ class Inverano extends Model
 
     public function products()
     {
-        return $this->hasMany(Multiple::class, 'inverano_id')->where('product_for', 'inverano');
+        return $this->hasMany(Multiple::class, 'inverano_id')->where('product_for', '=', 'inverano');
     }
 }

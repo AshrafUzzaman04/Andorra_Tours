@@ -15,6 +15,32 @@ const getData = async ({ params }: { params: { slug: string } }) => {
     const socialLinks = res?.data?.socialLinks;
     return {data, socialLinks};
 };
+
+export async function generateMetadata({params}:{params:{slug:string}}) {
+    // Fetch dynamic SEO data (replace with your actual API endpoint)
+    const response = await Fetch.get("/page/" + params?.slug);
+    const seoData = await response?.data?.data || {};
+
+    return {
+        title: seoData.page_title || "Tours Andorra",
+        description: seoData.meta_description || "Portal de Actividades / Experiencias #1 en Andorra",
+        keywords: seoData.meta_tags || "tours andorra, andorra tours, travel andorra, travel, explore andorra,",
+        openGraph: {
+            title: seoData.page_title || "Tours Andorra",
+            description: seoData.meta_description || "Portal de Actividades / Experiencias #1 en Andorra",
+            images: ["https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png"],
+            url: "https://andorra-tours.vercel.app/",
+        },
+        twitter: {
+            title: seoData.page_title || "Tours Andorra",
+            description: seoData.meta_description || "Portal de Actividades / Experiencias #1 en Andorra",
+            images:["https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png"],
+            card: "summary_large_image",
+            creator: "Seba Diaz",
+        }
+    };
+}
+
 export default async function DynamicPages({ params }: { params: { slug: string, } }) {
     const {data, socialLinks} = await getData({ params });  // Pass `params` correctly
     const formatDate = (dateString: string) => {
@@ -25,7 +51,7 @@ export default async function DynamicPages({ params }: { params: { slug: string,
             year: 'numeric'
         }).format(date);
     };
-    
+
     return (
         <MasterLayout>
             <main className="main">
@@ -55,7 +81,7 @@ export default async function DynamicPages({ params }: { params: { slug: string,
                                 {parse(data?.content)}
                             </div>
                             <div className="box-share-us">
-                                <p className="text-lg-bold neutral-1000 mb-10">Follow us:</p>
+                                <p className="mb-10 text-lg-bold neutral-1000">Follow us:</p>
                                 <div className="d-flex align-items-center box-socials-footer-cover mb-25">
                                     <div className="box-socials-footer d-inline-block">
                                         {socialLinks &&
