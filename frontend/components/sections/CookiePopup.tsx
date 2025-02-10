@@ -1,10 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+interface BrowserInfo {
+    browser: string;
+    device: string;
+}
 
 export default function CookiePopup() {
     const [showPopup, setShowPopup] = useState(false);
-    const [browserInfo, setBrowserInfo] = useState(null);
+    const [browserInfo, setBrowserInfo] = useState<BrowserInfo | null>(null);
+
 
     useEffect(() => {
         // Check if third-party cookies are allowed when the component is mounted
