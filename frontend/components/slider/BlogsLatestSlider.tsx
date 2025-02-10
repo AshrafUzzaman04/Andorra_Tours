@@ -6,7 +6,23 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Fetch from "@/helper/Fetch";
 import formatDate from "@/util/formatDate";
 import { formatDateTimes } from "@/util/formatDateTimes";
-
+// First, define the Blog interface
+interface Blog {
+	tag: string;
+	slug: string;
+	photo: string;
+	date: string;
+	created_at: string;
+	title: string;
+	user_photo: string;
+	user_name: string;
+	button_text: string;
+  }
+  
+  // If you're using this in a React component, here's how you would type it:
+  interface BlogComponentProps {
+	blogs: Blog[] | undefined;
+  }
 async function getBlog() {
 	const res = await Fetch(`/latest-blogs`);
     return res?.data?.data;
@@ -28,7 +44,7 @@ export default function BlogsLatestSlider() {
 		<>
 			{blogs.length > 0 && (
 				<Swiper {...swiperGroup3}>
-					{blogs?.map((blog, index) => (
+					{blogs?.map((blog:Blog, index) => (
 						<SwiperSlide key={index}>
 							<div className="card-news background-card hover-up">
 								<div className="card-image">
