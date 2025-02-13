@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import callFetch from "helpers/callFetch";
+import Cookies from "js-cookie";
 
 function Sidebar() {
     const { t } = useTranslation();
@@ -12,6 +13,10 @@ function Sidebar() {
     let activeClassName = "nav-link active";
     let dropdownClass = "collapse";
     let dropdownClassShow = "collapse show";
+
+    const allowedEmail = process.env.REACT_APP_ALLOWED_EMAIL;
+    const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+    const canAccessCategories = user?.email === allowedEmail;
 
     useEffect(() => {
         callFetch("chatuser-sidebar", "GET", []).then((res) => {
@@ -74,7 +79,7 @@ function Sidebar() {
                     </li>
 
 
-                    <li className="nav-item">
+                    <li className="nav-item" style={{ display: canAccessCategories ? "block" : "none" }}>
                         <a data-bs-toggle="collapse" href="#categories" className={nowDrop === 'categories' ? activeClassName : navClassName} aria-controls="categories" role="button" aria-expanded={nowDrop === 'categories'}>
                             <i className="fa-solid fa-folder-tree icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2"></i>
                             <span className="nav-link-text ms-1">{t('Categories')}</span>

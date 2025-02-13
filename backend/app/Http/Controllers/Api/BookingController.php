@@ -109,12 +109,12 @@ class BookingController extends Controller
             // Build the order details dynamically
             $orderDetails = collect($products)->map(function ($product) {
                 return collect($product['services'])->map(function ($service) {
-                    return "⭐ {$service['title']} x {$service['quantity']} => €" . number_format($service['price'] * $service['quantity'], 2, '.', '') . " EUR";
+                    return "⭐ {$service['title']} x {$service['quantity']} => " . number_format($service['price'] * $service['quantity'], 2, '.', '') . " €";
                 })->implode("\n");
             })->implode("\n");
-            $formattedTotalPrice = '€' . number_format($booking->price, 2, '.', '') . ' EUR';
-            $formattedDiscountPrice = '€' . number_format($booking->discounted_price, 2, '.', '') . ' EUR';
-            $formattedSubTotalPrice = '€' . number_format($booking->price + $booking->discounted_price, 2, '.', '') . ' EUR';
+            $formattedTotalPrice = number_format($booking->price, 2, '.', '') . ' €';
+            $formattedDiscountPrice = number_format($booking->discounted_price, 2, '.', '') . ' €';
+            $formattedSubTotalPrice = number_format($booking->price + $booking->discounted_price, 2, '.', '') . ' €';
             $order = [
                 'order_number' => $booking->order_id,
                 'status' => "Processing",

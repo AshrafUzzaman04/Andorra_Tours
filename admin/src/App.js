@@ -33,6 +33,7 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateOutlet from "./components/PrivateOutlet";
+import CategoryMiddleware from "./components/CategoryMiddleware";
 import Signin from "./pages/Signin";
 
 import Dashboard from './pages/Dashboard';
@@ -291,14 +292,16 @@ function App() {
                                 <Route path="dashboard" element={<Dashboard />} />
                                 <Route path="profile/settings" element={<Settings />} />
 
-                                {/* categories routes */}
-                                <Route path="categories/category" element={<CategoryIndex />} />
-                                <Route path="categories/category/create" element={<CategoryCreate />} />
-                                <Route path="categories/category/:id/edit" element={<CategoryEdit />} />
+                                <Route path="categories" element={<CategoryMiddleware />}>
+                                    {/* categories routes */}
+                                    <Route path="category" element={<CategoryIndex />} />
+                                    <Route path="category/create" element={<CategoryCreate />} />
+                                    <Route path="category/:id/edit" element={<CategoryEdit />} />
 
-                                <Route path="categories/sub-category" element={<SubCategoryIndex />} />
-                                <Route path="categories/sub-category/create" element={<SubCategoryCreate />} />
-                                <Route path="categories/sub-category/:id/edit" element={<SubCategoryEdit />} />
+                                    <Route path="sub-category" element={<SubCategoryIndex />} />
+                                    <Route path="sub-category/create" element={<SubCategoryCreate />} />
+                                    <Route path="sub-category/:id/edit" element={<SubCategoryEdit />} />
+                                </Route>
 
                                 {/* coupons routes */}
                                 <Route path="coupons" element={<CouponIndex />} />
