@@ -40,7 +40,7 @@ export interface ServiceItem {
 export interface ExtraService {
   id: number;
   extra_service_name: string;
-  price: string;
+  price: number;
   service_name: string;
 }
 
