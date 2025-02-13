@@ -42,7 +42,7 @@ export interface TimeSlot {
 export interface ServiceItem {
   id: number;
   service_name: string;
-  price: string;
+  price: number;
   quantity: string;
 }
 
@@ -60,7 +60,7 @@ export interface VeranoData {
   total_reviews: string;
   reviews_link: string;
   title: string;
-  price: number;
+  price: string;
   booking_link: string;
   slug: string;
   photo: string;
