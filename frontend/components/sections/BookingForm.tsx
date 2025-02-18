@@ -60,7 +60,7 @@ export interface VeranoData {
   total_reviews: string;
   reviews_link: string;
   title: string;
-  price: number;
+  price: string;
   booking_link: string;
   slug: string;
   photo: string;
@@ -83,15 +83,10 @@ interface DayPrice {
 }
 
 interface DayPrices {
-  [key: string]: DayPrice; // Assuming prices are indexed by day or id
+  [key: string]: DayPrice;
 }
 
-export default function BookingForm({
-  FormData,
-  price,
-  product,
-  bookingLink,
-}: FromDataPriceTypes) {
+export default function BookingForm({FormData,product,bookingLink}: FromDataPriceTypes) {
   const router = useRouter();
   const [bookingNow, setBookingNow] = useState(false);
   const parsedTimes: TimeSlot[] = JSON.parse(FormData?.times || "[]");
