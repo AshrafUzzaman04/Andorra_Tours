@@ -201,7 +201,7 @@ export default function ProductDetail({ product, PopularProducts}: ProductDetail
                                     <div className="head-booking-form">
                                         <p className="text-xl-bold neutral-1000">Booking Form</p>
                                     </div>
-                                    <BookingForm FormData={product} price={''} bookingLink={null} />
+                                    <BookingForm FormData={product} price={0} bookingLink={null} />
                                 </div>
 
 

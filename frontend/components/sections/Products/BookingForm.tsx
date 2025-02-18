@@ -33,20 +33,20 @@ export interface TimeSlot {
 export interface ServiceItem {
   id: number;
   service_name: string;
-  price: string;
+  price: number;
   quantity: string;
 }
 
 export interface ExtraService {
   id: number;
   extra_service_name: string;
-  price: string;
+  price: number;
   service_name: string;
 }
 
 export interface FromDataPriceTypes {
   FormData: VeranoDetailsType;
-  price: string;
+  price: number;
   bookingLink: string | null;
 }
 

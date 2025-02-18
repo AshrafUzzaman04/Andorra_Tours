@@ -42,14 +42,14 @@ export interface TimeSlot {
 export interface ServiceItem {
   id: number;
   service_name: string;
-  price: string;
+  price: number;
   quantity: string;
 }
 
 export interface ExtraService {
   id: number;
   extra_service_name: string;
-  price: string;
+  price: number;
   service_name: string;
 }
 export interface VeranoData {
@@ -60,7 +60,7 @@ export interface VeranoData {
   total_reviews: string;
   reviews_link: string;
   title: string;
-  price: string;
+  price: number;
   booking_link: string;
   slug: string;
   photo: string;
@@ -70,7 +70,7 @@ export interface VeranoData {
 }
 export interface FromDataPriceTypes {
   FormData: VeranoDetailsType;
-  price: string;
+  price: number;
   bookingLink: string;
   product: VeranoData;
 }
@@ -167,7 +167,7 @@ export default function BookingForm({
           let allServicesMatch = true;
 
           // Iterate over the new services in bookingData
-          bookingData.services.forEach((newService) => {
+          bookingData.services.forEach((newService: { title: string; quantity: any; price: any; }) => {
             const existingServiceIndex = existingProduct.services.findIndex(
               (service: { title: string }) => service.title === newService.title
             );
@@ -292,7 +292,7 @@ export default function BookingForm({
       const price = res?.data;
       setDayPrices(price);
 
-      setBookingData((prev) => ({
+      setBookingData((prev: any) => ({
         ...prev,
         day: day,
         price: Number(price?.online_price) + calculateTotalPrice(),
@@ -317,7 +317,7 @@ export default function BookingForm({
         });
         const price = res?.data;
         setDayPrices(price);
-        setBookingData((prev) => ({
+        setBookingData((prev: any) => ({
           ...prev,
           day: day,
           price: price?.online_price
@@ -338,7 +338,7 @@ export default function BookingForm({
       selectedExtras
     );
 
-    setBookingData((prev) => ({
+    setBookingData((prev: any) => ({
       ...prev,
       services: parsedServices
         .map((service, index) => ({
@@ -357,11 +357,11 @@ export default function BookingForm({
     // updatedExtras[i] = !updatedExtras[i];
 
     // select one extra service
-    const updatedExtras = selectedExtras.map((_, index) => index === i);
+    const updatedExtras = selectedExtras.map((_: any, index: number) => index === i);
     setSelectedExtras(updatedExtras);
     const newTotalPrice = calculateTotalPrice(quantities, updatedExtras);
 
-    setBookingData((prev) => ({
+    setBookingData((prev: any) => ({
       ...prev,
       extra_services: parsedAddExtras
         .map((extra, index) => ({
@@ -382,14 +382,14 @@ export default function BookingForm({
     }, 0);
 
     const totalQuantity = updatedQuantities?.reduce(
-      (sum, quantity) => sum + quantity,
+      (sum: any, quantity: any) => sum + quantity,
       0
     );
 
     const extrasTotal = parsedAddExtras?.reduce((sum, extra, i) => {
       return totalQuantity !== 0
         ? sum +
-            (updatedSelectedExtras[i] ? Number(extra.price) * totalQuantity : 0)
+        (updatedSelectedExtras[i] ? Number(extra.price) * totalQuantity : 0)
         : sum + (updatedSelectedExtras[i] ? Number(extra.price) : 0);
     }, 0);
 
@@ -398,7 +398,7 @@ export default function BookingForm({
 
   const handleTimeChange = (event: { target: { value: any } }) => {
     const selectedTime = event.target.value;
-    setBookingData((prevData) => ({
+    setBookingData((prevData: any) => ({
       ...prevData,
       time: selectedTime,
     }));
