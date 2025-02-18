@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
+import CreatableSelect from "react-select/creatable";
 
 
 const HotelEdit = () => {
@@ -14,6 +15,7 @@ const HotelEdit = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [metaTags, setMetaTags] = useState([]);
 
   const {
     register,
@@ -43,16 +45,30 @@ const HotelEdit = () => {
           if (key !== "photo" && key !== "photo_one" && key !== "photo_two" && key !== "photo_three") {
             if (key === "categorie_id") {
               setValue("categorie", value);
-            }else if (key === "description"){
+            } else if (key === "description") {
               setEditorValue(value)
-            }else {
+            } else {
               setValue(key, value);
             }
+          }
+
+          if (key === "meta_tags") {
+            // Ensure meta_tags is an array
+            const tagsArray = Array.isArray(value)
+              ? value
+              : typeof value === "string"
+                ? value.split(",")
+                : [];
+
+            setMetaTags(tagsArray.map(tag => ({ value: tag, label: tag })));
+            setValue("meta_tags", tagsArray);
+          } else {
+            setValue(key, value);
           }
         }
       });
     }
-  }, [params?.id,refresh]);
+  }, [params?.id, refresh]);
 
 
   const onSubmit = (formData) => {
@@ -63,6 +79,12 @@ const HotelEdit = () => {
       if (!res.ok) return;
       setSubmitSuccess(true);
     });
+  };
+
+  const handleMetaTagsChange = (selectedOptions) => {
+    const newTags = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setMetaTags(selectedOptions);
+    setValue("meta_tags", newTags); // Store as an array
   };
   return submitSuccess ? (
     <Navigate to="/hotels" />
@@ -137,7 +159,7 @@ const HotelEdit = () => {
                 <div className="col-md-4">
                   <label>{t("Photo")} *</label>
                   <input type="file" className="form-control"
-                    {...register("photo")}/>
+                    {...register("photo")} />
                   <div className="invalid-feedback">
                     {errors.photo && errors.photo.message}
                   </div>
@@ -281,6 +303,49 @@ const HotelEdit = () => {
                   }} />
                   <div className="invalid-feedback">
                     {errors.description && errors.description.message}
+                  </div>
+                </div>
+              </div>
+
+              <div className="row g-4">
+                <h5 className="mt-4">Seo Settings</h5>
+                <div className="col-md-6">
+                  <label>{t("Meta Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={t("Meta Title")}
+                    {...register("meta_title", {
+                      required: true,
+                    })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.meta_title && errors.meta_title.message}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Meta Tags")} (Optional)</label>
+                  <CreatableSelect
+                    isMulti
+                    value={metaTags}
+                    onChange={handleMetaTagsChange}
+                    className={`basic-multi-select ${errors.meta_tags ? "is-invalid" : ""}`}
+                    classNamePrefix="select"
+                    placeholder={t("Type and press Enter")}
+                  />
+                  {errors.meta_tags && <div className="invalid-feedback d-block">{errors.meta_tags.message}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Meta Description")} *</label>
+                  <textarea
+                    className="form-control"
+                    placeholder={t("Enter Meta Description")}
+                    {...register("meta_description", { required: true })}
+                    required
+                  ></textarea>
+                  <div className="invalid-feedback">
+                    {errors.meta_description && errors.meta_description.message}
                   </div>
                 </div>
               </div>

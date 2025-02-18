@@ -29,11 +29,11 @@ class MultipleController extends Controller
         $product = Multiple::where("slug", $slug)->first();
         $parent_id = $product->product_for == "verano" ? "verano_id" : "inverano_id";
         $relation = $product->product_for == "verano" ? "verano" : "inverano";
-        $restProduct = Multiple::where("slug", "!=",$slug)->with(["$relation:id,slug"])->get(["id","title","slug",$parent_id,"product_for","photos","pricing"]);
+        $restProduct = Multiple::where("slug", "!=", $slug)->with(["$relation:id,slug"])->get(["id", "title", "slug", $parent_id, "product_for", "photos", "pricing"]);
         if (!$product) {
             return response()->json(["success" => false, "message" => "Product not found"], 422);
         }
-        return response()->json(["success" => true, "data" => $product, "popular"=>$restProduct], 200);
+        return response()->json(["success" => true, "data" => $product, "popular" => $restProduct], 200);
     }
 
     public function create($for)
@@ -61,7 +61,7 @@ class MultipleController extends Controller
                 'step' => $nextStep,
             ], 200);
         }
-        $data = $request->only(["product_for", "title", "slug", "photos", "description", "pricing", "form_title", "service_title", "services", "extra_service_title", "extra_services", "status"]);
+        $data = $request->only(["product_for", "title", "slug", "photos", "description", "pricing", "form_title", "service_title", "services", "extra_service_title", "extra_services", "status", "meta_title", "meta_tags", "meta_description"]);
         $photosArray = [];
         if ($request->hasFile('photos')) {
             $files = $request->photos;
@@ -99,7 +99,7 @@ class MultipleController extends Controller
      */
     public function update(UpdateProduct $request, Multiple $multiple)
     {
-        
+
         $currentStep = $request->input('step');
         if ($currentStep != 2) {
             $nextStep = $currentStep + 1;
@@ -107,7 +107,7 @@ class MultipleController extends Controller
                 'step' => $nextStep,
             ], 200);
         }
-        $data = $request->only(["product_for", "title", "slug", "photos", "description", "pricing", "form_title", "service_title", "services", "extra_service_title", "extra_services", "status"]);
+        $data = $request->only(["product_for", "title", "slug", "photos", "description", "pricing", "form_title", "service_title", "services", "extra_service_title", "extra_services", "status", "meta_title", "meta_tags", "meta_description"]);
         $newPhotos = [];
         $existingPhotos = json_decode($multiple->photos, true) ?? [];
 
@@ -118,14 +118,14 @@ class MultipleController extends Controller
                     $path = "storage/" . $file->store("products");
                     $newPhotos[] = $path;
                 }
-            }else{
+            } else {
                 $path = "storage/" . $request->photos->store("products");
                 $newPhotos[] = $path;
             }
         }
 
         if ($request->has('remove_photos')) {
-            $removePhotos = explode(",",$request->input('remove_photos')) ?? [];
+            $removePhotos = explode(",", $request->input('remove_photos')) ?? [];
             foreach ($removePhotos as $photoPath) {
                 $explode = explode('/', $photoPath);
                 $deletePath = $explode[1] . "/" . $explode[2];

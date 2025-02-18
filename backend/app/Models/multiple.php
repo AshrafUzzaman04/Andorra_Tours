@@ -24,7 +24,10 @@ class Multiple extends Model
         "services",
         "extra_service_title",
         "extra_services",
-        "status"
+        "status",
+        "meta_title",
+        "meta_description",
+        "meta_tags",
     ];
 
     protected static function boot()

@@ -31,6 +31,7 @@ const VeranoDetailsCreate = () => {
   const [saving, setSaving] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const isLastStep = activeStep === steps.length - 1;
+  const [metaTags, setMetaTags] = useState([]);
   const {
     register,
     handleSubmit,
@@ -40,22 +41,23 @@ const VeranoDetailsCreate = () => {
     formState: { errors },
   } = useForm();
 
-  const handleBack = () => {if(activeStep !== 0)setActiveStep(activeStep - 1)};
+  const handleBack = () => { if (activeStep !== 0) setActiveStep(activeStep - 1) };
 
   const onSubmit = (formData) => {
     setSaving(true);
     formData.details = JSON.stringify(formData?.details)
     //formData.details = JSON.stringify(getValues("details"));
-    callFetch("veranoDeatils?step="+activeStep+"&for=verano", "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils?step=" + activeStep + "&for=verano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)
-      if (res.step === "done"){
+      if (res.step === "done") {
         setSubmitSuccess(true);
         setActiveStep(0)
       }
     });
   };
+
   return submitSuccess ? (
     <Navigate to="/details/verano" />
   ) : (
@@ -97,7 +99,7 @@ const VeranoDetailsCreate = () => {
                 {
                   isLastStep ? <div className=" d-flex align-items-center justify-content-between">
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
                     {!saving && (
                       <button type="submit" className="btn btn-primary float-end">
@@ -109,11 +111,11 @@ const VeranoDetailsCreate = () => {
                         {t("Saving ...")}
                       </button>
                     )}
-                    
+
                   </div> : <div className=" d-flex align-items-center justify-content-between">
 
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
 
                     <button type="submit" className="btn btn-primary">

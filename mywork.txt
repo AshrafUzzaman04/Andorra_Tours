@@ -1,0 +1,26 @@
+ski-rental page design, details styling (with dark, light mode)
+ski-rental slug details text editor (admin)
+
+winter -> product -> order system (single, multiple)
+*date disable fix
+*book now button loading animation
+*multiple date select bug fix
+*booking now -> checkbox system to redio system (select only one)
+*booking now -> product increase & dicrease
+
+checkout
+*order_note fix & add to database
+*coupon apply system
+*responsive
+
+admin -> coupon system (crud)
+
+
+invareno reant after place order -> direct go to payment page
+
+
+payment redsis after place order
+payment page show coupon discount
+
+
+motor.esportspirot booking invoice (pdf second page design)

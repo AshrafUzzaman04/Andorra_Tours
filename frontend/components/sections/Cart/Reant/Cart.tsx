@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import {
   ChevronDown,
   AlertCircle,
@@ -88,9 +89,33 @@ export default function CheckOutPage() {
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
               {/* Items Information */}
               <div className="p-3 space-y-6 lg:col-span-3 card pricing-card">
-                <h2 className="text-2xl font-semibold">
-                  Total Cart Items ({products?.length})
-                </h2>
+                <div className="flex justify-between gap-2">
+                  <h2 className="text-2xl font-semibold">
+                    Total Cart Items ({products?.length})
+                  </h2>
+                  <Link href="/winter/snow-cothing-rental">
+                    <button
+                      className="flex gap-3 px-3 py-2 md:py-2 md:px-4 rounded-pill fw-semibold align-items-center"
+                      style={{
+                        backgroundColor: "rgb(58, 67, 108)",
+                        color: "white",
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        width="24"
+                        height="24"
+                        style={{
+                          color: "#fff",
+                        }}
+                      >
+                        <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z" />
+                      </svg>
+                      Go to About Page
+                    </button>
+                  </Link>
+                </div>
                 <div className="space-y-4">
                   {products?.length > 0 &&
                     products?.map((product: any, index: number) => (

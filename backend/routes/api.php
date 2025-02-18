@@ -97,6 +97,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/booking/{id}/invoice/download', [BookingController::class, "downloadInvoice"]);
 
+    // booking manual payment update
+    Route::post("/booking/manual-pay/{id}", [BookingController::class, "manualPaymentByAdmin"]);
+
     // Service Newsletter
     Route::apiResource("service-newsletter", ServiceNewsletterController::class);
 

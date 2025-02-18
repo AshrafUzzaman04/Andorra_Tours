@@ -27,6 +27,9 @@ class Hotel extends Model
         "button_text_link",
         "description",
         "status",
+        "meta_title",
+        "meta_description",
+        "meta_tags",
     ];
 
     protected static function boot()
@@ -38,7 +41,7 @@ class Hotel extends Model
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->title); 
+            $model->slug = Str::slug($model->title);
         });
     }
 

@@ -161,7 +161,35 @@ const PagesCreate = () => {
                 </div>
               </div>
 
+              <div className="row g-3">
+                <div className="col-md-12">
+                  <label>{t("Content")} *</label>
+                  <SoftEditor value={editorContent}
+                    onChange={handleEditorChange} />
+                  <div className="invalid-feedback">
+                    {errors.content && errors.content.message}
+                  </div>
+                </div>
+
+              </div>
+
               <div className="row g-3 mt-2">
+                <h5>Seo Settings</h5>
+                <div className="col-md-6">
+                  <label>{t("Meta Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control mb-4"
+                    placeholder={t("Meta Title")}
+                    {...register("meta_title", {
+                      required: true,
+                    })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.meta_title && errors.meta_title.message}
+                  </div>
+                </div>
                 <div className="col-md-6">
                   <label>{t("Meta Tags")} (Optional)</label>
                   <CreatableSelect
@@ -186,18 +214,6 @@ const PagesCreate = () => {
                     {errors.meta_description && errors.meta_description.message}
                   </div>
                 </div>
-              </div>
-
-              <div className="row g-3">
-                <div className="col-md-12">
-                  <label>{t("Content")} *</label>
-                  <SoftEditor value={editorContent}
-                    onChange={handleEditorChange} />
-                  <div className="invalid-feedback">
-                    {errors.content && errors.content.message}
-                  </div>
-                </div>
-
               </div>
 
               <div className="col-12 mb-4 mt-3">

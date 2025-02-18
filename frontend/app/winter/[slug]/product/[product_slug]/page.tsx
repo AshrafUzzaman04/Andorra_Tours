@@ -18,14 +18,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const response = await Fetch("/product/" + params?.product_slug);
   const product = response?.data?.data || [];
-  const title = product?.title ?? "";
-  const description = stripHtml(product?.description) ?? "";
+  const title = product?.meta_title ?? "Tours Andorra";
+  const description =
+    product?.meta_description ??
+    "Portal de Actividades / Experiencias #1 en Andorra";
   const photos = JSON.parse(product?.photos) || [];
   const image = process.env.NEXT_PUBLIC_STORAGE_URL + photos[0];
   return {
     title: title,
     description: description,
     keywords:
+      product?.meta_tags ??
       "tours andorra, andorra tours, travel andorra, travel, explore andorra,",
     openGraph: {
       title: title,

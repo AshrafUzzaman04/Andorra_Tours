@@ -21,17 +21,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const response = await Fetch("/verano/" + params?.slug + "?for=verano");
   const verano = response?.data?.data || [];
-  const title = verano?.title ?? "";
+  const title = verano?.meta_title ?? "Tours Andorra";
 
-  const detailsArray = verano.details?.details
-    ? Array.isArray(JSON.parse(verano.details.details))
-      ? JSON.parse(verano.details.details)
-      : []
-    : [];
-  const rawDescription =
-    detailsArray.length > 0 ? detailsArray[0]?.description : "";
   const description =
-    stripHtml(rawDescription) ||
+    verano?.meta_description ||
     "Portal de Actividades / Experiencias #1 en Andorra";
 
   const image = process.env.NEXT_PUBLIC_STORAGE_URL + verano?.photo;
@@ -39,6 +32,7 @@ export async function generateMetadata({
     title: title,
     description: description,
     keywords:
+      verano?.meta_tags ??
       "tours andorra, andorra tours, travel andorra, travel, explore andorra,",
     openGraph: {
       title: title,

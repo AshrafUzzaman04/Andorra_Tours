@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\WhatsAppMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingStore;
+use App\Mail\PaymentConfirmedMail;
 use App\Models\Booking;
 use App\Models\CompanyPromotion;
 use App\Models\FooterDetails;
@@ -16,6 +17,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -26,6 +29,63 @@ class BookingController extends Controller
     {
         $bookings = Booking::with(['customer'])->paginate(10);
         return response()->json(['message' => "success", "data" => $bookings]);
+    }
+
+    public function manualPaymentByAdmin(Request $request, int $id)
+    {
+        $booking = Booking::find($id);
+
+        if (!$booking) {
+            return response()->json(["message" => "Booking not found"], 404);
+        }
+
+        if ($booking->status === "Paid") {
+            return response()->json(["message" => "Booking is already paid"], 422);
+        }
+
+        $validatedData = $request->validate([
+            "email" => "nullable|email",
+            "note" => "nullable|string",
+        ]);
+
+        $manualEmail = $validatedData['email'] ?? null;
+        $manualNote = $validatedData['note'] ?? null;
+
+        $updated = $booking->update([
+            "manualpayment_email" => $manualEmail,
+            "manualpayment_note" => $manualNote,
+            "status" => "Paid", // Ensure status is updated
+        ]);
+
+        $details = FooterDetails::where("id", 1)->first();
+        $promotions = CompanyPromotion::where("content_for", "section_two")->first();
+        $header = Header::where("id", 1)->first();
+
+
+        $storagePath = public_path('storage/invoices');
+        if (!file_exists($storagePath)) {
+            mkdir($storagePath, 0777, true);
+        }
+
+        // Generate PDF and store it temporarily
+        $pdf = Pdf::loadView('invoice', compact('booking', 'details', "promotions", "header"));
+        $pdfFileName = "invoice_{$booking->id}_" . time() . ".pdf";
+        $pdfFullPath = $storagePath . "/" . $pdfFileName;
+
+        file_put_contents($pdfFullPath, $pdf->output());
+
+        // Send email with PDF attachment
+        $customerEmail = $booking->customer->email ?? null;
+        $ownerEmail = env("OWNER_EMAIL") ?? null;
+        if ($customerEmail) {
+            Mail::to([$customerEmail, $ownerEmail])->send(new PaymentConfirmedMail($booking, $pdfFullPath, $details));
+        }
+
+        if ($updated) {
+            return response()->json(['message' => "Booking Payment Successfully Updated"], 200);
+        }
+
+        return response()->json(["message" => "No changes detected"], 200);
     }
 
     public function downloadInvoice(int $id)

@@ -2,15 +2,18 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import callFetch from "helpers/callFetch";
 import SoftEditor from "components/SoftEditor";
+import CreatableSelect from "react-select/creatable";
+import { useParams } from "react-router-dom";
 
 const VeranoDetails = ({ formData }) => {
-
     const { register, handleSubmit, setError, setValue, getValues, errors, data } = formData;
     const [details, setDetails] = useState([]);
     const { t } = useTranslation();
     const [refresh, setRefresh] = useState(0);
     const [veranos, setVeranos] = useState([]);
     const [veranoId, setVeranoId] = useState(0);
+    const params = useParams();
+    const [metaTags, setMetaTags] = useState([]);
 
 
     useEffect(() => {
@@ -18,6 +21,35 @@ const VeranoDetails = ({ formData }) => {
             setDetails([{ id: 0, title: "", description: "" }])
         }
     }, [0])
+
+    useEffect(() => {
+        if (params?.id) {
+            callFetch("veranoDeatils/" + params.id + "?for=inverano", "GET", []).then((res) => {
+                for (let [key, value] of Object.entries(res.data)) {
+                    if (key === "meta_tags") {
+                        // Ensure meta_tags is an array
+                        if (key === "meta_tags") {
+                            // Ensure meta_tags is an array
+                            const tagsArray = Array.isArray(value)
+                                ? value
+                                : typeof value === "string"
+                                    ? value.split(",")
+                                    : [];
+
+                            setMetaTags(tagsArray.map(tag => ({ value: tag, label: tag })));
+                            setValue("meta_tags", tagsArray);
+                        }
+                    }
+                }
+            });
+        }
+    }, [params?.id]);
+
+    const handleMetaTagsChange = (selectedOptions) => {
+        const tagsArray = selectedOptions ? selectedOptions.map(tag => tag.value) : [];
+        setMetaTags(selectedOptions);
+        setValue("meta_tags", tagsArray);
+    };
 
     useEffect(() => {
         callFetch("veranos?for=inverano", "GET", []).then((res) => {
@@ -167,6 +199,50 @@ const VeranoDetails = ({ formData }) => {
                 }
                 <div className="col-md-12">
                     <button type="button" className="btn btn-sm btn-primary" onClick={() => setDetails([...details, { id: 0, title: "", description: "" }])}>Add <i class="fas fa-plus"></i> </button>
+                </div>
+            </div>
+
+
+            <div className="row g-4">
+                <h5 className="mt-4">Seo Settings</h5>
+                <div className="col-md-6">
+                    <label>{t("Meta Title")} *</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder={t("Meta Title")}
+                        {...register("meta_title", {
+                            required: true,
+                        })}
+                        required
+                    />
+                    <div className="invalid-feedback">
+                        {errors.meta_title && errors.meta_title.message}
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <label>{t("Meta Tags")} (Optional)</label>
+                    <CreatableSelect
+                        isMulti
+                        value={metaTags}
+                        onChange={handleMetaTagsChange}
+                        className={`basic-multi-select ${errors.meta_tags ? "is-invalid" : ""}`}
+                        classNamePrefix="select"
+                        placeholder={t("Type and press Enter")}
+                    />
+                    {errors.meta_tags && <div className="invalid-feedback d-block">{errors.meta_tags.message}</div>}
+                </div>
+                <div className="col-md-6 mb-3">
+                    <label>{t("Meta Description")} *</label>
+                    <textarea
+                        className="form-control"
+                        placeholder={t("Enter Meta Description")}
+                        {...register("meta_description", { required: true })}
+                        required
+                    ></textarea>
+                    <div className="invalid-feedback">
+                        {errors.meta_description && errors.meta_description.message}
+                    </div>
                 </div>
             </div>
         </>

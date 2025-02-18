@@ -29,7 +29,7 @@ class UpdateHotelRequest extends FormRequest
             "photo_three" => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:5048',
             "review" => "required|string",
             "total_review" => "required|string",
-            "title" => "required|unique:hotels,title,".$this->hotel->id,
+            "title" => "required|unique:hotels,title," . $this->hotel->id,
             "location" => "required|string",
             "map_location" => "required|string|url",
             "button_text_map" => "required|string",
@@ -38,6 +38,9 @@ class UpdateHotelRequest extends FormRequest
             "button_text_link" => "required|string",
             "description" => "required|string",
             "status" => "required|string|in:Active,Inactive",
+            "meta_title" => "required|string|max:255",
+            "meta_description" => "required",
+            "meta_tags" => "nullable",
         ];
     }
 }

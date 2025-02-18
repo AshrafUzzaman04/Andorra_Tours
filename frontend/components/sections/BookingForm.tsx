@@ -42,14 +42,14 @@ export interface TimeSlot {
 export interface ServiceItem {
   id: number;
   service_name: string;
-  price: number;
+  price: string;
   quantity: string;
 }
 
 export interface ExtraService {
   id: number;
   extra_service_name: string;
-  price: number;
+  price: string;
   service_name: string;
 }
 export interface VeranoData {
@@ -210,7 +210,7 @@ export default function BookingForm({
         }, 500);
 
         // Uncomment the following line when ready to use router
-        await router.push("/checkout");
+        await router.push("/cart");
       } else {
         setTimeout(() => {
           alert("Please select the product and start date!");

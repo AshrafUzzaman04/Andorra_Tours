@@ -19,6 +19,8 @@ class Booking extends Model
         "order_note",
         "coupon_id",
         "discounted_price",
+        "manualpayment_email",
+        "manualpayment_note",
     ];
 
     protected static function boot()

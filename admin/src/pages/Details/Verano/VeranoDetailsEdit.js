@@ -33,6 +33,8 @@ const VeranoDetailsEdit = () => {
   const [saving, setSaving] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const isLastStep = activeStep === steps.length - 1;
+
+
   const {
     register,
     handleSubmit,
@@ -46,7 +48,7 @@ const VeranoDetailsEdit = () => {
   useEffect(() => {
     if (params?.id) {
       reset();
-      callFetch("veranoDeatils/" + params.id +"?for=verano", "GET", []).then((res) => {
+      callFetch("veranoDeatils/" + params.id + "?for=verano", "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
           if (key !== "photo" && value !== "null" && key !== "verano_id") {
             setValue(key, value);
@@ -56,15 +58,16 @@ const VeranoDetailsEdit = () => {
       });
     }
   }, [params?.id]);
- 
+
+
   const handleBack = () => { if (activeStep !== 0) setActiveStep(activeStep - 1) };
 
   const onSubmit = (formData) => {
     setSaving(true);
-    if(typeof formData?.details !== "string"){
+    if (typeof formData?.details !== "string") {
       formData.details = JSON.stringify(formData?.details)
     }
-    callFetch("veranoDeatils/"+params?.id + "?step="+ activeStep +"&for=verano", "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils/" + params?.id + "?step=" + activeStep + "&for=verano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)
@@ -113,6 +116,7 @@ const VeranoDetailsEdit = () => {
                 errors,
                 params
               })}
+
 
               <div className="col-12 mb-4 mt-3">
                 {

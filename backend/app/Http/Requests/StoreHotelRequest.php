@@ -38,6 +38,9 @@ class StoreHotelRequest extends FormRequest
             "button_text_link" => "required|string",
             "description" => "required|string",
             "status" => "required|string|in:Active,Inactive",
+            "meta_title" => "required|string|max:255",
+            "meta_description" => "required",
+            "meta_tags" => "nullable",
         ];
     }
 }

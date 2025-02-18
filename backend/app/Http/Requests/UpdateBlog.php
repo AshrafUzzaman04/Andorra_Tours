@@ -23,15 +23,18 @@ class UpdateBlog extends FormRequest
     {
         return [
             "tag" => "required|string|max:255",
-            "photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048,".$this->blog->id,
+            "photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048," . $this->blog->id,
             "images.*" => "nullable|file|mimes:jpg,jpeg,png,gif,svg|max:5048",
             "date" => "required|date",
-            "title" => "required|string|max:255|unique:blogs,title,".$this->blog->id,
-            "user_photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048,".$this->blog->id,
+            "title" => "required|string|max:255|unique:blogs,title," . $this->blog->id,
+            "user_photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048," . $this->blog->id,
             "user_name" => "required|string|max:255",
             "button_text" => "required|string|max:255",
             "description" => "required|string",
-            "status" => "required|in:Active,Inactive"
+            "status" => "required|in:Active,Inactive",
+            "meta_title" => "required|string|max:255",
+            "meta_description" => "required",
+            "meta_tags" => "nullable",
         ];
     }
 }

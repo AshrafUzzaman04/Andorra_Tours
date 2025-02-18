@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import callFetch from "helpers/callFetch";
+import CreatableSelect from "react-select/creatable";
 const VeranoEdit = () => {
   const params = useParams();
   const [editorValue, setEditorValue] = useState("");
@@ -11,6 +12,7 @@ const VeranoEdit = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [title, setTitle] = useState([{ title: "" }]);
+  const [metaTags, setMetaTags] = useState([]);
   const {
     register,
     handleSubmit,
@@ -27,6 +29,20 @@ const VeranoEdit = () => {
             setValue(key, value);
           }
 
+          if (key === "meta_tags") {
+            // Ensure meta_tags is an array
+            const tagsArray = Array.isArray(value)
+              ? value
+              : typeof value === "string"
+                ? value.split(",")
+                : [];
+
+            setMetaTags(tagsArray.map(tag => ({ value: tag, label: tag })));
+            setValue("meta_tags", tagsArray);
+          } else {
+            setValue(key, value);
+          }
+
         }
       });
     }
@@ -40,6 +56,13 @@ const VeranoEdit = () => {
       setSubmitSuccess(true);
     });
   };
+
+  const handleMetaTagsChange = (selectedOptions) => {
+    const newTags = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setMetaTags(selectedOptions);
+    setValue("meta_tags", newTags); // Store as an array
+  };
+
   return submitSuccess ? (
     <Navigate to="/theme-customization/verano" />
   ) : (
@@ -177,6 +200,47 @@ const VeranoEdit = () => {
                   </select>
                   <div className="invalid-feedback">
                     {errors.status && errors.status.message}
+                  </div>
+                </div>
+
+                <h5 className="mt-4">Seo Settings</h5>
+                <div className="col-md-6">
+                  <label>{t("Meta Title")} *</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={t("Meta Title")}
+                    {...register("meta_title", {
+                      required: true,
+                    })}
+                    required
+                  />
+                  <div className="invalid-feedback">
+                    {errors.meta_title && errors.meta_title.message}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Meta Tags")} (Optional)</label>
+                  <CreatableSelect
+                    isMulti
+                    value={metaTags}
+                    onChange={handleMetaTagsChange}
+                    className={`basic-multi-select ${errors.meta_tags ? "is-invalid" : ""}`}
+                    classNamePrefix="select"
+                    placeholder={t("Type and press Enter")}
+                  />
+                  {errors.meta_tags && <div className="invalid-feedback d-block">{errors.meta_tags.message}</div>}
+                </div>
+                <div className="col-md-6">
+                  <label>{t("Meta Description")} *</label>
+                  <textarea
+                    className="form-control"
+                    placeholder={t("Enter Meta Description")}
+                    {...register("meta_description", { required: true })}
+                    required
+                  ></textarea>
+                  <div className="invalid-feedback">
+                    {errors.meta_description && errors.meta_description.message}
                   </div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Spinner, Modal, Form } from 'react-bootstrap';
 import { ArrowLeft, Calendar, Users, MountainSnow, MapPin, Mail, Phone, ShoppingCart, User, CircleDollarSign, HandCoins } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import callFetch from 'helpers/callFetch';
@@ -7,6 +7,8 @@ import { NumericFormat } from 'react-number-format';
 import { Divider } from '@mui/material';
 import { number } from 'prop-types';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 
 // This is a mock function to simulate fetching booking data
 // In a real application, you would replace this with an actual API call
@@ -31,12 +33,23 @@ const fetchBookingData = async (id) => {
 };
 
 const BookingView = () => {
+  const { t } = useTranslation();
   const params = useParams();
   const [booking, setBooking] = useState(null);
   const [bookingData, setBookingData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
-  const [loadingButton, setLoadingButton] = useState({ paymentSend: false, cancelOrder: false });
+
+  const [show, setShow] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const [loadingButton, setLoadingButton] = useState({ paymentSend: false, cancelOrder: false, manualPay: false });
   const [loadingPdfBtn, setLoadingPdfBtn] = useState(false);
 
   useEffect(() => {
@@ -54,6 +67,23 @@ const BookingView = () => {
     }
   }, [params?.id, refresh]);
   const products = JSON.parse(bookingData?.products || '[]');
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const onSubmit = (formData) => {
+    setLoadingButton({ ...loadingButton, manualPay: true });
+
+    console.log(formData);
+
+    callFetch("booking/manual-pay/" + params?.id, "POST", formData, setError).then((res) => {
+      if (!res.ok) return;
+      setRefresh(refresh + 1)
+      setLoadingButton({ ...loadingButton, manualPay: false })
+    });
+
+    handleClose();
+  };
 
   const canceledBooking = () => {
     setLoadingButton({ ...loadingButton, cancelOrder: true })
@@ -328,8 +358,8 @@ const BookingView = () => {
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span className="fw-bold">Discount:</span>
-                  <span className="ms-2 fw-bold text-danger">
-                    -{bookingData?.discounted_price ? bookingData?.discounted_price : 0} €
+                  <span className="ms-2 fw-bold">
+                    {bookingData?.discounted_price ? bookingData?.discounted_price : 0} €
                   </span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
@@ -349,20 +379,28 @@ const BookingView = () => {
               </div>
               <Divider />
               <div className="mt-4 d-flex justify-content-end">
-                <Button disabled={loadingButton?.cancelOrder || bookingData?.status === "Cancelled"} variant={loadingButton?.cancelOrder ? "light" : "danger"} className="me-2" onClick={canceledBooking}>
+                <Button disabled={loadingButton?.manualPay || bookingData?.status === "Paid"} className='me-2' onClick={handleShow}>
+                  {
+                    loadingButton?.manualPay ?
+                      <div>Paying... <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div></div> : "Manual Pay"
+                  }
+                </Button>
+                <Button disabled={loadingButton?.cancelOrder || bookingData?.status === "Cancelled" || bookingData?.status === "Paid"} variant={loadingButton?.cancelOrder ? "light" : "danger"} className="me-2" onClick={canceledBooking}>
                   {
                     loadingButton?.cancelOrder ?
-                      <div>Canceling... <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                      <div>Canceling... <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
                       </div></div> : "Cancel Booking"
                   }
 
                 </Button>
-                <Button disabled={loadingButton?.paymentSend} variant={loadingButton?.paymentSend ? "light" : "success"} onClick={paymentLinkSend}>
+                <Button disabled={loadingButton?.paymentSend || bookingData?.status === "Paid"} variant={loadingButton?.paymentSend ? "light" : "success"} onClick={paymentLinkSend}>
                   {
                     loadingButton?.paymentSend ?
-                      <div>Link Sending... <div class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                      <div>Link Sending... <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
                       </div></div> : "Send Payment Link"
                   }
                 </Button>
@@ -371,6 +409,52 @@ const BookingView = () => {
 
           </Card>
         </Col>
+
+        {/* Modal */}
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Payment Status</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form className={`needs-validation ${Object.keys(errors).length ? "was-validated" : ""
+              }`} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+
+              {/* Email Input */}
+              <Form.Group className="mb-3">
+                <Form.Label>Email (Optional)</Form.Label>
+                <Form.Control
+                  type="email"
+                  className="form-control mb-4"
+                  placeholder={t("Email")}
+                  {...register("email")}
+                />
+                <div className="invalid-feedback">
+                  {errors.email && errors.email.message}
+                </div>
+              </Form.Group>
+
+              {/* Notes Input */}
+              <Form.Group className="mb-3">
+                <Form.Label>Notes</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  className="form-control mb-4"
+                  rows={3}
+                  placeholder={t("Additional notes (optional)")}
+                  {...register("note")}
+                />
+                <div className="invalid-feedback">
+                  {errors.note && errors.note.message}
+                </div>
+              </Form.Group>
+
+              {/* Submit Button */}
+              <Button variant="primary" type="submit" disabled={loadingButton.manualPay}>
+                {loadingButton.manualPay ? "Processing..." : "Save to paid"}
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
 
         {/* <Col md={6}>
           <Card>

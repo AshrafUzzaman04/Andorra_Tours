@@ -16,7 +16,7 @@ function getStepContent(stepIndex, formData) {
     case 0:
       return <VeranoDetails formData={formData} />;
     case 1:
-      return <Pricing formData={formData} /> ;
+      return <Pricing formData={formData} />;
     case 2:
       return <BookingForm formData={formData} />;
     default:
@@ -40,22 +40,23 @@ const InveranoDetailsCreate = () => {
     formState: { errors },
   } = useForm();
 
-  const handleBack = () => {if(activeStep !== 0)setActiveStep(activeStep - 1)};
+  const handleBack = () => { if (activeStep !== 0) setActiveStep(activeStep - 1) };
 
   const onSubmit = (formData) => {
     setSaving(true);
     formData.details = JSON.stringify(formData?.details)
     //formData.details = JSON.stringify(getValues("details"));
-    callFetch("veranoDeatils?step="+activeStep+"&for=inverano", "POST", formData, setError).then((res) => {
+    callFetch("veranoDeatils?step=" + activeStep + "&for=inverano", "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(res?.step)
-      if (res.step === "done"){
+      if (res.step === "done") {
         setSubmitSuccess(true);
         setActiveStep(0)
       }
     });
   };
+
   return submitSuccess ? (
     <Navigate to="/details/inverano" />
   ) : (
@@ -97,7 +98,7 @@ const InveranoDetailsCreate = () => {
                 {
                   isLastStep ? <div className=" d-flex align-items-center justify-content-between">
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
                     {!saving && (
                       <button type="submit" className="btn btn-primary float-end">
@@ -107,13 +108,13 @@ const InveranoDetailsCreate = () => {
                     {saving && (
                       <button type="submit" className="btn btn-disabled float-end" disabled>
                         {t("Saving ...")}
-                      </button> 
+                      </button>
                     )}
-                    
+
                   </div> : <div className=" d-flex align-items-center justify-content-between">
 
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
 
                     <button type="submit" className="btn btn-primary">

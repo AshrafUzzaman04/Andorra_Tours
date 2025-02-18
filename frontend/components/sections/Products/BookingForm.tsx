@@ -40,7 +40,7 @@ export interface ServiceItem {
 export interface ExtraService {
   id: number;
   extra_service_name: string;
-  price: number;
+  price: string;
   service_name: string;
 }
 
@@ -173,38 +173,41 @@ export default function BookingForm({
   }
 
   useEffect(() => {
+    const maxDay =
+      pricing?.length > 0
+        ? Math.max(...pricing.map((item: DayPrice) => parseInt(item.day, 10)))
+        : 0;
+
     flatpickr(".mydatepicker", {
       dateFormat: "Y/m/d",
       mode: pricing?.length === 1 || pricing?.length === 0 ? "single" : "range",
       inline: true,
-      // defaultDate: new Date(),
       onChange: (dates: Date[]) => {
         setSelectedDates(dates);
         if (dates.length > 0) {
           const earliestDate = new Date(
             Math.min(...dates.map((date) => date.getTime()))
           );
-          const latestDate = new Date(earliestDate);
-          latestDate.setDate(earliestDate.getDate() + addDays);
 
           setMinDate(earliestDate);
-          setMaxDate(latestDate);
         } else {
           setMinDate(null);
-          setMaxDate(null);
         }
       },
-      // disable: [(date: Date) => {
-      // 	if (minDate) {
-      // 		const endDate = new Date(minDate);
-      // 		endDate.setDate(endDate.getDate() + addDays);
+      disable: [
+        (date: Date) => {
+          if (minDate && maxDay > 0) {
+            const startDate = new Date(minDate);
+            startDate.setDate(startDate.getDate() - (maxDay - 1)); // Allow past maxDay days
 
-      // 		return date < minDate || date > endDate;
-      // 	}
-      // 	return false;
-      // }],
-      disable: [],
-      disableMobile: false,
+            const endDate = new Date(minDate);
+            endDate.setDate(endDate.getDate() + (maxDay - 1)); // Allow future maxDay days
+
+            return date < startDate || date > endDate; // Disable dates outside range
+          }
+          return false;
+        },
+      ],
     });
   }, [minDate, maxDate, addDays]);
 
@@ -503,10 +506,7 @@ export default function BookingForm({
                   ))}
               </div>
             </div>
-            <div
-              className="item-line-booking"
-              style={{ justifyContent: "center !important" }}
-            >
+            <div className="item-line-booking">
               <input
                 className="hidden text-center form-control mydatepicker"
                 type="text"

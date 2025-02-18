@@ -64,6 +64,7 @@ const SeoSettingsCreate = () => {
                                         <option value="winter">{t("Winter")}</option>
                                         <option value="summer">{t("Summer")}</option>
                                         <option value="blogs">{t("Blogs")}</option>
+                                        <option value="hotels">{t("Hotels")}</option>
                                     </select>
                                     <div className="invalid-feedback">
                                         {errors.page_name && errors.page_name.message}

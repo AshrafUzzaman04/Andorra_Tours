@@ -20,7 +20,10 @@ class VeranoDetail extends Model
         "services",
         "add_extra_title",
         "add_extra",
-        "status"
+        "status",
+        "meta_title",
+        "meta_description",
+        "meta_tags",
     ];
 
     public function verano()

@@ -22,7 +22,10 @@ class Blog extends Model
         "user_name",
         "button_text",
         "description",
-        "status"
+        "status",
+        "meta_title",
+        "meta_description",
+        "meta_tags",
     ];
 
     protected static function boot()

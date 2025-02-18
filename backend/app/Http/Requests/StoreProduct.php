@@ -33,7 +33,10 @@ class StoreProduct extends FormRequest
                     "title" => "required|unique:multiples,title",
                     "photos.*" => "file|mimes:jpg,jpeg,png,gif,svg|max:5048",
                     "description" => "nullable|string",
-                    "status" => "nullable|in:Active,Inactive"
+                    "status" => "nullable|in:Active,Inactive",
+                    "meta_title" => "required|string|max:255",
+                    "meta_description" => "required",
+                    "meta_tags" => "nullable",
                 ];
                 break;
 

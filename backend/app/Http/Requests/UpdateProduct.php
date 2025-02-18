@@ -30,10 +30,13 @@ class UpdateProduct extends FormRequest
                     "verano_id" => "nullable|exists:veranos,id",
                     "inverano_id" => "nullable|exists:inveranos,id",
                     "product_for" => "required|in:verano,inverano,winter,summer",
-                    "title" => "required|unique:multiples,title,".$this->multiple->id,
+                    "title" => "required|unique:multiples,title," . $this->multiple->id,
                     "photos.*" => "file|mimes:jpg,jpeg,png,gif,svg|max:5048",
                     "description" => "nullable|string",
-                    "status" => "nullable|in:Active,Inactive"
+                    "status" => "nullable|in:Active,Inactive",
+                    "meta_title" => "required|string|max:255",
+                    "meta_description" => "required",
+                    "meta_tags" => "nullable",
                 ];
                 break;
 

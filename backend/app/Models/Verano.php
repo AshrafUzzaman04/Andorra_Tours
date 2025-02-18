@@ -19,7 +19,10 @@ class Verano extends Model
         "photo",
         "booking_link",
         "slug",
-        "status"
+        "status",
+        "meta_title",
+        "meta_description",
+        "meta_tags",
     ];
 
     protected static function boot()

@@ -17,7 +17,7 @@ function getStepContent(stepIndex, formData) {
     case 0:
       return <ProductInfo formData={formData} />;
     case 1:
-      return <Pricing formData={formData} /> ;
+      return <Pricing formData={formData} />;
     case 2:
       return <BookingForm formData={formData} />;
     default:
@@ -46,7 +46,7 @@ const ProductEdit = () => {
   useEffect(() => {
     if (params?.id) {
       // reset();
-      callFetch("multiples/" + params?.id +"?product_for="+params?.slug, "GET", []).then((res) => {
+      callFetch("multiples/" + params?.id + "?product_for=" + params?.slug, "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
           if (key !== "photos" && value !== "null" && key !== "verano_id" && key !== "inverano_id") {
             setValue(key, value);
@@ -57,17 +57,17 @@ const ProductEdit = () => {
     }
   }, [params?.id]);
 
-  const handleBack = () => {if(activeStep !== 0)setActiveStep(activeStep - 1)};
+  const handleBack = () => { if (activeStep !== 0) setActiveStep(activeStep - 1) };
 
   const onSubmit = (formData) => {
     setSaving(true);
     formData.details = JSON.stringify(formData?.details)
     formData.photos = formData?.photos
-    callFetch("multiples/"+params?.id+"?step="+activeStep+`&product_for=${params?.slug}`, "POST", formData, setError).then((res) => {
+    callFetch("multiples/" + params?.id + "?step=" + activeStep + `&product_for=${params?.slug}`, "POST", formData, setError).then((res) => {
       setSaving(false);
       if (!res.ok) return;
       setActiveStep(Number(res?.step))
-      if (res.step === "done"){
+      if (res.step === "done") {
         setSubmitSuccess(true);
         setActiveStep(0)
       }
@@ -117,7 +117,7 @@ const ProductEdit = () => {
                 {
                   isLastStep ? <div className=" d-flex align-items-center justify-content-between">
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
                     {!saving && (
                       <button type="submit" className="btn btn-primary float-end">
@@ -127,13 +127,13 @@ const ProductEdit = () => {
                     {saving && (
                       <button type="submit" className="btn btn-disabled float-end" disabled>
                         {t("Saving ...")}
-                      </button> 
+                      </button>
                     )}
-                    
+
                   </div> : <div className=" d-flex align-items-center justify-content-between">
 
                     <button onClick={handleBack} type="button" className="btn btn-secondary">
-                    <i class="fa fa-chevron-left me-2"></i> {t("Back")} 
+                      <i class="fa fa-chevron-left me-2"></i> {t("Back")}
                     </button>
 
                     <button type="submit" className="btn btn-primary">

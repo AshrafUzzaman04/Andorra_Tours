@@ -17,6 +17,7 @@ class FooterPage extends Model
         'page_title',
         'title_for',
         'content',
+        'meta_title',
         'meta_description',
         'meta_tags',
         'status',

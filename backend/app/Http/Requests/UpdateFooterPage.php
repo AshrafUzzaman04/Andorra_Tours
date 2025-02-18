@@ -27,6 +27,7 @@ class UpdateFooterPage extends FormRequest
             'title_for' => 'required|string|max:255',
             "content" => 'nullable|string',
             "status" => "required|in:Active,Inactive",
+            "meta_title" => "required|string|max:255",
             "meta_description" => "required",
             "meta_tags" => "nullable",
         ];

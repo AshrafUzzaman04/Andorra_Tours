@@ -83,16 +83,11 @@ const SeoSettingsEdit = () => {
                                         required
                                     >
                                         <option value="home">{t("Home")}</option>
-                                        <option value="about">{t("About")}</option>
-                                        <option value="activities">{t("Activities")}</option>
                                         <option value="ski-rental">{t("Ski Rental")}</option>
                                         <option value="winter">{t("Winter")}</option>
                                         <option value="summer">{t("Summer")}</option>
-                                        <option value="hotels">{t("Hotels")}</option>
-                                        <option value="faq">{t("FAQ")}</option>
-                                        <option value="become-expert">{t("Become Expert")}</option>
-                                        <option value="contact">{t("Contact")}</option>
                                         <option value="blogs">{t("Blogs")}</option>
+                                        <option value="hotels">{t("Hotels")}</option>
                                     </select>
                                     <div className="invalid-feedback">
                                         {errors.page_name && errors.page_name.message}

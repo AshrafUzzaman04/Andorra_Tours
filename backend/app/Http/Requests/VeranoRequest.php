@@ -31,7 +31,10 @@ class VeranoRequest extends FormRequest
             "price" => "required",
             "photo" => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:5048',
             "booking_link" => "nullable|string",
-            "status" => "nullable|in:Active,Inactive|"
+            "status" => "nullable|in:Active,Inactive|",
+            "meta_title" => "required|string|max:255",
+            "meta_description" => "required",
+            "meta_tags" => "nullable",
         ];
     }
 }

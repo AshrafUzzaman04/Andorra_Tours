@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const seoData = (await response?.data?.data) || {};
 
   return {
-    title: seoData.seo_title || "Tours Andorra",
+    title: seoData.meta_title || "Tours Andorra",
     description:
       seoData.meta_description ||
       "Portal de Actividades / Experiencias #1 en Andorra",
@@ -25,17 +25,17 @@ export async function generateMetadata(): Promise<Metadata> {
       seoData.meta_tags ||
       "tours andorra, andorra tours, travel andorra, travel, explore andorra,",
     openGraph: {
-      title: seoData.seo_title || "Tours Andorra",
+      title: seoData.meta_title || "Tours Andorra",
       description:
         seoData.meta_description ||
         "Portal de Actividades / Experiencias #1 en Andorra",
       images: [
         "https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png",
       ],
-      url: "https://andorra-tours.vercel.app/",
+      url: "https://andorra-tours.vercel.app/winter",
     },
     twitter: {
-      title: seoData.seo_title || "Tours Andorra",
+      title: seoData.meta_title || "Tours Andorra",
       description:
         seoData.meta_description ||
         "Portal de Actividades / Experiencias #1 en Andorra",

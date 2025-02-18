@@ -4,7 +4,7 @@ import "../../../globals.css";
 export default function Failure() {
   return (
     <MasterLayout>
-        <PaymentFailure/>
+      <PaymentFailure />
     </MasterLayout>
-  )
+  );
 }

@@ -37,8 +37,9 @@ class VeranoDetailsController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json(["errors" => $request->all()], 200);
         $step = $request->get("step");
-        $request->only(["pricing","details","form_title","times","service_title","services","add_extra_title","add_extra","status"]);
+        $data = $request->only(["pricing", "details", "form_title", "times", "service_title", "services", "add_extra_title", "add_extra", "status", "meta_title", "meta_tags", "meta_description"]);
         $data['for'] = $request->get("for");
         if ($step == 0) {
             // Step 0 validation
@@ -46,6 +47,9 @@ class VeranoDetailsController extends Controller
                 "verano" => "required",
                 "details" => "required|string",
                 "status" => "nullable|string|in:Active,Inactive",
+                "meta_title" => "required|string|max:255",
+                "meta_description" => "required",
+                "meta_tags" => "nullable",
             ]);
 
             if ($validation->fails()) {
@@ -53,9 +57,9 @@ class VeranoDetailsController extends Controller
             }
 
             // Merge validated step 0 data with the existing data
-            if($request->get("for") == "verano"){
+            if ($request->get("for") == "verano") {
                 $data['verano_id'] = $request->verano;
-            }elseif($request->get("for") == "inverano"){
+            } elseif ($request->get("for") == "inverano") {
                 $data['inverano_id'] = $request->verano;
             }
             // Return success, next step, and the accumulated data back to the frontend
@@ -87,9 +91,9 @@ class VeranoDetailsController extends Controller
             }
 
             // Merge validated step 2 data with the existing data
-            if($request->get("for") == "verano"){
+            if ($request->get("for") == "verano") {
                 $data['verano_id'] = $request->verano;
-            }elseif($request->get("for") == "inverano"){
+            } elseif ($request->get("for") == "inverano") {
                 $data['inverano_id'] = $request->verano;
             }
 
@@ -120,7 +124,7 @@ class VeranoDetailsController extends Controller
         }
 
         $step = $request->get("step");
-        $data = $request->only(["pricing","details","form_title","times","service_title","services","add_extra_title","add_extra","status"]);
+        $data = $request->only(["pricing", "details", "form_title", "times", "service_title", "services", "add_extra_title", "add_extra", "status", "meta_title", "meta_tags", "meta_description"]);
         $data['for'] = $request->get("for");
 
         if ($step == 0) {
@@ -128,15 +132,18 @@ class VeranoDetailsController extends Controller
                 "verano" => "required|exists:veranos,id",
                 "details" => "required|string",
                 "status" => "nullable|string|in:Active,Inactive",
+                "meta_title" => "required|string|max:255",
+                "meta_description" => "required",
+                "meta_tags" => "nullable",
             ]);
 
             if ($validation->fails()) {
                 return response()->json(["errors" => $validation->errors()], 422);
             }
 
-            if($request->get("for") == "verano"){
+            if ($request->get("for") == "verano") {
                 $data['verano_id'] = $request->verano;
-            }elseif($request->get("for") == "inverano"){
+            } elseif ($request->get("for") == "inverano") {
                 $data['inverano_id'] = $request->verano;
             }
 
@@ -165,9 +172,9 @@ class VeranoDetailsController extends Controller
                 return response()->json(["errors" => $validation->errors()], 422);
             }
 
-            if($request->get("for") == "verano"){
+            if ($request->get("for") == "verano") {
                 $data['verano_id'] = $request->verano;
-            }elseif($request->get("for") == "inverano"){
+            } elseif ($request->get("for") == "inverano") {
                 $data['inverano_id'] = $request->verano;
             }
             $veranoDetail->update($data);
@@ -181,10 +188,9 @@ class VeranoDetailsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VeranoDetail $veranoDetail, $veranoDetailId)
+    public function destroy(int $id)
     {
-        $for = request()->get('for');
-        $veranoDetail = VeranoDetail::where("for", $for)->where("id", $veranoDetailId)->first();
+        $veranoDetail = VeranoDetail::where("id", $id)->first();
 
         if (!$veranoDetail) {
             return response()->json(['error' => 'Verano detail not found'], 404);
