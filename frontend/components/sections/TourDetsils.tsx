@@ -437,7 +437,7 @@ export default function TourDetails({
                                           </h4>
                                           <Link href={promotion?.button_link}>
                                             <button
-                                              className="mx-auto border-0 btn btn-secondary fw-bold fs-6 rounded-pill mt-110 ml-85"
+                                              className="mx-auto border-0 btn btn-secondary fw-bold fs-6 rounded-pill"
                                               style={{
                                                 backgroundColor:
                                                   promotion?.button_color,
