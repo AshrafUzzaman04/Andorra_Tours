@@ -357,7 +357,6 @@ export default function TourDetails({
                       bookingLink={details?.booking_link}
                       product={details}
                       FormData={details.details}
-                      price={details.price}
                     />
                   </div>
                   <div className="sidebar-left border-1 background-body">

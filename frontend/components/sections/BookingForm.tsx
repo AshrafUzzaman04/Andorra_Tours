@@ -70,7 +70,6 @@ export interface VeranoData {
 }
 export interface FromDataPriceTypes {
   FormData: VeranoDetailsType;
-  price: number;
   bookingLink: string;
   product: VeranoData;
 }
