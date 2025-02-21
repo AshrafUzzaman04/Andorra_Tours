@@ -40,11 +40,11 @@ class Inverano extends Model
 
     public function details()
     {
-        return $this->hasOne(VeranoDetail::class, 'inverano_id')->where('for', '=', 'inverano');
+        return $this->hasOne(VeranoDetail::class, 'inverano_id')->where('for', '=', 'inverano')->where("status", "=", "Active");
     }
 
     public function products()
     {
-        return $this->hasMany(Multiple::class, 'inverano_id')->where('product_for', '=', 'inverano');
+        return $this->hasMany(Multiple::class, 'inverano_id')->where('product_for', '=', 'inverano')->where("status", "=", "Active");
     }
 }

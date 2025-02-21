@@ -1446,7 +1446,11 @@ h6,
   background-color: var(--bs-neutral-1000) !important;
 }
 
-.color-white {
+[data-bs-theme=dark] .color-white {
+  color: var(--bs-color-black) !important;
+}
+
+[data-bs-theme=light] .color-white {
   color: var(--bs-color-white) !important;
 }
 
@@ -16511,9 +16515,13 @@ li>a {
     margin-top: 30px;
   }
 
-  .tour-title-main .color-white {
+  /* [data-bs-theme=dark] .tour-title-main .color-white {
     color: var(--bs-color-black) !important;
   }
+
+  [data-bs-theme=dark] .tour-title-main .color-white {
+    color: var(--bs-color-white) !important;
+  } */
 
   .tour-metas .tour-meta-left .color-white {
     color: var(--bs-color-black) !important;
@@ -17102,7 +17110,52 @@ li>a {
   }
 
   .box-swiper-padding.container-slider {
-    padding-right: 15px;
+    padding: 15px;
+  }
+
+  /* Default styles for arrows */
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black */
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 18px;
+    color: white;
+  }
+
+  /* Hover effect for desktop */
+  @media (min-width: 769px) {
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  /* Adjustments for mobile */
+  @media (max-width: 768px) {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 30px;
+      height: 30px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 16px;
+    }
   }
 
   .box-swiper-padding .card-news {

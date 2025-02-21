@@ -121,55 +121,46 @@ export default function CheckOutPage() {
                     products?.map((product: any, index: number) => (
                       <div
                         key={index}
-                        className="relative flex items-center justify-between p-2 rounded bg-white/5"
+                        className="relative flex items-center justify-between p-2 border rounded bg-white/5"
                       >
                         <div className="">
                           <div className="flex items-center gap-2">
-                            <p className="font-medium text-gray-100">
+                            <p className="font-medium">
                               Start Date: {formatDate(product?.startDate)}
                             </p>
                             {product?.endDate && (
-                              <p className="font-medium text-gray-100">
+                              <p className="font-medium">
                                 End Date: {formatDate(product?.endDate)}
                               </p>
                             )}
                           </div>
-                          <p className="mt-2 font-medium text-gray-100">
-                            {product?.title}
-                          </p>
+                          <p className="mt-2 font-medium">{product?.title}</p>
                           {product?.services?.map(
                             (service: any, index: number) => (
                               <div
                                 key={index}
                                 className="flex items-center gap-2"
                               >
-                                <p className="font-medium text-gray-100">
+                                <p className="font-medium">
                                   {service?.quantity}.
                                 </p>
-                                <p className="font-medium text-gray-100">
-                                  {service?.title}
-                                </p>
+                                <p className="font-medium">{service?.title}</p>
                               </div>
                             )
                           )}
                           {product?.extra_services?.length > 0 && (
-                            <p className="mt-2 font-medium text-gray-100">
-                              Location:
-                            </p>
+                            <p className="mt-2 font-medium">Location:</p>
                           )}
                           {product?.extra_services?.map(
                             (service: any, index: number) => (
-                              <p
-                                key={index}
-                                className="font-medium text-gray-100"
-                              >
+                              <p key={index} className="font-medium">
                                 {service?.title}
                               </p>
                             )
                           )}
                         </div>
 
-                        <span className="font-semibold text-gray-100">
+                        <span className="font-semibold">
                           <NumericFormat
                             value={Number(product?.price)}
                             displayType="text"

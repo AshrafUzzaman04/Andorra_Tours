@@ -425,7 +425,6 @@
                                         <span>Phone: {{ $booking->customer->phone }}</span>
                                         <br>
                                     @endif
-                                    <span>Address: {{ $booking->customer->address }}</span>
                                 </div>
                             </div>
                         </td>
@@ -480,8 +479,8 @@
                     <tr>
                         <td colspan="6" class="border-none">
                             <div class="invoice-date text-end bill_time">
-                                <p class="fw-300 m-0">Date:{{ date('d F Y', strtotime($booking->created_at)) }},
-                                    Time:{{ date('h:i A', strtotime($booking->created_at)) }}</p>
+                                <p class="fw-300 m-0">
+                                    Date:{{ date('d F Y', strtotime($booking->created_at)) }}</p>
                             </div>
                         </td>
                     </tr>
@@ -498,10 +497,24 @@
                     @foreach (json_decode($booking->products, true) as $product)
                         @php
                             $unitPrice = $product['price'] / $product['quantity'];
+                            $startDate = isset($product['startDate'])
+                                ? date('d-l-Y', strtotime($product['startDate']))
+                                : null;
+                            $endDate = isset($product['endDate'])
+                                ? date('d-l-Y', strtotime($product['endDate']))
+                                : null;
                         @endphp
                         <tr>
                             <td class="border-none p-td text-start" style="padding: 10px" colspan="3">
-                                <strong>{{ $product['title'] }}</strong><br>
+                                <strong>{{ $product['title'] }}</strong>
+                                @if ($startDate || $endDate)
+                                    <small> ({{ $startDate ?: '' }} -
+                                        {{ $endDate ?: '' }})</small>
+                                @endif
+                                @if ($product['day'])
+                                    <small> | Total Days: {{ $product['day'] }}</small>
+                                @endif
+                                <br>
                                 @if (!empty($product['services']))
                                     <strong><small>Services:</small></strong>
                                     <ul class="list-unstyled">
@@ -549,10 +562,11 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-
                     {{-- sub total --}}
                     <tr>
-                        <td class="border-none p-td" colspan="3"></td>
+                        <td class="border-none p-td text-start" style="padding: 10px" colspan="3">
+                            Note: {{ $booking->order_note }}
+                        </td>
                         <td class="border-none p-td"></td>
                         <th class="text-success p-td">Sub Total</th>
                         <th class="total text-success p-td">{{ $booking->price + $booking->discounted_price }} €</th>
