@@ -1447,11 +1447,11 @@ h6,
 }
 
 [data-bs-theme=dark] .color-white {
-  color: var(--bs-color-black) !important;
+  color: var(--bs-color-white) !important;
 }
 
 [data-bs-theme=light] .color-white {
-  color: var(--bs-color-white) !important;
+  color: var(--bs-color-black) !important;
 }
 
 .neutral-0 {
