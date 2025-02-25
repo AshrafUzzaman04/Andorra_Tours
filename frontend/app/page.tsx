@@ -60,7 +60,6 @@ export default function Home() {
         <Banner />
         <ExclusiveService />
         <HotelesTopRated />
-        {/* <Payments2 /> */}
         <Promotion />
         <WhyTravelUs />
         <Testimonial />
