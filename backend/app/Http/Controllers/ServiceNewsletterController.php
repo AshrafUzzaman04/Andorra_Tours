@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiceNewsletterRequest;
+use App\Mail\ServiceNewsletterMail;
 use App\Models\Service;
 use App\Models\ServiceNewsletter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ServiceNewsletterController extends Controller
 {
@@ -37,6 +39,8 @@ class ServiceNewsletterController extends Controller
             "service_id" => $serviceId,
             "form_data" => $data['formData'],
         ]);
+
+        Mail::to(env("OWNER_EMAIL"))->send(new ServiceNewsletterMail($serviceNewsLetter->form_data));
 
         if ($serviceNewsLetter) {
             return response()->json(['message' => "Newsletter saved successfully!"], 201);

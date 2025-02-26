@@ -42,14 +42,17 @@ const HotelEdit = () => {
     if (params?.id && refresh > 0) {
       callFetch("hotels/" + params.id, "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "photo" && key !== "photo_one" && key !== "photo_two" && key !== "photo_three") {
-            if (key === "categorie_id") {
-              setValue("categorie", value);
-            } else if (key === "description") {
-              setEditorValue(value)
-            } else {
-              setValue(key, value);
-            }
+          if (["photo", "photo_one", "photo_two", "photo_three"].includes(key)) {
+            // Skip setting image fields
+            continue;
+          }
+
+          if (key === "categorie_id") {
+            setValue("categorie", value);
+          } else if (key === "description") {
+            setEditorValue(value);
+          } else {
+            setValue(key, value);
           }
 
           if (key === "meta_tags") {

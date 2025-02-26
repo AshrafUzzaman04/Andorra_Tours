@@ -25,8 +25,9 @@ const InveranoEdit = () => {
     if (params?.id) {
       callFetch("inverano/" + params.id, "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "photo" && value !== "null") {
-            setValue(key, value);
+          if (key === "photo") {
+            // Skip setting the photo field in the input file
+            continue;
           }
 
           if (key === "meta_tags") {

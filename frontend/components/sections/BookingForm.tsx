@@ -402,36 +402,38 @@ export default function BookingForm({FormData,product,bookingLink}: FromDataPric
       <div className="content-booking-form">
         {(bookingLink === "null" || bookingLink === null) && (
           <>
-            {parsedTimes?.length !== 0 && parsedTimes[0] !== null && (
-              <div className="item-line-booking">
-                <div className="line-booking-right">
-                  <div className="row">
-                    {parsedTimes?.length !== 0 && (
-                      <strong className="text-md-bold neutral-1000">
-                        Times:
-                      </strong>
-                    )}
-                    {parsedTimes?.length !== 0 &&
-                      parsedTimes?.map((time: any, i: any) => (
-                        <div key={i} className="col-md-3">
-                          <label className="ms-0">
-                            {time?.time && (
-                              <input
-                                type="radio"
-                                name="time"
-                                value={time?.time} // Set the radio button value
-                                checked={bookingData.time === time?.time} // Reflect selected state
-                                onChange={handleTimeChange} // Update state on change
-                              />
-                            )}
-                            {time?.time}
-                          </label>
-                        </div>
-                      ))}
+            {parsedTimes?.length !== 0 &&
+              parsedTimes &&
+              parsedTimes[0] !== null && (
+                <div className="item-line-booking">
+                  <div className="line-booking-right">
+                    <div className="row">
+                      {parsedTimes?.length !== 0 && (
+                        <strong className="text-md-bold neutral-1000">
+                          Times:
+                        </strong>
+                      )}
+                      {parsedTimes?.length !== 0 &&
+                        parsedTimes?.map((time: any, i: any) => (
+                          <div key={i} className="col-md-3">
+                            <label className="ms-0">
+                              {time?.time && (
+                                <input
+                                  type="radio"
+                                  name="time"
+                                  value={time?.time} // Set the radio button value
+                                  checked={bookingData.time === time?.time} // Reflect selected state
+                                  onChange={handleTimeChange} // Update state on change
+                                />
+                              )}
+                              {time?.time}
+                            </label>
+                          </div>
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
             <div className="item-line-booking">
               <div className="box-tickets">
                 <strong className="text-md-bold neutral-1000">

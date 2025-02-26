@@ -121,14 +121,13 @@ function BookingIndexTable() {
 
   useEffect(() => {
     if (searchKey.length > 0) {
-      callFetch('employee/serach/' + searchKey, "GET", []).then((res) => {
-        setData(res.data)
-      })
-
+      callFetch(`booking/search?search=${searchKey}`, "GET", []).then((res) => {
+        setData(res.data);
+      });
     } else {
-      setRefresh(refresh + 1)
+      setRefresh(0)
     }
-  }, [searchKey])
+  }, [searchKey]);
 
   // RDT exposes the following internal pagination properties
   const BootyPagination = ({

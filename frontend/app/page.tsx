@@ -18,30 +18,30 @@ export async function generateMetadata(): Promise<Metadata> {
   const seoData = (await response?.data?.data) || {};
 
   return {
-    title: seoData.seo_title || "Tours Andorra",
+    title: seoData?.seo_title || "Tours Andorra",
     description:
-      seoData.meta_description ||
+      seoData?.meta_description ||
       "Portal de Actividades / Experiencias #1 en Andorra",
     keywords:
-      seoData.meta_tags ||
+      seoData?.meta_tags ||
       "tours andorra, andorra tours, travel andorra, travel, explore andorra,",
     openGraph: {
-      title: seoData.seo_title || "Tours Andorra",
+      title: seoData?.seo_title || "Tours Andorra",
       description:
-        seoData.meta_description ||
+        seoData?.meta_description ||
         "Portal de Actividades / Experiencias #1 en Andorra",
       images: [
-        "https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png",
+        "https://api.andorraturismo.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png",
       ],
-      url: "https://andorra-tours.vercel.app/",
+      url: "https://andorraturismo.com/",
     },
     twitter: {
-      title: seoData.seo_title || "Tours Andorra",
+      title: seoData?.seo_title || "Tours Andorra",
       description:
-        seoData.meta_description ||
+        seoData?.meta_description ||
         "Portal de Actividades / Experiencias #1 en Andorra",
       images: [
-        "https://api.ownchoose.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png",
+        "https://api.andorraturismo.com/storage/logos/UVjUj1HNq6CfrXQU57QINTJH8abBZ1dxpF7DqNQo.png",
       ],
       card: "summary_large_image",
       creator: "Seba Diaz",
@@ -60,6 +60,7 @@ export default function Home() {
         <Banner />
         <ExclusiveService />
         <HotelesTopRated />
+        {/* <Payments2 /> */}
         <Promotion />
         <WhyTravelUs />
         <Testimonial />

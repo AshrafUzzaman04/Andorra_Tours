@@ -24,7 +24,7 @@ class PaymentController extends Controller
         if (!$booking) {
             return response()->json(['message' => 'Booking not found'], 404);
         }
-        $link = env('FRONTEND_URLS')."/booking/payment/".$booking->order_id;
+        $link = env('FRONTEND_LINK')."booking-payment/".$booking->order_id;
         $data = [
             "name" => $booking->customer->name." ".$booking->customer->last_name,
             "bookingNumber" => $booking->order_id,

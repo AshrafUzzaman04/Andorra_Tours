@@ -189,9 +189,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("maps", MapController::class);
     Route::get("map/show", [MapController::class, "show"]);
 
-
     //bookings
     Route::apiResource('bookings', BookingController::class);
+    Route::get('booking/search', [BookingController::class, 'searchBooking']);
     Route::post("booking/canceled/{id}", [BookingController::class, 'cancelBooking']);
     Route::post("booking/payment-link/{id}", [PaymentController::class, 'sendPaymentLink']);
     //footer

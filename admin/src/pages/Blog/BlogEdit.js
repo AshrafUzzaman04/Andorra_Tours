@@ -32,12 +32,13 @@ const BlogEdit = () => {
         callFetch("blogs/" + params?.slug, "GET", []).then((res) => {
             setData(res?.data);
             for (let [key, value] of Object.entries(res.data)) {
-                if (key !== "photo" && key !== "images" && key !== "user_photo") {
-                    if (key === "description") {
-                        setDescription(res?.data?.description)
-                    } else {
-                        setValue(key, value);
-                    }
+                if (key === "photo" || key === "images" || key === "user_photo") {
+                    // Skip setting photo-related fields in the form
+                    continue;
+                }
+
+                if (key === "description") {
+                    setDescription(res?.data?.description)
                 }
 
                 if (key === "meta_tags") {

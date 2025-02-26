@@ -8,7 +8,12 @@
 <body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; color: #333333;">
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: auto; background-color: #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <tr>
-            <td style="padding: 40px 30px; background-color: #4F46E5; text-align: center;">
+            <td style="padding: 20px; text-align: center;">
+                <img src="{{env('APP_URL') . '/image/logo-tours.png' }}" alt="Company Logo" style="max-width: 150px; display: block; margin: 0 auto;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 40px 30px; background-color: #3f4569; text-align: center;">
                 <h1 style="color: #ffffff; font-size: 24px; margin: 0;">Complete Your Payment</h1>
             </td>
         </tr>
@@ -18,7 +23,7 @@
                 <p style="margin-bottom: 20px;">Thank you for your booking. To complete your reservation, please proceed with the payment for your order.</p>
                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto;">
                     <tr>
-                        <td style="border-radius: 4px; background-color: #4F46E5; text-align: center; padding: 10px 20px;">
+                        <td style="border-radius: 4px; background-color: #3f4569; text-align: center; padding: 10px 20px;">
                             <a href="{{ $data['payment_link'] }}" style="color: #ffffff; text-decoration: none; font-weight: bold; display: inline-block; font-size: 16px;">Pay {{ number_format($data['amount'], 2) . '€' }} Now</a>
                         </td>
                     </tr>
@@ -29,7 +34,7 @@
                     <li>Amount due: {{ number_format($data['amount'], 2) . '€' }}</li>
                 </ul>
                 <p style="margin-bottom: 10px;">If the button above doesn't work, please copy and paste the following link into your browser:</p>
-                <p style="margin-bottom: 30px; word-break: break-all;"><a href="{{ $data['payment_link'] }}" style="color: #4F46E5;">{{ $data['payment_link'] }}</a></p>
+                <p style="margin-bottom: 30px; word-break: break-all;"><a href="{{ $data['payment_link'] }}" style="color: #3f4569;">{{ $data['payment_link'] }}</a></p>
                 <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;">
                 <p style="font-size: 14px; color: #666666; margin-bottom: 10px;">If you have any questions, please don't hesitate to contact our customer support team.</p>
                 <p style="font-size: 14px; color: #666666; margin-bottom: 0;">Best regards,<br>Tours Andorra</p>

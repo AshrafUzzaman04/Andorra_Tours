@@ -135,57 +135,79 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 	} = useTopFilter(hotelData, slug)
 
 	return (
-		<>
-			<main className="main">
-				<section className="box-section block-banner-tourlist position-relative" style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image})`, backgroundPosition: "center" }}>
-					<img className="position-absolute end-0 top-0 z-2" src={process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.tag} alt={hotelData?.tag} />
-					<div className="container text-center">
-						<div className="text-center bg-black d-inline-block justify-items-center bg-opacity-25 rounded p-2">
-							<h3 className="">{hotelData?.title}</h3>
-							<h6 className="heading-6-medium text-white">{hotelData?.sub_title}</h6>
-						</div>
-					</div>
-				</section>
+    <>
+      <main className="main">
+        <section
+          className="box-section block-banner-tourlist position-relative"
+          style={{
+            backgroundImage: `url(${
+              process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.image
+            })`,
+            backgroundPosition: "center",
+          }}
+        >
+          <img
+            className="top-0 position-absolute end-0 z-2"
+            src={process.env.NEXT_PUBLIC_STORAGE_URL + hotelData?.tag}
+            alt={hotelData?.tag}
+          />
+          <div className="container text-center">
+            <div className="p-2 text-center bg-black bg-opacity-25 rounded d-inline-block justify-items-center">
+              <h3 className="">{hotelData?.title}</h3>
+              <h6 className="text-white heading-6-medium">
+                {hotelData?.sub_title}
+              </h6>
+            </div>
+          </div>
+        </section>
 
-				<section className="box-section block-content-tourlist background-body">
-					<div className="container">
-						<div className="box-content-main">
-							<div className="content-right">
-								<div className="box-filters mb-25 pb-5 border-bottom border-1">
-									<SortTopHotelsFilter
-										name={slug}
-										sortCriteria={sortedBy}
-										handleSortChange={(e: ChangeEvent<HTMLSelectElement>) => { setSortedBy(e.target.value) }}
-										itemsPerPage={perPage}
-										handleItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>) => { setPerPage(Number(e.target.value)) }}
-										handleClearFilters={handleClearFilters}
-										startItemIndex={hotelsData.hotels?.from}
-										endItemIndex={hotelsData.hotels?.to}
-										sortedHotels={hotelsData.hotels?.total}
-									/>
-								</div>
-								<div className="box-grid-tours wow fadeIn">
-									<div className="row">
-										{hotelsData?.hotels?.data?.map((hotel) => (
-											<div key={hotel.id} className="col-xl-4 col-lg-6 col-md-6">
-												<HotelCard hotel={hotel} />
-											</div>
-										))}
-									</div>
-								</div>
-								<ByHotelPagination
-									handlePreviousPage={() => setPage(page - 1)}
-									totalPages={hotelsData?.hotels?.last_page}
-									currentPage={hotelsData?.hotels?.current_page}
-									handleNextPage={() => setPage(page + 1)}
-									page={page}
-									handlePageChange={(page: number) => setPage(page)}
-								/>
-							</div>
+        <section className="box-section block-content-tourlist background-body">
+          <div className="container">
+            <div className="box-content-main">
+              <div className="content-right">
+                <div className="pb-5 box-filters mb-25 border-bottom border-1">
+                  <SortTopHotelsFilter
+                    name={slug}
+                    sortCriteria={sortedBy}
+                    handleSortChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                      setSortedBy(e.target.value);
+                    }}
+                    itemsPerPage={perPage}
+                    handleItemsPerPageChange={(
+                      e: ChangeEvent<HTMLSelectElement>
+                    ) => {
+                      setPerPage(Number(e.target.value));
+                    }}
+                    handleClearFilters={handleClearFilters}
+                    startItemIndex={hotelsData.hotels?.from}
+                    endItemIndex={hotelsData.hotels?.to}
+                    sortedHotels={hotelsData.hotels?.total}
+                  />
+                </div>
+                <div className="box-grid-tours wow fadeIn">
+                  <div className="row">
+                    {hotelsData?.hotels?.data?.map((hotel) => (
+                      <div
+                        key={hotel.id}
+                        className="col-xl-4 col-lg-6 col-md-6"
+                      >
+                        <HotelCard hotel={hotel} hotelsData={hotelsData} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <ByHotelPagination
+                  handlePreviousPage={() => setPage(page - 1)}
+                  totalPages={hotelsData?.hotels?.last_page}
+                  currentPage={hotelsData?.hotels?.current_page}
+                  handleNextPage={() => setPage(page + 1)}
+                  page={page}
+                  handlePageChange={(page: number) => setPage(page)}
+                />
+              </div>
 
-							<div className="content-left order-lg-first">
-
-								{/* <div className="sidebar-left border-1 background-body">
+              <div className="content-left order-lg-first">
+                {/* <div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Hotel Type</h6>
@@ -199,7 +221,7 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 									</div>
 								</div> */}
 
-								{/* <div className="sidebar-left border-1 background-body">
+                {/* <div className="sidebar-left border-1 background-body">
 									<div className="box-filters-sidebar">
 										<div className="block-filter border-1">
 											<h6 className="text-lg-bold item-collapse neutral-1000">Review Score </h6>
@@ -211,27 +233,26 @@ export default function HotelGrid({ hotelData, slug, locationBase, hotelTypeBase
 										</div>
 									</div>
 								</div> */}
-								<div className="sidebar-left border-1 background-body">
-									<div className="box-filters-sidebar">
-										<div className="block-filter border-1 z-2">
-											<h6 className="text-lg-bold item-collapse neutral-1000">Booking Location</h6>
-											<ByHotelLocation
-												uniqueLocations={locationBase}
-												checked={filterByLocation}
-												filter={locationBase}
-												handleCheckboxChange={handleLocationCheckboxChange} />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					
-					
-				</section>
-
-			</main>
-		</>
-	)
+                <div className="sidebar-left border-1 background-body">
+                  <div className="box-filters-sidebar">
+                    <div className="block-filter border-1 z-2">
+                      <h6 className="text-lg-bold item-collapse neutral-1000">
+                        Booking Location
+                      </h6>
+                      <ByHotelLocation
+                        uniqueLocations={locationBase}
+                        checked={filterByLocation}
+                        filter={locationBase}
+                        handleCheckboxChange={handleLocationCheckboxChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
+  );
 }

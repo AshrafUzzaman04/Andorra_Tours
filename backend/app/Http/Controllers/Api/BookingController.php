@@ -27,7 +27,24 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with(['customer'])->paginate(10);
+        $bookings = Booking::with(['customer'])->latest()->paginate(10);
+        return response()->json(['message' => "success", "data" => $bookings]);
+    }
+
+    public function searchBooking(Request $request)
+    {
+        $searchKey = $request->query('search'); // Get search keyword from query params
+
+        $bookings = Booking::with(['customer'])
+            ->whereHas('customer', function ($query) use ($searchKey) {
+                $query->where('name', 'LIKE', "%{$searchKey}%") // Search by customer name
+                    ->orWhere('email', 'LIKE', "%{$searchKey}%"); // Search by email
+            })
+            ->orWhere('order_id', 'LIKE', "%{$searchKey}%") // Search by booking reference
+            ->orWhere('status', 'LIKE', "%{$searchKey}%") // Search by booking status
+            ->latest()
+            ->paginate(10);
+
         return response()->json(['message' => "success", "data" => $bookings]);
     }
 

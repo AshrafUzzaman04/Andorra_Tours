@@ -25,9 +25,10 @@ const VeranoEdit = () => {
     if (params?.id) {
       callFetch("verano/" + params.id, "GET", []).then((res) => {
         for (let [key, value] of Object.entries(res.data)) {
-          if (key !== "photo" && value !== "null") {
-            setValue(key, value);
-          }
+          if (key === "photo") {
+          // Skip setting the photo field in the input file
+          continue;
+        }
 
           if (key === "meta_tags") {
             // Ensure meta_tags is an array
